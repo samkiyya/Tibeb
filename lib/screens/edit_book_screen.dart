@@ -84,7 +84,7 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
   }
 
   Future<void> _pickCoverFromFile() async {
-    final result = await FilePicker.platform.pickFiles(
+    final result = await FilePicker.pickFiles(
       type: FileType.image,
       allowMultiple: false,
     );
@@ -101,7 +101,7 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
   }
 
   Future<void> _pickAudioTracks() async {
-    final result = await FilePicker.platform.pickFiles(
+    final result = await FilePicker.pickFiles(
       type: FileType.audio,
       allowMultiple: true,
     );

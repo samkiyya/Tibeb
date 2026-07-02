@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pdfrx/pdfrx.dart';
-import '../../../models/book_model.dart';
-import '../../../models/reader_settings_model.dart';
-import '../../../models/highlight_model.dart';
+import 'package:tibeb/models/book_model.dart';
+import 'package:tibeb/models/reader_settings_model.dart';
+import 'package:tibeb/models/highlight_model.dart';
 
 class ReadingPdfView extends StatefulWidget {
   final Book book;
@@ -104,7 +104,9 @@ class _ReadingPdfViewState extends State<ReadingPdfView> {
         backgroundColor: Colors.white,
 
         onViewerReady: _onViewerReadyInternal,
-        enableTextSelection: true,
+        textSelectionParams: const PdfTextSelectionParams(
+          enabled: true,
+        ),
         margin: 4.0,
         pageDropShadow: const BoxShadow(
           color: Colors.black12,
@@ -115,12 +117,16 @@ class _ReadingPdfViewState extends State<ReadingPdfView> {
         interactionEndFrictionCoefficient: 0.000005,
         verticalCacheExtent: 3.0,
         maxImageBytesCachedOnMemory: 256 * 1024 * 1024,
-        maxScale: widget.settings.lockState != ReaderLockState.none
-            ? (widget.controller.isReady ? widget.controller.currentZoom : 1.0)
-            : 8.0,
-        minScale: widget.settings.lockState != ReaderLockState.none
-            ? (widget.controller.isReady ? widget.controller.currentZoom : 1.0)
-            : 0.1,
+         sizeDelegateProvider: PdfViewerSizeDelegateProviderSmart(
+    maxScale:widget.settings.lockState != ReaderLockState.none
+                ? (widget.controller.isReady ? widget.controller.currentZoom : 1.0)
+                : 8.0,
+                minScale:widget.settings.lockState != ReaderLockState.none
+                            ? (widget.controller.isReady ? widget.controller.currentZoom : 1.0)
+                            : 0.1,
+    smartMaxScale : 8.0,
+    maxPagesVisible:5
+  ),
         panEnabled: true,
         scaleEnabled: widget.settings.lockState == ReaderLockState.none,
         panAxis: widget.settings.lockState == ReaderLockState.all

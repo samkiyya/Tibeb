@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/reader_settings_model.dart';
-import './library_provider.dart';
+import 'package:tibeb/models/reader_settings_model.dart';
+import 'package:tibeb/providers/library_provider.dart';
 
 const String _readerSettingsKey = 'reader_settings';
 

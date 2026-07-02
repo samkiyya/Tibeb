@@ -5,8 +5,8 @@ import 'package:path/path.dart' as p;
 import 'package:epubx/epubx.dart';
 import 'package:image/image.dart' as img;
 import 'package:file_picker/file_picker.dart';
-import '../models/book_model.dart';
-import 'database_service.dart';
+import 'package:tibeb/models/book_model.dart';
+import 'package:tibeb/services/database_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
 
@@ -37,7 +37,7 @@ class BookService {
   }
 
   Future<List<Book>> pickBooks() async {
-    final result = await FilePicker.platform.pickFiles(
+    final result = await FilePicker.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['epub', 'pdf'],
       allowMultiple: true,

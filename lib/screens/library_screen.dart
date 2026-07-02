@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../core/constants.dart';
-import '../components/book_card.dart';
-import '../components/glass_container.dart';
-import '../providers/library_provider.dart';
-import '../models/book_model.dart';
-import '../services/book_service.dart';
-import 'reading_screen.dart';
-import './library/widgets/empty_library_view.dart';
-import './library/widgets/library_header.dart';
-import './library/widgets/add_book_fab.dart';
-import 'edit_book_screen.dart';
-import '../components/book_overlay_menu.dart';
+import 'package:tibeb/core/constants.dart';
+import 'package:tibeb/components/book_card.dart';
+import 'package:tibeb/components/glass_container.dart';
+import 'package:tibeb/providers/library_provider.dart';
+import 'package:tibeb/models/book_model.dart';
+import 'package:tibeb/services/book_service.dart';
+import 'package:tibeb/screens/reading_screen.dart';
+import 'package:tibeb/screens/library/widgets/empty_library_view.dart';
+import 'package:tibeb/screens/library/widgets/library_header.dart';
+import 'package:tibeb/screens/library/widgets/add_book_fab.dart';
+import 'package:tibeb/screens/edit_book_screen.dart';
+import 'package:tibeb/components/book_overlay_menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
-import '../utils/tutorial_helper.dart';
+import 'package:tibeb/utils/tutorial_helper.dart';
 
 class LibraryScreen extends ConsumerStatefulWidget {
   const LibraryScreen({super.key});

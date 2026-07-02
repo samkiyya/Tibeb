@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/constants.dart';
-import '../../../providers/library_provider.dart';
+import 'package:tibeb/core/constants.dart';
+import 'package:tibeb/providers/library_provider.dart';
 
 class LibraryHeader extends ConsumerStatefulWidget {
   final TextEditingController searchController;
@@ -119,7 +119,7 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
                               : state.selectedAuthor,
                           isSelected: state.selectedAuthor != 'All',
                           hasDropdown: true,
-                          dropdownOptions: [
+                          dropdownOptions: <String>[
                             'All',
                             ...state.allBooks.map((b) => b.author).toSet(),
                           ].toList(),
@@ -132,7 +132,7 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
                               : _getShortPath(state.selectedFolder),
                           isSelected: state.selectedFolder != 'All',
                           hasDropdown: true,
-                          dropdownOptions: [
+                          dropdownOptions: <String>[
                             'All',
                             ...state.allBooks
                                 .map((b) => b.folderPath)
@@ -159,7 +159,7 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
                               : state.selectedTag!,
                           isSelected: state.selectedTag != 'All',
                           hasDropdown: true,
-                          dropdownOptions: [
+                          dropdownOptions: <String>[
                             'All',
                             ...state.allBooks
                                 .where(

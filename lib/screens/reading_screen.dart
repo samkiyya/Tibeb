@@ -472,7 +472,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
   }
 
   Future<void> _pickAudio(Book book) async {
-    final result = await FilePicker.platform.pickFiles(
+    final result = await FilePicker.pickFiles(
       type: FileType.audio,
       allowMultiple: true,
     );
@@ -1970,7 +1970,8 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
             for (int i = 0; i < doc.pages.length; i++) {
               final page = doc.pages[i];
               final pageText = await page.loadText();
-              final plainText = pageText.fullText;
+              
+              final plainText = pageText!.fullText;
               final lowerText = plainText.toLowerCase();
               final lowerQuery = query.toLowerCase();
 
@@ -1990,10 +1991,10 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
                     .trim();
 
                 // Create a match object for precise navigation later
-                final match = PdfTextRangeWithFragments.fromTextRange(
-                  pageText,
-                  index,
-                  index + query.length,
+                final match = PdfPageTextRange(
+                  pageText:pageText as PdfPageText,
+                  start:index,
+                  end: index + query.length,
                 );
 
                 results.add(
@@ -2093,8 +2094,8 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
     });
 
     if (book.filePath.toLowerCase().endsWith('.pdf')) {
-      if (result.metadata is PdfTextMatch) {
-        _pdfSearcher?.goToMatch(result.metadata as PdfTextMatch);
+      if (result.metadata is PdfPageTextRange) {
+        _pdfSearcher?.goToMatch(result.metadata as PdfPageTextRange);
       } else {
         _jumpToPdfPage(result.pageIndex + 1);
       }
