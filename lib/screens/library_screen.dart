@@ -1,0 +1,565 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../core/constants.dart';
+import '../components/book_card.dart';
+import '../components/glass_container.dart';
+import '../providers/library_provider.dart';
+import '../models/book_model.dart';
+import '../services/book_service.dart';
+import 'reading_screen.dart';
+import './library/widgets/empty_library_view.dart';
+import './library/widgets/library_header.dart';
+import './library/widgets/add_book_fab.dart';
+import 'edit_book_screen.dart';
+import '../components/book_overlay_menu.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+import '../utils/tutorial_helper.dart';
+
+class LibraryScreen extends ConsumerStatefulWidget {
+  const LibraryScreen({super.key});
+
+  @override
+  ConsumerState<LibraryScreen> createState() => _LibraryScreenState();
+}
+
+class _LibraryScreenState extends ConsumerState<LibraryScreen> {
+  final TextEditingController _searchController = TextEditingController();
+  final Set<int> _selectedBookIds = {};
+  bool _isSelectionMode = false;
+
+  final GlobalKey _fabKey = GlobalKey();
+  final GlobalKey _firstBookMenuKey = GlobalKey();
+  final GlobalKey _filterKey = GlobalKey();
+
+  bool _fabTutorialShown = true;
+  bool _bookCardTutorialShown = true;
+
+  void _toggleSelection(Book book) {
+    if (book.id == null) return;
+    setState(() {
+      if (_selectedBookIds.contains(book.id)) {
+        _selectedBookIds.remove(book.id);
+        if (_selectedBookIds.isEmpty) {
+          _isSelectionMode = false;
+        }
+      } else {
+        _selectedBookIds.add(book.id!);
+        _isSelectionMode = true;
+      }
+    });
+  }
+
+  void _clearSelection() {
+    setState(() {
+      _selectedBookIds.clear();
+      _isSelectionMode = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _checkFirstLaunch();
+  }
+
+  Future<void> _checkFirstLaunch() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!mounted) return;
+
+    final isMainFirstLaunch = prefs.getBool('is_first_launch') ?? true;
+    if (isMainFirstLaunch) return;
+
+    _fabTutorialShown = !(prefs.getBool('is_first_launch_library_fab') ?? true);
+    _bookCardTutorialShown =
+        !(prefs.getBool('is_first_launch_library_book_card') ?? true);
+
+    if (!_fabTutorialShown) {
+      Future.delayed(const Duration(milliseconds: 500), () {
+        if (mounted) _showFabTutorial();
+      });
+    } else if (!_bookCardTutorialShown) {
+      final state = ref.read(libraryProvider);
+      if (state.allBooks.isNotEmpty) {
+        Future.delayed(const Duration(milliseconds: 500), () {
+          if (mounted) _showBookCardTutorial();
+        });
+      }
+    }
+  }
+
+  void _showFabTutorial() {
+    final targets = [
+      TutorialHelper.createTarget(
+        identify: "filter_target",
+        keyTarget: _filterKey,
+        alignSkip: Alignment.bottomRight,
+        title: "Filter & Sort",
+        description:
+            "Tap here to filter your library by genre, author, folder, or sorting method.",
+        contentAlign: ContentAlign.bottom,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        textAlign: TextAlign.right,
+      ),
+      TutorialHelper.createTarget(
+        identify: "fab_target",
+        keyTarget: _fabKey,
+        alignSkip: Alignment.topLeft,
+        title: "Add Books",
+        description: "Tap the + button to add new books to your library.",
+        contentAlign: ContentAlign.top,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        textAlign: TextAlign.right,
+      ),
+    ];
+
+    TutorialHelper.showTutorial(
+      context: context,
+      targets: targets,
+      onFinish: _setFabTutorialShown,
+      onSkip: () {
+        _setFabTutorialShown();
+        return true;
+      },
+    );
+  }
+
+  void _setFabTutorialShown() {
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setBool('is_first_launch_library_fab', false);
+    });
+    _fabTutorialShown = true;
+    final state = ref.read(libraryProvider);
+    if (!_bookCardTutorialShown && state.allBooks.isNotEmpty) {
+      Future.delayed(const Duration(milliseconds: 500), () {
+        if (mounted) _showBookCardTutorial();
+      });
+    }
+  }
+
+  void _showBookCardTutorial() {
+    final targets = [
+      TutorialHelper.createTarget(
+        identify: "book_menu_target",
+        keyTarget: _firstBookMenuKey,
+        alignSkip: Alignment.bottomRight,
+        title: "Edit Book Info",
+        description:
+            "Tap the three dots to edit the book's cover, title, or author.\n\nLong-pressing the card is used to select multiple books!",
+        contentAlign: ContentAlign.bottom,
+      ),
+    ];
+
+    TutorialHelper.showTutorial(
+      context: context,
+      targets: targets,
+      onFinish: _setBookCardTutorialShown,
+      onSkip: () {
+        _setBookCardTutorialShown();
+        return true;
+      },
+    );
+  }
+
+  void _setBookCardTutorialShown() {
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setBool('is_first_launch_library_book_card', false);
+    });
+    _bookCardTutorialShown = true;
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handleSelectiveImport() async {
+    final notifier = ref.read(libraryProvider.notifier);
+    final bookService = BookService();
+
+    final hasPermission = await bookService.requestPermissions();
+    if (!hasPermission) {
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+          ..clearSnackBars()
+          ..showSnackBar(
+            const SnackBar(
+              content: Text('Storage permission is required to import books.'),
+            ),
+          );
+      }
+      return;
+    }
+
+    // Use pickBooks directly which uses pickFiles, bypassing getDirectoryPath restrictions
+    final importedBooks = await bookService.pickBooks();
+
+    if (importedBooks.isNotEmpty) {
+      // Reload books to ensure UI updates with new imports
+      await notifier.loadBooks();
+
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+          ..clearSnackBars()
+          ..showSnackBar(
+            SnackBar(
+              content: Text(
+                'Successfully imported ${importedBooks.length} books.',
+              ),
+              action: SnackBarAction(
+                label: 'OK',
+                onPressed: () {},
+                textColor: TibebConstants.accent,
+              ),
+            ),
+          );
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(libraryProvider);
+
+    ref.listen(libraryProvider, (previous, next) {
+      if (_fabTutorialShown &&
+          !_bookCardTutorialShown &&
+          (previous == null || previous.allBooks.isEmpty) &&
+          next.allBooks.isNotEmpty) {
+        Future.delayed(const Duration(milliseconds: 500), () {
+          if (mounted) _showBookCardTutorial();
+        });
+      }
+    });
+
+    return Scaffold(
+      backgroundColor: TibebConstants.background,
+      appBar: AppBar(
+        toolbarHeight: 0,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      body: state.isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Column(
+              children: [
+                if (_isSelectionMode)
+                  _buildSelectionHeader()
+                else
+                  LibraryHeader(
+                    searchController: _searchController,
+                    filterKey: _filterKey,
+                  ),
+                Expanded(
+                  child: state.allBooks.isEmpty
+                      ? EmptyLibraryView(onImportFiles: _handleSelectiveImport)
+                      : _buildBookGrid(state.filteredBooks),
+                ),
+              ],
+            ),
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(
+          bottom: (MediaQuery.paddingOf(context).bottom - 30).clamp(
+            0.0,
+            double.infinity,
+          ),
+        ),
+        child: AddBookFab(key: _fabKey, onPressed: _handleSelectiveImport),
+      ),
+    );
+  }
+
+  Widget _buildBookGrid(List<Book> books) {
+    return GridView.builder(
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 120),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 0.57,
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
+      ),
+      itemCount: books.length,
+      itemBuilder: (context, index) {
+        final book = books[index];
+        final isSelected = _selectedBookIds.contains(book.id);
+        return BookCard(
+          book: book,
+          isSelected: isSelected,
+          selectionMode: _isSelectionMode,
+          menuKey: index == 0 ? _firstBookMenuKey : null,
+          onTap: () {
+            if (_isSelectionMode) {
+              _toggleSelection(book);
+            } else {
+              _showBookDetails(book);
+            }
+          },
+          onLongPress: (pos) {
+            if (!_isSelectionMode) {
+              _toggleSelection(book);
+            } else {
+              _showBookOptions(book, pos);
+            }
+          },
+          onMenuPressed: (pos) => _showBookOptions(book, pos),
+        );
+      },
+    );
+  }
+
+  Widget _buildSelectionHeader() {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: GlassContainer(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        borderRadius: 12,
+        child: Row(
+          children: [
+            IconButton(
+              icon: const Icon(Icons.close, color: Colors.white70),
+              onPressed: _clearSelection,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              '${_selectedBookIds.length} selected',
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Spacer(),
+            IconButton(
+              tooltip: 'Select All',
+              icon: const Icon(Icons.select_all, color: Colors.white70),
+              onPressed: () {
+                setState(() {
+                  final filteredBooks = ref.read(libraryProvider).filteredBooks;
+                  for (final book in filteredBooks) {
+                    if (book.id != null) _selectedBookIds.add(book.id!);
+                  }
+                  _isSelectionMode = true;
+                });
+              },
+            ),
+            IconButton(
+              tooltip: 'Add to Category',
+              icon: const Icon(Icons.label_outline, color: Colors.white70),
+              onPressed: _showBatchTagDialog,
+            ),
+            IconButton(
+              tooltip: 'Remove Selected',
+              icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
+              onPressed: _handleBatchDelete,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showBatchTagDialog() async {
+    if (_selectedBookIds.isEmpty) return;
+    final textController = TextEditingController();
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: TibebConstants.surface,
+        title: const Text(
+          'Add to Category',
+          style: TextStyle(color: Colors.white),
+        ),
+        content: TextField(
+          controller: textController,
+          style: const TextStyle(color: Colors.white),
+          decoration: InputDecoration(
+            hintText: 'Enter category name',
+            hintStyle: const TextStyle(color: Colors.white54),
+            filled: true,
+            fillColor: TibebConstants.surface.withValues(alpha: 0.8),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+            ),
+          ),
+          autofocus: true,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(color: Colors.white60),
+            ),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text(
+              'Add',
+              style: TextStyle(color: TibebConstants.accent),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm == true && textController.text.trim().isNotEmpty) {
+      final notifier = ref.read(libraryProvider.notifier);
+      await notifier.batchAddTag(
+        _selectedBookIds.toList(),
+        textController.text.trim(),
+      );
+      _clearSelection();
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+          ..clearSnackBars()
+          ..showSnackBar(
+            SnackBar(content: Text('Category added to selected books')),
+          );
+      }
+    }
+  }
+
+  void _handleBatchDelete() async {
+    if (_selectedBookIds.isEmpty) return;
+
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: TibebConstants.surface,
+        title: const Text(
+          'Remove Books',
+          style: TextStyle(color: Colors.white),
+        ),
+        content: Text(
+          'Are you sure you want to remove ${_selectedBookIds.length} books? Your reading progress and history will be kept if you re-import them.',
+          style: const TextStyle(color: Colors.white70),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(color: Colors.white60),
+            ),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text(
+              'Remove',
+              style: TextStyle(color: Colors.redAccent),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm == true) {
+      final notifier = ref.read(libraryProvider.notifier);
+      for (final id in _selectedBookIds) {
+        notifier.deleteBook(id);
+      }
+      _clearSelection();
+    }
+  }
+
+  void _showBookDetails(Book book) {
+    ref.read(currentlyReadingProvider.notifier).state = book;
+    ref.read(libraryProvider.notifier).markBookAsOpened(book);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ReadingScreen()),
+    );
+  }
+
+  void _showBookOptions(Book book, Offset tapPosition) {
+    BookOverlayMenu.show(
+      context: context,
+      book: book,
+      position: tapPosition,
+      onAction: (action) {
+        switch (action) {
+          case 'favorite':
+            ref.read(libraryProvider.notifier).toggleBookFavorite(book);
+            break;
+          case 'edit':
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => EditBookScreen(book: book),
+              ),
+            );
+            break;
+          case 'delete':
+            _showDeleteConfirmation(book);
+            break;
+        }
+      },
+    );
+  }
+
+  void _showDeleteConfirmation(Book book) async {
+    bool deleteHistory = false;
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setDialogState) {
+          return AlertDialog(
+            backgroundColor: TibebConstants.surface,
+            title: const Text(
+              'Remove Book',
+              style: TextStyle(color: Colors.white),
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Are you sure you want to remove "${book.title}"?',
+                  style: const TextStyle(color: Colors.white70),
+                ),
+                const SizedBox(height: 16),
+                CheckboxListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: const Text(
+                    'Remove reading history',
+                    style: TextStyle(fontSize: 14, color: Colors.white70),
+                  ),
+                  value: deleteHistory,
+                  activeColor: TibebConstants.accent,
+                  onChanged: (val) {
+                    setDialogState(() {
+                      deleteHistory = val ?? false;
+                    });
+                  },
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(color: Colors.white60),
+                ),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: const Text(
+                  'Remove',
+                  style: TextStyle(color: Colors.redAccent),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+
+    if (confirm == true) {
+      ref
+          .read(libraryProvider.notifier)
+          .deleteBook(book.id!, deleteHistory: deleteHistory);
+    }
+  }
+}

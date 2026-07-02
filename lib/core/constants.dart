@@ -1,0 +1,111 @@
+import 'package:flutter/material.dart';
+
+class TibebConstants {
+  // Layout Constants
+  static const double borderRadius = 16.0;
+  static const double paddingUnit = 8.0;
+  static const double horizontalPadding = 20.0;
+  static const double verticalPadding = 20.0;
+
+  // Colors (Stitch Design Alignment)
+  static const Color background = Color(0xFF0A0B0E);
+  static const Color surface = Color(0xFF16171D);
+  static const Color accent = Color(
+    0xFF2ECC71,
+  ); // Vibrant Green from Stitch alignment attempt
+  static const Color accentGreen = Color(0xFF2ECC71); // Emerald Green
+  static const Color textPrimary = Color(0xFFFFFFFF);
+  static const Color textSecondary = Color(0xFF94A3B8); // Slate 400
+  static const Color glassy = Color(0x1AFFFFFF);
+  static const Color outline = Color(0xFF1E293B); // Slate 800
+
+  // Shadows
+  static const List<BoxShadow> cardShadow = [
+    BoxShadow(color: Color(0x40000000), blurRadius: 20, offset: Offset(0, 10)),
+  ];
+
+  // GitHub Graph Colors
+  static List<Color> graphColors = [
+    const Color(0xFF161B22), // empty
+    const Color(0xFF0E4429), // level 1
+    const Color(0xFF006D32), // level 2
+    const Color(0xFF26A641), // level 3
+    const Color(0xFF39D353), // level 4
+  ];
+
+  // Ranks
+  static const List<TibebRank> ranks = [
+    TibebRank(
+      level: 1,
+      achievementsRequired: 0,
+      name: 'Temari (ተማሪ)',
+      description: 'Beginning the journey of wisdom.',
+    ),
+    TibebRank(
+      level: 5,
+      achievementsRequired: 2,
+      name: 'Anebabi (አንባቢ)',
+      description: 'Building consistency through reading.',
+    ),
+    TibebRank(
+      level: 10,
+      achievementsRequired: 5,
+      name: 'Tsehafi (ጸሐፊ)',
+      description: 'Writing and reflecting on knowledge.',
+    ),
+    TibebRank(
+      level: 20,
+      achievementsRequired: 8,
+      name: 'Liq (ሊቅ)',
+      description: 'Deep understanding and mastery.',
+    ),
+    TibebRank(
+      level: 40,
+      achievementsRequired: 10,
+      name: 'Baletibeb (ባለጥበብ)',
+      description: 'Applying wisdom in life.',
+    ),
+    TibebRank(
+      level: 50,
+      achievementsRequired: 12,
+      name: 'Tibebawi (ጥበባዊ)',
+      description: 'Embodiment of wisdom.',
+    ),
+  ];
+
+  // Highlight Colors
+  static const List<Color> highlightColors = [
+    Color(0xFFE74C3C), // Red
+    Color(0xFFF1C40F), // Yellow
+    Color(0xFF2ECC71), // Green
+    Color(0xFF3498DB), // Blue
+    Color(0xFF9B59B6), // Purple
+  ];
+
+  static TibebRank getRankForLevel(int level, int achievementCount) {
+    TibebRank current = ranks.first;
+    for (final rank in ranks) {
+      if (level >= rank.level &&
+          achievementCount >= rank.achievementsRequired) {
+        current = rank;
+      } else {
+        break;
+      }
+    }
+    return current;
+  }
+}
+
+class TibebRank {
+  final int level;
+  final int achievementsRequired;
+  final String name;
+  final String description;
+
+  const TibebRank({
+    required this.level,
+    required this.achievementsRequired,
+    required this.name,
+    required this.description,
+  });
+}

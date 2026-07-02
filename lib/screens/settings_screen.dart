@@ -1,0 +1,413 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:permission_handler/permission_handler.dart';
+import '../core/constants.dart';
+import '../providers/library_provider.dart';
+import '../components/glass_container.dart';
+import '../services/notification_service.dart';
+
+class SettingsScreen extends ConsumerWidget {
+  const SettingsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(libraryProvider);
+    final notifier = ref.read(libraryProvider.notifier);
+
+    return Scaffold(
+      backgroundColor: TibebConstants.background,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            backgroundColor: TibebConstants.background.withValues(alpha: 0.8),
+            floating: true,
+            title: const Text(
+              'Settings',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            centerTitle: true,
+            elevation: 0,
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              const SizedBox(height: 20),
+              _buildSectionHeader('Engagement'),
+              _buildEngagementCard(state),
+              const SizedBox(height: 24),
+              _buildSectionHeader('Notifications'),
+              _buildNotificationToggles(context, state, notifier),
+              const SizedBox(height: 48),
+              _buildSectionHeader('More'),
+              _buildMoreCard(context),
+              const SizedBox(height: 48),
+              _buildAboutSection(),
+              const SizedBox(height: 120),
+            ]),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionHeader(String title) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+      child: Text(
+        title.toUpperCase(),
+        style: TextStyle(
+          color: TibebConstants.accent.withValues(alpha: 0.8),
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 1.2,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEngagementCard(LibraryState state) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: GlassContainer(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: TibebConstants.accent.withValues(alpha: 0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.stars_rounded,
+                    color: TibebConstants.accent,
+                    size: 28,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Level ${state.level}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        state.rankName,
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: 0.6),
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      '${state.totalXP}',
+                      style: const TextStyle(
+                        color: TibebConstants.accent,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const Text(
+                      'TOTAL XP',
+                      style: TextStyle(
+                        color: Colors.white38,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNotificationToggles(
+    BuildContext context,
+    LibraryState state,
+    LibraryNotifier notifier,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: GlassContainer(
+        child: Column(
+          children: [
+            SwitchListTile(
+              value: state.notificationsEnabled,
+              onChanged: (val) =>
+                  notifier.updateNotificationSettings(enabled: val),
+              title: const Text(
+                'Daily Reminders',
+                style: TextStyle(color: Colors.white),
+              ),
+              subtitle: Text(
+                'Keep your reading streak alive',
+                style: TextStyle(color: Colors.white.withValues(alpha: 0.5)),
+              ),
+              activeThumbColor: TibebConstants.accent,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 8,
+              ),
+            ),
+            if (state.notificationsEnabled)
+              ListTile(
+                title: const Text(
+                  'Reminder Time',
+                  style: TextStyle(color: Colors.white),
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      '${state.reminderHour.toString().padLeft(2, '0')}:${state.reminderMinute.toString().padLeft(2, '0')}',
+                      style: const TextStyle(
+                        color: TibebConstants.accent,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    const Icon(
+                      Icons.chevron_right_rounded,
+                      color: Colors.white24,
+                    ),
+                  ],
+                ),
+                onTap: () async {
+                  final time = await showTimePicker(
+                    context: context,
+                    initialTime: TimeOfDay(
+                      hour: state.reminderHour,
+                      minute: state.reminderMinute,
+                    ),
+                    builder: (context, child) {
+                      return Theme(
+                        data: Theme.of(context).copyWith(
+                          colorScheme: const ColorScheme.dark(
+                            primary: TibebConstants.accent,
+                            onPrimary: Colors.black,
+                            surface: TibebConstants.surface,
+                            onSurface: Colors.white,
+                          ),
+                        ),
+                        child: child!,
+                      );
+                    },
+                  );
+                  if (time != null) {
+                    notifier.updateNotificationSettings(
+                      hour: time.hour,
+                      minute: time.minute,
+                    );
+                  }
+                },
+              ),
+            Divider(color: Colors.white.withValues(alpha: 0.1), height: 1),
+            ListTile(
+              leading: const Icon(Icons.notification_important_rounded, color: TibebConstants.accent),
+              title: const Text(
+                'Test Notification',
+                style: TextStyle(color: Colors.white),
+              ),
+              subtitle: Text(
+                'Receive a test alert to verify reminders work.',
+                style: TextStyle(color: Colors.white.withValues(alpha: 0.5), fontSize: 12),
+              ),
+              trailing: const Icon(Icons.send_rounded, color: TibebConstants.accent, size: 20),
+              onTap: () async {
+                final status = await Permission.notification.status;
+
+                if (status.isPermanentlyDenied) {
+                  if (context.mounted) {
+                    showGeneralDialog(
+                      context: context,
+                      barrierDismissible: true,
+                      barrierLabel: '',
+                      transitionDuration: const Duration(milliseconds: 300),
+                      pageBuilder: (context, anim1, anim2) => const SizedBox(),
+                      transitionBuilder: (context, anim1, anim2, child) {
+                        return Transform.scale(
+                          scale: anim1.value,
+                          child: Opacity(
+                            opacity: anim1.value,
+                            child: AlertDialog(
+                              backgroundColor: TibebConstants.surface,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                              title: const Text(
+                                'Notifications Blocked',
+                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                              ),
+                              content: const Text(
+                                'Reading reminders are currently blocked by your system settings. Please enable them to stay on track!',
+                                style: TextStyle(color: Colors.white70),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('Maybe Later', style: TextStyle(color: Colors.white38)),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    openAppSettings();
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text(
+                                    'Open Settings',
+                                    style: TextStyle(color: TibebConstants.accent, fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }
+                  return;
+                }
+
+                final granted = await NotificationService().requestPermissions();
+                if (granted) {
+                  await NotificationService().showNotification(
+                    id: 888,
+                    title: 'Test Notification \uD83D\uDCD6',
+                    body: "Reminders are working correctly! Happy reading.",
+                  );
+                } else if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Notification permissions are required for reminders.'),
+                      backgroundColor: Colors.redAccent,
+                      behavior: SnackBarBehavior.floating,
+                    ),
+                  );
+                }
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMoreCard(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: GlassContainer(
+        child: Column(
+          children: [
+            ListTile(
+              leading: const Icon(
+                Icons.volunteer_activism_rounded,
+                color: TibebConstants.accent,
+              ),
+              title: const Text(
+                'Support the Developer AKA Samuel',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              subtitle: Text(
+                'Support the developer and the project \u2764\uFE0F',
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.5),
+                  fontSize: 12,
+                ),
+              ),
+              trailing: const Icon(
+                Icons.open_in_new_rounded,
+                color: Colors.white24,
+                size: 20,
+              ),
+              onTap: () async {
+                final uri = Uri.parse('https://www.gurshaplus.com/samkiyya');
+                try {
+                  await launchUrl(uri, mode: LaunchMode.externalApplication);
+                } catch (e) {
+                  debugPrint('Could not launch \$uri: \$e');
+                }
+              },
+            ),
+            Divider(color: Colors.white.withValues(alpha: 0.1), height: 1),
+            ListTile(
+              leading: const Icon(
+                Icons.code_rounded,
+                color: TibebConstants.accent,
+              ),
+              title: const Text(
+                'Contribute on GitHub',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              subtitle: Text(
+                'Help build the future of tibeb \uD83D\uDE80',
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.5),
+                  fontSize: 12,
+                ),
+              ),
+              trailing: const Icon(
+                Icons.open_in_new_rounded,
+                color: Colors.white24,
+                size: 20,
+              ),
+              onTap: () async {
+                final uri = Uri.parse('https://github.com/samkiyya/tibeb');
+                try {
+                  await launchUrl(uri, mode: LaunchMode.externalApplication);
+                } catch (e) {
+                  debugPrint('Could not launch \$uri: \$e');
+                }
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAboutSection() {
+    return Center(
+      child: Column(
+        children: [
+          FutureBuilder<PackageInfo>(
+            future: PackageInfo.fromPlatform(),
+            builder: (context, snapshot) {
+              final version = snapshot.hasData 
+                  ? 'v${snapshot.data!.version}+${snapshot.data!.buildNumber}' 
+                  : '...';
+              return Text(
+                'tibeb $version',
+                style: const TextStyle(color: Colors.white24, fontSize: 12),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
