@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import '../core/constants.dart';
+import '../core/rank/tibeb_rank.dart';
+import '../core/rank/tibeb_rank_extension.dart';
+import '../core/rank/tibeb_rank_repository.dart';
 import '../core/theme/semantics/color_scheme.dart';
 import '../core/theme/tokens/radius.dart';
 import '../core/theme/tokens/spacing.dart';
@@ -17,8 +19,8 @@ class RankPathWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tibpiColors;
-    final ranks = TibebConstants.ranks;
-    final currentRank = TibebConstants.getRankForLevel(
+    final List<TibebRank> ranks = TibebRankRepository.instance.getAllRanks();
+    final TibebRank currentRank = TibebRankRepository.instance.getCurrentRank(
       currentLevel,
       achievementCount,
     );
@@ -84,9 +86,7 @@ class RankPathWidget extends StatelessWidget {
                         : (isNext ? t.accent : t.glass),
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: isReached
-                          ? Colors.transparent
-                          : t.textSecondary,
+                      color: isReached ? Colors.transparent : t.textSecondary,
                       width: 2,
                     ),
                   ),
@@ -98,9 +98,7 @@ class RankPathWidget extends StatelessWidget {
                   Container(
                     width: 2,
                     height: 40,
-                    color: isReached
-                        ? t.success
-                        : t.glass,
+                    color: isReached ? t.success : t.glass,
                   ),
               ],
             ),
@@ -114,19 +112,14 @@ class RankPathWidget extends StatelessWidget {
                     style: TextStyle(
                       color: isReached
                           ? t.textPrimary
-                          : (isNext
-                                ? t.accent
-                                : t.textSecondary),
+                          : (isNext ? t.accent : t.textSecondary),
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
                   ),
                   Text(
                     'Level ${rank.level}+ • ${rank.achievementsRequired} Achievements • ${rank.description}',
-                    style: TextStyle(
-                      color: t.textSecondary,
-                      fontSize: 12,
-                    ),
+                    style: TextStyle(color: t.textSecondary, fontSize: 12),
                   ),
                   const SizedBox(height: 20),
                 ],

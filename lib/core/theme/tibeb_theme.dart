@@ -1,30 +1,20 @@
 import 'package:flutter/material.dart';
-
 import 'semantics/theme_extension.dart';
 import 'semantics/color_scheme.dart';
 import 'tokens/typography.dart';
-import 'components/button_theme.dart';
-import 'components/card_theme.dart';
-import 'components/progress_theme.dart';
-import 'components/app_bar.dart';
-import 'components/bottom_nav_bar.dart';
 
-/// Tibeb Design System — Theme Factory
+/// Tibeb Design System ThemeData Builders
 ///
-/// Produces [ThemeData] for light and dark modes, wiring together:
-/// - Material [ColorScheme]
-/// - [TibebThemeExtension] (semantic colors)
-/// - [TibebTypography] (Inter font scale)
-/// - Component themes (AppBar, BottomNav, Card, Button, Progress)
+/// Builds global MaterialApp themes using custom semantic component tokens.
+/// Standard Widget styles are delegated to modular category components.
 class TibebTheme {
-  TibebTheme._();
+  const TibebTheme._();
 
   // ──────────────────────────────────────────────
-  // Dark Theme (Primary — AMOLED)
+  // Dark Theme (AMOLED/Dark)
   // ──────────────────────────────────────────────
   static ThemeData dark() {
     final ext = TibebThemeExtension.dark();
-
     final scheme = ColorScheme(
       brightness: Brightness.dark,
       primary: ext.primary,
@@ -47,64 +37,43 @@ class TibebTheme {
       textTheme: TibebTypography.textTheme,
       scaffoldBackgroundColor: ext.background,
 
-      // Component themes
-      appBarTheme: TibebAppBarTheme.dark(ext),
-      bottomNavigationBarTheme: TibebBottomNavTheme.dark(ext),
-      elevatedButtonTheme: TibebButtonTheme.elevated(ext),
-      cardTheme: TibebCardTheme.dark(ext),
-      progressIndicatorTheme: TibebProgressTheme.theme(ext),
-      dividerTheme: DividerThemeData(color: ext.divider, thickness: 0.5),
+      // Delegated component themes
+      appBarTheme: TibebAppBarTheme.dark(ext.appBar),
+      bottomNavigationBarTheme: TibebNavigationBarTheme.bottomNavDark(
+        ext.navigationBar,
+      ),
+      navigationBarTheme: TibebNavigationBarTheme.navBarDark(ext.navigationBar),
+      navigationRailTheme: TibebNavigationRailTheme.dark(ext.navigationRail),
+      drawerTheme: TibebDrawerTheme.drawerDark(ext.navigationDrawer),
+      navigationDrawerTheme: TibebDrawerTheme.navDrawerDark(
+        ext.navigationDrawer,
+      ),
+      tabBarTheme: TibebTabBarTheme.dark(ext.tabs),
+
+      inputDecorationTheme: TibebInputDecorationTheme.dark(ext.textField),
+      chipTheme: TibebChipTheme.dark(ext.chip),
+
+      elevatedButtonTheme: TibebButtonTheme.elevated(ext.buttons),
+      sliderTheme: TibebSliderTheme.dark(ext.slider),
+      switchTheme: TibebSwitchTheme.dark(ext.switchTheme, ext.primary),
+      checkboxTheme: TibebCheckboxTheme.dark(ext.checkbox),
+      radioTheme: TibebRadioTheme.dark(ext.radioButton),
+
+      dialogTheme: TibebDialogTheme.dark(ext.dialog),
+      bottomSheetTheme: TibebBottomSheetTheme.dark(ext.bottomSheet),
+      snackBarTheme: TibebSnackBarTheme.dark(ext.snackBar, ext.radiusCat.md),
+      cardTheme: TibebCardTheme.dark(ext.card, ext.surface),
+      listTileTheme: TibebListTileTheme.dark(ext.listTile),
+      tooltipTheme: TibebTooltipTheme.dark(ext.tooltip),
+      badgeTheme: TibebBadgeTheme.dark(ext.badge),
+      dividerTheme: TibebDividerTheme.dark(ext.dividerCat),
+
+      progressIndicatorTheme: TibebProgressTheme.dark(
+        ext.progress,
+        ext.surface,
+      ),
       iconTheme: IconThemeData(color: ext.textSecondary),
 
-      // Dialogs & sheets
-      bottomSheetTheme: BottomSheetThemeData(
-        backgroundColor: ext.surface,
-        shape: RoundedRectangleBorder(borderRadius: ext.radiusCat.xl),
-      ),
-      dialogTheme: DialogThemeData(
-        backgroundColor: ext.surface,
-        shape: RoundedRectangleBorder(borderRadius: ext.radiusCat.xl),
-      ),
-
-      // Snackbar
-      snackBarTheme: SnackBarThemeData(
-        backgroundColor: ext.surfaceElevated,
-        contentTextStyle: TextStyle(color: ext.textPrimary),
-        shape: RoundedRectangleBorder(borderRadius: ext.radiusCat.md),
-        behavior: SnackBarBehavior.floating,
-      ),
-
-      // Input
-      inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: ext.surface,
-        border: OutlineInputBorder(
-          borderRadius: ext.radiusCat.md,
-          borderSide: BorderSide(color: ext.border),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: ext.radiusCat.md,
-          borderSide: BorderSide(color: ext.border),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: ext.radiusCat.md,
-          borderSide: BorderSide(color: ext.primary, width: 2),
-        ),
-        hintStyle: TextStyle(color: ext.textTertiary),
-      ),
-
-      // Chips
-      chipTheme: ChipThemeData(
-        backgroundColor: ext.surface,
-        selectedColor: ext.primary.withValues(alpha: 0.2),
-        labelStyle: TextStyle(color: ext.textSecondary),
-        shape: RoundedRectangleBorder(
-          borderRadius: ext.radiusCat.pill,
-          side: BorderSide(color: ext.border),
-        ),
-      ),
-
-      // Extensions
       extensions: [ext],
     );
   }
@@ -114,7 +83,6 @@ class TibebTheme {
   // ──────────────────────────────────────────────
   static ThemeData light() {
     final ext = TibebThemeExtension.light();
-
     final scheme = ColorScheme(
       brightness: Brightness.light,
       primary: ext.primary,
@@ -137,54 +105,44 @@ class TibebTheme {
       textTheme: TibebTypography.textTheme,
       scaffoldBackgroundColor: ext.background,
 
-      appBarTheme: TibebAppBarTheme.light(ext),
-      bottomNavigationBarTheme: TibebBottomNavTheme.light(ext),
-      elevatedButtonTheme: TibebButtonTheme.elevated(ext),
-      cardTheme: TibebCardTheme.light(ext),
-      progressIndicatorTheme: TibebProgressTheme.theme(ext),
-      dividerTheme: DividerThemeData(color: ext.divider, thickness: 0.5),
-      iconTheme: IconThemeData(color: ext.textSecondary),
+      // Delegated component themes
+      appBarTheme: TibebAppBarTheme.light(ext.appBar),
+      bottomNavigationBarTheme: TibebNavigationBarTheme.bottomNavLight(
+        ext.navigationBar,
+      ),
+      navigationBarTheme: TibebNavigationBarTheme.navBarLight(
+        ext.navigationBar,
+      ),
+      navigationRailTheme: TibebNavigationRailTheme.light(ext.navigationRail),
+      drawerTheme: TibebDrawerTheme.drawerLight(ext.navigationDrawer),
+      navigationDrawerTheme: TibebDrawerTheme.navDrawerLight(
+        ext.navigationDrawer,
+      ),
+      tabBarTheme: TibebTabBarTheme.light(ext.tabs),
 
-      bottomSheetTheme: BottomSheetThemeData(
-        backgroundColor: ext.surface,
-        shape: RoundedRectangleBorder(borderRadius: ext.radiusCat.xl),
+      inputDecorationTheme: TibebInputDecorationTheme.light(ext.textField),
+      chipTheme: TibebChipTheme.light(ext.chip),
+
+      elevatedButtonTheme: TibebButtonTheme.elevated(ext.buttons),
+      sliderTheme: TibebSliderTheme.light(ext.slider),
+      switchTheme: TibebSwitchTheme.light(ext.switchTheme, ext.primary),
+      checkboxTheme: TibebCheckboxTheme.light(ext.checkbox),
+      radioTheme: TibebRadioTheme.light(ext.radioButton),
+
+      dialogTheme: TibebDialogTheme.light(ext.dialog),
+      bottomSheetTheme: TibebBottomSheetTheme.light(ext.bottomSheet),
+      snackBarTheme: TibebSnackBarTheme.light(ext.snackBar, ext.radiusCat.md),
+      cardTheme: TibebCardTheme.light(ext.card, ext.surface),
+      listTileTheme: TibebListTileTheme.light(ext.listTile),
+      tooltipTheme: TibebTooltipTheme.light(ext.tooltip),
+      badgeTheme: TibebBadgeTheme.light(ext.badge),
+      dividerTheme: TibebDividerTheme.light(ext.dividerCat),
+
+      progressIndicatorTheme: TibebProgressTheme.light(
+        ext.progress,
+        ext.surface,
       ),
-      dialogTheme: DialogThemeData(
-        backgroundColor: ext.surface,
-        shape: RoundedRectangleBorder(borderRadius: ext.radiusCat.xl),
-      ),
-      snackBarTheme: SnackBarThemeData(
-        backgroundColor: ext.surfaceElevated,
-        contentTextStyle: TextStyle(color: ext.textPrimary),
-        shape: RoundedRectangleBorder(borderRadius: ext.radiusCat.md),
-        behavior: SnackBarBehavior.floating,
-      ),
-      inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: ext.surfaceOverlay,
-        border: OutlineInputBorder(
-          borderRadius: ext.radiusCat.md,
-          borderSide: BorderSide(color: ext.border),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: ext.radiusCat.md,
-          borderSide: BorderSide(color: ext.border),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: ext.radiusCat.md,
-          borderSide: BorderSide(color: ext.primary, width: 2),
-        ),
-        hintStyle: TextStyle(color: ext.textTertiary),
-      ),
-      chipTheme: ChipThemeData(
-        backgroundColor: ext.surfaceOverlay,
-        selectedColor: ext.primary.withValues(alpha: 0.1),
-        labelStyle: TextStyle(color: ext.textSecondary),
-        shape: RoundedRectangleBorder(
-          borderRadius: ext.radiusCat.pill,
-          side: BorderSide(color: ext.border),
-        ),
-      ),
+      iconTheme: IconThemeData(color: ext.textSecondary),
 
       extensions: [ext],
     );

@@ -205,10 +205,7 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
               decoration: BoxDecoration(
                 color: color,
                 shape: BoxShape.circle,
-                border: Border.all(
-                  color: t.borderSubtle,
-                  width: 1,
-                ),
+                border: Border.all(color: t.borderSubtle, width: 1),
               ),
             ),
           ),
@@ -273,10 +270,7 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              label,
-              style: TextStyle(color: t.textSecondary, fontSize: 14),
-            ),
+            Text(label, style: TextStyle(color: t.textSecondary, fontSize: 14)),
             Text(
               displayValue,
               style: TextStyle(
@@ -356,16 +350,9 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
                 ? t.primary.withValues(alpha: 0.2)
                 : t.textSecondary.withValues(alpha: 0.05),
             borderRadius: TibebRadius.borderMd,
-            border: Border.all(
-              color: isSelected
-                  ? t.primary
-                  : t.borderSubtle,
-            ),
+            border: Border.all(color: isSelected ? t.primary : t.borderSubtle),
           ),
-          child: Icon(
-            icon,
-            color: isSelected ? t.primary : t.textSecondary,
-          ),
+          child: Icon(icon, color: isSelected ? t.primary : t.textSecondary),
         ),
       ),
     );
@@ -394,7 +381,7 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
             value: settings.usePublisherDefaults,
             onChanged: (value) => notifier.togglePublisherDefaults(value),
             activeTrackColor: t.primary.withValues(alpha: 0.5),
-            activeColor: t.primary,
+            activeThumbColor: t.primary,
             inactiveTrackColor: t.borderSubtle,
           ),
         ],

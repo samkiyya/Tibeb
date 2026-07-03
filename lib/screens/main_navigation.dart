@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
-import 'package:tibeb/core/constants.dart';
+import 'package:tibeb/core/rank/tibeb_rank.dart';
+import 'package:tibeb/core/rank/tibeb_rank_repository.dart';
 import 'package:tibeb/core/theme/semantics/color_scheme.dart';
 import 'package:tibeb/components/glass_container.dart';
 import 'package:tibeb/providers/library_provider.dart';
@@ -201,7 +202,10 @@ class _MainNavigationState extends ConsumerState<MainNavigation> {
       }
     });
 
-    ref.listen(libraryProvider.select((s) => s.isReading), (previous, isReading) {
+    ref.listen(libraryProvider.select((s) => s.isReading), (
+      previous,
+      isReading,
+    ) {
       if (previous == true && isReading == false) {
         final state = ref.read(libraryProvider);
         _checkAndShowRankUp(context, state.level, state);
@@ -332,12 +336,16 @@ class _MainNavigationState extends ConsumerState<MainNavigation> {
     );
   }
 
-  void _checkAndShowRankUp(BuildContext context, int nextLevel, LibraryState state) {
-    final currentRank = TibebConstants.getRankForLevel(
+  void _checkAndShowRankUp(
+    BuildContext context,
+    int nextLevel,
+    LibraryState state,
+  ) {
+    final TibebRank currentRank = TibebRankRepository.instance.getCurrentRank(
       nextLevel,
       state.unlockedAchievements.length,
     );
-    final lastRank = TibebConstants.getRankForLevel(
+    final TibebRank lastRank = TibebRankRepository.instance.getCurrentRank(
       state.lastCelebratedLevel,
       state.unlockedAchievements.length,
     );
@@ -346,7 +354,8 @@ class _MainNavigationState extends ConsumerState<MainNavigation> {
       showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => RankUpDialog(level: nextLevel, rankName: state.rankName),
+        builder: (context) =>
+            RankUpDialog(level: nextLevel, rankName: state.rankName),
       );
       ref.read(libraryProvider.notifier).markLevelCelebrated(nextLevel);
     }

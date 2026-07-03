@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../core/constants.dart';
+import '../../../core/rank/tibeb_rank.dart';
+import '../../../core/rank/tibeb_rank_extension.dart';
+import '../../../core/rank/tibeb_rank_repository.dart';
 import '../../../core/theme/semantics/color_scheme.dart';
 import '../../../components/glass_container.dart';
 import '../../../providers/library_provider.dart';
@@ -12,7 +14,7 @@ class LevelMetadataSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tibpiColors;
-    final ranks = TibebConstants.ranks;
+    final List<TibebRank> ranks = TibebRankRepository.instance.getAllRanks();
 
     return GlassContainer(
       borderRadius: 24,
@@ -36,9 +38,7 @@ class LevelMetadataSheet extends StatelessWidget {
               decoration: BoxDecoration(
                 color: t.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: t.primary.withValues(alpha: 0.2),
-                ),
+                border: Border.all(color: t.primary.withValues(alpha: 0.2)),
               ),
               child: Row(
                 children: [
@@ -61,7 +61,8 @@ class LevelMetadataSheet extends StatelessWidget {
             ...ranks.map((rank) {
               final bool isReached =
                   state.level >= rank.level &&
-                  state.unlockedAchievements.length >= rank.achievementsRequired;
+                  state.unlockedAchievements.length >=
+                      rank.achievementsRequired;
               return Padding(
                 padding: const EdgeInsets.only(bottom: 16),
                 child: Row(
@@ -75,9 +76,7 @@ class LevelMetadataSheet extends StatelessWidget {
                             ? t.primary.withValues(alpha: 0.1)
                             : t.glass,
                         border: Border.all(
-                          color: isReached
-                              ? t.primary
-                              : t.borderSubtle,
+                          color: isReached ? t.primary : t.borderSubtle,
                         ),
                       ),
                       child: Center(
@@ -99,7 +98,9 @@ class LevelMetadataSheet extends StatelessWidget {
                           Text(
                             rank.name,
                             style: TextStyle(
-                              color: isReached ? t.textPrimary : t.textSecondary,
+                              color: isReached
+                                  ? t.textPrimary
+                                  : t.textSecondary,
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
                             ),
@@ -117,11 +118,7 @@ class LevelMetadataSheet extends StatelessWidget {
                       ),
                     ),
                     if (isReached)
-                      Icon(
-                        Icons.check_circle,
-                        color: t.success,
-                        size: 18,
-                      ),
+                      Icon(Icons.check_circle, color: t.success, size: 18),
                   ],
                 ),
               );

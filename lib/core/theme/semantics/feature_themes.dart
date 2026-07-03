@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'design_tokens.dart';
 
 // 36. TibebReaderTheme
 class TibebReaderThemeTokens {
@@ -66,10 +67,22 @@ class TibebReaderThemeTokens {
     return TibebReaderThemeTokens(
       background: Colors.black,
       text: const TextStyle(color: Colors.white, fontSize: 18),
-      heading: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
-      quote: const TextStyle(color: Colors.white70, fontSize: 18, fontStyle: FontStyle.italic),
+      heading: const TextStyle(
+        color: Colors.white,
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+      ),
+      quote: const TextStyle(
+        color: Colors.white70,
+        fontSize: 18,
+        fontStyle: FontStyle.italic,
+      ),
       link: Colors.amber,
-      code: const TextStyle(color: Colors.white54, fontFamily: 'Courier', fontSize: 14),
+      code: const TextStyle(
+        color: Colors.white54,
+        fontFamily: 'Courier',
+        fontSize: 14,
+      ),
       footnote: const TextStyle(color: Colors.white60, fontSize: 12),
       annotation: const TextStyle(color: Colors.white60, fontSize: 13),
       highlightYellow: Colors.yellow.withValues(alpha: 0.3),
@@ -90,7 +103,10 @@ class TibebReaderThemeTokens {
       images: BoxDecoration(borderRadius: BorderRadius.circular(8)),
       tables: BoxDecoration(border: Border.all(color: Colors.white24)),
       lists: const TextStyle(),
-      blockquote: const TextStyle(color: Colors.white60, fontStyle: FontStyle.italic),
+      blockquote: const TextStyle(
+        color: Colors.white60,
+        fontStyle: FontStyle.italic,
+      ),
       inlineCode: const TextStyle(fontFamily: 'Courier', fontSize: 14),
     );
   }
@@ -99,10 +115,22 @@ class TibebReaderThemeTokens {
     return TibebReaderThemeTokens(
       background: const Color(0xFFFDFBF7),
       text: const TextStyle(color: Color(0xFF1A1A1A), fontSize: 18),
-      heading: const TextStyle(color: Color(0xFF1A1A1A), fontSize: 24, fontWeight: FontWeight.bold),
-      quote: const TextStyle(color: Color(0xFF333333), fontSize: 18, fontStyle: FontStyle.italic),
+      heading: const TextStyle(
+        color: Color(0xFF1A1A1A),
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+      ),
+      quote: const TextStyle(
+        color: Color(0xFF333333),
+        fontSize: 18,
+        fontStyle: FontStyle.italic,
+      ),
       link: Colors.brown,
-      code: const TextStyle(color: Colors.black54, fontFamily: 'Courier', fontSize: 14),
+      code: const TextStyle(
+        color: Colors.black54,
+        fontFamily: 'Courier',
+        fontSize: 14,
+      ),
       footnote: const TextStyle(color: Colors.black54, fontSize: 12),
       annotation: const TextStyle(color: Colors.black54, fontSize: 13),
       highlightYellow: Colors.yellow.withValues(alpha: 0.4),
@@ -123,7 +151,10 @@ class TibebReaderThemeTokens {
       images: BoxDecoration(borderRadius: BorderRadius.circular(8)),
       tables: BoxDecoration(border: Border.all(color: Colors.black26)),
       lists: const TextStyle(),
-      blockquote: const TextStyle(color: Colors.black54, fontStyle: FontStyle.italic),
+      blockquote: const TextStyle(
+        color: Colors.black54,
+        fontStyle: FontStyle.italic,
+      ),
       inlineCode: const TextStyle(fontFamily: 'Courier', fontSize: 14),
     );
   }
@@ -150,6 +181,38 @@ class TibebPdfViewerThemeTokens {
     required this.thumbnailBackground,
     required this.toolbarBackground,
   });
+
+  factory TibebPdfViewerThemeTokens.light(
+    TibebColorSystem colors,
+    TibebElevationTokens elevation,
+  ) {
+    return TibebPdfViewerThemeTokens(
+      background: const Color(0xFFF1F5F9),
+      pageShadow: elevation.level2,
+      selection: colors.primary.withValues(alpha: 0.2),
+      searchHighlight: Colors.yellow.withValues(alpha: 0.5),
+      annotation: colors.primary,
+      currentPage: 1,
+      thumbnailBackground: colors.surfaceContainerLow,
+      toolbarBackground: colors.surface,
+    );
+  }
+
+  factory TibebPdfViewerThemeTokens.dark(
+    TibebColorSystem colors,
+    TibebElevationTokens elevation,
+  ) {
+    return TibebPdfViewerThemeTokens(
+      background: Colors.black,
+      pageShadow: elevation.level2,
+      selection: colors.primary.withValues(alpha: 0.2),
+      searchHighlight: Colors.yellow.withValues(alpha: 0.5),
+      annotation: colors.primary,
+      currentPage: 1,
+      thumbnailBackground: colors.surfaceContainerLow,
+      toolbarBackground: colors.surface,
+    );
+  }
 }
 
 // 38. TibebAudiobookTheme
@@ -175,6 +238,34 @@ class TibebAudiobookThemeTokens {
     required this.fullPlayer,
     required this.lyricsTranscript,
   });
+
+  factory TibebAudiobookThemeTokens.light(TibebColorSystem colors) {
+    return TibebAudiobookThemeTokens(
+      playerBackground: colors.surface,
+      waveform: colors.primary,
+      seekBar: colors.textSecondary,
+      chapterMarker: colors.outline,
+      playbackSpeed: TextStyle(color: colors.textPrimary),
+      timer: TextStyle(color: colors.textSecondary),
+      miniPlayer: colors.surfaceContainerLow,
+      fullPlayer: colors.surface,
+      lyricsTranscript: const TextStyle(),
+    );
+  }
+
+  factory TibebAudiobookThemeTokens.dark(TibebColorSystem colors) {
+    return TibebAudiobookThemeTokens(
+      playerBackground: colors.surface,
+      waveform: colors.primary,
+      seekBar: colors.textSecondary,
+      chapterMarker: colors.outline,
+      playbackSpeed: TextStyle(color: colors.textPrimary),
+      timer: TextStyle(color: colors.textSecondary),
+      miniPlayer: colors.surfaceContainerLow,
+      fullPlayer: colors.surface,
+      lyricsTranscript: const TextStyle(),
+    );
+  }
 }
 
 // 39. TibebNotesTheme
@@ -198,6 +289,32 @@ class TibebNotesThemeTokens {
     required this.editor,
     required this.markdownPreview,
   });
+
+  factory TibebNotesThemeTokens.light(TibebColorSystem colors) {
+    return TibebNotesThemeTokens(
+      background: colors.surface,
+      title: const TextStyle(fontWeight: FontWeight.bold),
+      content: const TextStyle(),
+      timestamp: const TextStyle(fontSize: 11),
+      pinned: colors.primary,
+      selected: colors.primary.withValues(alpha: 0.1),
+      editor: colors.surfaceBright,
+      markdownPreview: colors.surfaceContainerLow,
+    );
+  }
+
+  factory TibebNotesThemeTokens.dark(TibebColorSystem colors) {
+    return TibebNotesThemeTokens(
+      background: colors.surface,
+      title: const TextStyle(fontWeight: FontWeight.bold),
+      content: const TextStyle(),
+      timestamp: const TextStyle(fontSize: 11),
+      pinned: colors.primary,
+      selected: colors.primary.withValues(alpha: 0.1),
+      editor: colors.surfaceBright,
+      markdownPreview: colors.surfaceContainerLow,
+    );
+  }
 }
 
 // 40. TibebHighlightTheme
@@ -223,6 +340,34 @@ class TibebHighlightThemeTokens {
     required this.selected,
     required this.hovered,
   });
+
+  factory TibebHighlightThemeTokens.light(TibebColorSystem colors) {
+    return TibebHighlightThemeTokens(
+      yellow: Colors.yellow,
+      blue: Colors.blue,
+      green: Colors.green,
+      pink: Colors.pink,
+      orange: Colors.orange,
+      underline: const TextStyle(decoration: TextDecoration.underline),
+      strikethrough: const TextStyle(decoration: TextDecoration.lineThrough),
+      selected: colors.primary.withValues(alpha: 0.2),
+      hovered: colors.primary.withValues(alpha: 0.1),
+    );
+  }
+
+  factory TibebHighlightThemeTokens.dark(TibebColorSystem colors) {
+    return TibebHighlightThemeTokens(
+      yellow: Colors.yellow,
+      blue: Colors.blue,
+      green: Colors.green,
+      pink: Colors.pink,
+      orange: Colors.orange,
+      underline: const TextStyle(decoration: TextDecoration.underline),
+      strikethrough: const TextStyle(decoration: TextDecoration.lineThrough),
+      selected: colors.primary.withValues(alpha: 0.2),
+      hovered: colors.primary.withValues(alpha: 0.1),
+    );
+  }
 }
 
 // 41. TibebDictionaryTheme
@@ -244,6 +389,30 @@ class TibebDictionaryThemeTokens {
     required this.antonyms,
     required this.partOfSpeech,
   });
+
+  factory TibebDictionaryThemeTokens.light(TibebColorSystem colors) {
+    return const TibebDictionaryThemeTokens(
+      word: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+      pronunciation: TextStyle(fontStyle: FontStyle.italic),
+      meaning: TextStyle(),
+      example: TextStyle(fontStyle: FontStyle.italic),
+      synonyms: TextStyle(color: Colors.blue),
+      antonyms: TextStyle(color: Colors.red),
+      partOfSpeech: TextStyle(fontWeight: FontWeight.w600),
+    );
+  }
+
+  factory TibebDictionaryThemeTokens.dark(TibebColorSystem colors) {
+    return const TibebDictionaryThemeTokens(
+      word: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+      pronunciation: TextStyle(fontStyle: FontStyle.italic),
+      meaning: TextStyle(),
+      example: TextStyle(fontStyle: FontStyle.italic),
+      synonyms: TextStyle(color: Colors.blue),
+      antonyms: TextStyle(color: Colors.red),
+      partOfSpeech: TextStyle(fontWeight: FontWeight.w600),
+    );
+  }
 }
 
 // 42. TibebSearchTheme
@@ -263,6 +432,28 @@ class TibebSearchThemeTokens {
     required this.historyItem,
     required this.recentSearch,
   });
+
+  factory TibebSearchThemeTokens.light(TibebColorSystem colors) {
+    return TibebSearchThemeTokens(
+      resultCard: colors.surfaceBright,
+      highlightedMatch: Colors.yellow,
+      sectionHeader: const TextStyle(fontWeight: FontWeight.bold),
+      filterChip: colors.primary,
+      historyItem: colors.textSecondary,
+      recentSearch: const TextStyle(),
+    );
+  }
+
+  factory TibebSearchThemeTokens.dark(TibebColorSystem colors) {
+    return TibebSearchThemeTokens(
+      resultCard: colors.surfaceBright,
+      highlightedMatch: Colors.yellow,
+      sectionHeader: const TextStyle(fontWeight: FontWeight.bold),
+      filterChip: colors.primary,
+      historyItem: colors.textSecondary,
+      recentSearch: const TextStyle(),
+    );
+  }
 }
 
 // 43. TibebLibraryTheme
@@ -288,6 +479,40 @@ class TibebLibraryThemeTokens {
     required this.downloadedBadge,
     required this.favoriteBadge,
   });
+
+  factory TibebLibraryThemeTokens.light(
+    TibebColorSystem colors,
+    TibebRadiusTokens radius,
+  ) {
+    return TibebLibraryThemeTokens(
+      bookCard: colors.surfaceBright,
+      bookCover: radius.md,
+      gridLayout: 'grid',
+      listLayout: 'list',
+      shelf: colors.outlineVariant,
+      readingStatus: colors.primary,
+      progress: colors.primary,
+      downloadedBadge: colors.success,
+      favoriteBadge: colors.error,
+    );
+  }
+
+  factory TibebLibraryThemeTokens.dark(
+    TibebColorSystem colors,
+    TibebRadiusTokens radius,
+  ) {
+    return TibebLibraryThemeTokens(
+      bookCard: colors.surfaceBright,
+      bookCover: radius.md,
+      gridLayout: 'grid',
+      listLayout: 'list',
+      shelf: colors.outlineVariant,
+      readingStatus: colors.primary,
+      progress: colors.primary,
+      downloadedBadge: colors.success,
+      favoriteBadge: colors.error,
+    );
+  }
 }
 
 // 44. TibebDownloadTheme
@@ -305,6 +530,26 @@ class TibebDownloadThemeTokens {
     required this.failed,
     required this.queued,
   });
+
+  factory TibebDownloadThemeTokens.light(TibebColorSystem colors) {
+    return TibebDownloadThemeTokens(
+      downloading: colors.info,
+      paused: colors.warning,
+      completed: colors.success,
+      failed: colors.error,
+      queued: colors.textTertiary,
+    );
+  }
+
+  factory TibebDownloadThemeTokens.dark(TibebColorSystem colors) {
+    return TibebDownloadThemeTokens(
+      downloading: colors.info,
+      paused: colors.warning,
+      completed: colors.success,
+      failed: colors.error,
+      queued: colors.textTertiary,
+    );
+  }
 }
 
 // 45. TibebStatisticsTheme
@@ -326,6 +571,30 @@ class TibebStatisticsThemeTokens {
     required this.goal,
     required this.xp,
   });
+
+  factory TibebStatisticsThemeTokens.light(TibebColorSystem colors) {
+    return TibebStatisticsThemeTokens(
+      charts: colors.primary,
+      readingCalendar: colors.primary,
+      heatmap: colors.success,
+      streak: const Color(0xFFFF6B35),
+      achievement: colors.primary,
+      goal: colors.primary,
+      xp: colors.primary,
+    );
+  }
+
+  factory TibebStatisticsThemeTokens.dark(TibebColorSystem colors) {
+    return TibebStatisticsThemeTokens(
+      charts: colors.primary,
+      readingCalendar: colors.primary,
+      heatmap: colors.success,
+      streak: const Color(0xFFFF6B35),
+      achievement: colors.primary,
+      goal: colors.primary,
+      xp: colors.primary,
+    );
+  }
 }
 
 // 46. TibebSyncTheme
@@ -345,6 +614,28 @@ class TibebSyncThemeTokens {
     required this.cloud,
     required this.backup,
   });
+
+  factory TibebSyncThemeTokens.light(TibebColorSystem colors) {
+    return TibebSyncThemeTokens(
+      syncing: colors.info,
+      success: colors.success,
+      conflict: colors.warning,
+      offline: colors.disabled,
+      cloud: colors.primary,
+      backup: colors.secondary,
+    );
+  }
+
+  factory TibebSyncThemeTokens.dark(TibebColorSystem colors) {
+    return TibebSyncThemeTokens(
+      syncing: colors.info,
+      success: colors.success,
+      conflict: colors.warning,
+      offline: colors.disabled,
+      cloud: colors.primary,
+      backup: colors.secondary,
+    );
+  }
 }
 
 // 47. TibebAiTheme
@@ -366,6 +657,30 @@ class TibebAiThemeTokens {
     required this.flashcard,
     required this.suggestion,
   });
+
+  factory TibebAiThemeTokens.light(TibebColorSystem colors) {
+    return TibebAiThemeTokens(
+      aiMessage: colors.surfaceContainerLow,
+      prompt: colors.primary,
+      citation: colors.outline,
+      generatedSummary: const TextStyle(),
+      explanation: const TextStyle(),
+      flashcard: colors.surfaceContainerLow,
+      suggestion: colors.primary,
+    );
+  }
+
+  factory TibebAiThemeTokens.dark(TibebColorSystem colors) {
+    return TibebAiThemeTokens(
+      aiMessage: colors.surfaceContainerLow,
+      prompt: colors.primary,
+      citation: colors.outline,
+      generatedSummary: const TextStyle(),
+      explanation: const TextStyle(),
+      flashcard: colors.surfaceContainerLow,
+      suggestion: colors.primary,
+    );
+  }
 }
 
 // 48. TibebKnowledgeGraphTheme
@@ -389,4 +704,30 @@ class TibebKnowledgeGraphThemeTokens {
     required this.conceptNode,
     required this.tagNode,
   });
+
+  factory TibebKnowledgeGraphThemeTokens.light(TibebColorSystem colors) {
+    return TibebKnowledgeGraphThemeTokens(
+      node: colors.primary,
+      edge: colors.outline,
+      selectedNode: colors.primary,
+      relatedNode: colors.secondary,
+      bookNode: colors.primary,
+      personNode: colors.success,
+      conceptNode: colors.info,
+      tagNode: colors.warning,
+    );
+  }
+
+  factory TibebKnowledgeGraphThemeTokens.dark(TibebColorSystem colors) {
+    return TibebKnowledgeGraphThemeTokens(
+      node: colors.primary,
+      edge: colors.outline,
+      selectedNode: colors.primary,
+      relatedNode: colors.secondary,
+      bookNode: colors.primary,
+      personNode: colors.success,
+      conceptNode: colors.info,
+      tagNode: colors.warning,
+    );
+  }
 }

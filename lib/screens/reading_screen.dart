@@ -449,14 +449,12 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
       _loadedAudioBookId = bookId;
       setState(() => _isAudioLoading = true);
 
-      final playlist = ConcatenatingAudioSource(
-        children: tracks
-            .map((t) => AudioSource.file(t.path, tag: t.title))
-            .toList(),
-      );
+      final sources = tracks
+          .map((t) => AudioSource.file(t.path, tag: t.title))
+          .toList();
 
-      await _audioPlayer.setAudioSource(
-        playlist,
+      await _audioPlayer.setAudioSources(
+        sources,
         initialIndex: initialIndex,
         initialPosition: initialPositionMs != null
             ? Duration(milliseconds: initialPositionMs)
@@ -1545,15 +1543,9 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
       // Logic to check if the current player source matches the tracks
       // For simplicity, we can compare with a stored hash or just length/first path
       // but here we can just check if the player's sequence length matches
-      final source = _audioPlayer.audioSource;
-      if (source is ConcatenatingAudioSource) {
-        if (source.length != currentTracks.length) {
-          tracksChanged = true;
-        } else {
-          // Check if any path changed
-          // This is a bit expensive but necessary for reorders
-          // For now, let's just use length and the fact that we'll reload if needed
-        }
+      final sequence = _audioPlayer.sequence;
+      if (sequence.length != currentTracks.length) {
+        tracksChanged = true;
       }
     }
 

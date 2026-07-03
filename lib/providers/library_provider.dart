@@ -5,7 +5,8 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:path/path.dart' as p;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:collection/collection.dart';
-import '../core/constants.dart';
+import '../core/rank/tibeb_rank_extension.dart';
+import '../core/rank/tibeb_rank_repository.dart';
 import '../models/book_model.dart';
 import '../models/bookmark_model.dart';
 import '../services/database_service.dart';
@@ -152,8 +153,9 @@ class LibraryState {
     return activity;
   }
 
-  String get rankName =>
-      TibebConstants.getRankForLevel(level, unlockedAchievements.length).name;
+  String get rankName => TibebRankRepository.instance
+      .getCurrentRank(level, unlockedAchievements.length)
+      .name;
 
   int get weeklyPagesRead => _sumForCurrentWeek(dailyPages);
   int get weeklyMinutesRead => _sumForCurrentWeek(dailyMinutes);
@@ -259,7 +261,8 @@ class LibraryState {
       reminderMinute: reminderMinute ?? this.reminderMinute,
       isReading: isReading ?? this.isReading,
       totalLookups: totalLookups ?? this.totalLookups,
-      deferredNotifications: deferredNotifications ?? this.deferredNotifications,
+      deferredNotifications:
+          deferredNotifications ?? this.deferredNotifications,
     );
   }
 }
@@ -308,7 +311,9 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
   }
 
   void _processDeferredNotifications() async {
-    final notifications = List<DeferredNotification>.from(state.deferredNotifications);
+    final notifications = List<DeferredNotification>.from(
+      state.deferredNotifications,
+    );
     state = state.copyWith(deferredNotifications: []);
 
     for (var i = 0; i < notifications.length; i++) {
@@ -1031,7 +1036,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
     final sessions = await _dbService.getReadingSessions();
     final questXp = await _dbService.getTotalQuestXP();
     final lookupCount = await _dbService.getDictionaryLookupCount();
-    
+
     final activity = _calculateDetailedActivity(sessions, state.allBooks);
     final stats = _calculateStats(
       sessions,
@@ -1222,11 +1227,11 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
 
       // Check for level up notification
       if (stats.level > state.level) {
-        final newRank = TibebConstants.getRankForLevel(
+        final newRank = TibebRankRepository.instance.getCurrentRank(
           stats.level,
           stats.achievements.length,
         );
-        final oldRank = TibebConstants.getRankForLevel(
+        final oldRank = TibebRankRepository.instance.getCurrentRank(
           state.level,
           state.unlockedAchievements.length,
         );
@@ -1288,7 +1293,6 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
 
     return (totalPages / totalMinutes).clamp(0.1, 100.0);
   }
-
 
   Future<void> markBookAsOpened(Book book) async {
     if (book.lastReadAt == null) {
@@ -1475,11 +1479,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
             isCompleted: newlyCompleted,
           ),
         );
-        await _dbService.updateQuestProgress(
-          quest.id,
-          newVal,
-          newlyCompleted,
-        );
+        await _dbService.updateQuestProgress(quest.id, newVal, newlyCompleted);
         changed = true;
       } else {
         updatedQuests.add(quest);
@@ -1498,7 +1498,11 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
     return await _dbService.getDictionaryLookupsForBook(bookId);
   }
 
-  void _queueNotification({required int id, required String title, required String body}) {
+  void _queueNotification({
+    required int id,
+    required String title,
+    required String body,
+  }) {
     state = state.copyWith(
       deferredNotifications: [
         ...state.deferredNotifications,

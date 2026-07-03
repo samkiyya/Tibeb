@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../core/constants.dart';
+import '../../../core/rank/tibeb_rank_extension.dart';
+import '../../../core/rank/tibeb_rank_repository.dart';
 import '../../../core/theme/semantics/color_scheme.dart';
 import '../../../components/glass_container.dart';
 import '../../../providers/library_provider.dart';
@@ -13,10 +14,9 @@ class LevelInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tibpiColors;
-    final currentTitle = TibebConstants.getRankForLevel(
-      state.level,
-      state.unlockedAchievements.length,
-    ).name;
+    final currentTitle = TibebRankRepository.instance
+        .getCurrentRank(state.level, state.unlockedAchievements.length)
+        .name;
 
     return GestureDetector(
       onTap: onTap,
@@ -74,10 +74,7 @@ class LevelInfoCard extends StatelessWidget {
                   ),
                   Text(
                     'Current Level',
-                    style: TextStyle(
-                      color: t.textSecondary,
-                      fontSize: 12,
-                    ),
+                    style: TextStyle(color: t.textSecondary, fontSize: 12),
                   ),
                   const SizedBox(height: 8),
                   ClipRRect(
@@ -85,9 +82,7 @@ class LevelInfoCard extends StatelessWidget {
                     child: LinearProgressIndicator(
                       value: (state.totalXP % 1000) / 1000,
                       backgroundColor: t.borderSubtle,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        t.primary,
-                      ),
+                      valueColor: AlwaysStoppedAnimation<Color>(t.primary),
                       minHeight: 6,
                     ),
                   ),

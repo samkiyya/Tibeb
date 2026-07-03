@@ -559,8 +559,9 @@ class _EpubChapterPageState extends State<EpubChapterPage>
                                 }
 
                                 final images = widget.epubBook?.Content?.Images;
-                                if (images == null)
+                                if (images == null) {
                                   return const SizedBox.shrink();
+                                }
 
                                 EpubByteContentFile? imageFile = images[path];
 
