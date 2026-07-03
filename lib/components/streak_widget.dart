@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../core/theme/semantics/color_scheme.dart';
-import '../core/theme/tokens/spacing.dart';
+import '../core/theme/theme.dart';
+
 import './glass_container.dart';
 
 class StreakWidget extends StatelessWidget {

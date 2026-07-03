@@ -3,8 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../core/theme/semantics/color_scheme.dart';
-import '../core/theme/tibeb_theme_provider.dart';
+import '../core/theme/theme.dart';
 import '../providers/library_provider.dart';
 import '../components/glass_container.dart';
 import '../services/notification_service.dart';
@@ -425,80 +424,169 @@ class SettingsScreen extends ConsumerWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: GlassContainer(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            _buildThemeOption(
-              context,
-              t,
-              ref,
-              title: 'Light Theme',
+      child: Row(
+        children: [
+          Expanded(
+            child: _buildThemeTile(
+              context: context,
+              t: t,
+              ref: ref,
+              title: 'Light',
               icon: Icons.light_mode_rounded,
               themeMode: ThemeMode.light,
               isSelected: currentThemeMode == ThemeMode.light,
+              previewWidget: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFDFBF7),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: Colors.black.withValues(alpha: 0.08),
+                  ),
+                ),
+                child: Center(
+                  child: Container(
+                    width: 30,
+                    height: 6,
+                    decoration: BoxDecoration(
+                      color: Colors.brown.withValues(alpha: 0.4),
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                  ),
+                ),
+              ),
             ),
-            Divider(color: t.dividerCat.color, height: 1),
-            _buildThemeOption(
-              context,
-              t,
-              ref,
-              title: 'Dark Theme',
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: _buildThemeTile(
+              context: context,
+              t: t,
+              ref: ref,
+              title: 'Dark',
               icon: Icons.dark_mode_rounded,
               themeMode: ThemeMode.dark,
               isSelected: currentThemeMode == ThemeMode.dark,
+              previewWidget: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.12),
+                  ),
+                ),
+                child: Center(
+                  child: Container(
+                    width: 30,
+                    height: 6,
+                    decoration: BoxDecoration(
+                      color: Colors.amber.withValues(alpha: 0.4),
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                  ),
+                ),
+              ),
             ),
-            Divider(color: t.dividerCat.color, height: 1),
-            _buildThemeOption(
-              context,
-              t,
-              ref,
-              title: 'System Theme',
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: _buildThemeTile(
+              context: context,
+              t: t,
+              ref: ref,
+              title: 'System',
               icon: Icons.settings_suggest_rounded,
               themeMode: ThemeMode.system,
               isSelected: currentThemeMode == ThemeMode.system,
+              previewWidget: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: t.border.withValues(alpha: 0.2)),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(7),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(color: const Color(0xFFFDFBF7)),
+                      ),
+                      Expanded(child: Container(color: Colors.black)),
+                    ],
+                  ),
+                ),
+              ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildThemeOption(
-    BuildContext context,
-    TibebThemeExtension t,
-    WidgetRef ref, {
+  Widget _buildThemeTile({
+    required BuildContext context,
+    required TibebThemeExtension t,
+    required WidgetRef ref,
     required String title,
     required IconData icon,
     required ThemeMode themeMode,
     required bool isSelected,
+    required Widget previewWidget,
   }) {
-    return InkWell(
+    return GestureDetector(
       onTap: () {
         ref.read(themeModeProvider.notifier).setThemeMode(themeMode);
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        child: Row(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeInOut,
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: isSelected
+              ? t.primary.withValues(alpha: 0.08)
+              : t.surface.withValues(alpha: 0.35),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: isSelected ? t.primary : t.borderSubtle,
+            width: isSelected ? 2.0 : 1.0,
+          ),
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: t.primary.withValues(alpha: 0.12),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ]
+              : null,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              icon,
-              color: isSelected ? t.primary : t.textSecondary,
-              size: 24,
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Text(
-                title,
-                style: TextStyle(
-                  color: isSelected ? t.textPrimary : t.textSecondary,
-                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                  fontSize: 15,
+            previewWidget,
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  icon,
+                  size: 15,
+                  color: isSelected ? t.primary : t.textSecondary,
                 ),
-              ),
+                const SizedBox(width: 5),
+                Text(
+                  title,
+                  style: TextStyle(
+                    color: isSelected ? t.textPrimary : t.textSecondary,
+                    fontWeight: isSelected
+                        ? FontWeight.bold
+                        : FontWeight.normal,
+                    fontSize: 13,
+                  ),
+                ),
+              ],
             ),
-            if (isSelected)
-              Icon(Icons.check_circle_rounded, color: t.primary, size: 20),
           ],
         ),
       ),

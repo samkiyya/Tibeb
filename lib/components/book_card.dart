@@ -2,8 +2,8 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import '../core/theme/semantics/color_scheme.dart';
-import '../core/theme/tokens/radius.dart';
+import '../core/theme/theme.dart';
+
 import '../components/glass_container.dart';
 import '../models/book_model.dart';
 

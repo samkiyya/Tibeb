@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../models/book_model.dart';
 import '../../../models/reader_settings_model.dart';
-import '../../../core/theme/semantics/color_scheme.dart';
+import '../../../core/theme/theme.dart';
 
 class ReadingHeader extends StatelessWidget {
   final Book book;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import '../core/theme/semantics/color_scheme.dart';
-import '../core/theme/tokens/radius.dart';
-import '../core/theme/tokens/spacing.dart';
+import '../core/theme/theme.dart';
+
+
 
 class RankUpDialog extends StatelessWidget {
   final int level;

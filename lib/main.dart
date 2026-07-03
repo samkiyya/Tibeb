@@ -6,8 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:tibeb/core/theme/tibeb_theme.dart';
-import 'package:tibeb/core/theme/tibeb_theme_provider.dart';
+import 'package:tibeb/core/theme/theme.dart';
 import 'package:tibeb/screens/main_navigation.dart';
 import 'package:tibeb/services/notification_service.dart';
 

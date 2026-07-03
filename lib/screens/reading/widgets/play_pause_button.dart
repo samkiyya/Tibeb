@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/semantics/color_scheme.dart';
+import '../../../core/theme/theme.dart';
 
 class PlayPauseButton extends StatelessWidget {
   final ValueNotifier<bool> isPlayingNotifier;

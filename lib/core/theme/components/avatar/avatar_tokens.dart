@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../semantics/design_tokens.dart';
+import '../../foundation/foundation.dart';
 
 class TibebAvatarThemeTokens {
   final Color background;

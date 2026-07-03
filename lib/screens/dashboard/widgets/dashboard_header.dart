@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../../../core/theme/semantics/color_scheme.dart';
+import '../../../core/theme/theme.dart';
 import '../../../providers/library_provider.dart';
 
 class DashboardHeader extends ConsumerWidget {

@@ -1,6 +1,6 @@
 import 'dart:io' as io;
 import 'dart:async';
-import 'package:tibeb/core/theme/semantics/color_scheme.dart';
+import 'package:tibeb/core/theme/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart';
@@ -348,7 +348,6 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
     TutorialHelper.showTutorial(
       context: context,
       targets: targets,
-      colorShadow: context.tibpiColors.accent,
       onFinish: () {
         SharedPreferences.getInstance().then((prefs) {
           prefs.setBool('is_first_launch_reading', false);

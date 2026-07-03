@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../core/theme/semantics/color_scheme.dart';
-import '../core/theme/tokens/radius.dart';
+import '../core/theme/theme.dart';
+
 
 class ActivityGraph extends StatelessWidget {
   final Map<String, int> dailyValues;

@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import '../core/theme/semantics/color_scheme.dart';
-import '../core/theme/tokens/spacing.dart';
+import '../core/theme/theme.dart';
+
 import '../components/activity_graph.dart';
 import '../components/stat_badge.dart';
 import '../components/daily_activity_sheet.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../tokens/radius.dart';
+import '../../foundation/foundation.dart';
 import 'card_tokens.dart';
 
 class TibebCardTheme {

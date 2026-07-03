@@ -10,7 +10,7 @@ import '../../../models/bookmark_model.dart';
 import '../../../models/highlight_model.dart';
 import '../../../models/vocabulary_model.dart';
 import '../../../models/reader_settings_model.dart';
-import '../../../core/theme/semantics/color_scheme.dart';
+import '../../../core/theme/theme.dart';
 import './note_editor.dart';
 import './note_view.dart';
 import './share_quote_sheet.dart';

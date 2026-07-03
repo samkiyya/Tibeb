@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import '../core/rank/tibeb_rank.dart';
 import '../core/rank/tibeb_rank_extension.dart';
 import '../core/rank/tibeb_rank_repository.dart';
-import '../core/theme/semantics/color_scheme.dart';
-import '../core/theme/tokens/radius.dart';
-import '../core/theme/tokens/spacing.dart';
+import '../core/theme/theme.dart';
+
+
 
 class RankPathWidget extends StatelessWidget {
   final int currentLevel;

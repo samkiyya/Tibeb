@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as p;
-import '../core/theme/semantics/color_scheme.dart';
+import '../core/theme/theme.dart';
 
 class FileSelectionScreen extends StatefulWidget {
   final String directoryPath;

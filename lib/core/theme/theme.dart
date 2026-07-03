@@ -1,5 +1,6 @@
-export 'tibeb_theme.dart';
+export 'system/tibeb_theme.dart';
 export 'tibeb_theme_provider.dart';
-export 'semantics/theme_extension.dart';
+export 'system/theme_extensions.dart';
+export 'system/color_scheme.dart';
 export 'components/components.dart';
-export 'tokens/tokens.dart';
+export 'foundation/foundation.dart';

@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 import 'package:tibeb/core/rank/tibeb_rank.dart';
 import 'package:tibeb/core/rank/tibeb_rank_repository.dart';
-import 'package:tibeb/core/theme/semantics/color_scheme.dart';
+import 'package:tibeb/core/theme/theme.dart';
 import 'package:tibeb/components/glass_container.dart';
 import 'package:tibeb/providers/library_provider.dart';
 import 'package:tibeb/screens/dashboard_screen.dart';
@@ -155,7 +155,6 @@ class _MainNavigationState extends ConsumerState<MainNavigation> {
     TutorialHelper.showTutorial(
       context: context,
       targets: targets,
-      colorShadow: context.tibpiColors.primary,
       onClickTarget: (target) {
         if (target.identify == "library_target") {
           ref.read(navigationStateProvider.notifier).state = NavigationState(

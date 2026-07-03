@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/theme/semantics/color_scheme.dart';
-import '../../../core/theme/tokens/radius.dart';
+import '../../../core/theme/theme.dart';
+
 import '../../../models/book_model.dart';
 import '../../../providers/library_provider.dart';
 import '../../reading_screen.dart';

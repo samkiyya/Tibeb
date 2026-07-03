@@ -12,7 +12,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:android_intent_plus/android_intent.dart';
 import '../../../models/reader_settings_model.dart';
 import '../../../models/highlight_model.dart';
-import '../../../core/theme/semantics/color_scheme.dart';
+import '../../../core/theme/theme.dart';
 import 'share_quote_sheet.dart';
 import 'note_editor.dart';
 

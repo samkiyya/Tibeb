@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/semantics/color_scheme.dart';
-import '../../../core/theme/tokens/radius.dart';
+import '../../../core/theme/theme.dart';
+
 import '../../../providers/library_provider.dart';
 
 class AchievementBadge extends StatelessWidget {

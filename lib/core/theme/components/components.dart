@@ -1,3 +1,4 @@
+// UI Component Themes
 export 'app_bar/app_bar.dart';
 export 'navigation_bar/navigation_bar.dart';
 export 'navigation_rail/navigation_rail.dart';
@@ -26,3 +27,6 @@ export 'progress_indicator/progress_indicator.dart';
 export 'loading/loading.dart';
 export 'empty_state/empty_state.dart';
 export 'error_state/error_state.dart';
+
+// Feature Themes
+export 'features/features.dart';

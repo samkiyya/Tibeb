@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/semantics/color_scheme.dart';
+import '../../../core/theme/theme.dart';
 import '../../../components/glass_container.dart';
 import '../../../providers/library_provider.dart';
 

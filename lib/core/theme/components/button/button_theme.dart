@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../tokens/radius.dart';
-import '../../tokens/spacing.dart';
+import '../../foundation/foundation.dart';
 import 'button_tokens.dart';
 
 class TibebButtonTheme {

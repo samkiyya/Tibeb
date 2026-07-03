@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import '../core/theme/semantics/color_scheme.dart';
+import '../core/theme/theme.dart';
 
 class GoogleImageSearchScreen extends StatefulWidget {
   final String query;
