@@ -22,15 +22,15 @@ import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:battery_plus/battery_plus.dart';
 
-import './reading/widgets/reading_header.dart';
-import './reading/widgets/reading_search_overlay.dart';
-import './reading/widgets/reading_audio_section.dart';
-import './reading/widgets/play_pause_button.dart';
-import './reading/widgets/reading_bottom_controls.dart';
-import './reading/widgets/navigation_sheet.dart';
-import './reading/widgets/epub_view.dart';
-import './reading/widgets/pdf_view.dart';
-import './reading/widgets/reading_footer.dart';
+import '../widgets/reading/reading_header.dart';
+import '../widgets/reading/reading_search_overlay.dart';
+import '../widgets/reading/reading_audio_section.dart';
+import '../widgets/reading/play_pause_button.dart';
+import '../widgets/reading/reading_bottom_controls.dart';
+import '../widgets/reading/navigation_sheet.dart';
+import '../widgets/reading/epub_view.dart';
+import '../widgets/reading/pdf_view.dart';
+import '../widgets/reading/reading_footer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import '../utils/tutorial_helper.dart';
@@ -2078,15 +2078,15 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
     } finally {
       setState(() {
         _isSearchLoading = false;
-        _isSearchResultsCollapsed = false; // Show results on new search
+        _isSearchResultsCollapsed = false;
       });
     }
   }
 
   void _goToSearchResult(SearchResult result, Book book) {
     setState(() {
-      _activeSearchQuery = result.query; // Track the query for highlighting
-      _isSearchResultsCollapsed = true; // Collapse overlay on selection
+      _activeSearchQuery = result.query;
+      _isSearchResultsCollapsed = true;
 
       if (book.filePath.toLowerCase().endsWith('.pdf')) {
         if (result.pageIndex != _pdfCurrentPage) {
@@ -2159,30 +2159,39 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
             builder: (context, setDialogState) {
               return AlertDialog(
                 backgroundColor: context.tibpiColors.surface,
-                title: const Text(
+                title: Text(
                   'Export Annotations',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: context.tibpiColors.textPrimary),
                 ),
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text(
+                    Text(
                       'Ready to export all annotations as Markdown.',
-                      style: TextStyle(color: Colors.white70, fontSize: 14),
+                      style: TextStyle(
+                        color: context.tibpiColors.textSecondary,
+                        fontSize: 14,
+                      ),
                     ),
                     const SizedBox(height: 16),
                     CheckboxListTile(
-                      title: const Text(
+                      title: Text(
                         'Include Vocabulary List',
-                        style: TextStyle(color: Colors.white, fontSize: 14),
+                        style: TextStyle(
+                          color: context.tibpiColors.textPrimary,
+                          fontSize: 14,
+                        ),
                       ),
-                      subtitle: const Text(
+                      subtitle: Text(
                         'Add words you looked up in this book',
-                        style: TextStyle(color: Colors.white38, fontSize: 11),
+                        style: TextStyle(
+                          color: context.tibpiColors.textTertiary,
+                          fontSize: 11,
+                        ),
                       ),
                       value: includeVocab,
                       activeColor: context.tibpiColors.accent,
-                      checkColor: Colors.black,
+                      checkColor: context.tibpiColors.surface,
                       contentPadding: EdgeInsets.zero,
                       onChanged: (val) =>
                           setDialogState(() => includeVocab = val ?? true),
@@ -2192,9 +2201,11 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.pop(context, null),
-                    child: const Text(
+                    child: Text(
                       'CANCEL',
-                      style: TextStyle(color: Colors.white54),
+                      style: TextStyle(
+                        color: context.tibpiColors.textSecondary,
+                      ),
                     ),
                   ),
                   TextButton(

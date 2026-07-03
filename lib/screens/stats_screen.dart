@@ -8,11 +8,11 @@ import '../components/activity_graph.dart';
 import '../components/stat_badge.dart';
 import '../components/daily_activity_sheet.dart';
 import '../providers/library_provider.dart';
-import './stats/widgets/level_info_card.dart';
-import './stats/widgets/weekly_goal_card.dart';
-import './stats/widgets/achievements_grid.dart';
-import './stats/widgets/goal_settings_sheet.dart';
-import './stats/widgets/level_metadata_sheet.dart';
+import '../widgets/stats/level_info_card.dart';
+import '../widgets/stats/weekly_goal_card.dart';
+import '../widgets/stats/achievements_grid.dart';
+import '../widgets/stats/goal_settings_sheet.dart';
+import '../widgets/stats/level_metadata_sheet.dart';
 import '../components/daily_quests_card.dart';
 
 class StatsScreen extends ConsumerStatefulWidget {

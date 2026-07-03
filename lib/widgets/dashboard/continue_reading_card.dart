@@ -7,7 +7,7 @@ import '../../../core/theme/theme.dart';
 import '../../../components/glass_container.dart';
 import '../../../models/book_model.dart';
 import '../../../providers/library_provider.dart';
-import '../../reading_screen.dart';
+import '../../screens/reading_screen.dart';
 
 class ContinueReadingCard extends ConsumerStatefulWidget {
   final Book book;

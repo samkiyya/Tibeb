@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:tibeb/core/theme/theme.dart';
 
 /// A bottom sheet that shows themed quote card styles for sharing selected text.
 class ShareQuoteSheet extends StatefulWidget {
@@ -128,10 +129,12 @@ class _ShareQuoteSheetState extends State<ShareQuoteSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.tibpiColors;
+
     return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFF16171D),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      decoration: BoxDecoration(
+        color: t.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
       child: SafeArea(
         child: Column(
@@ -143,23 +146,23 @@ class _ShareQuoteSheetState extends State<ShareQuoteSheet> {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.white24,
+                color: t.borderSubtle,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
             const SizedBox(height: 16),
 
             // Title
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Row(
                 children: [
-                  Icon(Icons.format_quote, color: Color(0xFF2ECC71), size: 20),
-                  SizedBox(width: 8),
+                  Icon(Icons.format_quote, color: t.primary, size: 20),
+                  const SizedBox(width: 8),
                   Text(
                     'Share Quote',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: t.textPrimary,
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                     ),
@@ -219,7 +222,7 @@ class _ShareQuoteSheetState extends State<ShareQuoteSheet> {
                         border: Border.all(
                           color: isSelected
                               ? style.accentColor
-                              : Colors.white10,
+                              : t.borderSubtle,
                           width: isSelected ? 2 : 1,
                         ),
                       ),
@@ -258,19 +261,19 @@ class _ShareQuoteSheetState extends State<ShareQuoteSheet> {
                 child: ElevatedButton.icon(
                   onPressed: _isSharing ? null : _shareCard,
                   icon: _isSharing
-                      ? const SizedBox(
+                      ? SizedBox(
                           width: 18,
                           height: 18,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: Colors.black,
+                            color: t.textOnPrimary,
                           ),
                         )
                       : const Icon(Icons.share, size: 20),
                   label: Text(_isSharing ? 'Preparing...' : 'Share'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF2ECC71),
-                    foregroundColor: Colors.black,
+                    backgroundColor: t.primary,
+                    foregroundColor: t.textOnPrimary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -534,6 +537,7 @@ class _ShareQuoteSheetState extends State<ShareQuoteSheet> {
   }
 
   Widget _buildLayoutOption(int index, IconData icon, String label) {
+    final t = context.tibpiColors;
     final isSelected = _selectedLayout == index;
     return Expanded(
       child: GestureDetector(
@@ -543,11 +547,11 @@ class _ShareQuoteSheetState extends State<ShareQuoteSheet> {
           padding: const EdgeInsets.symmetric(vertical: 8),
           decoration: BoxDecoration(
             color: isSelected
-                ? const Color(0xFF2ECC71).withValues(alpha: 0.15)
+                ? t.primary.withValues(alpha: 0.15)
                 : Colors.transparent,
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
-              color: isSelected ? const Color(0xFF2ECC71) : Colors.white10,
+              color: isSelected ? t.primary : t.borderSubtle,
               width: isSelected ? 1.5 : 1,
             ),
           ),
@@ -556,18 +560,14 @@ class _ShareQuoteSheetState extends State<ShareQuoteSheet> {
             children: [
               Icon(
                 icon,
-                color: isSelected
-                    ? const Color(0xFF2ECC71)
-                    : const Color(0xFF94A3B8),
+                color: isSelected ? t.primary : t.textSecondary,
                 size: 18,
               ),
               const SizedBox(width: 6),
               Text(
                 label,
                 style: TextStyle(
-                  color: isSelected
-                      ? const Color(0xFF2ECC71)
-                      : const Color(0xFF94A3B8),
+                  color: isSelected ? t.primary : t.textSecondary,
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
                 ),
