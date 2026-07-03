@@ -1,9 +1,17 @@
-# 🔬 Tibeb — Production-Level Engineering Audit
+# 🔬 Tibeb — Production-Level Engineering Audit (v1 — Superseded)
 
-> **Auditor Perspective:** Principal Software Architect, Senior Mobile Engineer, UX Expert, Product Manager, Technical Auditor  
-> **Date:** 2026-07-03  
-> **Flutter SDK:** ^3.10.7 | **Dart:** 3.10.7 | **Platform:** Android (primary)  
-> **Codebase:** 78 Dart files | 17,885 LOC | 3 services | 2 providers | 7 models | 14 reading widgets  
+> ⚠️ **This document has been superseded.**
+> A complete, corrected, and expanded audit is in **[TIBEB_COMPREHENSIVE_AUDIT.md](./TIBEB_COMPREHENSIVE_AUDIT.md)**.
+> Key corrections vs this document: 18 achievements (not 15), brand color palette fully documented,
+> additional gaps documented (sleep timer, Amharic font, highlight tags, hyphenation),
+> all false claims removed, gamification accuracy improved.
+
+---
+
+> **Auditor Perspective:** Principal Software Architect, Senior Mobile Engineer, UX Expert, Product Manager, Technical Auditor
+> **Date:** 2026-07-03
+> **Flutter SDK:** ^3.10.7 | **Dart:** 3.10.7 | **Platform:** Android (primary)
+> **Codebase:** 78 Dart files | ~18,000 LOC | 3 services | 2 providers | 7 models | 14 reading widgets
 > **Benchmark:** Kindle · Readwise Reader · Obsidian · Audible · Kobo · Moon+ Reader
 
 ---
@@ -44,7 +52,7 @@
 | **CI/CD** | 0/10 | No pipeline, no linting enforcement, no automated builds |
 
 ### Major Strengths
-- **Gamification System:** XP, streaks, 6 Ge'ez-themed ranks, daily quests with weekend 2× multiplier, 15 achievements — a genuine differentiator among reading apps.
+- **Gamification System:** XP, streaks, 6 Ge'ez-themed ranks, daily quests with weekend 2× multiplier, **18 achievements** — a genuine differentiator among reading apps.
 - **EPUB Rendering:** Full HTML injection with custom CSS into a vertical `PageView.builder`, supporting 4 themes (white/cream/dark/AMOLED), 4 typefaces, adjustable line height.
 - **PDF Rendering:** `pdfrx` with `ColorFilter` for theme-aware rendering, full-text search via `PdfTextSearcher`, multi-page navigation.
 - **Audio Integration:** Multi-track `ConcatenatingAudioSource`, variable speed, track reordering, auto-save every 10 seconds.
