@@ -1,18 +1,10 @@
 import 'package:flutter/material.dart';
 import 'design_tokens.dart';
 import 'feature_themes.dart';
-import '../components/navigation.dart';
-import '../components/inputs.dart';
-import '../components/controls.dart';
-import '../components/containers.dart';
-import '../components/indicators.dart';
+import '../components/components.dart';
 
 export 'design_tokens.dart';
-export '../components/navigation.dart';
-export '../components/inputs.dart';
-export '../components/controls.dart';
-export '../components/containers.dart';
-export '../components/indicators.dart';
+export '../components/components.dart';
 export 'feature_themes.dart';
 
 part 'theme_extension_builders.dart';
