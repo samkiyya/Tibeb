@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../models/reader_settings_model.dart';
 import '../../../models/book_model.dart';
-import '../../../core/constants.dart';
+import '../../../core/theme/semantics/color_scheme.dart';
 
 class ReadingAudioSection extends StatelessWidget {
   final ReaderSettings settings;
@@ -54,9 +54,9 @@ class ReadingAudioSection extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: SliderTheme(
             data: SliderThemeData(
-              activeTrackColor: TibebConstants.accent,
+              activeTrackColor: context.tibpiColors.accent,
               inactiveTrackColor: settings.textColor.withValues(alpha: 0.1),
-              thumbColor: TibebConstants.accent,
+              thumbColor: context.tibpiColors.accent,
               thumbShape: RoundSliderThumbShape(
                 enabledThumbRadius: isOrientationLandscape ? 4 : 6,
               ),

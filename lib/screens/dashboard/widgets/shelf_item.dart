@@ -1,7 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/constants.dart';
+import '../../../core/theme/semantics/color_scheme.dart';
+import '../../../core/theme/tokens/radius.dart';
 import '../../../models/book_model.dart';
 import '../../../providers/library_provider.dart';
 import '../../reading_screen.dart';
@@ -27,6 +28,7 @@ class _ShelfItemState extends ConsumerState<ShelfItem> {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.tibpiColors;
     return GestureDetector(
       onTapDown: (details) {
         setState(() {
@@ -53,12 +55,12 @@ class _ShelfItemState extends ConsumerState<ShelfItem> {
                 width: 100,
                 height: 140,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: TibebConstants.surface,
-                  boxShadow: TibebConstants.cardShadow,
+                  borderRadius: TibebRadius.borderMd,
+                  color: t.surfaceOverlay,
+                  boxShadow: t.card.shadow,
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: TibebRadius.borderMd,
                   child: widget.book.coverPath.startsWith('assets')
                       ? Image.asset(
                           widget.book.coverPath,
@@ -99,17 +101,17 @@ class _ShelfItemState extends ConsumerState<ShelfItem> {
                       });
                     },
                     onTap: () => widget.onMenuPressed!(_tapPosition),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: TibebRadius.borderPill,
                     child: Container(
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
-                        color: Colors.black45,
+                        color: t.scrim.withValues(alpha: 0.45),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
                         Icons.more_vert,
                         size: 16,
-                        color: Colors.white,
+                        color: t.textOnPrimary,
                       ),
                     ),
                   ),
@@ -121,8 +123,8 @@ class _ShelfItemState extends ConsumerState<ShelfItem> {
             width: 100,
             child: Text(
               widget.book.title,
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: t.textPrimary,
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
               ),

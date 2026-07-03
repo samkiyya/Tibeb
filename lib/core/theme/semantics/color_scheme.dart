@@ -1,30 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:tibeb/core/theme/tokens/colors.dart';
+import 'theme_extension.dart';
+export 'theme_extension.dart';
 
-class TibebColorScheme {
-  static ColorScheme dark() {
-    return ColorScheme(
-      brightness: Brightness.dark,
-      surface: TibebColors.surface,
+/// Tibeb Design System — BuildContext Extensions
+///
+/// Provides ergonomic access to theme tokens from any widget.
+///
+/// Usage:
+/// ```dart
+/// final colors = context.tibpiColors;
+/// Container(color: colors.surface);
+/// Text('Hello', style: context.textTheme.titleLarge);
+/// ```
+extension TibebContextX on BuildContext {
+  /// Access the full Tibeb semantic color system.
+  /// This is the PRIMARY way to reference colors in all widgets.
+  TibebThemeExtension get tibpiColors =>
+      Theme.of(this).extension<TibebThemeExtension>()!;
 
-      primary: TibebColors.wisdom,
-      onPrimary: Colors.black,
+  /// Access the Material ColorScheme (for Material components).
+  ColorScheme get colorScheme => Theme.of(this).colorScheme;
 
-      secondary: TibebColors.blue,
-      onSecondary: Colors.white,
+  /// Access the text theme.
+  TextTheme get textTheme => Theme.of(this).textTheme;
 
-      error: TibebColors.error,
-      onError: Colors.white,
-      onSurface: TibebColors.paper,
+  /// Current brightness (light or dark).
+  Brightness get brightness => Theme.of(this).brightness;
 
-      outline: Colors.white12,
-    );
-  }
-
-  static ColorScheme light() {
-    return ColorScheme.fromSeed(
-      seedColor: TibebColors.wisdom,
-      brightness: Brightness.light,
-    );
-  }
+  /// Whether the current theme is dark.
+  bool get isDark => brightness == Brightness.dark;
 }

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/book_model.dart';
 import '../providers/library_provider.dart';
-import '../core/constants.dart';
+import '../core/theme/semantics/color_scheme.dart';
+import '../core/theme/tokens/radius.dart';
 import 'google_image_search_screen.dart';
 import '../services/book_service.dart';
 import 'package:file_picker/file_picker.dart';
@@ -70,7 +71,6 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
           : _tagsController.text.trim(),
       coverPath: _newCoverPath ?? widget.book.coverPath,
       audioTracks: _audioTracks,
-      // If we have tracks, we can optionally clear the single audioPath or keep it as the first one
       audioPath: _audioTracks.isNotEmpty ? _audioTracks.first.path : null,
     );
 
@@ -122,14 +122,17 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
       });
 
       if (duplicatesCount > 0 && mounted) {
+        final t = context.tibpiColors;
         ScaffoldMessenger.of(context)
           ..clearSnackBars()
           ..showSnackBar(
             SnackBar(
+              backgroundColor: t.surface,
               content: Text(
                 duplicatesCount == result.paths.length
                     ? 'All selected files are already in this book.'
                     : 'Skipped $duplicatesCount duplicate files.',
+                style: TextStyle(color: t.textPrimary),
               ),
             ),
           );
@@ -139,13 +142,25 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.tibpiColors;
     return Scaffold(
+      backgroundColor: t.background,
       appBar: AppBar(
-        title: const Text('Edit Book'),
-        actions: [IconButton(icon: const Icon(Icons.check), onPressed: _save)],
+        backgroundColor: t.background,
+        elevation: 0,
+        title: Text(
+          'Edit Book',
+          style: TextStyle(color: t.textPrimary, fontWeight: FontWeight.bold),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.check, color: t.primary),
+            onPressed: _save,
+          ),
+        ],
       ),
       body: ReorderableListView.builder(
-        padding: const EdgeInsets.all(TibebConstants.horizontalPadding),
+        padding: const EdgeInsets.all(20),
         onReorderItem: (oldIndex, newIndex) {
           setState(() {
             if (oldIndex < newIndex) {
@@ -158,26 +173,30 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
         header: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildTextField('Title', _titleController),
+            _buildTextField(t, 'Title', _titleController),
             const SizedBox(height: 20),
-            _buildTextField('Author', _authorController),
+            _buildTextField(t, 'Author', _authorController),
             const SizedBox(height: 20),
-            _buildTextField('Series', _seriesController),
+            _buildTextField(t, 'Series', _seriesController),
             const SizedBox(height: 20),
-            _buildTextField('Tags (comma separated)', _tagsController),
+            _buildTextField(t, 'Tags (comma separated)', _tagsController),
             const SizedBox(height: 30),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
+                Text(
                   'Audiobook Parts',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: t.textPrimary,
+                  ),
                 ),
                 if (_audioTracks.isNotEmpty)
                   Text(
                     '${_audioTracks.length} items',
                     style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.5),
+                      color: t.textSecondary,
                       fontSize: 12,
                     ),
                   ),
@@ -185,11 +204,11 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
             ),
             const SizedBox(height: 10),
             if (_audioTracks.isEmpty)
-              const Padding(
-                padding: EdgeInsets.only(bottom: 20),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
                 child: Text(
                   'No audio parts attached.',
-                  style: TextStyle(color: Colors.white54),
+                  style: TextStyle(color: t.textSecondary),
                 ),
               ),
           ],
@@ -200,13 +219,24 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
             const SizedBox(height: 10),
             OutlinedButton.icon(
               onPressed: _pickAudioTracks,
+              style: OutlinedButton.styleFrom(
+                foregroundColor: t.primary,
+                side: BorderSide(color: t.primary.withValues(alpha: 0.5)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: TibebRadius.borderMd,
+                ),
+              ),
               icon: const Icon(Icons.add),
               label: const Text('Add Parts'),
             ),
             const SizedBox(height: 40),
-            const Text(
+            Text(
               'Book Cover',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: t.textPrimary,
+              ),
             ),
             const SizedBox(height: 10),
             if (_newCoverPath != null && _newCoverPath!.isNotEmpty)
@@ -248,6 +278,13 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
                 Expanded(
                   child: OutlinedButton.icon(
                     onPressed: _pickCoverFromFile,
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: t.primary,
+                      side: BorderSide(color: t.primary.withValues(alpha: 0.5)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: TibebRadius.borderMd,
+                      ),
+                    ),
                     icon: const Icon(Icons.file_upload_outlined),
                     label: const Text('Pick from file'),
                   ),
@@ -276,6 +313,13 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
                         }
                       }
                     },
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: t.primary,
+                      side: BorderSide(color: t.primary.withValues(alpha: 0.5)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: TibebRadius.borderMd,
+                      ),
+                    ),
                     icon: const Icon(Icons.image_search),
                     label: const Text('Search online'),
                   ),
@@ -290,19 +334,20 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
           final track = _audioTracks[index];
           return Card(
             key: ValueKey(track.path + index.toString()),
-            color: TibebConstants.surface,
+            color: t.surface,
+            shape: RoundedRectangleBorder(borderRadius: TibebRadius.borderMd),
             margin: const EdgeInsets.only(bottom: 8),
             child: ListTile(
               dense: true,
               title: Text(
                 track.title,
-                style: const TextStyle(color: Colors.white),
+                style: TextStyle(color: t.textPrimary),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
               subtitle: Text(
                 p.basename(track.path),
-                style: const TextStyle(color: Colors.white54, fontSize: 12),
+                style: TextStyle(color: t.textSecondary, fontSize: 12),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -310,14 +355,14 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.delete, color: Colors.redAccent),
+                    icon: Icon(Icons.delete, color: t.error),
                     onPressed: () {
                       setState(() {
                         _audioTracks.removeAt(index);
                       });
                     },
                   ),
-                  const Icon(Icons.drag_handle, color: Colors.white54),
+                  Icon(Icons.drag_handle, color: t.textSecondary),
                 ],
               ),
             ),
@@ -327,20 +372,20 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
     );
   }
 
-  Widget _buildTextField(String label, TextEditingController controller) {
+  Widget _buildTextField(TibebThemeExtension t, String label, TextEditingController controller) {
     return TextField(
       controller: controller,
-      style: const TextStyle(color: Colors.white),
+      style: TextStyle(color: t.textPrimary),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: const TextStyle(color: Colors.white70),
+        labelStyle: TextStyle(color: t.textSecondary),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Colors.white24),
+          borderRadius: TibebRadius.borderMd,
+          borderSide: BorderSide(color: t.borderSubtle),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: TibebConstants.accent),
+          borderRadius: TibebRadius.borderMd,
+          borderSide: BorderSide(color: t.primary),
         ),
       ),
     );

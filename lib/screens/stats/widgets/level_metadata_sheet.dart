@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants.dart';
+import '../../../core/theme/semantics/color_scheme.dart';
 import '../../../components/glass_container.dart';
 import '../../../providers/library_provider.dart';
 
@@ -10,6 +11,7 @@ class LevelMetadataSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.tibpiColors;
     final ranks = TibebConstants.ranks;
 
     return GlassContainer(
@@ -20,33 +22,33 @@ class LevelMetadataSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               'Reading Ranks',
-              style: TextStyle(
+              style: context.textTheme.titleMedium?.copyWith(
                 fontSize: 22,
                 fontWeight: FontWeight.w900,
-                color: Colors.white,
+                color: t.textPrimary,
               ),
             ),
             const SizedBox(height: 8),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
-                color: TibebConstants.accent.withValues(alpha: 0.1),
+                color: t.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color: TibebConstants.accent.withValues(alpha: 0.2),
+                  color: t.primary.withValues(alpha: 0.2),
                 ),
               ),
               child: Row(
                 children: [
-                  Icon(Icons.bolt, color: TibebConstants.accent, size: 16),
+                  Icon(Icons.bolt, color: t.primary, size: 16),
                   const SizedBox(width: 8),
-                  const Expanded(
+                  Expanded(
                     child: Text(
                       'Earn XP: PDF (10/page), EPUB (40/chapter) + 5 XP/min. Every 1000 XP = 1 Level!',
                       style: TextStyle(
-                        color: Colors.white70,
+                        color: t.textSecondary,
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                       ),
@@ -56,10 +58,10 @@ class LevelMetadataSheet extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            ...ranks.map((t) {
+            ...ranks.map((rank) {
               final bool isReached =
-                  state.level >= t.level &&
-                  state.unlockedAchievements.length >= t.achievementsRequired;
+                  state.level >= rank.level &&
+                  state.unlockedAchievements.length >= rank.achievementsRequired;
               return Padding(
                 padding: const EdgeInsets.only(bottom: 16),
                 child: Row(
@@ -70,19 +72,19 @@ class LevelMetadataSheet extends StatelessWidget {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: isReached
-                            ? TibebConstants.accent.withValues(alpha: 0.1)
-                            : Colors.white.withValues(alpha: 0.05),
+                            ? t.primary.withValues(alpha: 0.1)
+                            : t.glass,
                         border: Border.all(
                           color: isReached
-                              ? TibebConstants.accent
-                              : Colors.white10,
+                              ? t.primary
+                              : t.borderSubtle,
                         ),
                       ),
                       child: Center(
                         child: Text(
-                          '${t.level}',
+                          '${rank.level}',
                           style: TextStyle(
-                            color: isReached ? Colors.white : Colors.white54,
+                            color: isReached ? t.textPrimary : t.textSecondary,
                             fontWeight: FontWeight.bold,
                             fontSize: 12,
                           ),
@@ -95,19 +97,19 @@ class LevelMetadataSheet extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            t.name,
+                            rank.name,
                             style: TextStyle(
-                              color: isReached ? Colors.white : Colors.white54,
+                              color: isReached ? t.textPrimary : t.textSecondary,
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
                             ),
                           ),
                           Text(
-                            'Level ${t.level}+ • ${t.achievementsRequired} Achievements\n${t.description}',
+                            'Level ${rank.level}+ • ${rank.achievementsRequired} Achievements\n${rank.description}',
                             style: TextStyle(
                               color: isReached
-                                  ? TibebConstants.textSecondary
-                                  : Colors.white30,
+                                  ? t.textSecondary
+                                  : t.textSecondary.withValues(alpha: 0.5),
                               fontSize: 11,
                             ),
                           ),
@@ -117,7 +119,7 @@ class LevelMetadataSheet extends StatelessWidget {
                     if (isReached)
                       Icon(
                         Icons.check_circle,
-                        color: TibebConstants.accent,
+                        color: t.success,
                         size: 18,
                       ),
                   ],

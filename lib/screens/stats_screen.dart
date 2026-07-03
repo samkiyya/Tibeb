@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../core/constants.dart';
+import '../core/theme/semantics/color_scheme.dart';
+import '../core/theme/tokens/spacing.dart';
 import '../components/glass_container.dart';
 import '../components/activity_graph.dart';
 import '../components/stat_badge.dart';
@@ -25,27 +26,23 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
   String _selectedMonth = DateFormat('MMMM yyyy').format(DateTime.now());
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final libraryState = ref.watch(libraryProvider);
+    final t = context.tibpiColors;
 
     return Scaffold(
-      backgroundColor: TibebConstants.background,
+      backgroundColor: t.background,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(TibebSpacing.base),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 'Reading Stats',
-                style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                style: context.textTheme.displaySmall?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: t.textPrimary,
                 ),
               ),
               const SizedBox(height: 24),
@@ -54,7 +51,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                 onTap: () => _showLevelMetadata(context, libraryState),
               ),
               const SizedBox(height: 32),
-              _buildQuickStats(context, libraryState),
+              _buildQuickStats(context, t, libraryState),
               const SizedBox(height: 32),
               WeeklyGoalCard(
                 state: libraryState,
@@ -68,16 +65,17 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                 children: [
                   Text(
                     'Reading Activity',
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    style: context.textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
+                      color: t.textPrimary,
                     ),
                   ),
                   TextButton.icon(
-                    onPressed: () => _showMonthPicker(context),
+                    onPressed: () => _showMonthPicker(context, t),
                     icon: const Icon(Icons.calendar_month, size: 18),
                     label: Text(_selectedMonth),
                     style: TextButton.styleFrom(
-                      foregroundColor: TibebConstants.accent,
+                      foregroundColor: t.primary,
                     ),
                   ),
                 ],
@@ -114,12 +112,12 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
     );
   }
 
-  Widget _buildQuickStats(BuildContext context, LibraryState state) {
+  Widget _buildQuickStats(BuildContext context, TibebThemeExtension t, LibraryState state) {
     final Color streakColor = state.isStreakActiveToday
         ? (state.currentStreak >= 30
-            ? Colors.amber
-            : (state.currentStreak >= 7 ? Colors.orange : Colors.redAccent))
-        : TibebConstants.textSecondary;
+            ? t.xpGold
+            : (state.currentStreak >= 7 ? t.streakFire : t.primary))
+        : t.textSecondary;
 
     return Row(
       children: [
@@ -137,7 +135,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
             label: 'Pages',
             value: '${state.totalPagesRead}',
             icon: Icons.auto_stories,
-            color: TibebConstants.accentGreen,
+            color: t.success,
           ),
         ),
         const SizedBox(width: 12),
@@ -146,7 +144,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
             label: 'Minutes',
             value: '${state.totalMinutesRead}',
             icon: Icons.timer,
-            color: Colors.orangeAccent,
+            color: t.streakFire,
           ),
         ),
       ],
@@ -182,11 +180,10 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
     );
   }
 
-  void _showMonthPicker(BuildContext context) {
+  void _showMonthPicker(BuildContext context, TibebThemeExtension t) {
     final state = ref.read(libraryProvider);
     final sessions = state.dailyReadingValues.keys.toList();
 
-    // Generate month list from session dates
     final Set<String> availableMonthsSet = {};
     availableMonthsSet.add(DateFormat('MMMM yyyy').format(DateTime.now()));
 
@@ -201,7 +198,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
       ..sort((a, b) {
         final dateA = DateFormat('MMMM yyyy').parse(a);
         final dateB = DateFormat('MMMM yyyy').parse(b);
-        return dateB.compareTo(dateA); // Descending
+        return dateB.compareTo(dateA);
       });
 
     showModalBottomSheet(
@@ -218,14 +215,17 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: Colors.white24,
+                  color: t.borderSubtle,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
               const SizedBox(height: 20),
-              const Text(
+              Text(
                 'Select Month',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: context.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: t.textPrimary,
+                ),
               ),
               const SizedBox(height: 12),
               Flexible(
@@ -239,15 +239,15 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                         m,
                         style: TextStyle(
                           color: _selectedMonth == m
-                              ? TibebConstants.accent
-                              : Colors.white,
+                              ? t.primary
+                              : t.textPrimary,
                           fontWeight: _selectedMonth == m
                               ? FontWeight.bold
                               : FontWeight.normal,
                         ),
                       ),
                       trailing: _selectedMonth == m
-                          ? Icon(Icons.check, color: TibebConstants.accent)
+                          ? Icon(Icons.check, color: t.primary)
                           : null,
                       onTap: () {
                         setState(() => _selectedMonth = m);

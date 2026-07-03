@@ -1,5 +1,5 @@
-import 'package:tibeb/core/tibeb_rank_data.dart';
-import 'package:tibeb/core/tibeb_rank.dart';
+import 'package:tibeb/core/rank/tibeb_rank_data.dart';
+import 'package:tibeb/core/rank/tibeb_rank.dart';
 
 
 class TibebRankRepository {

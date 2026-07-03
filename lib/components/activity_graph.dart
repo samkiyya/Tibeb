@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../core/constants.dart';
+import '../core/theme/semantics/color_scheme.dart';
+import '../core/theme/tokens/radius.dart';
 
 class ActivityGraph extends StatelessWidget {
   final Map<String, int> dailyValues;
@@ -20,6 +21,8 @@ class ActivityGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.tibpiColors;
+
     // Parse selected month and year
     final DateFormat formatter = DateFormat('MMMM yyyy');
     final DateTime targetDate = formatter.parse(selectedMonth);
@@ -43,7 +46,7 @@ class ActivityGraph extends StatelessWidget {
               child: Center(
                 child: Text(
                   d,
-                  style: const TextStyle(color: Colors.white38, fontSize: 10),
+                  style: TextStyle(color: t.textTertiary, fontSize: 10),
                 ),
               ),
             );
@@ -79,6 +82,8 @@ class ActivityGraph extends StatelessWidget {
   }
 
   Widget _buildDayCell(BuildContext context, int day, int value) {
+    final t = context.tibpiColors;
+
     int level = 0;
     if (value > 0) {
       final double dailyGoal = weeklyGoalValue / 7.0;
@@ -93,7 +98,7 @@ class ActivityGraph extends StatelessWidget {
       }
     }
 
-    final Color bgColor = TibebConstants.graphColors[level];
+    final Color bgColor = t.graphLevels[level];
     final bool hasActivity = value > 0;
     final String label = value >= 1000
         ? '${(value / 1000).toStringAsFixed(1)}k'
@@ -103,10 +108,10 @@ class ActivityGraph extends StatelessWidget {
       decoration: BoxDecoration(
         color: hasActivity
             ? bgColor.withValues(alpha: 0.8)
-            : Colors.white.withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(8),
+            : t.glass,
+        borderRadius: TibebRadius.borderSm,
         border: Border.all(
-          color: hasActivity ? bgColor : Colors.white.withValues(alpha: 0.05),
+          color: hasActivity ? bgColor : t.borderSubtle,
           width: 0.5,
         ),
       ),
@@ -116,7 +121,7 @@ class ActivityGraph extends StatelessWidget {
           Text(
             '$day',
             style: TextStyle(
-              color: hasActivity ? Colors.black : Colors.white38,
+              color: hasActivity ? t.textOnPrimary : t.textTertiary,
               fontSize: 12,
               fontWeight: FontWeight.bold,
             ),
@@ -124,8 +129,8 @@ class ActivityGraph extends StatelessWidget {
           if (hasActivity)
             Text(
               '$label${weeklyGoalType == 'pages' ? 'p' : (weeklyGoalType == 'minutes' ? 'm' : 'x')}',
-              style: const TextStyle(
-                color: Colors.black87,
+              style: TextStyle(
+                color: hasActivity ? t.textOnPrimary.withValues(alpha: 0.87) : t.textTertiary,
                 fontSize: 8,
                 fontWeight: FontWeight.w500,
               ),

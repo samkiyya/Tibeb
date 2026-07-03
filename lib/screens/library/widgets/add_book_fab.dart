@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/constants.dart';
+import '../../../core/theme/semantics/color_scheme.dart';
 
 class AddBookFab extends StatelessWidget {
   final VoidCallback onPressed;
@@ -11,11 +11,12 @@ class AddBookFab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.tibpiColors;
     return FloatingActionButton(
       heroTag: 'fab-add',
       onPressed: onPressed,
-      backgroundColor: TibebConstants.accent,
-      child: const Icon(Icons.add, color: Colors.black, size: 28),
+      backgroundColor: t.primary,
+      child: Icon(Icons.add, color: t.textOnPrimary, size: 28),
     );
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../core/constants.dart';
+import '../core/theme/semantics/color_scheme.dart';
 import '../providers/library_provider.dart';
 import '../components/glass_container.dart';
 import '../services/notification_service.dart';
@@ -15,19 +15,20 @@ class SettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(libraryProvider);
     final notifier = ref.read(libraryProvider.notifier);
+    final t = context.tibpiColors;
 
     return Scaffold(
-      backgroundColor: TibebConstants.background,
+      backgroundColor: t.background,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            backgroundColor: TibebConstants.background.withValues(alpha: 0.8),
+            backgroundColor: t.background.withValues(alpha: 0.8),
             floating: true,
-            title: const Text(
+            title: Text(
               'Settings',
-              style: TextStyle(
+              style: context.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: t.textPrimary,
               ),
             ),
             centerTitle: true,
@@ -36,16 +37,16 @@ class SettingsScreen extends ConsumerWidget {
           SliverList(
             delegate: SliverChildListDelegate([
               const SizedBox(height: 20),
-              _buildSectionHeader('Engagement'),
-              _buildEngagementCard(state),
+              _buildSectionHeader(t, 'Engagement'),
+              _buildEngagementCard(t, state),
               const SizedBox(height: 24),
-              _buildSectionHeader('Notifications'),
-              _buildNotificationToggles(context, state, notifier),
+              _buildSectionHeader(t, 'Notifications'),
+              _buildNotificationToggles(context, t, state, notifier),
               const SizedBox(height: 48),
-              _buildSectionHeader('More'),
-              _buildMoreCard(context),
+              _buildSectionHeader(t, 'More'),
+              _buildMoreCard(t),
               const SizedBox(height: 48),
-              _buildAboutSection(),
+              _buildAboutSection(t),
               const SizedBox(height: 120),
             ]),
           ),
@@ -54,13 +55,13 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildSectionHeader(String title) {
+  Widget _buildSectionHeader(TibebThemeExtension t, String title) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       child: Text(
         title.toUpperCase(),
         style: TextStyle(
-          color: TibebConstants.accent.withValues(alpha: 0.8),
+          color: t.primary.withValues(alpha: 0.8),
           fontSize: 12,
           fontWeight: FontWeight.bold,
           letterSpacing: 1.2,
@@ -69,7 +70,7 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildEngagementCard(LibraryState state) {
+  Widget _buildEngagementCard(TibebThemeExtension t, LibraryState state) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: GlassContainer(
@@ -81,12 +82,12 @@ class SettingsScreen extends ConsumerWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: TibebConstants.accent.withValues(alpha: 0.1),
+                    color: t.primary.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.stars_rounded,
-                    color: TibebConstants.accent,
+                    color: t.primary,
                     size: 28,
                   ),
                 ),
@@ -97,8 +98,8 @@ class SettingsScreen extends ConsumerWidget {
                     children: [
                       Text(
                         'Level ${state.level}',
-                        style: const TextStyle(
-                          color: Colors.white,
+                        style: TextStyle(
+                          color: t.textPrimary,
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
@@ -106,7 +107,7 @@ class SettingsScreen extends ConsumerWidget {
                       Text(
                         state.rankName,
                         style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.6),
+                          color: t.textSecondary,
                           fontSize: 14,
                         ),
                       ),
@@ -118,16 +119,16 @@ class SettingsScreen extends ConsumerWidget {
                   children: [
                     Text(
                       '${state.totalXP}',
-                      style: const TextStyle(
-                        color: TibebConstants.accent,
+                      style: TextStyle(
+                        color: t.primary,
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const Text(
+                    Text(
                       'TOTAL XP',
                       style: TextStyle(
-                        color: Colors.white38,
+                        color: t.textTertiary,
                         fontSize: 10,
                         fontWeight: FontWeight.bold,
                       ),
@@ -144,6 +145,7 @@ class SettingsScreen extends ConsumerWidget {
 
   Widget _buildNotificationToggles(
     BuildContext context,
+    TibebThemeExtension t,
     LibraryState state,
     LibraryNotifier notifier,
   ) {
@@ -156,15 +158,15 @@ class SettingsScreen extends ConsumerWidget {
               value: state.notificationsEnabled,
               onChanged: (val) =>
                   notifier.updateNotificationSettings(enabled: val),
-              title: const Text(
+              title: Text(
                 'Daily Reminders',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: t.textPrimary),
               ),
               subtitle: Text(
                 'Keep your reading streak alive',
-                style: TextStyle(color: Colors.white.withValues(alpha: 0.5)),
+                style: TextStyle(color: t.textSecondary),
               ),
-              activeThumbColor: TibebConstants.accent,
+              activeColor: t.primary,
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 16,
                 vertical: 8,
@@ -172,25 +174,25 @@ class SettingsScreen extends ConsumerWidget {
             ),
             if (state.notificationsEnabled)
               ListTile(
-                title: const Text(
+                title: Text(
                   'Reminder Time',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: t.textPrimary),
                 ),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       '${state.reminderHour.toString().padLeft(2, '0')}:${state.reminderMinute.toString().padLeft(2, '0')}',
-                      style: const TextStyle(
-                        color: TibebConstants.accent,
+                      style: TextStyle(
+                        color: t.primary,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
                     ),
                     const SizedBox(width: 8),
-                    const Icon(
+                    Icon(
                       Icons.chevron_right_rounded,
-                      color: Colors.white24,
+                      color: t.borderSubtle,
                     ),
                   ],
                 ),
@@ -204,11 +206,11 @@ class SettingsScreen extends ConsumerWidget {
                     builder: (context, child) {
                       return Theme(
                         data: Theme.of(context).copyWith(
-                          colorScheme: const ColorScheme.dark(
-                            primary: TibebConstants.accent,
-                            onPrimary: Colors.black,
-                            surface: TibebConstants.surface,
-                            onSurface: Colors.white,
+                          colorScheme: ColorScheme.dark(
+                            primary: t.primary,
+                            onPrimary: t.textOnPrimary,
+                            surface: t.surface,
+                            onSurface: t.textPrimary,
                           ),
                         ),
                         child: child!,
@@ -223,18 +225,18 @@ class SettingsScreen extends ConsumerWidget {
                   }
                 },
               ),
-            Divider(color: Colors.white.withValues(alpha: 0.1), height: 1),
+            Divider(color: t.borderSubtle, height: 1),
             ListTile(
-              leading: const Icon(Icons.notification_important_rounded, color: TibebConstants.accent),
-              title: const Text(
+              leading: Icon(Icons.notification_important_rounded, color: t.primary),
+              title: Text(
                 'Test Notification',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: t.textPrimary),
               ),
               subtitle: Text(
                 'Receive a test alert to verify reminders work.',
-                style: TextStyle(color: Colors.white.withValues(alpha: 0.5), fontSize: 12),
+                style: TextStyle(color: t.textSecondary, fontSize: 12),
               ),
-              trailing: const Icon(Icons.send_rounded, color: TibebConstants.accent, size: 20),
+              trailing: Icon(Icons.send_rounded, color: t.primary, size: 20),
               onTap: () async {
                 final status = await Permission.notification.status;
 
@@ -252,29 +254,29 @@ class SettingsScreen extends ConsumerWidget {
                           child: Opacity(
                             opacity: anim1.value,
                             child: AlertDialog(
-                              backgroundColor: TibebConstants.surface,
+                              backgroundColor: t.surface,
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                              title: const Text(
+                              title: Text(
                                 'Notifications Blocked',
-                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                style: TextStyle(color: t.textPrimary, fontWeight: FontWeight.bold),
                               ),
-                              content: const Text(
+                              content: Text(
                                 'Reading reminders are currently blocked by your system settings. Please enable them to stay on track!',
-                                style: TextStyle(color: Colors.white70),
+                                style: TextStyle(color: t.textSecondary),
                               ),
                               actions: [
                                 TextButton(
                                   onPressed: () => Navigator.pop(context),
-                                  child: const Text('Maybe Later', style: TextStyle(color: Colors.white38)),
+                                  child: Text('Maybe Later', style: TextStyle(color: t.textTertiary)),
                                 ),
                                 TextButton(
                                   onPressed: () {
                                     openAppSettings();
                                     Navigator.pop(context);
                                   },
-                                  child: const Text(
+                                  child: Text(
                                     'Open Settings',
-                                    style: TextStyle(color: TibebConstants.accent, fontWeight: FontWeight.bold),
+                                    style: TextStyle(color: t.primary, fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ],
@@ -291,14 +293,17 @@ class SettingsScreen extends ConsumerWidget {
                 if (granted) {
                   await NotificationService().showNotification(
                     id: 888,
-                    title: 'Test Notification \uD83D\uDCD6',
+                    title: 'Test Notification 📚',
                     body: "Reminders are working correctly! Happy reading.",
                   );
                 } else if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Notification permissions are required for reminders.'),
-                      backgroundColor: Colors.redAccent,
+                    SnackBar(
+                      content: Text(
+                        'Notification permissions are required for reminders.',
+                        style: TextStyle(color: t.textPrimary),
+                      ),
+                      backgroundColor: t.error,
                       behavior: SnackBarBehavior.floating,
                     ),
                   );
@@ -311,34 +316,34 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildMoreCard(BuildContext context) {
+  Widget _buildMoreCard(TibebThemeExtension t) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: GlassContainer(
         child: Column(
           children: [
             ListTile(
-              leading: const Icon(
+              leading: Icon(
                 Icons.volunteer_activism_rounded,
-                color: TibebConstants.accent,
+                color: t.primary,
               ),
-              title: const Text(
+              title: Text(
                 'Support the Developer AKA Samuel',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: t.textPrimary,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               subtitle: Text(
-                'Support the developer and the project \u2764\uFE0F',
+                'Support the developer and the project ❤️',
                 style: TextStyle(
-                  color: Colors.white.withValues(alpha: 0.5),
+                  color: t.textSecondary,
                   fontSize: 12,
                 ),
               ),
-              trailing: const Icon(
+              trailing: Icon(
                 Icons.open_in_new_rounded,
-                color: Colors.white24,
+                color: t.textTertiary,
                 size: 20,
               ),
               onTap: () async {
@@ -346,33 +351,33 @@ class SettingsScreen extends ConsumerWidget {
                 try {
                   await launchUrl(uri, mode: LaunchMode.externalApplication);
                 } catch (e) {
-                  debugPrint('Could not launch \$uri: \$e');
+                  debugPrint('Could not launch $uri: $e');
                 }
               },
             ),
-            Divider(color: Colors.white.withValues(alpha: 0.1), height: 1),
+            Divider(color: t.borderSubtle, height: 1),
             ListTile(
-              leading: const Icon(
+              leading: Icon(
                 Icons.code_rounded,
-                color: TibebConstants.accent,
+                color: t.primary,
               ),
-              title: const Text(
+              title: Text(
                 'Contribute on GitHub',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: t.textPrimary,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               subtitle: Text(
-                'Help build the future of tibeb \uD83D\uDE80',
+                'Help build the future of tibeb 🚀',
                 style: TextStyle(
-                  color: Colors.white.withValues(alpha: 0.5),
+                  color: t.textSecondary,
                   fontSize: 12,
                 ),
               ),
-              trailing: const Icon(
+              trailing: Icon(
                 Icons.open_in_new_rounded,
-                color: Colors.white24,
+                color: t.textTertiary,
                 size: 20,
               ),
               onTap: () async {
@@ -380,7 +385,7 @@ class SettingsScreen extends ConsumerWidget {
                 try {
                   await launchUrl(uri, mode: LaunchMode.externalApplication);
                 } catch (e) {
-                  debugPrint('Could not launch \$uri: \$e');
+                  debugPrint('Could not launch $uri: $e');
                 }
               },
             ),
@@ -390,7 +395,7 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildAboutSection() {
+  Widget _buildAboutSection(TibebThemeExtension t) {
     return Center(
       child: Column(
         children: [
@@ -402,7 +407,7 @@ class SettingsScreen extends ConsumerWidget {
                   : '...';
               return Text(
                 'tibeb $version',
-                style: const TextStyle(color: Colors.white24, fontSize: 12),
+                style: TextStyle(color: t.textSecondary.withValues(alpha: 0.5), fontSize: 12),
               );
             },
           ),

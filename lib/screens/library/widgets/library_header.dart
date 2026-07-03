@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tibeb/core/constants.dart';
-import 'package:tibeb/providers/library_provider.dart';
+import '../../../core/theme/semantics/color_scheme.dart';
+import '../../../core/theme/tokens/radius.dart';
+import '../../../providers/library_provider.dart';
 
 class LibraryHeader extends ConsumerStatefulWidget {
   final TextEditingController searchController;
@@ -31,6 +32,7 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
   Widget build(BuildContext context) {
     final state = ref.watch(libraryProvider);
     final notifier = ref.read(libraryProvider.notifier);
+    final t = context.tibpiColors;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -43,14 +45,15 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
               Expanded(
                 child: TextField(
                   controller: widget.searchController,
+                  style: TextStyle(color: t.textPrimary),
                   decoration: InputDecoration(
                     hintText: 'Search titles, authors...',
                     hintStyle: TextStyle(
-                      color: TibebConstants.textSecondary.withValues(alpha: 0.5),
+                      color: t.textSecondary.withValues(alpha: 0.5),
                     ),
                     prefixIcon: Icon(
                       Icons.search_rounded,
-                      color: TibebConstants.textSecondary,
+                      color: t.textSecondary,
                       size: 20,
                     ),
                     suffixIcon: IconButton(
@@ -58,17 +61,17 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
                       icon: Icon(
                         _isExpanded ? Icons.expand_less : Icons.tune_rounded,
                         color: _isExpanded
-                            ? TibebConstants.accent
-                            : TibebConstants.textSecondary,
+                            ? t.primary
+                            : t.textSecondary,
                         size: 20,
                       ),
                       onPressed: () =>
                           setState(() => _isExpanded = !_isExpanded),
                     ),
                     filled: true,
-                    fillColor: TibebConstants.surface,
+                    fillColor: t.surface,
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: TibebRadius.borderLg,
                       borderSide: BorderSide.none,
                     ),
                     contentPadding: const EdgeInsets.symmetric(horizontal: 16),
@@ -96,6 +99,7 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
                     child: Row(
                       children: [
                         _FilterChip(
+                          t: t,
                           label: 'All',
                           isSelected:
                               state.selectedGenre == 'All' &&
@@ -105,6 +109,7 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
                           onTap: () => notifier.clearFilters(),
                         ),
                         _FilterChip(
+                          t: t,
                           label: 'Favorites',
                           isSelected: state.onlyFavorites,
                           icon: state.onlyFavorites
@@ -114,6 +119,7 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
                         ),
 
                         _FilterChip(
+                          t: t,
                           label: state.selectedAuthor == 'All'
                               ? 'Author'
                               : state.selectedAuthor,
@@ -127,6 +133,7 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
                           onTap: () {},
                         ),
                         _FilterChip(
+                          t: t,
                           label: state.selectedFolder == 'All'
                               ? 'Folder'
                               : _getShortPath(state.selectedFolder),
@@ -144,16 +151,18 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
                           onTap: () {},
                         ),
                         _FilterChip(
+                          t: t,
                           label: state.selectedFileType == 'All'
                               ? 'File Type'
                               : state.selectedFileType,
                           isSelected: state.selectedFileType != 'All',
                           hasDropdown: true,
-                          dropdownOptions: ['All', 'EPUB', 'PDF'],
+                          dropdownOptions: const ['All', 'EPUB', 'PDF'],
                           onSelected: (val) => notifier.setFileTypeFilter(val),
                           onTap: () {},
                         ),
                         _FilterChip(
+                          t: t,
                           label: state.selectedTag == 'All'
                               ? 'Category'
                               : state.selectedTag!,
@@ -176,6 +185,7 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
                           onTap: () {},
                         ),
                         _FilterChip(
+                          t: t,
                           label: state.sortBy.name.toUpperCase(),
                           isSelected: state.sortBy != BookSortBy.recent,
                           icon: Icons.sort_rounded,
@@ -202,20 +212,23 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       _StatusTab(
-                        'Reading',
-                        state.statusFilter == BookStatusFilter.reading,
-                        () =>
+                        t: t,
+                        label: 'Reading',
+                        isSelected: state.statusFilter == BookStatusFilter.reading,
+                        onTap: () =>
                             notifier.setStatusFilter(BookStatusFilter.reading),
                       ),
                       _StatusTab(
-                        'To Read',
-                        state.statusFilter == BookStatusFilter.unread,
-                        () => notifier.setStatusFilter(BookStatusFilter.unread),
+                        t: t,
+                        label: 'To Read',
+                        isSelected: state.statusFilter == BookStatusFilter.unread,
+                        onTap: () => notifier.setStatusFilter(BookStatusFilter.unread),
                       ),
                       _StatusTab(
-                        'Finished',
-                        state.statusFilter == BookStatusFilter.finished,
-                        () =>
+                        t: t,
+                        label: 'Finished',
+                        isSelected: state.statusFilter == BookStatusFilter.finished,
+                        onTap: () =>
                             notifier.setStatusFilter(BookStatusFilter.finished),
                       ),
                     ],
@@ -232,6 +245,7 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
 }
 
 class _FilterChip extends StatelessWidget {
+  final TibebThemeExtension t;
   final String label;
   final bool isSelected;
   final IconData? icon;
@@ -242,6 +256,7 @@ class _FilterChip extends StatelessWidget {
   final VoidCallback onTap;
 
   const _FilterChip({
+    required this.t,
     required this.label,
     required this.isSelected,
     this.icon,
@@ -258,7 +273,7 @@ class _FilterChip extends StatelessWidget {
       margin: const EdgeInsets.only(right: 8),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: isSelected ? TibebConstants.accent : TibebConstants.surface,
+        color: isSelected ? t.primary : t.surface,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
@@ -268,14 +283,14 @@ class _FilterChip extends StatelessWidget {
             Icon(
               icon,
               size: 16,
-              color: isSelected ? Colors.white : TibebConstants.textSecondary,
+              color: isSelected ? t.textOnPrimary : t.textSecondary,
             ),
             const SizedBox(width: 8),
           ],
           Text(
             label,
             style: TextStyle(
-              color: isSelected ? Colors.white : TibebConstants.textSecondary,
+              color: isSelected ? t.textOnPrimary : t.textSecondary,
               fontSize: 14,
               fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
             ),
@@ -285,7 +300,7 @@ class _FilterChip extends StatelessWidget {
             Icon(
               Icons.keyboard_arrow_down_rounded,
               size: 18,
-              color: isSelected ? Colors.white : TibebConstants.textSecondary,
+              color: isSelected ? t.textOnPrimary : t.textSecondary,
             ),
           ],
         ],
@@ -296,9 +311,9 @@ class _FilterChip extends StatelessWidget {
       return PopupMenuButton<String>(
         onSelected: onSelected,
         offset: const Offset(0, 44),
-        color: TibebConstants.surface,
+        color: t.surface,
         elevation: 8,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: TibebRadius.borderLg),
         itemBuilder: (context) => (dropdownOptions ?? []).map((opt) {
           final isItemSelected =
               opt == label ||
@@ -312,7 +327,7 @@ class _FilterChip extends StatelessWidget {
             child: Text(
               labelMapper?.call(opt) ?? opt,
               style: TextStyle(
-                color: TibebConstants.textPrimary,
+                color: t.textPrimary,
                 fontSize: 14,
                 fontWeight: isItemSelected
                     ? FontWeight.bold
@@ -330,11 +345,17 @@ class _FilterChip extends StatelessWidget {
 }
 
 class _StatusTab extends StatelessWidget {
+  final TibebThemeExtension t;
   final String label;
   final bool isSelected;
   final VoidCallback onTap;
 
-  const _StatusTab(this.label, this.isSelected, this.onTap);
+  const _StatusTab({
+    required this.t,
+    required this.label,
+    required this.isSelected,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -347,7 +368,7 @@ class _StatusTab extends StatelessWidget {
             Text(
               label,
               style: TextStyle(
-                color: isSelected ? Colors.white : TibebConstants.textSecondary,
+                color: isSelected ? t.textPrimary : t.textSecondary,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                 fontSize: 14,
               ),
@@ -358,12 +379,12 @@ class _StatusTab extends StatelessWidget {
               width: isSelected ? 24 : 0,
               height: 3,
               decoration: BoxDecoration(
-                color: TibebConstants.accent,
+                color: t.primary,
                 borderRadius: BorderRadius.circular(2),
                 boxShadow: [
                   if (isSelected)
                     BoxShadow(
-                      color: TibebConstants.accent.withValues(alpha: 0.5),
+                      color: t.primary.withValues(alpha: 0.5),
                       blurRadius: 8,
                       offset: const Offset(0, 2),
                     ),

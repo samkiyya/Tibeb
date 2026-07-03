@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import '../core/constants.dart';
+import '../core/theme/semantics/color_scheme.dart';
+import '../core/theme/tokens/radius.dart';
+import '../core/theme/tokens/spacing.dart';
 import '../models/quest_model.dart';
 import 'glass_container.dart';
 
@@ -12,6 +14,7 @@ class DailyQuestsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     if (quests.isEmpty) return const SizedBox.shrink();
 
+    final t = context.tibpiColors;
     final now = DateTime.now();
     final isWeekend =
         now.weekday == DateTime.saturday || now.weekday == DateTime.sunday;
@@ -28,29 +31,30 @@ class DailyQuestsCard extends StatelessWidget {
                 children: [
                   Text(
                     'Daily Quests',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    style: context.textTheme.titleMedium?.copyWith(
+                      color: t.textPrimary,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   if (isWeekend) ...[
-                    const SizedBox(width: 8),
+                    const SizedBox(width: TibebSpacing.sm),
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 6,
                         vertical: 2,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.amber.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(4),
+                        color: t.xpGold.withValues(alpha: 0.2),
+                        borderRadius: TibebRadius.borderXs,
                         border: Border.all(
-                          color: Colors.amber.withValues(alpha: 0.5),
+                          color: t.xpGold.withValues(alpha: 0.5),
                           width: 1,
                         ),
                       ),
-                      child: const Text(
+                      child: Text(
                         '2X XP',
                         style: TextStyle(
-                          color: Colors.amber,
+                          color: t.xpGold,
                           fontSize: 10,
                           fontWeight: FontWeight.bold,
                         ),
@@ -63,12 +67,12 @@ class DailyQuestsCard extends StatelessWidget {
                 isWeekend
                     ? Icons.celebration
                     : Icons.assignment_turned_in_outlined,
-                color: isWeekend ? Colors.amber : Colors.white54,
+                color: isWeekend ? t.xpGold : t.textSecondary,
                 size: 18,
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: TibebSpacing.base),
           ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -93,6 +97,7 @@ class _QuestItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.tibpiColors;
     final bool isCompleted = quest.isCompleted;
     final double progress = quest.progress.clamp(0.0, 1.0);
 
@@ -109,7 +114,7 @@ class _QuestItem extends StatelessWidget {
                   Text(
                     quest.title,
                     style: TextStyle(
-                      color: isCompleted ? Colors.white38 : Colors.white70,
+                      color: isCompleted ? t.textDisabled : t.textPrimary,
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
                       decoration: isCompleted
@@ -120,8 +125,8 @@ class _QuestItem extends StatelessWidget {
                   if (!isCompleted)
                     Text(
                       quest.description,
-                      style: const TextStyle(
-                        color: Colors.white38,
+                      style: TextStyle(
+                        color: t.textSecondary,
                         fontSize: 11,
                       ),
                     ),
@@ -131,21 +136,21 @@ class _QuestItem extends StatelessWidget {
             Text(
               isCompleted ? 'Done' : '${(progress * 100).toInt()}%',
               style: TextStyle(
-                color: isCompleted ? TibebConstants.accent : Colors.white60,
+                color: isCompleted ? t.primary : t.textSecondary,
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ],
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: TibebSpacing.sm),
         ClipRRect(
           borderRadius: BorderRadius.circular(4),
           child: LinearProgressIndicator(
             value: progress,
-            backgroundColor: Colors.white10,
+            backgroundColor: t.borderSubtle,
             valueColor: AlwaysStoppedAnimation<Color>(
-              isCompleted ? TibebConstants.accentGreen : TibebConstants.accent,
+              isCompleted ? t.success : t.primary,
             ),
             minHeight: 6,
           ),
@@ -159,21 +164,21 @@ class _QuestItem extends StatelessWidget {
                 Text(
                   'Reward: ${quest.xpReward} XP',
                   style: TextStyle(
-                    color: isWeekend ? Colors.amber : Colors.white38,
+                    color: isWeekend ? t.xpGold : t.textSecondary,
                     fontSize: 11,
                     fontWeight: isWeekend ? FontWeight.bold : FontWeight.normal,
                   ),
                 ),
                 if (isWeekend) ...[
                   const SizedBox(width: 4),
-                  const Icon(Icons.flash_on, color: Colors.amber, size: 10),
+                  Icon(Icons.flash_on, color: t.xpGold, size: 10),
                 ],
               ],
             ),
             if (isCompleted)
-              const Icon(
+              Icon(
                 Icons.check_circle,
-                color: TibebConstants.accentGreen,
+                color: t.success,
                 size: 14,
               ),
           ],

@@ -1,5 +1,6 @@
 import 'dart:io' as io;
 import 'dart:async';
+import 'package:tibeb/core/theme/semantics/color_scheme.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,6 @@ import 'package:path/path.dart' as p;
 import 'package:epub_view/epub_view.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:pdfrx/pdfrx.dart';
-import '../core/constants.dart';
 import '../components/display_settings_sheet.dart';
 import '../providers/library_provider.dart';
 import '../providers/reader_settings_provider.dart';
@@ -137,7 +137,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
   int _batteryLevel = 100;
   final Battery _battery = Battery();
   StreamSubscription<BatteryState>? _batterySubscription;
-  
+
   List<int> _epubChapterLengths = [];
   int _epubTotalLength = 0;
 
@@ -151,10 +151,14 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
           final settings = ref.read(readerSettingsProvider);
           if (isPdf) {
             // For PDFs, always force white on open
-            ref.read(readerSettingsProvider.notifier).setTheme(ReaderTheme.white);
+            ref
+                .read(readerSettingsProvider.notifier)
+                .setTheme(ReaderTheme.white);
           } else if (settings.epubTheme != null) {
             // For EPUBs, restore the last used epubTheme preference
-            ref.read(readerSettingsProvider.notifier).setTheme(settings.epubTheme!);
+            ref
+                .read(readerSettingsProvider.notifier)
+                .setTheme(settings.epubTheme!);
           }
         }
       });
@@ -344,7 +348,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
     TutorialHelper.showTutorial(
       context: context,
       targets: targets,
-      colorShadow: TibebConstants.accent,
+      colorShadow: context.tibpiColors.accent,
       onFinish: () {
         SharedPreferences.getInstance().then((prefs) {
           prefs.setBool('is_first_launch_reading', false);
@@ -681,14 +685,14 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
                                   ? Icons.play_circle_fill_rounded
                                   : Icons.play_circle_outline_rounded,
                               color: isCurrent
-                                  ? TibebConstants.accent
+                                  ? context.tibpiColors.accent
                                   : settings.secondaryTextColor,
                             ),
                             title: Text(
                               track.title,
                               style: TextStyle(
                                 color: isCurrent
-                                    ? TibebConstants.accent
+                                    ? context.tibpiColors.accent
                                     : settings.textColor,
                                 fontWeight: isCurrent
                                     ? FontWeight.bold
@@ -718,8 +722,9 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
                                 ),
                                 Icon(
                                   Icons.drag_handle,
-                                  color: settings.secondaryTextColor
-                                      .withValues(alpha: 0.3),
+                                  color: settings.secondaryTextColor.withValues(
+                                    alpha: 0.3,
+                                  ),
                                   size: 20,
                                 ),
                               ],
@@ -856,8 +861,10 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
       final double remainingLength = targetTotalProgress - accumulatedLength;
       final double chapterLength = _epubChapterLengths[chapterIndex].toDouble();
       final double chapterScrollProgress =
-          (chapterLength > 0 ? remainingLength / chapterLength : 0.0)
-              .clamp(0.0, 1.0);
+          (chapterLength > 0 ? remainingLength / chapterLength : 0.0).clamp(
+            0.0,
+            1.0,
+          );
 
       setState(() {
         _currentChapterIndex = chapterIndex;
@@ -938,7 +945,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
           ..showSnackBar(
             SnackBar(
               content: const Text('Bookmark removed'),
-              backgroundColor: TibebConstants.accent,
+              backgroundColor: context.tibpiColors.accent,
               behavior: SnackBarBehavior.floating,
               width: 200,
             ),
@@ -980,7 +987,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
           ..showSnackBar(
             SnackBar(
               content: const Text('Position bookmarked'),
-              backgroundColor: TibebConstants.accent,
+              backgroundColor: context.tibpiColors.accent,
               behavior: SnackBarBehavior.floating,
               width: 200,
             ),
@@ -1004,9 +1011,11 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
     // Extract chapters when document is loaded
     controller.document.then((document) {
       final flattenedChapters = _flattenChapters(document.Chapters ?? []);
-      
+
       // Calculate chapter lengths and total length for weighted progress
-      final lengths = flattenedChapters.map((c) => c.HtmlContent?.length ?? 0).toList();
+      final lengths = flattenedChapters
+          .map((c) => c.HtmlContent?.length ?? 0)
+          .toList();
       final total = lengths.fold(0, (sum, len) => sum + len);
 
       setState(() {
@@ -1031,12 +1040,16 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
             if (i == lengths.length - 1) chapterIndex = i;
           }
 
-          final double remainingLength = targetTotalProgress - accumulatedLength;
+          final double remainingLength =
+              targetTotalProgress - accumulatedLength;
           final double chapterLength = lengths[chapterIndex].toDouble();
-          
+
           _currentChapterIndex = chapterIndex;
-          _initialScrollProgress = (chapterLength > 0 ? remainingLength / chapterLength : 0.0)
-              .clamp(0.0, 1.0);
+          _initialScrollProgress =
+              (chapterLength > 0 ? remainingLength / chapterLength : 0.0).clamp(
+                0.0,
+                1.0,
+              );
         } else {
           // Fallback to equal chapters if lengths are unknown
           double totalProgress = book.progress * flattenedChapters.length;
@@ -1083,11 +1096,14 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
         for (int i = 0; i < _currentChapterIndex; i++) {
           accumulatedLength += _epubChapterLengths[i].toDouble();
         }
-        
-        final double currentChapterProgress = 
-            (_epubChapterLengths[_currentChapterIndex].toDouble() * _scrollProgressNotifier.value);
-            
-        final double progress = (accumulatedLength + currentChapterProgress) / _epubTotalLength.toDouble();
+
+        final double currentChapterProgress =
+            (_epubChapterLengths[_currentChapterIndex].toDouble() *
+            _scrollProgressNotifier.value);
+
+        final double progress =
+            (accumulatedLength + currentChapterProgress) /
+            _epubTotalLength.toDouble();
 
         // If we are in the last chapter and very close to the end, snap to 1.0
         if (_currentChapterIndex == _chapters.length - 1 &&
@@ -1613,12 +1629,14 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
                                 initialScrollProgress: _initialScrollProgress,
                                 onJumpedToBottom: () =>
                                     setState(() => _shouldJumpToBottom = false),
-                                onJumpedToPosition: () =>
-                                    setState(() => _initialScrollProgress = 0.0),
+                                onJumpedToPosition: () => setState(
+                                  () => _initialScrollProgress = 0.0,
+                                ),
                                 pullDistanceNotifier: _pullDistanceNotifier,
                                 isPullingDownNotifier: _isPullingDownNotifier,
                                 scrollProgressNotifier: _scrollProgressNotifier,
-                                autoScrollSpeedNotifier: _autoScrollSpeedNotifier,
+                                autoScrollSpeedNotifier:
+                                    _autoScrollSpeedNotifier,
                                 showControls: showControls,
                                 onPageChanged: (index) =>
                                     _handleChapterPageChange(index, book),
@@ -1754,185 +1772,191 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
               top: showControls ? 0 : -200,
               left: 0,
               right: 0,
-          child: ValueListenableBuilder<String>(
-            valueListenable: _currentTimeNotifier,
-            builder: (context, currentTime, _) {
-              return ReadingHeader(
-                searchKey: _searchKey,
-                lockKey: _lockKey,
-                book: book,
-                settings: settings,
-                currentChapter: _currentChapter,
-                pageInfo: isEpub
-                    ? ValueListenableBuilder<double>(
-                        valueListenable: _scrollProgressNotifier,
-                        builder: (context, scrollProgress, _) {
-                          final displayProgress = _calculateCurrentProgress(book);
-                          return Text(
-                            '${(displayProgress * 100).toStringAsFixed(0)}%',
+              child: ValueListenableBuilder<String>(
+                valueListenable: _currentTimeNotifier,
+                builder: (context, currentTime, _) {
+                  return ReadingHeader(
+                    searchKey: _searchKey,
+                    lockKey: _lockKey,
+                    book: book,
+                    settings: settings,
+                    currentChapter: _currentChapter,
+                    pageInfo: isEpub
+                        ? ValueListenableBuilder<double>(
+                            valueListenable: _scrollProgressNotifier,
+                            builder: (context, scrollProgress, _) {
+                              final displayProgress = _calculateCurrentProgress(
+                                book,
+                              );
+                              return Text(
+                                '${(displayProgress * 100).toStringAsFixed(0)}%',
+                                style: TextStyle(
+                                  color: settings.textColor,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              );
+                            },
+                          )
+                        : Text(
+                            '${_pdfCurrentPage + 1} / $_pdfPages',
                             style: TextStyle(
                               color: settings.textColor,
                               fontSize: 11,
                               fontWeight: FontWeight.w500,
                             ),
-                          );
-                        },
-                      )
-                    : Text(
-                        '${_pdfCurrentPage + 1} / $_pdfPages',
-                        style: TextStyle(
-                          color: settings.textColor,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                isSearching: _isSearching,
-                isSearchLoading: _isSearchLoading,
-                isSearchResultsCollapsed: _isSearchResultsCollapsed,
-                searchResultsCount: _searchResults.length,
-                searchController: _searchController,
-                searchFocusNode: _searchFocusNode,
-                onBackPressed: () {
-                  _syncFinalProgress(book);
-                  Navigator.of(context).pop();
+                          ),
+                    isSearching: _isSearching,
+                    isSearchLoading: _isSearchLoading,
+                    isSearchResultsCollapsed: _isSearchResultsCollapsed,
+                    searchResultsCount: _searchResults.length,
+                    searchController: _searchController,
+                    searchFocusNode: _searchFocusNode,
+                    onBackPressed: () {
+                      _syncFinalProgress(book);
+                      Navigator.of(context).pop();
+                    },
+                    onToggleSearch: () {
+                      _isSearching = true;
+                      _setControlsVisibility(true);
+                      setState(() {});
+                      _searchFocusNode.requestFocus();
+                    },
+                    onClearSearch: () {
+                      setState(() {
+                        _isSearching = false;
+                        _searchController.clear();
+                        _searchResults = [];
+                        _activeSearchQuery = null;
+                      });
+                    },
+                    onSearchSubmitted: (value) => _handleSearch(value, book),
+                    onToggleSearchResultsCollapse: () => setState(
+                      () => _isSearchResultsCollapsed =
+                          !_isSearchResultsCollapsed,
+                    ),
+                    onToggleLock: _toggleLock,
+                    searchResultsOverlay: ReadingSearchOverlay(
+                      book: book,
+                      settings: settings,
+                      searchResults: _searchResults,
+                      onResultTap: (result) => _goToSearchResult(result, book),
+                    ),
+                  );
                 },
-                onToggleSearch: () {
-                  _isSearching = true;
-                  _setControlsVisibility(true);
-                  setState(() {});
-                  _searchFocusNode.requestFocus();
-                },
-                onClearSearch: () {
+              ),
+            ),
+            AnimatedPositioned(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeOutCubic,
+              bottom: showControls ? 0 : -800,
+              left: 0,
+              right: 0,
+              child: ReadingBottomControls(
+                tocKey: _tocKey,
+                audioKey: _audioKey,
+                autoScrollKey: _autoScrollKey,
+                displaySettingsKey: _displaySettingsKey,
+                book: book,
+                settings: settings,
+                isAudioControlsExpanded: _isAudioControlsExpanded,
+                isNavigationSheetOpen: _isNavigationSheetOpen,
+                isAutoScrolling: _isAutoScrolling,
+                isBookmarked: _getCurrentBookmark() != null,
+                playbackSpeed: _playbackSpeed,
+                isOrientationLandscape: _isOrientationLandscape,
+                audioSection: ReadingAudioSection(
+                  settings: settings,
+                  isLoading: _isAudioLoading,
+                  positionNotifier: _audioPositionNotifier,
+                  durationNotifier: _audioDurationNotifier,
+                  currentIndexNotifier: _audioIndexNotifier,
+                  audioTracks:
+                      book.audioTracks.isEmpty && book.audioPath != null
+                      ? [
+                          AudioTrack(
+                            path: book.audioPath!,
+                            title: p.basename(book.audioPath!),
+                          ),
+                        ]
+                      : book.audioTracks,
+                  isDraggingSlider: _isDraggingSlider,
+                  sliderDragValue: _sliderDragValue,
+                  onChangeStart: (value) {
+                    setState(() {
+                      _isDraggingSlider = true;
+                      _sliderDragValue = value;
+                    });
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      _sliderDragValue = value;
+                    });
+                    _audioPositionNotifier.value = Duration(
+                      milliseconds: value.toInt(),
+                    );
+                  },
+                  onChangeEnd: (value) async {
+                    await _audioPlayer.seek(
+                      Duration(milliseconds: value.toInt()),
+                    );
+                    setState(() => _isDraggingSlider = false);
+                  },
+                  formatDuration: _formatDuration,
+                  isOrientationLandscape: _isOrientationLandscape,
+                ),
+                playPauseButton: PlayPauseButton(
+                  isPlayingNotifier: _isAudioPlayingNotifier,
+                  onTap: () {
+                    if (_isAudioPlayingNotifier.value) {
+                      _audioPlayer.pause();
+                    } else {
+                      _audioPlayer.play();
+                    }
+                  },
+                ),
+                onToggleAudioControls: () => setState(
+                  () => _isAudioControlsExpanded = !_isAudioControlsExpanded,
+                ),
+                onPickAudio: () => _pickAudio(book),
+                onShowNavigationSheet: () =>
+                    _showNavigationSheet(book: book, settings: settings),
+                onToggleBookmark: () => _toggleBookmark(book),
+                onToggleAutoScroll: () {
                   setState(() {
-                    _isSearching = false;
-                    _searchController.clear();
-                    _searchResults = [];
-                    _activeSearchQuery = null;
+                    _isAutoScrolling = !_isAutoScrolling;
+                    final activeSpeed = settings.autoScrollSpeed < 0.5
+                        ? 2.0
+                        : settings.autoScrollSpeed;
+                    _autoScrollSpeedNotifier.value = _isAutoScrolling
+                        ? activeSpeed
+                        : 0.0;
                   });
                 },
-                onSearchSubmitted: (value) => _handleSearch(value, book),
-                onToggleSearchResultsCollapse: () => setState(
-                  () => _isSearchResultsCollapsed = !_isSearchResultsCollapsed,
-                ),
-                onToggleLock: _toggleLock,
-                searchResultsOverlay: ReadingSearchOverlay(
-                  book: book,
-                  settings: settings,
-                  searchResults: _searchResults,
-                  onResultTap: (result) => _goToSearchResult(result, book),
-                ),
-              );
-            },
-          ),
-        ),
-        AnimatedPositioned(
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOutCubic,
-          bottom: showControls ? 0 : -800,
-          left: 0,
-          right: 0,
-          child: ReadingBottomControls(
-            tocKey: _tocKey,
-            audioKey: _audioKey,
-            autoScrollKey: _autoScrollKey,
-            displaySettingsKey: _displaySettingsKey,
-            book: book,
-            settings: settings,
-            isAudioControlsExpanded: _isAudioControlsExpanded,
-            isNavigationSheetOpen: _isNavigationSheetOpen,
-            isAutoScrolling: _isAutoScrolling,
-            isBookmarked: _getCurrentBookmark() != null,
-            playbackSpeed: _playbackSpeed,
-            isOrientationLandscape: _isOrientationLandscape,
-            audioSection: ReadingAudioSection(
-              settings: settings,
-              isLoading: _isAudioLoading,
-              positionNotifier: _audioPositionNotifier,
-              durationNotifier: _audioDurationNotifier,
-              currentIndexNotifier: _audioIndexNotifier,
-              audioTracks: book.audioTracks.isEmpty && book.audioPath != null
-                  ? [
-                      AudioTrack(
-                        path: book.audioPath!,
-                        title: p.basename(book.audioPath!),
-                      ),
-                    ]
-                  : book.audioTracks,
-              isDraggingSlider: _isDraggingSlider,
-              sliderDragValue: _sliderDragValue,
-              onChangeStart: (value) {
-                setState(() {
-                  _isDraggingSlider = true;
-                  _sliderDragValue = value;
-                });
-              },
-              onChanged: (value) {
-                setState(() {
-                  _sliderDragValue = value;
-                });
-                _audioPositionNotifier.value = Duration(
-                  milliseconds: value.toInt(),
-                );
-              },
-              onChangeEnd: (value) async {
-                await _audioPlayer.seek(Duration(milliseconds: value.toInt()));
-                setState(() => _isDraggingSlider = false);
-              },
-              formatDuration: _formatDuration,
-              isOrientationLandscape: _isOrientationLandscape,
+                onToggleOrientation: _toggleOrientation,
+                onShowDisplaySettings: () => showDisplaySettingsSheet(context),
+                onIncrementPlaybackSpeed: () {
+                  setState(() {
+                    if (_playbackSpeed >= 2.0) {
+                      _playbackSpeed = 0.5;
+                    } else {
+                      _playbackSpeed += 0.25;
+                    }
+                    _audioPlayer.setSpeed(_playbackSpeed);
+                  });
+                },
+                onSkip: _skip,
+                onNextTrack: _audioPlayer.hasNext
+                    ? () => _audioPlayer.seekToNext()
+                    : null,
+                onPrevTrack: _audioPlayer.hasPrevious
+                    ? () => _audioPlayer.seekToPrevious()
+                    : null,
+                onShowTrackList: () => _showTrackListSheet(book),
+              ),
             ),
-            playPauseButton: PlayPauseButton(
-              isPlayingNotifier: _isAudioPlayingNotifier,
-              onTap: () {
-                if (_isAudioPlayingNotifier.value) {
-                  _audioPlayer.pause();
-                } else {
-                  _audioPlayer.play();
-                }
-              },
-            ),
-            onToggleAudioControls: () => setState(
-              () => _isAudioControlsExpanded = !_isAudioControlsExpanded,
-            ),
-            onPickAudio: () => _pickAudio(book),
-            onShowNavigationSheet: () =>
-                _showNavigationSheet(book: book, settings: settings),
-            onToggleBookmark: () => _toggleBookmark(book),
-            onToggleAutoScroll: () {
-              setState(() {
-                _isAutoScrolling = !_isAutoScrolling;
-                final activeSpeed = settings.autoScrollSpeed < 0.5
-                    ? 2.0
-                    : settings.autoScrollSpeed;
-                _autoScrollSpeedNotifier.value = _isAutoScrolling
-                    ? activeSpeed
-                    : 0.0;
-              });
-            },
-            onToggleOrientation: _toggleOrientation,
-            onShowDisplaySettings: () => showDisplaySettingsSheet(context),
-            onIncrementPlaybackSpeed: () {
-              setState(() {
-                if (_playbackSpeed >= 2.0) {
-                  _playbackSpeed = 0.5;
-                } else {
-                  _playbackSpeed += 0.25;
-                }
-                _audioPlayer.setSpeed(_playbackSpeed);
-              });
-            },
-            onSkip: _skip,
-            onNextTrack: _audioPlayer.hasNext
-                ? () => _audioPlayer.seekToNext()
-                : null,
-            onPrevTrack: _audioPlayer.hasPrevious
-                ? () => _audioPlayer.seekToPrevious()
-                : null,
-            onShowTrackList: () => _showTrackListSheet(book),
-          ),
-        ),
-      ],
-    );
+          ],
+        );
       },
     );
   }
@@ -1970,7 +1994,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
             for (int i = 0; i < doc.pages.length; i++) {
               final page = doc.pages[i];
               final pageText = await page.loadText();
-              
+
               final plainText = pageText!.fullText;
               final lowerText = plainText.toLowerCase();
               final lowerQuery = query.toLowerCase();
@@ -1992,8 +2016,8 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
 
                 // Create a match object for precise navigation later
                 final match = PdfPageTextRange(
-                  pageText:pageText as PdfPageText,
-                  start:index,
+                  pageText: pageText as PdfPageText,
+                  start: index,
                   end: index + query.length,
                 );
 
@@ -2143,8 +2167,11 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
           return StatefulBuilder(
             builder: (context, setDialogState) {
               return AlertDialog(
-                backgroundColor: TibebConstants.surface,
-                title: const Text('Export Annotations', style: TextStyle(color: Colors.white)),
+                backgroundColor: context.tibpiColors.surface,
+                title: const Text(
+                  'Export Annotations',
+                  style: TextStyle(color: Colors.white),
+                ),
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -2154,27 +2181,42 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
                     ),
                     const SizedBox(height: 16),
                     CheckboxListTile(
-                      title: const Text('Include Vocabulary List', style: TextStyle(color: Colors.white, fontSize: 14)),
-                      subtitle: const Text('Add words you looked up in this book', style: TextStyle(color: Colors.white38, fontSize: 11)),
+                      title: const Text(
+                        'Include Vocabulary List',
+                        style: TextStyle(color: Colors.white, fontSize: 14),
+                      ),
+                      subtitle: const Text(
+                        'Add words you looked up in this book',
+                        style: TextStyle(color: Colors.white38, fontSize: 11),
+                      ),
                       value: includeVocab,
-                      activeColor: TibebConstants.accent,
+                      activeColor: context.tibpiColors.accent,
                       checkColor: Colors.black,
                       contentPadding: EdgeInsets.zero,
-                      onChanged: (val) => setDialogState(() => includeVocab = val ?? true),
+                      onChanged: (val) =>
+                          setDialogState(() => includeVocab = val ?? true),
                     ),
                   ],
                 ),
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.pop(context, null),
-                    child: const Text('CANCEL', style: TextStyle(color: Colors.white54)),
+                    child: const Text(
+                      'CANCEL',
+                      style: TextStyle(color: Colors.white54),
+                    ),
                   ),
                   TextButton(
                     onPressed: () => Navigator.pop(context, includeVocab),
-                    child: const Text('SHARE', style: TextStyle(color: TibebConstants.accent)),
+                    child: Text(
+                      'SHARE',
+                      style: TextStyle(color: context.tibpiColors.accent),
+                    ),
                   ),
                 ],
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
               );
             },
           );
@@ -2224,7 +2266,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
       }
       buffer.writeln();
     }
-    
+
     buffer.writeln('---');
     buffer.writeln('*Exported with tibeb*');
 
@@ -2289,8 +2331,8 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
               ref.read(libraryProvider.notifier).getVocabularyForBook(book.id!),
           onUpdateHighlight: (h) async {
             await DatabaseService().updateHighlight(h);
-            final updatedHighlights =
-                await DatabaseService().getHighlightsForBook(book.id!);
+            final updatedHighlights = await DatabaseService()
+                .getHighlightsForBook(book.id!);
             if (mounted) {
               setState(() {
                 _highlights = updatedHighlights;
@@ -2333,8 +2375,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
           },
           getBookmarks: () =>
               ref.read(libraryProvider.notifier).getBookmarks(book.id!),
-          getHighlights: () =>
-              DatabaseService().getHighlightsForBook(book.id!),
+          getHighlights: () => DatabaseService().getHighlightsForBook(book.id!),
           highlights: _highlights,
           onHighlightTap: (h) {
             Navigator.pop(context);
@@ -2345,7 +2386,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
                 // Position format is now 'index:ratio' or 'index:exact:occurrenceIndex:ratio'
                 // In both cases, the ratio for navigation is the last part.
                 final progress = double.tryParse(parts.last) ?? 0.0;
-                
+
                 if (index >= 0 && index < _chapters.length) {
                   final bool isSameChapter = index == _currentChapterIndex;
                   setState(() {
@@ -2354,12 +2395,12 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
                     _currentChapter =
                         _chapters[index].Title ?? 'Chapter ${index + 1}';
                   });
-                  
-                  // If same chapter, jumpToPage(index) might not trigger a rebuild/didUpdateWidget 
+
+                  // If same chapter, jumpToPage(index) might not trigger a rebuild/didUpdateWidget
                   // in some PageView implementations if the index is identical,
                   // but our state update above will propagate through the widget tree.
                   _pageController?.jumpToPage(index);
-                  
+
                   if (isSameChapter) {
                     _recordInteraction();
                   }

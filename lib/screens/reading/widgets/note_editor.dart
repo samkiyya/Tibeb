@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:markdown_quill/markdown_quill.dart';
 import 'package:markdown/markdown.dart' as md;
-import '../../../core/constants.dart';
+import '../../../core/theme/semantics/color_scheme.dart';
 import '../../../models/reader_settings_model.dart';
 
 class NoteEditor extends StatefulWidget {
@@ -47,7 +47,8 @@ class _NoteEditorState extends State<NoteEditor> {
     } else {
       try {
         Document doc;
-        if (widget.initialMarkdown.trim().startsWith('[{') && widget.initialMarkdown.trim().endsWith('}]')) {
+        if (widget.initialMarkdown.trim().startsWith('[{') &&
+            widget.initialMarkdown.trim().endsWith('}]')) {
           // Legacy JSON format check
           try {
             doc = Document.fromJson(jsonDecode(widget.initialMarkdown));
@@ -105,7 +106,8 @@ class _NoteEditorState extends State<NoteEditor> {
     return Container(
       height: MediaQuery.of(context).size.height * 0.85,
       decoration: BoxDecoration(
-        color: widget.settings?.menuBackgroundColor ?? TibebConstants.surface,
+        color:
+            widget.settings?.menuBackgroundColor ?? context.tibpiColors.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
       ),
       child: Scaffold(
@@ -131,8 +133,8 @@ class _NoteEditorState extends State<NoteEditor> {
                 children: [
                   Text(
                     widget.title,
-                    style: const TextStyle(
-                      color: TibebConstants.accent,
+                    style: TextStyle(
+                      color: context.tibpiColors.accent,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -142,10 +144,10 @@ class _NoteEditorState extends State<NoteEditor> {
                       _onSave();
                       Navigator.pop(context);
                     },
-                    child: const Text(
+                    child: Text(
                       'SAVE',
                       style: TextStyle(
-                        color: TibebConstants.accent,
+                        color: context.tibpiColors.accent,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -159,8 +161,9 @@ class _NoteEditorState extends State<NoteEditor> {
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Row(
-                  children: TibebConstants.highlightColors.map((color) {
-                    final hexColor = '#${color.toARGB32().toRadixString(16).substring(2).toUpperCase()}';
+                  children: context.tibpiColors.highlightColors.map((color) {
+                    final hexColor =
+                        '#${color.toARGB32().toRadixString(16).substring(2).toUpperCase()}';
                     final isSelected = _currentColor == hexColor;
                     return GestureDetector(
                       onTap: () => setState(() => _currentColor = hexColor),
@@ -189,12 +192,16 @@ class _NoteEditorState extends State<NoteEditor> {
                                         color: color.withValues(alpha: 0.4),
                                         blurRadius: 8,
                                         offset: const Offset(0, 2),
-                                      )
+                                      ),
                                     ]
                                   : null,
                             ),
                             child: isSelected
-                                ? const Icon(Icons.check, size: 16, color: Colors.black)
+                                ? const Icon(
+                                    Icons.check,
+                                    size: 16,
+                                    color: Colors.black,
+                                  )
                                 : null,
                           ),
                         ),
@@ -240,10 +247,10 @@ class _NoteEditorState extends State<NoteEditor> {
                         color: Colors.white70,
                       ),
                       iconButtonSelectedData: IconButtonData(
-                        color: TibebConstants.accent,
+                        color: context.tibpiColors.accent,
                         style: IconButton.styleFrom(
-                          backgroundColor:
-                              TibebConstants.accent.withValues(alpha: 0.12),
+                          backgroundColor: context.tibpiColors.accent
+                              .withValues(alpha: 0.12),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
@@ -257,7 +264,10 @@ class _NoteEditorState extends State<NoteEditor> {
             const Divider(height: 1, color: Colors.white10),
             Expanded(
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 24,
+                ),
                 child: QuillEditor(
                   controller: _controller,
                   focusNode: _focusNode,
@@ -280,10 +290,7 @@ class _NoteEditorState extends State<NoteEditor> {
                         null,
                       ),
                       placeHolder: DefaultTextBlockStyle(
-                        const TextStyle(
-                          color: Colors.white24,
-                          fontSize: 18,
-                        ),
+                        const TextStyle(color: Colors.white24, fontSize: 18),
                         const HorizontalSpacing(0, 0),
                         const VerticalSpacing(0, 0),
                         const VerticalSpacing(0, 0),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../models/book_model.dart';
 import '../../../models/reader_settings_model.dart';
-import '../../../core/constants.dart';
+import '../../../core/theme/semantics/color_scheme.dart';
 import './control_button.dart';
 
 class ReadingBottomControls extends StatelessWidget {
@@ -145,7 +145,7 @@ class ReadingBottomControls extends StatelessWidget {
                     child: Icon(
                       Icons.format_list_bulleted_rounded,
                       color: isNavigationSheetOpen
-                          ? TibebConstants.accent
+                          ? context.tibpiColors.accent
                           : settings.textColor,
                       size: 22,
                     ),
@@ -158,7 +158,7 @@ class ReadingBottomControls extends StatelessWidget {
                           ? Icons.bookmark_rounded
                           : Icons.bookmark_outline_rounded,
                       color: isBookmarked
-                          ? TibebConstants.accent
+                          ? context.tibpiColors.accent
                           : settings.textColor,
                       size: 22,
                     ),
@@ -188,9 +188,9 @@ class ReadingBottomControls extends StatelessWidget {
                       key: audioKey,
                       settings: settings,
                       onTap: onPickAudio,
-                      child: const Icon(
+                      child: Icon(
                         Icons.add_rounded,
-                        color: TibebConstants.accent,
+                        color: context.tibpiColors.accent,
                         size: 24,
                       ),
                     ),
@@ -203,7 +203,7 @@ class ReadingBottomControls extends StatelessWidget {
                           ? Icons.pause_circle_outline_rounded
                           : Icons.play_circle_outline_rounded,
                       color: isAutoScrolling
-                          ? TibebConstants.accent
+                          ? context.tibpiColors.accent
                           : settings.textColor,
                       size: 22,
                     ),

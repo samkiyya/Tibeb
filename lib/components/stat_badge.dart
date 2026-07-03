@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../core/theme/semantics/color_scheme.dart';
+import '../core/theme/tokens/spacing.dart';
 import './glass_container.dart';
 
 class StatBadge extends StatelessWidget {
@@ -17,23 +19,23 @@ class StatBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.tibpiColors;
     return GlassContainer(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(TibebSpacing.md),
       child: Column(
         children: [
           Icon(icon, color: color, size: 24),
-          const SizedBox(height: 8),
+          const SizedBox(height: TibebSpacing.sm),
           Text(
             value,
-            style: Theme.of(
-              context,
-            ).textTheme.titleLarge?.copyWith(fontSize: 18),
+            style: context.textTheme.titleLarge?.copyWith(fontSize: 18),
           ),
           Text(
             label,
-            style: Theme.of(
-              context,
-            ).textTheme.bodySmall?.copyWith(fontSize: 10),
+            style: context.textTheme.bodySmall?.copyWith(
+              fontSize: 10,
+              color: t.textSecondary,
+            ),
           ),
         ],
       ),

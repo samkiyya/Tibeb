@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/reader_settings_model.dart';
 import '../providers/reader_settings_provider.dart';
-import '../core/constants.dart';
+import '../core/theme/semantics/color_scheme.dart';
+import '../core/theme/tokens/radius.dart';
 
 class DisplaySettingsSheet extends ConsumerStatefulWidget {
   const DisplaySettingsSheet({super.key});
@@ -43,10 +44,11 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
   Widget build(BuildContext context) {
     final settings = ref.watch(readerSettingsProvider);
     final notifier = ref.read(readerSettingsProvider.notifier);
+    final t = context.tibpiColors;
 
     return Container(
       decoration: BoxDecoration(
-        color: TibebConstants.surface,
+        color: t.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: SingleChildScrollView(
@@ -61,7 +63,7 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.3),
+                  color: t.textSecondary.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -72,16 +74,16 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
+                Text(
                   'Display Settings',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: t.textPrimary,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.close, color: Colors.white54),
+                  icon: Icon(Icons.close, color: t.textSecondary),
                   onPressed: () => Navigator.pop(context),
                 ),
               ],
@@ -89,23 +91,24 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
             const SizedBox(height: 24),
 
             // Theme Section
-            _buildSectionLabel('THEME'),
+            _buildSectionLabel(t, 'THEME'),
             const SizedBox(height: 12),
-            _buildThemeSelector(settings, notifier),
+            _buildThemeSelector(t, settings, notifier),
             const SizedBox(height: 28),
 
             // Typeface Section
-            _buildSectionLabel('TYPEFACE'),
+            _buildSectionLabel(t, 'TYPEFACE'),
             const SizedBox(height: 12),
-            _buildTypefaceDropdown(settings, notifier),
+            _buildTypefaceDropdown(t, settings, notifier),
             const SizedBox(height: 28),
 
             // Size & Layout Section
-            _buildSectionLabel('SIZE & LAYOUT'),
+            _buildSectionLabel(t, 'SIZE & LAYOUT'),
             const SizedBox(height: 16),
 
             // Text Size Slider
             _buildSliderRow(
+              t,
               label: 'Text Size',
               value: _localTextSize,
               min: 12,
@@ -119,6 +122,7 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
             ),
             // Auto Scroll Speed Slider
             _buildSliderRow(
+              t,
               label: 'Auto Scroll Speed',
               value: _localAutoScrollSpeed,
               min: 0.5,
@@ -134,6 +138,7 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
 
             // Line Height Slider
             _buildSliderRow(
+              t,
               label: 'Line Height',
               value: _localLineHeight,
               min: 1.0,
@@ -148,22 +153,22 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
             const SizedBox(height: 20),
 
             // Alignment Buttons
-            _buildAlignmentSelector(settings, notifier),
+            _buildAlignmentSelector(t, settings, notifier),
             const SizedBox(height: 28),
 
             // Publisher Defaults Toggle
-            _buildPublisherDefaultsToggle(settings, notifier),
+            _buildPublisherDefaultsToggle(t, settings, notifier),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildSectionLabel(String label) {
+  Widget _buildSectionLabel(TibebThemeExtension t, String label) {
     return Text(
       label,
       style: TextStyle(
-        color: Colors.white.withValues(alpha: 0.5),
+        color: t.textSecondary,
         fontSize: 12,
         fontWeight: FontWeight.w600,
         letterSpacing: 1.2,
@@ -172,6 +177,7 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
   }
 
   Widget _buildThemeSelector(
+    TibebThemeExtension t,
     ReaderSettings settings,
     ReaderSettingsNotifier notifier,
   ) {
@@ -189,7 +195,7 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(
-                color: isSelected ? TibebConstants.accent : Colors.transparent,
+                color: isSelected ? t.primary : Colors.transparent,
                 width: 2,
               ),
             ),
@@ -200,7 +206,7 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
                 color: color,
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.2),
+                  color: t.borderSubtle,
                   width: 1,
                 ),
               ),
@@ -212,23 +218,24 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
   }
 
   Widget _buildTypefaceDropdown(
+    TibebThemeExtension t,
     ReaderSettings settings,
     ReaderSettingsNotifier notifier,
   ) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+        color: t.textSecondary.withValues(alpha: 0.05),
+        borderRadius: TibebRadius.borderMd,
+        border: Border.all(color: t.borderSubtle),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
           value: settings.typeface,
           isExpanded: true,
-          dropdownColor: TibebConstants.surface,
-          style: const TextStyle(color: Colors.white, fontSize: 16),
-          icon: const Icon(Icons.keyboard_arrow_down, color: Colors.white54),
+          dropdownColor: t.surface,
+          style: TextStyle(color: t.textPrimary, fontSize: 16),
+          icon: Icon(Icons.keyboard_arrow_down, color: t.textSecondary),
           items: ReaderSettings.availableTypefaces.map((typeface) {
             return DropdownMenuItem(
               value: typeface,
@@ -250,7 +257,8 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
     );
   }
 
-  Widget _buildSliderRow({
+  Widget _buildSliderRow(
+    TibebThemeExtension t, {
     required String label,
     required double value,
     required double min,
@@ -267,12 +275,12 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
           children: [
             Text(
               label,
-              style: const TextStyle(color: Colors.white70, fontSize: 14),
+              style: TextStyle(color: t.textSecondary, fontSize: 14),
             ),
             Text(
               displayValue,
               style: TextStyle(
-                color: TibebConstants.accent,
+                color: t.primary,
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
               ),
@@ -282,10 +290,10 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
         const SizedBox(height: 8),
         SliderTheme(
           data: SliderThemeData(
-            activeTrackColor: TibebConstants.accent,
-            inactiveTrackColor: Colors.white.withValues(alpha: 0.1),
-            thumbColor: TibebConstants.accent,
-            overlayColor: TibebConstants.accent.withValues(alpha: 0.2),
+            activeTrackColor: t.primary,
+            inactiveTrackColor: t.borderSubtle,
+            thumbColor: t.primary,
+            overlayColor: t.primary.withValues(alpha: 0.2),
             trackHeight: 4,
             thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
           ),
@@ -302,24 +310,28 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
   }
 
   Widget _buildAlignmentSelector(
+    TibebThemeExtension t,
     ReaderSettings settings,
     ReaderSettingsNotifier notifier,
   ) {
     return Row(
       children: [
         _buildAlignmentButton(
+          t: t,
           icon: Icons.format_align_left,
           isSelected: settings.alignment == ReaderAlignment.left,
           onTap: () => notifier.setAlignment(ReaderAlignment.left),
         ),
         const SizedBox(width: 8),
         _buildAlignmentButton(
+          t: t,
           icon: Icons.format_align_center,
           isSelected: settings.alignment == ReaderAlignment.center,
           onTap: () => notifier.setAlignment(ReaderAlignment.center),
         ),
         const SizedBox(width: 8),
         _buildAlignmentButton(
+          t: t,
           icon: Icons.format_align_justify,
           isSelected: settings.alignment == ReaderAlignment.justified,
           onTap: () => notifier.setAlignment(ReaderAlignment.justified),
@@ -329,6 +341,7 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
   }
 
   Widget _buildAlignmentButton({
+    required TibebThemeExtension t,
     required IconData icon,
     required bool isSelected,
     required VoidCallback onTap,
@@ -340,18 +353,18 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
           padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
             color: isSelected
-                ? TibebConstants.accent.withValues(alpha: 0.2)
-                : Colors.white.withValues(alpha: 0.05),
-            borderRadius: BorderRadius.circular(12),
+                ? t.primary.withValues(alpha: 0.2)
+                : t.textSecondary.withValues(alpha: 0.05),
+            borderRadius: TibebRadius.borderMd,
             border: Border.all(
               color: isSelected
-                  ? TibebConstants.accent
-                  : Colors.white.withValues(alpha: 0.1),
+                  ? t.primary
+                  : t.borderSubtle,
             ),
           ),
           child: Icon(
             icon,
-            color: isSelected ? TibebConstants.accent : Colors.white54,
+            color: isSelected ? t.primary : t.textSecondary,
           ),
         ),
       ),
@@ -359,29 +372,30 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
   }
 
   Widget _buildPublisherDefaultsToggle(
+    TibebThemeExtension t,
     ReaderSettings settings,
     ReaderSettingsNotifier notifier,
   ) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+        color: t.textSecondary.withValues(alpha: 0.05),
+        borderRadius: TibebRadius.borderMd,
+        border: Border.all(color: t.borderSubtle),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text(
+          Text(
             'Defaults',
-            style: TextStyle(color: Colors.white, fontSize: 16),
+            style: TextStyle(color: t.textPrimary, fontSize: 16),
           ),
           Switch(
             value: settings.usePublisherDefaults,
             onChanged: (value) => notifier.togglePublisherDefaults(value),
-            activeTrackColor: TibebConstants.accent.withValues(alpha: 0.5),
-            activeThumbColor: TibebConstants.accent,
-            inactiveTrackColor: Colors.white.withValues(alpha: 0.1),
+            activeTrackColor: t.primary.withValues(alpha: 0.5),
+            activeColor: t.primary,
+            inactiveTrackColor: t.borderSubtle,
           ),
         ],
       ),

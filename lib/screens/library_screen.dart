@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tibeb/core/constants.dart';
-import 'package:tibeb/components/book_card.dart';
-import 'package:tibeb/components/glass_container.dart';
-import 'package:tibeb/providers/library_provider.dart';
-import 'package:tibeb/models/book_model.dart';
-import 'package:tibeb/services/book_service.dart';
-import 'package:tibeb/screens/reading_screen.dart';
-import 'package:tibeb/screens/library/widgets/empty_library_view.dart';
-import 'package:tibeb/screens/library/widgets/library_header.dart';
-import 'package:tibeb/screens/library/widgets/add_book_fab.dart';
-import 'package:tibeb/screens/edit_book_screen.dart';
-import 'package:tibeb/components/book_overlay_menu.dart';
+import '../core/theme/semantics/color_scheme.dart';
+import '../core/theme/tokens/radius.dart';
+import '../components/book_card.dart';
+import '../components/glass_container.dart';
+import '../providers/library_provider.dart';
+import '../models/book_model.dart';
+import '../services/book_service.dart';
+import '../screens/reading_screen.dart';
+import '../screens/library/widgets/empty_library_view.dart';
+import '../screens/library/widgets/library_header.dart';
+import '../screens/library/widgets/add_book_fab.dart';
+import '../screens/edit_book_screen.dart';
+import '../components/book_overlay_menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
-import 'package:tibeb/utils/tutorial_helper.dart';
+import '../utils/tutorial_helper.dart';
 
 class LibraryScreen extends ConsumerStatefulWidget {
   const LibraryScreen({super.key});
@@ -177,6 +178,9 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
   Future<void> _handleSelectiveImport() async {
     final notifier = ref.read(libraryProvider.notifier);
     final bookService = BookService();
+    final t = ref.read(currentlyReadingProvider.notifier).state != null
+        ? Theme.of(context).extension<TibebThemeExtension>()!
+        : context.tibpiColors;
 
     final hasPermission = await bookService.requestPermissions();
     if (!hasPermission) {
@@ -184,8 +188,12 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
         ScaffoldMessenger.of(context)
           ..clearSnackBars()
           ..showSnackBar(
-            const SnackBar(
-              content: Text('Storage permission is required to import books.'),
+            SnackBar(
+              content: Text(
+                'Storage permission is required to import books.',
+                style: TextStyle(color: t.textPrimary),
+              ),
+              backgroundColor: t.surface,
             ),
           );
       }
@@ -204,13 +212,15 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
           ..clearSnackBars()
           ..showSnackBar(
             SnackBar(
+              backgroundColor: t.surface,
               content: Text(
                 'Successfully imported ${importedBooks.length} books.',
+                style: TextStyle(color: t.textPrimary),
               ),
               action: SnackBarAction(
                 label: 'OK',
                 onPressed: () {},
-                textColor: TibebConstants.accent,
+                textColor: t.primary,
               ),
             ),
           );
@@ -221,6 +231,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(libraryProvider);
+    final t = context.tibpiColors;
 
     ref.listen(libraryProvider, (previous, next) {
       if (_fabTutorialShown &&
@@ -234,18 +245,18 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
     });
 
     return Scaffold(
-      backgroundColor: TibebConstants.background,
+      backgroundColor: t.background,
       appBar: AppBar(
         toolbarHeight: 0,
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
       body: state.isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? Center(child: CircularProgressIndicator(color: t.primary))
           : Column(
               children: [
                 if (_isSelectionMode)
-                  _buildSelectionHeader()
+                  _buildSelectionHeader(t)
                 else
                   LibraryHeader(
                     searchController: _searchController,
@@ -308,7 +319,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
     );
   }
 
-  Widget _buildSelectionHeader() {
+  Widget _buildSelectionHeader(TibebThemeExtension t) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: GlassContainer(
@@ -317,14 +328,14 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
         child: Row(
           children: [
             IconButton(
-              icon: const Icon(Icons.close, color: Colors.white70),
+              icon: Icon(Icons.close, color: t.textSecondary),
               onPressed: _clearSelection,
             ),
             const SizedBox(width: 8),
             Text(
               '${_selectedBookIds.length} selected',
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: t.textPrimary,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -332,7 +343,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
             const Spacer(),
             IconButton(
               tooltip: 'Select All',
-              icon: const Icon(Icons.select_all, color: Colors.white70),
+              icon: Icon(Icons.select_all, color: t.textSecondary),
               onPressed: () {
                 setState(() {
                   final filteredBooks = ref.read(libraryProvider).filteredBooks;
@@ -345,12 +356,12 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
             ),
             IconButton(
               tooltip: 'Add to Category',
-              icon: const Icon(Icons.label_outline, color: Colors.white70),
+              icon: Icon(Icons.label_outline, color: t.textSecondary),
               onPressed: _showBatchTagDialog,
             ),
             IconButton(
               tooltip: 'Remove Selected',
-              icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
+              icon: Icon(Icons.delete_outline, color: t.error),
               onPressed: _handleBatchDelete,
             ),
           ],
@@ -361,25 +372,26 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
 
   void _showBatchTagDialog() async {
     if (_selectedBookIds.isEmpty) return;
+    final t = context.tibpiColors;
     final textController = TextEditingController();
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: TibebConstants.surface,
-        title: const Text(
+        backgroundColor: t.surface,
+        title: Text(
           'Add to Category',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: t.textPrimary),
         ),
         content: TextField(
           controller: textController,
-          style: const TextStyle(color: Colors.white),
+          style: TextStyle(color: t.textPrimary),
           decoration: InputDecoration(
             hintText: 'Enter category name',
-            hintStyle: const TextStyle(color: Colors.white54),
+            hintStyle: TextStyle(color: t.textTertiary),
             filled: true,
-            fillColor: TibebConstants.surface.withValues(alpha: 0.8),
+            fillColor: t.surfaceOverlay,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: TibebRadius.borderMd,
               borderSide: BorderSide.none,
             ),
           ),
@@ -388,16 +400,16 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text(
+            child: Text(
               'Cancel',
-              style: TextStyle(color: Colors.white60),
+              style: TextStyle(color: t.textSecondary),
             ),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            child: const Text(
+            child: Text(
               'Add',
-              style: TextStyle(color: TibebConstants.accent),
+              style: TextStyle(color: t.primary),
             ),
           ),
         ],
@@ -415,7 +427,13 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
         ScaffoldMessenger.of(context)
           ..clearSnackBars()
           ..showSnackBar(
-            SnackBar(content: Text('Category added to selected books')),
+            SnackBar(
+              backgroundColor: t.surface,
+              content: Text(
+                'Category added to selected books',
+                style: TextStyle(color: t.textPrimary),
+              ),
+            ),
           );
       }
     }
@@ -423,32 +441,33 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
 
   void _handleBatchDelete() async {
     if (_selectedBookIds.isEmpty) return;
+    final t = context.tibpiColors;
 
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: TibebConstants.surface,
-        title: const Text(
+        backgroundColor: t.surface,
+        title: Text(
           'Remove Books',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: t.textPrimary),
         ),
         content: Text(
           'Are you sure you want to remove ${_selectedBookIds.length} books? Your reading progress and history will be kept if you re-import them.',
-          style: const TextStyle(color: Colors.white70),
+          style: TextStyle(color: t.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text(
+            child: Text(
               'Cancel',
-              style: TextStyle(color: Colors.white60),
+              style: TextStyle(color: t.textSecondary),
             ),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            child: const Text(
+            child: Text(
               'Remove',
-              style: TextStyle(color: Colors.redAccent),
+              style: TextStyle(color: t.error),
             ),
           ),
         ],
@@ -500,33 +519,34 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
   }
 
   void _showDeleteConfirmation(Book book) async {
+    final t = context.tibpiColors;
     bool deleteHistory = false;
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) {
           return AlertDialog(
-            backgroundColor: TibebConstants.surface,
-            title: const Text(
+            backgroundColor: t.surface,
+            title: Text(
               'Remove Book',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: t.textPrimary),
             ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   'Are you sure you want to remove "${book.title}"?',
-                  style: const TextStyle(color: Colors.white70),
+                  style: TextStyle(color: t.textSecondary),
                 ),
                 const SizedBox(height: 16),
                 CheckboxListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: const Text(
+                  title: Text(
                     'Remove reading history',
-                    style: TextStyle(fontSize: 14, color: Colors.white70),
+                    style: TextStyle(fontSize: 14, color: t.textSecondary),
                   ),
                   value: deleteHistory,
-                  activeColor: TibebConstants.accent,
+                  activeColor: t.primary,
                   onChanged: (val) {
                     setDialogState(() {
                       deleteHistory = val ?? false;
@@ -538,16 +558,16 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
-                child: const Text(
+                child: Text(
                   'Cancel',
-                  style: TextStyle(color: Colors.white60),
+                  style: TextStyle(color: t.textSecondary),
                 ),
               ),
               TextButton(
                 onPressed: () => Navigator.pop(context, true),
-                child: const Text(
+                child: Text(
                   'Remove',
-                  style: TextStyle(color: Colors.redAccent),
+                  style: TextStyle(color: t.error),
                 ),
               ),
             ],

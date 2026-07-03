@@ -1,92 +1,100 @@
 import 'package:flutter/material.dart';
 
-class TibebConstants {
-  // Layout Constants
-  static const double borderRadius = 16.0;
-  static const double paddingUnit = 8.0;
-  static const double horizontalPadding = 20.0;
-  static const double verticalPadding = 20.0;
+/// Tibeb Rank Model
+///
+/// Represents a reading rank in the Ge'ez-inspired tier system.
+/// Ranks are determined by user level + achievement count.
+class TibebRank {
+  final int level;
+  final int achievementsRequired;
+  final String name;
+  final String nameKey;
+  final String description;
+  final Color color; 
+  final IconData icon;
 
-  // Colors (Stitch Design Alignment)
-  static const Color background = Color(0xFF0A0B0E);
-  static const Color surface = Color(0xFF16171D);
-  static const Color accent = Color(
-    0xFF2ECC71,
-  ); // Vibrant Green from Stitch alignment attempt
-  static const Color accentGreen = Color(0xFF2ECC71); // Emerald Green
-  static const Color textPrimary = Color(0xFFFFFFFF);
-  static const Color textSecondary = Color(0xFF94A3B8); // Slate 400
-  static const Color glassy = Color(0x1AFFFFFF);
-  static const Color outline = Color(0xFF1E293B); // Slate 800
+  const TibebRank({
+    required this.level,
+    required this.achievementsRequired,
+    required this.name,
+    required this.nameKey,
+    required this.description,
+    required this.color,
+    required this.icon,
+  });
+}
 
-  // Shadows
-  static const List<BoxShadow> cardShadow = [
-    BoxShadow(color: Color(0x40000000), blurRadius: 20, offset: Offset(0, 10)),
-  ];
-
-  // GitHub Graph Colors
-  static List<Color> graphColors = [
-    const Color(0xFF161B22), // empty
-    const Color(0xFF0E4429), // level 1
-    const Color(0xFF006D32), // level 2
-    const Color(0xFF26A641), // level 3
-    const Color(0xFF39D353), // level 4
-  ];
-
-  // Ranks
+/// Tibeb Design System — App Constants
+///
+/// All visual constants now reference the theme system.
+/// Colors, spacing, and radius are in `core/theme/tokens/`.
+/// Semantic colors are accessed via `context.tibpiColors`.
+abstract final class TibebConstants {
+  // ──────────────────────────────────────────────
+  // Rank System (Ge'ez-inspired tiers)
+  // ──────────────────────────────────────────────
   static const List<TibebRank> ranks = [
     TibebRank(
       level: 1,
       achievementsRequired: 0,
-      name: 'Temari (ተማሪ)',
+      name: 'ተማሪ (Temari)',
+      nameKey: 'rank_temari',
       description: 'Beginning the journey of wisdom.',
+      color: Color(0xFF94A3B8), // Slate — novice
+      icon: Icons.auto_stories_outlined,
     ),
     TibebRank(
       level: 5,
       achievementsRequired: 2,
-      name: 'Anebabi (አንባቢ)',
+      name: 'አንባቢ (Anebabi)',
+      nameKey: 'rank_anebabi',
       description: 'Building consistency through reading.',
+      color: Color(0xFF3CCB7F), // Green — growth
+      icon: Icons.menu_book_rounded,
     ),
     TibebRank(
       level: 10,
       achievementsRequired: 5,
-      name: 'Tsehafi (ጸሐፊ)',
+      name: 'ጸሐፊ (Tsehafi)',
+      nameKey: 'rank_tsehafi',
       description: 'Writing and reflecting on knowledge.',
+      color: Color(0xFF4C7DFF), // Blue — clarity
+      icon: Icons.edit_note_rounded,
     ),
     TibebRank(
       level: 20,
       achievementsRequired: 8,
-      name: 'Liq (ሊቅ)',
+      name: 'ሊቅ (Liq)',
+      nameKey: 'rank_liq',
       description: 'Deep understanding and mastery.',
+      color: Color(0xFF9B59B6), // Purple — depth
+      icon: Icons.psychology_rounded,
     ),
     TibebRank(
       level: 40,
       achievementsRequired: 10,
-      name: 'Baletibeb (ባለጥበብ)',
+      name: 'ባለጥበብ (Baletibeb)',
+      nameKey: 'rank_baletibeb',
       description: 'Applying wisdom in life.',
+      color: Color(0xFFD4A843), // Gold — wisdom
+      icon: Icons.workspace_premium_rounded,
     ),
     TibebRank(
       level: 50,
       achievementsRequired: 12,
-      name: 'Tibebawi (ጥበባዊ)',
+      name: 'ጥበባዊ (Tibebawi)',
+      nameKey: 'rank_tibebawi',
       description: 'Embodiment of wisdom.',
+      color: Color(0xFFF5DFA0), // Radiant Gold — mastery
+      icon: Icons.diamond_rounded,
     ),
   ];
 
-  // Highlight Colors
-  static const List<Color> highlightColors = [
-    Color(0xFFE74C3C), // Red
-    Color(0xFFF1C40F), // Yellow
-    Color(0xFF2ECC71), // Green
-    Color(0xFF3498DB), // Blue
-    Color(0xFF9B59B6), // Purple
-  ];
-
+  /// Get the rank for a given level and achievement count.
   static TibebRank getRankForLevel(int level, int achievementCount) {
     TibebRank current = ranks.first;
     for (final rank in ranks) {
-      if (level >= rank.level &&
-          achievementCount >= rank.achievementsRequired) {
+      if (level >= rank.level && achievementCount >= rank.achievementsRequired) {
         current = rank;
       } else {
         break;
@@ -94,18 +102,22 @@ class TibebConstants {
     }
     return current;
   }
-}
 
-class TibebRank {
-  final int level;
-  final int achievementsRequired;
-  final String name;
-  final String description;
+  /// Get the next rank (or null if at max).
+  static TibebRank? getNextRank(int level, int achievementCount) {
+    final current = getRankForLevel(level, achievementCount);
+    final idx = ranks.indexOf(current);
+    if (idx < ranks.length - 1) return ranks[idx + 1];
+    return null;
+  }
 
-  const TibebRank({
-    required this.level,
-    required this.achievementsRequired,
-    required this.name,
-    required this.description,
-  });
+  /// Get progress fraction toward the next rank (0.0 to 1.0).
+  static double getRankProgress(int level, int achievementCount) {
+    final current = getRankForLevel(level, achievementCount);
+    final next = getNextRank(level, achievementCount);
+    if (next == null) return 1.0;
+    final levelRange = next.level - current.level;
+    if (levelRange <= 0) return 1.0;
+    return ((level - current.level) / levelRange).clamp(0.0, 1.0);
+  }
 }

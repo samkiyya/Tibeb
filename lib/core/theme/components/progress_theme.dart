@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:tibeb/core/theme/tokens/colors.dart';
+import '../semantics/theme_extension.dart';
 
 class TibebProgressTheme {
-  static ProgressIndicatorThemeData get theme {
-    return const ProgressIndicatorThemeData(
-      color: TibebColors.wisdom,
-      linearTrackColor: TibebColors.surface,
+  TibebProgressTheme._();
+
+  static ProgressIndicatorThemeData theme(TibebThemeExtension ext) {
+    return ProgressIndicatorThemeData(
+      color: ext.primary,
+      linearTrackColor: ext.surface,
+      circularTrackColor: ext.surface,
     );
   }
 }

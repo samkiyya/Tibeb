@@ -12,7 +12,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:android_intent_plus/android_intent.dart';
 import '../../../models/reader_settings_model.dart';
 import '../../../models/highlight_model.dart';
-import '../../../core/constants.dart';
+import '../../../core/theme/semantics/color_scheme.dart';
 import 'share_quote_sheet.dart';
 import 'note_editor.dart';
 
@@ -184,12 +184,14 @@ class _EpubChapterPageState extends State<EpubChapterPage>
       // Create a regex that is extremely lenient with HTML whitespace and nested tags
       final normalizedText = highlight.text.replaceAll(RegExp(r'\s+'), ' ');
       final wsPattern = r'(?:\s|&nbsp;|&zwj;|&#160;|&#xa0;|&#x20;|<[^>]+>)+';
-      final escapedText = RegExp.escape(normalizedText).replaceAll(' ', wsPattern);
-      
+      final escapedText = RegExp.escape(
+        normalizedText,
+      ).replaceAll(' ', wsPattern);
+
       // Lookahead ensures we don't start matching inside an HTML tag
       final regex = RegExp('(?![^<]*>)$escapedText', caseSensitive: false);
       final rgba = _hexToRgba(highlight.color, 0.35);
-      
+
       final matches = regex.allMatches(content).toList();
       if (matches.isEmpty) continue;
 
@@ -477,22 +479,22 @@ class _EpubChapterPageState extends State<EpubChapterPage>
                             int? targetIndex;
                             int? fileOnlyIndex;
                             for (int i = 0; i < widget.chapters.length; i++) {
-                               final ch = widget.chapters[i];
-                               final chapterFile = ch.ContentFileName ?? '';
-                               if (chapterFile.isEmpty) continue;
-                               final fileMatches =
-                                   chapterFile == targetFile ||
-                                   chapterFile.endsWith('/$targetFile') ||
-                                   chapterFile.endsWith(targetFile);
-                               if (!fileMatches) continue;
+                              final ch = widget.chapters[i];
+                              final chapterFile = ch.ContentFileName ?? '';
+                              if (chapterFile.isEmpty) continue;
+                              final fileMatches =
+                                  chapterFile == targetFile ||
+                                  chapterFile.endsWith('/$targetFile') ||
+                                  chapterFile.endsWith(targetFile);
+                              if (!fileMatches) continue;
 
-                               if (anchor != null &&
-                                   anchor.isNotEmpty &&
-                                   ch.Anchor == anchor) {
-                                 targetIndex = i;
-                                 break;
-                               }
-                               fileOnlyIndex ??= i;
+                              if (anchor != null &&
+                                  anchor.isNotEmpty &&
+                                  ch.Anchor == anchor) {
+                                targetIndex = i;
+                                break;
+                              }
+                              fileOnlyIndex ??= i;
                             }
 
                             targetIndex ??= fileOnlyIndex;
@@ -504,7 +506,8 @@ class _EpubChapterPageState extends State<EpubChapterPage>
                             TagExtension(
                               tagsToExtend: {"img", "image"},
                               builder: (extensionContext) {
-                                final src = extensionContext.attributes['src'] ??
+                                final src =
+                                    extensionContext.attributes['src'] ??
                                     extensionContext.attributes['href'] ??
                                     extensionContext.attributes['xlink:href'];
 
@@ -517,14 +520,20 @@ class _EpubChapterPageState extends State<EpubChapterPage>
                                     if (!_imageCache.containsKey(src)) {
                                       final parts = src.split(',');
                                       if (parts.length == 2) {
-                                        _imageCache[src] = base64Decode(parts[1].trim());
+                                        _imageCache[src] = base64Decode(
+                                          parts[1].trim(),
+                                        );
                                       }
                                     }
                                     final bytes = _imageCache[src];
                                     if (bytes != null) {
                                       return ConstrainedBox(
                                         constraints: BoxConstraints(
-                                          maxWidth: MediaQuery.of(context).size.width - 40,
+                                          maxWidth:
+                                              MediaQuery.of(
+                                                context,
+                                              ).size.width -
+                                              40,
                                         ),
                                         child: Image.memory(
                                           bytes,
@@ -541,7 +550,7 @@ class _EpubChapterPageState extends State<EpubChapterPage>
 
                                 String path = Uri.decodeComponent(src);
                                 path = path.split('?').first.split('#').first;
-                                
+
                                 while (path.startsWith('../')) {
                                   path = path.substring(3);
                                 }
@@ -550,7 +559,8 @@ class _EpubChapterPageState extends State<EpubChapterPage>
                                 }
 
                                 final images = widget.epubBook?.Content?.Images;
-                                if (images == null) return const SizedBox.shrink();
+                                if (images == null)
+                                  return const SizedBox.shrink();
 
                                 EpubByteContentFile? imageFile = images[path];
 
@@ -558,7 +568,8 @@ class _EpubChapterPageState extends State<EpubChapterPage>
                                   final fileName = path.split('/').last;
                                   for (final file in images.values) {
                                     if (file.FileName == fileName ||
-                                        file.FileName == Uri.decodeComponent(fileName)) {
+                                        file.FileName ==
+                                            Uri.decodeComponent(fileName)) {
                                       imageFile = file;
                                       break;
                                     }
@@ -574,16 +585,20 @@ class _EpubChapterPageState extends State<EpubChapterPage>
                                           : Uint8List.fromList(content);
                                     }
                                   }
-                                  
+
                                   final bytes = _imageCache[path];
                                   if (bytes != null) {
                                     return ConstrainedBox(
                                       constraints: BoxConstraints(
-                                        maxWidth: MediaQuery.of(context).size.width - 40,
+                                        maxWidth:
+                                            MediaQuery.of(context).size.width -
+                                            40,
                                       ),
                                       child: Image.memory(
                                         bytes,
-                                        key: ValueKey('img_${path.hashCode}_${bytes.length}'),
+                                        key: ValueKey(
+                                          'img_${path.hashCode}_${bytes.length}',
+                                        ),
                                         fit: BoxFit.scaleDown,
                                         gaplessPlayback: true,
                                         filterQuality: FilterQuality.medium,
@@ -599,54 +614,93 @@ class _EpubChapterPageState extends State<EpubChapterPage>
                             "body": Style(
                               margin: Margins.zero,
                               padding: HtmlPaddings.zero,
-                              fontSize: FontSize(widget.settings.textSize, Unit.px),
-                              lineHeight: LineHeight(widget.settings.lineHeight, units: ""),
+                              fontSize: FontSize(
+                                widget.settings.textSize,
+                                Unit.px,
+                              ),
+                              lineHeight: LineHeight(
+                                widget.settings.lineHeight,
+                                units: "",
+                              ),
                               color: widget.settings.textColor,
-                              textAlign: _convertTextAlign(widget.settings.textAlign),
-                              fontFamily: widget.settings.typeface == 'System' ? null : widget.settings.typeface,
+                              textAlign: _convertTextAlign(
+                                widget.settings.textAlign,
+                              ),
+                              fontFamily: widget.settings.typeface == 'System'
+                                  ? null
+                                  : widget.settings.typeface,
                             ),
                             "p": Style(
                               margin: Margins.only(bottom: 16),
-                              lineHeight: LineHeight(widget.settings.lineHeight, units: ""),
+                              lineHeight: LineHeight(
+                                widget.settings.lineHeight,
+                                units: "",
+                              ),
                             ),
                             "h1": Style(
-                              fontSize: FontSize(widget.settings.textSize * 1.5, Unit.px),
+                              fontSize: FontSize(
+                                widget.settings.textSize * 1.5,
+                                Unit.px,
+                              ),
                               fontWeight: FontWeight.bold,
                               margin: Margins.only(top: 24, bottom: 12),
                             ),
                             "h2": Style(
-                              fontSize: FontSize(widget.settings.textSize * 1.3, Unit.px),
+                              fontSize: FontSize(
+                                widget.settings.textSize * 1.3,
+                                Unit.px,
+                              ),
                               fontWeight: FontWeight.bold,
                               margin: Margins.only(top: 20, bottom: 10),
                             ),
                             "h3": Style(
-                              fontSize: FontSize(widget.settings.textSize * 1.1, Unit.px),
+                              fontSize: FontSize(
+                                widget.settings.textSize * 1.1,
+                                Unit.px,
+                              ),
                               fontWeight: FontWeight.bold,
                               margin: Margins.only(top: 16, bottom: 8),
                             ),
                             "blockquote": Style(
-                              margin: Margins.only(left: 20, right: 20, bottom: 16),
+                              margin: Margins.only(
+                                left: 20,
+                                right: 20,
+                                bottom: 16,
+                              ),
                               padding: HtmlPaddings.only(left: 12),
-                              border: Border(left: BorderSide(color: widget.settings.secondaryTextColor, width: 3)),
+                              border: Border(
+                                left: BorderSide(
+                                  color: widget.settings.secondaryTextColor,
+                                  width: 3,
+                                ),
+                              ),
                             ),
                             "code": Style(
                               fontFamily: "monospace",
-                              backgroundColor: widget.settings.textColor.withValues(alpha: 0.1),
+                              backgroundColor: widget.settings.textColor
+                                  .withValues(alpha: 0.1),
                               padding: HtmlPaddings.symmetric(horizontal: 4),
                             ),
                             "pre": Style(
                               margin: Margins.only(bottom: 16),
                               padding: HtmlPaddings.all(12),
-                              backgroundColor: widget.settings.textColor.withValues(alpha: 0.1),
+                              backgroundColor: widget.settings.textColor
+                                  .withValues(alpha: 0.1),
                               fontFamily: "monospace",
                               display: Display.block,
                             ),
                             "img": Style(
-                              width: Width(MediaQuery.of(context).size.width - 40, Unit.px),
+                              width: Width(
+                                MediaQuery.of(context).size.width - 40,
+                                Unit.px,
+                              ),
                               alignment: Alignment.center,
                             ),
                             "image": Style(
-                              width: Width(MediaQuery.of(context).size.width - 40, Unit.px),
+                              width: Width(
+                                MediaQuery.of(context).size.width - 40,
+                                Unit.px,
+                              ),
                               alignment: Alignment.center,
                             ),
                           },
@@ -675,7 +729,8 @@ class _EpubChapterPageState extends State<EpubChapterPage>
   }
 
   int? _findOccurrenceIndex(String selectedText, Offset primaryAnchor) {
-    final RenderBox? contentBox = _contentKey.currentContext?.findRenderObject() as RenderBox?;
+    final RenderBox? contentBox =
+        _contentKey.currentContext?.findRenderObject() as RenderBox?;
     if (contentBox == null) return null;
 
     final List<RenderParagraph> paragraphs = [];
@@ -685,6 +740,7 @@ class _EpubChapterPageState extends State<EpubChapterPage>
       }
       node.visitChildren(collectParagraphs);
     }
+
     collectParagraphs(contentBox);
 
     RenderParagraph? targetParagraph;
@@ -696,15 +752,17 @@ class _EpubChapterPageState extends State<EpubChapterPage>
         final bounds = p.paintBounds;
         final globalOffset = p.localToGlobal(Offset.zero);
         final globalBounds = globalOffset & bounds.size;
-        
+
         double distance = 0.0;
         if (globalBounds.contains(primaryAnchor)) {
           distance = 0.0;
         } else {
           final center = globalBounds.center;
-          distance = (center.dy - primaryAnchor.dy).abs() + (center.dx - primaryAnchor.dx).abs() * 0.1;
+          distance =
+              (center.dy - primaryAnchor.dy).abs() +
+              (center.dx - primaryAnchor.dx).abs() * 0.1;
         }
-        
+
         if (distance < minDistance) {
           minDistance = distance;
           targetParagraph = p;
@@ -720,12 +778,12 @@ class _EpubChapterPageState extends State<EpubChapterPage>
       if (p == targetParagraph) {
         final localOffset = p.globalToLocal(primaryAnchor);
         final textPos = p.getPositionForOffset(localOffset).offset;
-        
+
         int bestMatchIndex = 0;
         int closestTextDistance = 999999;
         int searchIndex = 0;
         int localCount = 0;
-        
+
         while (true) {
           searchIndex = text.indexOf(selectedText, searchIndex);
           if (searchIndex == -1) break;
@@ -737,7 +795,7 @@ class _EpubChapterPageState extends State<EpubChapterPage>
           localCount++;
           searchIndex += selectedText.length;
         }
-        
+
         occurrenceIndex += bestMatchIndex;
         break;
       } else {
@@ -753,7 +811,10 @@ class _EpubChapterPageState extends State<EpubChapterPage>
     return occurrenceIndex;
   }
 
-  Widget _buildHighlightMenu(BuildContext context, SelectableRegionState selectableRegionState) {
+  Widget _buildHighlightMenu(
+    BuildContext context,
+    SelectableRegionState selectableRegionState,
+  ) {
     final selectedText = _selectedContent?.plainText;
     if (selectedText == null || selectedText.isEmpty) {
       return AdaptiveTextSelectionToolbar.buttonItems(
@@ -762,7 +823,7 @@ class _EpubChapterPageState extends State<EpubChapterPage>
       );
     }
 
-    final highlightColors = TibebConstants.highlightColors;
+    final highlightColors = context.tibpiColors.highlightColors;
 
     final anchors = selectableRegionState.contextMenuAnchors;
     final primaryAnchor = anchors.primaryAnchor;
@@ -773,7 +834,8 @@ class _EpubChapterPageState extends State<EpubChapterPage>
       if (h.chapterIndex == widget.index && h.text == selectedText) {
         final parts = h.position.split(':');
         if (parts.length >= 3 && parts[1] == 'exact') {
-          if (occurrenceIndex != null && int.tryParse(parts[2]) == occurrenceIndex) {
+          if (occurrenceIndex != null &&
+              int.tryParse(parts[2]) == occurrenceIndex) {
             existingHighlight = h;
             break;
           }
@@ -782,8 +844,12 @@ class _EpubChapterPageState extends State<EpubChapterPage>
     }
 
     if (existingHighlight == null) {
-      double exactRatio = _scrollController.hasClients && _scrollController.position.maxScrollExtent > 0
-          ? (_scrollController.offset / _scrollController.position.maxScrollExtent).clamp(0.0, 1.0)
+      double exactRatio =
+          _scrollController.hasClients &&
+              _scrollController.position.maxScrollExtent > 0
+          ? (_scrollController.offset /
+                    _scrollController.position.maxScrollExtent)
+                .clamp(0.0, 1.0)
           : 0.0;
       double minDistance = double.infinity;
       for (final h in widget.highlights) {
@@ -807,8 +873,14 @@ class _EpubChapterPageState extends State<EpubChapterPage>
     final screenWidth = MediaQuery.of(context).size.width;
     const toolbarWidth = 188.0;
     const toolbarHeight = 80.0;
-    final left = (primaryAnchor.dx - toolbarWidth / 2).clamp(8.0, screenWidth - toolbarWidth - 8.0);
-    final top = (primaryAnchor.dy - toolbarHeight - 8).clamp(8.0, double.infinity);
+    final left = (primaryAnchor.dx - toolbarWidth / 2).clamp(
+      8.0,
+      screenWidth - toolbarWidth - 8.0,
+    );
+    final top = (primaryAnchor.dy - toolbarHeight - 8).clamp(
+      8.0,
+      double.infinity,
+    );
 
     return Stack(
       children: [
@@ -821,7 +893,13 @@ class _EpubChapterPageState extends State<EpubChapterPage>
               decoration: BoxDecoration(
                 color: widget.settings.menuBackgroundColor,
                 borderRadius: BorderRadius.circular(12),
-                boxShadow: const [BoxShadow(color: Color(0x40000000), blurRadius: 12, offset: Offset(0, 4))],
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0x40000000),
+                    blurRadius: 12,
+                    offset: Offset(0, 4),
+                  ),
+                ],
               ),
               padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
               child: Column(
@@ -830,35 +908,55 @@ class _EpubChapterPageState extends State<EpubChapterPage>
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      ...highlightColors.map((color) => SizedBox(
-                        width: btnSize,
-                        height: btnSize,
-                        child: IconButton(
-                          padding: EdgeInsets.zero,
-                          icon: Icon(Icons.circle, color: color, size: 22),
-                          onPressed: () {
-                            final hexColor = '#${color.toARGB32().toRadixString(16).substring(2).toUpperCase()}';
-                            final ratio = _scrollController.hasClients && _scrollController.position.maxScrollExtent > 0 ? (_scrollController.offset / _scrollController.position.maxScrollExtent) : 0.0;
-                            widget.onHighlight(Highlight(
-                              bookId: 0,
-                              chapterIndex: widget.index,
-                              text: selectedText,
-                              color: hexColor,
-                              createdAt: DateTime.now(),
-                              position: '${widget.index}:${occurrenceIndex != null ? 'exact:$occurrenceIndex' : 'ratio'}:$ratio',
-                            ));
-                            selectableRegionState.hideToolbar();
-                            selectableRegionState.clearSelection();
-                          },
+                      ...highlightColors.map(
+                        (color) => SizedBox(
+                          width: btnSize,
+                          height: btnSize,
+                          child: IconButton(
+                            padding: EdgeInsets.zero,
+                            icon: Icon(Icons.circle, color: color, size: 22),
+                            onPressed: () {
+                              final hexColor =
+                                  '#${color.toARGB32().toRadixString(16).substring(2).toUpperCase()}';
+                              final ratio =
+                                  _scrollController.hasClients &&
+                                      _scrollController
+                                              .position
+                                              .maxScrollExtent >
+                                          0
+                                  ? (_scrollController.offset /
+                                        _scrollController
+                                            .position
+                                            .maxScrollExtent)
+                                  : 0.0;
+                              widget.onHighlight(
+                                Highlight(
+                                  bookId: 0,
+                                  chapterIndex: widget.index,
+                                  text: selectedText,
+                                  color: hexColor,
+                                  createdAt: DateTime.now(),
+                                  position:
+                                      '${widget.index}:${occurrenceIndex != null ? 'exact:$occurrenceIndex' : 'ratio'}:$ratio',
+                                ),
+                              );
+                              selectableRegionState.hideToolbar();
+                              selectableRegionState.clearSelection();
+                            },
+                          ),
                         ),
-                      )),
+                      ),
                       if (existingHighlight != null)
                         SizedBox(
                           width: btnSize,
                           height: btnSize,
                           child: IconButton(
                             padding: EdgeInsets.zero,
-                            icon: Icon(Icons.highlight_remove, color: textColor, size: iconSize),
+                            icon: Icon(
+                              Icons.highlight_remove,
+                              color: textColor,
+                              size: iconSize,
+                            ),
                             onPressed: () {
                               widget.onDeleteHighlight(existingHighlight!.id!);
                               selectableRegionState.hideToolbar();
@@ -876,10 +974,18 @@ class _EpubChapterPageState extends State<EpubChapterPage>
                         height: btnSize,
                         child: IconButton(
                           padding: EdgeInsets.zero,
-                          icon: Icon(Icons.sticky_note_2_rounded, color: TibebConstants.accent, size: iconSize),
+                          icon: Icon(
+                            Icons.sticky_note_2_rounded,
+                            color: context.tibpiColors.accent,
+                            size: iconSize,
+                          ),
                           onPressed: () {
                             selectableRegionState.hideToolbar();
-                            _showNoteSheet(context, selectedText, existingHighlight);
+                            _showNoteSheet(
+                              context,
+                              selectedText,
+                              existingHighlight,
+                            );
                           },
                         ),
                       ),
@@ -888,9 +994,15 @@ class _EpubChapterPageState extends State<EpubChapterPage>
                         height: btnSize,
                         child: IconButton(
                           padding: EdgeInsets.zero,
-                          icon: Icon(Icons.copy_rounded, color: textColor, size: iconSize),
+                          icon: Icon(
+                            Icons.copy_rounded,
+                            color: textColor,
+                            size: iconSize,
+                          ),
                           onPressed: () {
-                            Clipboard.setData(ClipboardData(text: selectedText));
+                            Clipboard.setData(
+                              ClipboardData(text: selectedText),
+                            );
                             selectableRegionState.hideToolbar();
                           },
                         ),
@@ -900,7 +1012,11 @@ class _EpubChapterPageState extends State<EpubChapterPage>
                         height: btnSize,
                         child: IconButton(
                           padding: EdgeInsets.zero,
-                          icon: Icon(Icons.menu_book_rounded, color: textColor, size: iconSize),
+                          icon: Icon(
+                            Icons.menu_book_rounded,
+                            color: textColor,
+                            size: iconSize,
+                          ),
                           onPressed: () {
                             _lookupDictionary(selectedText);
                             selectableRegionState.hideToolbar();
@@ -912,10 +1028,19 @@ class _EpubChapterPageState extends State<EpubChapterPage>
                         height: btnSize,
                         child: IconButton(
                           padding: EdgeInsets.zero,
-                          icon: Icon(Icons.share_rounded, color: textColor, size: iconSize),
+                          icon: Icon(
+                            Icons.share_rounded,
+                            color: textColor,
+                            size: iconSize,
+                          ),
                           onPressed: () {
                             selectableRegionState.hideToolbar();
-                            ShareQuoteSheet.show(context, text: selectedText, bookTitle: widget.bookTitle, bookAuthor: widget.bookAuthor);
+                            ShareQuoteSheet.show(
+                              context,
+                              text: selectedText,
+                              bookTitle: widget.bookTitle,
+                              bookAuthor: widget.bookAuthor,
+                            );
                           },
                         ),
                       ),
@@ -943,30 +1068,44 @@ class _EpubChapterPageState extends State<EpubChapterPage>
           title: existing != null ? 'Edit Note' : 'Add Note',
           onSave: (newNote) {
             final hexColor = existing?.color ?? '#F1C40F';
-            final ratio = _scrollController.hasClients && _scrollController.position.maxScrollExtent > 0 ? (_scrollController.offset / _scrollController.position.maxScrollExtent) : 0.0;
-            widget.onHighlight(Highlight(
-              id: existing?.id,
-              bookId: 0,
-              chapterIndex: widget.index,
-              text: text,
-              note: newNote,
-              color: hexColor,
-              createdAt: existing?.createdAt ?? DateTime.now(),
-              position: existing?.position ?? '${widget.index}:ratio:$ratio',
-            ));
+            final ratio =
+                _scrollController.hasClients &&
+                    _scrollController.position.maxScrollExtent > 0
+                ? (_scrollController.offset /
+                      _scrollController.position.maxScrollExtent)
+                : 0.0;
+            widget.onHighlight(
+              Highlight(
+                id: existing?.id,
+                bookId: 0,
+                chapterIndex: widget.index,
+                text: text,
+                note: newNote,
+                color: hexColor,
+                createdAt: existing?.createdAt ?? DateTime.now(),
+                position: existing?.position ?? '${widget.index}:ratio:$ratio',
+              ),
+            );
           },
           onSaveWithColor: (newNote, newColor) {
-            final ratio = _scrollController.hasClients && _scrollController.position.maxScrollExtent > 0 ? (_scrollController.offset / _scrollController.position.maxScrollExtent) : 0.0;
-            widget.onHighlight(Highlight(
-              id: existing?.id,
-              bookId: 0,
-              chapterIndex: widget.index,
-              text: text,
-              note: newNote,
-              color: newColor,
-              createdAt: existing?.createdAt ?? DateTime.now(),
-              position: existing?.position ?? '${widget.index}:ratio:$ratio',
-            ));
+            final ratio =
+                _scrollController.hasClients &&
+                    _scrollController.position.maxScrollExtent > 0
+                ? (_scrollController.offset /
+                      _scrollController.position.maxScrollExtent)
+                : 0.0;
+            widget.onHighlight(
+              Highlight(
+                id: existing?.id,
+                bookId: 0,
+                chapterIndex: widget.index,
+                text: text,
+                note: newNote,
+                color: newColor,
+                createdAt: existing?.createdAt ?? DateTime.now(),
+                position: existing?.position ?? '${widget.index}:ratio:$ratio',
+              ),
+            );
           },
         );
       },
@@ -975,7 +1114,7 @@ class _EpubChapterPageState extends State<EpubChapterPage>
 
   Future<void> _lookupDictionary(String word) async {
     final lookupWord = word.trim().split(RegExp(r'\s+')).first;
-    
+
     // Delegate to parent if provided, as it handles database recording and platform intents
     if (widget.onLookup != null) {
       widget.onLookup!(lookupWord);
@@ -1006,7 +1145,9 @@ class _EpubChapterPageState extends State<EpubChapterPage>
         return;
       }
     }
-    final searchUri = Uri.parse('https://www.google.com/search?q=define+$encoded');
+    final searchUri = Uri.parse(
+      'https://www.google.com/search?q=define+$encoded',
+    );
     if (await canLaunchUrl(searchUri)) {
       await launchUrl(searchUri, mode: LaunchMode.externalApplication);
     }
@@ -1018,7 +1159,11 @@ class _EpubChapterPageState extends State<EpubChapterPage>
     html = html.replaceAll(RegExp(r'<!DOCTYPE[^>]*>'), '');
     html = html.replaceAll(RegExp(r'<svg', caseSensitive: false), '<div');
     html = html.replaceAll(RegExp(r'</svg>', caseSensitive: false), '</div>');
-    final bodyRegex = RegExp(r'(<body[^>]*>.*?</body>)', caseSensitive: false, dotAll: true);
+    final bodyRegex = RegExp(
+      r'(<body[^>]*>.*?</body>)',
+      caseSensitive: false,
+      dotAll: true,
+    );
     final bodyMatch = bodyRegex.firstMatch(html);
     if (bodyMatch != null) return bodyMatch.group(1) ?? html;
     if (!html.toLowerCase().contains('<body')) return '<body>$html</body>';
@@ -1027,11 +1172,16 @@ class _EpubChapterPageState extends State<EpubChapterPage>
 
   TextAlign _convertTextAlign(TextAlign? textAlign) {
     switch (textAlign) {
-      case TextAlign.left: return TextAlign.left;
-      case TextAlign.center: return TextAlign.center;
-      case TextAlign.right: return TextAlign.right;
-      case TextAlign.justify: return TextAlign.justify;
-      default: return TextAlign.left;
+      case TextAlign.left:
+        return TextAlign.left;
+      case TextAlign.center:
+        return TextAlign.center;
+      case TextAlign.right:
+        return TextAlign.right;
+      case TextAlign.justify:
+        return TextAlign.justify;
+      default:
+        return TextAlign.left;
     }
   }
 

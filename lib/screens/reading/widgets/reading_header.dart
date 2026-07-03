@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../models/book_model.dart';
 import '../../../models/reader_settings_model.dart';
-import '../../../core/constants.dart';
+import '../../../core/theme/semantics/color_scheme.dart';
 
 class ReadingHeader extends StatelessWidget {
   final Book book;
@@ -148,7 +148,7 @@ class ReadingHeader extends StatelessWidget {
                               ? Icons.zoom_in_map_rounded
                               : Icons.lock_rounded,
                           color: settings.lockState != ReaderLockState.none
-                              ? TibebConstants.accent
+                              ? context.tibpiColors.accent
                               : settings.textColor,
                           size: 20,
                         ),
@@ -193,10 +193,14 @@ class ReadingHeader extends StatelessWidget {
                         horizontal: 12,
                       ),
                       decoration: BoxDecoration(
-                        color: TibebConstants.accent.withValues(alpha: 0.1),
+                        color: context.tibpiColors.accent.withValues(
+                          alpha: 0.1,
+                        ),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: TibebConstants.accent.withValues(alpha: 0.3),
+                          color: context.tibpiColors.accent.withValues(
+                            alpha: 0.3,
+                          ),
                         ),
                       ),
                       child: Row(
@@ -205,13 +209,13 @@ class ReadingHeader extends StatelessWidget {
                           Icon(
                             Icons.keyboard_arrow_down,
                             size: 16,
-                            color: TibebConstants.accent,
+                            color: context.tibpiColors.accent,
                           ),
                           const SizedBox(width: 4),
                           Text(
                             'Show $searchResultsCount results',
                             style: TextStyle(
-                              color: TibebConstants.accent,
+                              color: context.tibpiColors.accent,
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
                             ),

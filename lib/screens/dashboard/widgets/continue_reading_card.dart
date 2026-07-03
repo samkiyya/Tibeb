@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/constants.dart';
+import '../../../core/theme/semantics/color_scheme.dart';
+import '../../../core/theme/tokens/radius.dart';
+import '../../../core/theme/tokens/spacing.dart';
 import '../../../components/glass_container.dart';
 import '../../../models/book_model.dart';
 import '../../../providers/library_provider.dart';
@@ -29,6 +31,7 @@ class _ContinueReadingCardState extends ConsumerState<ContinueReadingCard> {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.tibpiColors;
     return GestureDetector(
       onTapDown: (details) {
         setState(() {
@@ -55,19 +58,19 @@ class _ContinueReadingCardState extends ConsumerState<ContinueReadingCard> {
         if (widget.onLongPress != null) widget.onLongPress!(_tapPosition);
       },
       child: GlassContainer(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(TibebSpacing.base),
         child: Row(
           children: [
             Container(
               width: 80,
               height: 120,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: TibebConstants.surface,
-                boxShadow: TibebConstants.cardShadow,
+                borderRadius: TibebRadius.borderSm,
+                color: t.surfaceOverlay,
+                boxShadow: t.card.shadow,
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: TibebRadius.borderSm,
                 child: widget.book.coverPath.startsWith('assets')
                     ? Image.asset(
                         widget.book.coverPath,
@@ -104,11 +107,11 @@ class _ContinueReadingCardState extends ConsumerState<ContinueReadingCard> {
                       Expanded(
                         child: Text(
                           widget.book.title,
-                          style: Theme.of(context).textTheme.headlineSmall
-                              ?.copyWith(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          style: context.textTheme.headlineSmall?.copyWith(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: t.textPrimary,
+                          ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -121,14 +124,12 @@ class _ContinueReadingCardState extends ConsumerState<ContinueReadingCard> {
                             });
                           },
                           onTap: () => widget.onMenuPressed!(_tapPosition),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: TibebRadius.borderPill,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Icon(
                               Icons.more_vert,
-                              color: TibebConstants.textSecondary.withValues(
-                                alpha: 0.6,
-                              ),
+                              color: t.textSecondary,
                             ),
                           ),
                         ),
@@ -136,10 +137,7 @@ class _ContinueReadingCardState extends ConsumerState<ContinueReadingCard> {
                   ),
                   Text(
                     widget.book.author,
-                    style: TextStyle(
-                      color: TibebConstants.textSecondary,
-                      fontSize: 16,
-                    ),
+                    style: TextStyle(color: t.textSecondary, fontSize: 16),
                   ),
                   const SizedBox(height: 12),
                   Row(
@@ -147,10 +145,8 @@ class _ContinueReadingCardState extends ConsumerState<ContinueReadingCard> {
                       Expanded(
                         child: LinearProgressIndicator(
                           value: widget.book.progress,
-                          backgroundColor: Colors.white10,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            TibebConstants.accent,
-                          ),
+                          backgroundColor: t.borderSubtle,
+                          valueColor: AlwaysStoppedAnimation<Color>(t.primary),
                           minHeight: 4,
                         ),
                       ),
@@ -158,7 +154,7 @@ class _ContinueReadingCardState extends ConsumerState<ContinueReadingCard> {
                       Text(
                         '${(widget.book.progress * 100).toInt()}%',
                         style: TextStyle(
-                          color: TibebConstants.accent,
+                          color: t.primary,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

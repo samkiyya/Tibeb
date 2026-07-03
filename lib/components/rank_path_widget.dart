@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import '../core/constants.dart';
+import '../core/theme/semantics/color_scheme.dart';
+import '../core/theme/tokens/radius.dart';
+import '../core/theme/tokens/spacing.dart';
 
 class RankPathWidget extends StatelessWidget {
   final int currentLevel;
@@ -13,6 +16,7 @@ class RankPathWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.tibpiColors;
     final ranks = TibebConstants.ranks;
     final currentRank = TibebConstants.getRankForLevel(
       currentLevel,
@@ -21,30 +25,29 @@ class RankPathWidget extends StatelessWidget {
 
     return Container(
       margin: const EdgeInsets.symmetric(
-        horizontal: TibebConstants.horizontalPadding,
+        horizontal: TibebSpacing.screenPadding,
       ),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: TibebConstants.surface,
-        borderRadius: BorderRadius.circular(TibebConstants.borderRadius),
-        border: Border.all(color: TibebConstants.outline),
+        color: t.surface,
+        borderRadius: TibebRadius.borderLg,
+        border: Border.all(color: t.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Mastery Path',
-            style: TextStyle(
-              color: TibebConstants.textPrimary,
-              fontSize: 18,
+            style: context.textTheme.titleLarge?.copyWith(
+              color: t.textPrimary,
               fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 4),
           Text(
             'Current Rank: ${currentRank.name}',
-            style: const TextStyle(
-              color: TibebConstants.accentGreen,
+            style: TextStyle(
+              color: t.success,
               fontSize: 14,
               fontWeight: FontWeight.w500,
             ),
@@ -57,6 +60,7 @@ class RankPathWidget extends StatelessWidget {
   }
 
   Widget _buildPath(BuildContext context, List<TibebRank> ranks) {
+    final t = context.tibpiColors;
     return Column(
       children: List.generate(ranks.length, (index) {
         final rank = ranks[index];
@@ -76,18 +80,18 @@ class RankPathWidget extends StatelessWidget {
                   height: 24,
                   decoration: BoxDecoration(
                     color: isReached
-                        ? TibebConstants.accentGreen
-                        : (isNext ? Colors.blueAccent : TibebConstants.glassy),
+                        ? t.success
+                        : (isNext ? t.accent : t.glass),
                     shape: BoxShape.circle,
                     border: Border.all(
                       color: isReached
                           ? Colors.transparent
-                          : TibebConstants.textSecondary,
+                          : t.textSecondary,
                       width: 2,
                     ),
                   ),
                   child: isReached
-                      ? const Icon(Icons.check, size: 14, color: Colors.white)
+                      ? Icon(Icons.check, size: 14, color: t.textOnPrimary)
                       : null,
                 ),
                 if (!isLast)
@@ -95,8 +99,8 @@ class RankPathWidget extends StatelessWidget {
                     width: 2,
                     height: 40,
                     color: isReached
-                        ? TibebConstants.accentGreen
-                        : TibebConstants.glassy,
+                        ? t.success
+                        : t.glass,
                   ),
               ],
             ),
@@ -109,18 +113,18 @@ class RankPathWidget extends StatelessWidget {
                     rank.name,
                     style: TextStyle(
                       color: isReached
-                          ? TibebConstants.textPrimary
+                          ? t.textPrimary
                           : (isNext
-                                ? Colors.blueAccent
-                                : TibebConstants.textSecondary),
+                                ? t.accent
+                                : t.textSecondary),
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
                   ),
                   Text(
                     'Level ${rank.level}+ • ${rank.achievementsRequired} Achievements • ${rank.description}',
-                    style: const TextStyle(
-                      color: TibebConstants.textSecondary,
+                    style: TextStyle(
+                      color: t.textSecondary,
                       fontSize: 12,
                     ),
                   ),

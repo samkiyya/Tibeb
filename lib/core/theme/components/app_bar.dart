@@ -1,13 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:tibeb/core/theme/tokens/colors.dart';
+import '../semantics/theme_extension.dart';
 
 class TibebAppBarTheme {
-  static AppBarTheme get theme {
+  TibebAppBarTheme._();
+
+  static AppBarTheme dark(TibebThemeExtension ext) {
     return AppBarTheme(
-      backgroundColor: TibebColors.surface,
+      backgroundColor: ext.background,
+      foregroundColor: ext.textPrimary,
       elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+      scrolledUnderElevation: 0,
+      centerTitle: false,
+      iconTheme: IconThemeData(color: ext.textPrimary),
+      titleTextStyle: TextStyle(
+        color: ext.textPrimary,
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
+      ),
+    );
+  }
+
+  static AppBarTheme light(TibebThemeExtension ext) {
+    return AppBarTheme(
+      backgroundColor: ext.background,
+      foregroundColor: ext.textPrimary,
+      elevation: 0,
+      scrolledUnderElevation: 0.5,
+      centerTitle: false,
+      iconTheme: IconThemeData(color: ext.textPrimary),
+      titleTextStyle: TextStyle(
+        color: ext.textPrimary,
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
       ),
     );
   }

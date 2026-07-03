@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/constants.dart';
+import '../../../core/theme/semantics/color_scheme.dart';
 
 class PlayPauseButton extends StatelessWidget {
   final ValueNotifier<bool> isPlayingNotifier;
@@ -20,8 +20,8 @@ class PlayPauseButton extends StatelessWidget {
         child: Container(
           width: 56,
           height: 56,
-          decoration: const BoxDecoration(
-            color: TibebConstants.accent,
+          decoration: BoxDecoration(
+            color: context.tibpiColors.accent,
             shape: BoxShape.circle,
           ),
           child: Icon(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/constants.dart';
+import '../../../core/theme/semantics/color_scheme.dart';
 import '../../../components/glass_container.dart';
 import '../../../providers/library_provider.dart';
 
@@ -11,6 +11,7 @@ class WeeklyGoalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.tibpiColors;
     return GlassContainer(
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -21,12 +22,13 @@ class WeeklyGoalCard extends StatelessWidget {
             children: [
               Text(
                 'Weekly Goals',
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                style: context.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: t.textPrimary,
+                ),
               ),
               IconButton(
-                icon: const Icon(Icons.edit, size: 18, color: Colors.white54),
+                icon: Icon(Icons.edit, size: 18, color: t.textSecondary),
                 onPressed: onEdit,
               ),
             ],
@@ -35,6 +37,7 @@ class WeeklyGoalCard extends StatelessWidget {
           if (state.weeklyPageGoal > 0)
             _buildGoalProgress(
               context: context,
+              t: t,
               title: 'Pages',
               current: state.weeklyPagesRead.toDouble(),
               goal: state.weeklyPageGoal,
@@ -44,6 +47,7 @@ class WeeklyGoalCard extends StatelessWidget {
             if (state.weeklyPageGoal > 0) const SizedBox(height: 20),
             _buildGoalProgress(
               context: context,
+              t: t,
               title: 'Minutes',
               current: state.weeklyMinutesRead.toDouble(),
               goal: state.weeklyMinuteGoal,
@@ -55,6 +59,7 @@ class WeeklyGoalCard extends StatelessWidget {
               const SizedBox(height: 20),
             _buildGoalProgress(
               context: context,
+              t: t,
               title: 'Experience',
               current: state.weeklyXPRead.toDouble(),
               goal: state.weeklyXPGoal,
@@ -64,12 +69,12 @@ class WeeklyGoalCard extends StatelessWidget {
           if (state.weeklyPageGoal == 0 &&
               state.weeklyMinuteGoal == 0 &&
               state.weeklyXPGoal == 0)
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
               child: Center(
                 child: Text(
                   'No goals set for this week',
-                  style: TextStyle(color: Colors.white38),
+                  style: TextStyle(color: t.textSecondary),
                 ),
               ),
             ),
@@ -80,6 +85,7 @@ class WeeklyGoalCard extends StatelessWidget {
 
   Widget _buildGoalProgress({
     required BuildContext context,
+    required TibebThemeExtension t,
     required String title,
     required double current,
     required double goal,
@@ -97,7 +103,7 @@ class WeeklyGoalCard extends StatelessWidget {
             Text(
               title,
               style: TextStyle(
-                color: Colors.white70,
+                color: t.textSecondary,
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
               ),
@@ -105,7 +111,7 @@ class WeeklyGoalCard extends StatelessWidget {
             Text(
               '${(progress * 100).toInt()}%',
               style: TextStyle(
-                color: isGoalMet ? TibebConstants.accent : Colors.white60,
+                color: isGoalMet ? t.success : t.textSecondary,
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -117,9 +123,9 @@ class WeeklyGoalCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(4),
           child: LinearProgressIndicator(
             value: progress,
-            backgroundColor: Colors.white10,
+            backgroundColor: t.borderSubtle,
             valueColor: AlwaysStoppedAnimation<Color>(
-              isGoalMet ? TibebConstants.accentGreen : TibebConstants.accent,
+              isGoalMet ? t.success : t.primary,
             ),
             minHeight: 6,
           ),
@@ -127,7 +133,7 @@ class WeeklyGoalCard extends StatelessWidget {
         const SizedBox(height: 6),
         Text(
           '${current.toInt()} / ${goal.toInt()} $unit',
-          style: const TextStyle(color: Colors.white38, fontSize: 11),
+          style: TextStyle(color: t.textSecondary, fontSize: 11),
         ),
       ],
     );

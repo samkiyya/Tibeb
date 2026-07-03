@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 import 'package:tibeb/core/constants.dart';
+import 'package:tibeb/core/theme/semantics/color_scheme.dart';
 import 'package:tibeb/components/glass_container.dart';
 import 'package:tibeb/providers/library_provider.dart';
 import 'package:tibeb/screens/dashboard_screen.dart';
@@ -153,7 +154,7 @@ class _MainNavigationState extends ConsumerState<MainNavigation> {
     TutorialHelper.showTutorial(
       context: context,
       targets: targets,
-      colorShadow: TibebConstants.accent,
+      colorShadow: context.tibpiColors.primary,
       onClickTarget: (target) {
         if (target.identify == "library_target") {
           ref.read(navigationStateProvider.notifier).state = NavigationState(
@@ -223,7 +224,7 @@ class _MainNavigationState extends ConsumerState<MainNavigation> {
             animation: animation,
             secondaryAnimation: secondaryAnimation,
             transitionType: SharedAxisTransitionType.horizontal,
-            fillColor: Colors.transparent,
+            fillColor: context.tibpiColors.background,
             child: child,
           );
         },
@@ -311,8 +312,8 @@ class _MainNavigationState extends ConsumerState<MainNavigation> {
             Icon(
               icon,
               color: isSelected
-                  ? TibebConstants.accent
-                  : TibebConstants.textSecondary,
+                  ? context.tibpiColors.primary
+                  : context.tibpiColors.textTertiary,
               size: 28,
             ),
             if (isSelected)
@@ -320,8 +321,8 @@ class _MainNavigationState extends ConsumerState<MainNavigation> {
                 margin: const EdgeInsets.only(top: 4),
                 width: 4,
                 height: 4,
-                decoration: const BoxDecoration(
-                  color: TibebConstants.accent,
+                decoration: BoxDecoration(
+                  color: context.tibpiColors.primary,
                   shape: BoxShape.circle,
                 ),
               ),

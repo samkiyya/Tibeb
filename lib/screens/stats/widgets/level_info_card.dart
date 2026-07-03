@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants.dart';
+import '../../../core/theme/semantics/color_scheme.dart';
 import '../../../components/glass_container.dart';
 import '../../../providers/library_provider.dart';
 
@@ -11,6 +12,7 @@ class LevelInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.tibpiColors;
     final currentTitle = TibebConstants.getRankForLevel(
       state.level,
       state.unlockedAchievements.length,
@@ -27,11 +29,11 @@ class LevelInfoCard extends StatelessWidget {
               height: 60,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: TibebConstants.accent.withValues(alpha: 0.1),
-                border: Border.all(color: TibebConstants.accent, width: 2),
+                color: t.primary.withValues(alpha: 0.1),
+                border: Border.all(color: t.primary, width: 2),
                 boxShadow: [
                   BoxShadow(
-                    color: TibebConstants.accent.withValues(alpha: 0.3),
+                    color: t.primary.withValues(alpha: 0.3),
                     blurRadius: 10,
                   ),
                 ],
@@ -39,8 +41,8 @@ class LevelInfoCard extends StatelessWidget {
               child: Center(
                 child: Text(
                   '${state.level}',
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: t.textPrimary,
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
@@ -56,24 +58,24 @@ class LevelInfoCard extends StatelessWidget {
                     children: [
                       Text(
                         currentTitle,
-                        style: const TextStyle(
-                          color: Colors.white,
+                        style: TextStyle(
+                          color: t.textPrimary,
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(width: 8),
-                      const Icon(
+                      Icon(
                         Icons.info_outline,
                         size: 14,
-                        color: Colors.white38,
+                        color: t.textSecondary,
                       ),
                     ],
                   ),
                   Text(
                     'Current Level',
                     style: TextStyle(
-                      color: TibebConstants.textSecondary,
+                      color: t.textSecondary,
                       fontSize: 12,
                     ),
                   ),
@@ -82,9 +84,9 @@ class LevelInfoCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(4),
                     child: LinearProgressIndicator(
                       value: (state.totalXP % 1000) / 1000,
-                      backgroundColor: Colors.white10,
+                      backgroundColor: t.borderSubtle,
                       valueColor: AlwaysStoppedAnimation<Color>(
-                        TibebConstants.accent,
+                        t.primary,
                       ),
                       minHeight: 6,
                     ),
@@ -95,8 +97,8 @@ class LevelInfoCard extends StatelessWidget {
                     children: [
                       Text(
                         '${state.totalXP % 1000} / 1000 XP',
-                        style: const TextStyle(
-                          color: Colors.white38,
+                        style: TextStyle(
+                          color: t.textSecondary,
                           fontSize: 10,
                           fontWeight: FontWeight.bold,
                         ),
@@ -104,7 +106,7 @@ class LevelInfoCard extends StatelessWidget {
                       Text(
                         '${1000 - (state.totalXP % 1000)} XP to level up',
                         style: TextStyle(
-                          color: TibebConstants.accent.withValues(alpha: 0.5),
+                          color: t.primary.withValues(alpha: 0.6),
                           fontSize: 10,
                         ),
                       ),

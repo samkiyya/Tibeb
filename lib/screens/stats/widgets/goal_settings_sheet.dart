@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/constants.dart';
+import '../../../core/theme/semantics/color_scheme.dart';
+import '../../../core/theme/tokens/radius.dart';
 import '../../../components/glass_container.dart';
 import '../../../providers/library_provider.dart';
 
@@ -70,6 +71,7 @@ class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.tibpiColors;
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.only(
@@ -82,18 +84,22 @@ class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 'Weekly Reading Goals',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: context.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: t.textPrimary,
+                ),
               ),
               const SizedBox(height: 8),
-              const Text(
+              Text(
                 'Set targets for the metrics you want to track.',
-                style: TextStyle(color: Colors.white70, fontSize: 14),
+                style: TextStyle(color: t.textSecondary, fontSize: 13),
               ),
               const SizedBox(height: 24),
 
               _buildGoalInput(
+                t: t,
                 title: 'Pages Goal',
                 unit: 'pages',
                 controller: _pagesController,
@@ -107,6 +113,7 @@ class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
 
               const SizedBox(height: 20),
               _buildGoalInput(
+                t: t,
                 title: 'Minutes Goal',
                 unit: 'minutes',
                 controller: _minutesController,
@@ -120,6 +127,7 @@ class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
 
               const SizedBox(height: 20),
               _buildGoalInput(
+                t: t,
                 title: 'XP Goal',
                 unit: 'XP',
                 controller: _xpController,
@@ -148,10 +156,10 @@ class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: TibebConstants.accent,
-                    foregroundColor: Colors.white,
+                    backgroundColor: t.primary,
+                    foregroundColor: t.textOnPrimary,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: TibebRadius.borderLg,
                     ),
                   ),
                   child: const Text('Save Goals'),
@@ -166,6 +174,7 @@ class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
   }
 
   Widget _buildGoalInput({
+    required TibebThemeExtension t,
     required String title,
     required String unit,
     required TextEditingController controller,
@@ -185,7 +194,7 @@ class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
             Text(
               title,
               style: TextStyle(
-                color: Colors.white.withValues(alpha: 0.9),
+                color: t.textPrimary,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),
@@ -196,19 +205,19 @@ class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
                   color: isActive
-                      ? TibebConstants.accent.withValues(alpha: 0.2)
-                      : Colors.white10,
+                      ? t.primary.withValues(alpha: 0.2)
+                      : t.borderSubtle,
                   borderRadius: BorderRadius.circular(4),
                   border: Border.all(
                     color: isActive
-                        ? TibebConstants.accent.withValues(alpha: 0.5)
+                        ? t.primary.withValues(alpha: 0.5)
                         : Colors.transparent,
                   ),
                 ),
                 child: Text(
                   isActive ? 'Active' : 'Show on Graph',
                   style: TextStyle(
-                    color: isActive ? TibebConstants.accent : Colors.white60,
+                    color: isActive ? t.primary : t.textSecondary,
                     fontSize: 10,
                     fontWeight: FontWeight.bold,
                   ),
@@ -232,7 +241,7 @@ class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: isActive ? TibebConstants.accent : Colors.white,
+                        color: isActive ? t.primary : t.textPrimary,
                       ),
                       decoration: const InputDecoration(
                         border: InputBorder.none,
@@ -252,7 +261,7 @@ class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
                     unit,
                     style: TextStyle(
                       fontSize: 14,
-                      color: TibebConstants.textSecondary,
+                      color: t.textSecondary,
                     ),
                   ),
                 ],
@@ -260,9 +269,9 @@ class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
             ),
             Row(
               children: [
-                _buildValueBtn(Icons.remove, onDecrement),
+                _buildValueBtn(t, Icons.remove, onDecrement),
                 const SizedBox(width: 8),
-                _buildValueBtn(Icons.add, onIncrement),
+                _buildValueBtn(t, Icons.add, onIncrement),
               ],
             ),
           ],
@@ -271,16 +280,16 @@ class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
     );
   }
 
-  Widget _buildValueBtn(IconData icon, VoidCallback onTap) {
+  Widget _buildValueBtn(TibebThemeExtension t, IconData icon, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: Colors.white10,
+          color: t.borderSubtle,
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Icon(icon, size: 20, color: Colors.white),
+        child: Icon(icon, size: 20, color: t.textPrimary),
       ),
     );
   }

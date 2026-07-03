@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../core/constants.dart';
+import '../../../core/theme/semantics/color_scheme.dart';
+import '../../../core/theme/tokens/radius.dart';
 import '../../../providers/library_provider.dart';
 
 class AchievementBadge extends StatelessWidget {
@@ -18,6 +19,7 @@ class AchievementBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.tibpiColors;
     return Column(
       children: [
         Container(
@@ -26,16 +28,16 @@ class AchievementBadge extends StatelessWidget {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: isUnlocked
-                ? TibebConstants.accent.withValues(alpha: 0.1)
-                : Colors.white.withValues(alpha: 0.05),
+                ? t.primary.withValues(alpha: 0.1)
+                : t.glass,
             border: Border.all(
-              color: isUnlocked ? TibebConstants.accent : Colors.white10,
+              color: isUnlocked ? t.primary : t.borderSubtle,
               width: 2,
             ),
           ),
           child: Icon(
             icon,
-            color: isUnlocked ? TibebConstants.accent : Colors.white24,
+            color: isUnlocked ? t.primary : t.textSecondary,
             size: 28,
           ),
         ),
@@ -46,7 +48,7 @@ class AchievementBadge extends StatelessWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
-            color: isUnlocked ? Colors.white : Colors.white24,
+            color: isUnlocked ? t.textPrimary : t.textSecondary,
             fontSize: 10,
             fontWeight: isUnlocked ? FontWeight.bold : FontWeight.normal,
           ),
@@ -57,7 +59,7 @@ class AchievementBadge extends StatelessWidget {
           textAlign: TextAlign.center,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
-          style: const TextStyle(color: Colors.white24, fontSize: 8),
+          style: TextStyle(color: t.textSecondary, fontSize: 8),
         ),
       ],
     );
@@ -71,6 +73,7 @@ class AchievementsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.tibpiColors;
     final achievementList = [
       {
         'id': 'the_first_page',
@@ -195,9 +198,10 @@ class AchievementsGrid extends StatelessWidget {
       children: [
         Text(
           'Achievements',
-          style: Theme.of(
-            context,
-          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+          style: context.textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+            color: t.textPrimary,
+          ),
         ),
         const SizedBox(height: 16),
         GridView.builder(
@@ -216,6 +220,7 @@ class AchievementsGrid extends StatelessWidget {
             return GestureDetector(
               onTap: () => _showAchievementDetail(
                 context,
+                t,
                 title: ach['title'] as String,
                 desc: ach['desc'] as String,
                 icon: ach['icon'] as IconData,
@@ -235,7 +240,8 @@ class AchievementsGrid extends StatelessWidget {
   }
 
   void _showAchievementDetail(
-    BuildContext context, {
+    BuildContext context,
+    TibebThemeExtension t, {
     required String title,
     required String desc,
     required IconData icon,
@@ -244,8 +250,8 @@ class AchievementsGrid extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: TibebConstants.surface,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: t.surface,
+        shape: RoundedRectangleBorder(borderRadius: TibebRadius.borderXl),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -256,16 +262,16 @@ class AchievementsGrid extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: isUnlocked
-                    ? TibebConstants.accent.withValues(alpha: 0.15)
-                    : Colors.white.withValues(alpha: 0.05),
+                    ? t.primary.withValues(alpha: 0.15)
+                    : t.glass,
                 border: Border.all(
-                  color: isUnlocked ? TibebConstants.accent : Colors.white10,
+                  color: isUnlocked ? t.primary : t.borderSubtle,
                   width: 2.5,
                 ),
               ),
               child: Icon(
                 icon,
-                color: isUnlocked ? TibebConstants.accent : Colors.white24,
+                color: isUnlocked ? t.primary : t.textSecondary,
                 size: 40,
               ),
             ),
@@ -274,7 +280,7 @@ class AchievementsGrid extends StatelessWidget {
               title,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: isUnlocked ? Colors.white : Colors.white38,
+                color: isUnlocked ? t.textPrimary : t.textSecondary,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -284,7 +290,7 @@ class AchievementsGrid extends StatelessWidget {
               desc,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: isUnlocked ? Colors.white70 : Colors.white24,
+                color: isUnlocked ? t.textSecondary : t.textSecondary.withValues(alpha: 0.5),
                 fontSize: 14,
               ),
             ),
@@ -292,7 +298,7 @@ class AchievementsGrid extends StatelessWidget {
             Text(
               isUnlocked ? 'Unlocked' : 'Keep reading to unlock!',
               style: TextStyle(
-                color: isUnlocked ? TibebConstants.accent : Colors.white24,
+                color: isUnlocked ? t.primary : t.textSecondary,
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
               ),

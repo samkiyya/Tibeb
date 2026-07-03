@@ -4,7 +4,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:markdown_quill/markdown_quill.dart';
 import 'package:markdown/markdown.dart' as md;
 import '../../../models/reader_settings_model.dart';
-import '../../../core/constants.dart';
+import '../../../core/theme/semantics/color_scheme.dart';
 
 class NoteView extends StatelessWidget {
   final String markdown;
@@ -81,14 +81,12 @@ class NoteView extends StatelessWidget {
             fontWeight: FontWeight.bold,
             color: Colors.white,
           ),
-          italic: const TextStyle(
-            fontStyle: FontStyle.italic,
-          ),
+          italic: const TextStyle(fontStyle: FontStyle.italic),
           strikeThrough: const TextStyle(
             decoration: TextDecoration.lineThrough,
           ),
-          link: const TextStyle(
-            color: TibebConstants.accent,
+          link: TextStyle(
+            color: context.tibpiColors.accent,
             decoration: TextDecoration.underline,
           ),
           quote: DefaultTextBlockStyle(
@@ -102,13 +100,13 @@ class NoteView extends StatelessWidget {
             const VerticalSpacing(0, 0),
             BoxDecoration(
               border: Border(
-                left: BorderSide(color: TibebConstants.accent, width: 4),
+                left: BorderSide(color: context.tibpiColors.accent, width: 4),
               ),
             ),
           ),
           code: DefaultTextBlockStyle(
             TextStyle(
-              color: TibebConstants.accent,
+              color: context.tibpiColors.accent,
               backgroundColor: Colors.white.withValues(alpha: 0.1),
               fontFamily: 'monospace',
               fontSize: (fontSize ?? 16) - 2,

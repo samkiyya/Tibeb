@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as p;
-import '../core/constants.dart';
+import '../core/theme/semantics/color_scheme.dart';
 
 class FileSelectionScreen extends StatefulWidget {
   final String directoryPath;
@@ -40,9 +40,10 @@ class _FileSelectionScreenState extends State<FileSelectionScreen> {
   @override
   Widget build(BuildContext context) {
     final selectedCount = _selected.where((s) => s).length;
+    final theme = context.tibpiColors;
 
     return Scaffold(
-      backgroundColor: TibebConstants.background,
+      backgroundColor: theme.background,
       appBar: AppBar(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,7 +77,7 @@ class _FileSelectionScreenState extends State<FileSelectionScreen> {
             title: const Text('Select All'),
             value: _selectAll,
             onChanged: _toggleSelectAll,
-            activeColor: TibebConstants.accent,
+            activeColor: theme.accent,
           ),
           const Divider(),
           Expanded(
@@ -114,7 +115,7 @@ class _FileSelectionScreenState extends State<FileSelectionScreen> {
                       _selectAll = _selected.every((s) => s);
                     });
                   },
-                  activeColor: TibebConstants.accent,
+                  activeColor: theme.accent,
                 );
               },
             ),

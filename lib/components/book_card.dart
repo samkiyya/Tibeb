@@ -2,9 +2,9 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import '../core/constants.dart';
+import '../core/theme/semantics/color_scheme.dart';
+import '../core/theme/tokens/radius.dart';
 import '../components/glass_container.dart';
-
 import '../models/book_model.dart';
 
 class BookCard extends StatefulWidget {
@@ -36,6 +36,7 @@ class _BookCardState extends State<BookCard> {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.tibpiColors;
     return GestureDetector(
       onTapDown: (details) {
         setState(() {
@@ -48,7 +49,7 @@ class _BookCardState extends State<BookCard> {
       },
       child: GlassContainer(
         padding: const EdgeInsets.all(8),
-        borderRadius: TibebConstants.borderRadius,
+        borderRadius: TibebRadius.md,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -57,7 +58,7 @@ class _BookCardState extends State<BookCard> {
               aspectRatio: 2 / 3,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(
-                  TibebConstants.borderRadius - 8,
+                  TibebRadius.sm,
                 ),
                 child: Stack(
                   fit: StackFit.expand,
@@ -68,7 +69,7 @@ class _BookCardState extends State<BookCard> {
                             fit: BoxFit.cover,
                             alignment: Alignment.topCenter,
                             placeholder: (context, url) =>
-                                Container(color: TibebConstants.surface),
+                                Container(color: t.surfaceOverlay),
                             errorWidget: (context, url, error) => Padding(
                               padding: const EdgeInsets.all(30.0),
                               child: Image.asset(
@@ -111,13 +112,13 @@ class _BookCardState extends State<BookCard> {
                             vertical: 3,
                           ),
                           decoration: BoxDecoration(
-                            color: TibebConstants.accent,
+                            color: t.primary,
                             borderRadius: BorderRadius.circular(4),
                           ),
-                          child: const Text(
+                          child: Text(
                             'NEW',
                             style: TextStyle(
-                              color: Colors.black,
+                              color: t.textOnPrimary,
                               fontSize: 9,
                               fontWeight: FontWeight.bold,
                             ),
@@ -130,7 +131,7 @@ class _BookCardState extends State<BookCard> {
                         right: 6,
                         child: Icon(
                           Icons.favorite,
-                          color: Colors.red,
+                          color: t.error,
                           size: 16,
                         ),
                       ),
@@ -149,10 +150,10 @@ class _BookCardState extends State<BookCard> {
                                 vertical: 6,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.black.withValues(alpha: 0.4),
+                                color: t.scrim.withValues(alpha: 0.5),
                                 border: Border(
                                   top: BorderSide(
-                                    color: Colors.white.withValues(alpha: 0.1),
+                                    color: t.glassBorder.withValues(alpha: 0.15),
                                     width: 0.5,
                                   ),
                                 ),
@@ -165,17 +166,13 @@ class _BookCardState extends State<BookCard> {
                                     children: [
                                       Expanded(
                                         child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(
-                                            1,
-                                          ),
+                                          borderRadius: BorderRadius.circular(1),
                                           child: LinearProgressIndicator(
                                             value: widget.book.progress,
-                                            backgroundColor: Colors.white
-                                                .withValues(alpha: 0.1),
-                                            valueColor:
-                                                AlwaysStoppedAnimation<Color>(
-                                                  TibebConstants.accent,
-                                                ),
+                                            backgroundColor: t.glassBorder.withValues(alpha: 0.1),
+                                            valueColor: AlwaysStoppedAnimation<Color>(
+                                              t.primary,
+                                            ),
                                             minHeight: 2,
                                           ),
                                         ),
@@ -183,8 +180,8 @@ class _BookCardState extends State<BookCard> {
                                       const SizedBox(width: 6),
                                       Text(
                                         '${(widget.book.progress * 100).toStringAsFixed(0)}%',
-                                        style: const TextStyle(
-                                          color: Colors.white,
+                                        style: TextStyle(
+                                          color: t.textOnAccent,
                                           fontSize: 9,
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -199,25 +196,24 @@ class _BookCardState extends State<BookCard> {
                                       if (widget.book.totalPages > 0)
                                         Text(
                                           '${widget.book.filePath.toLowerCase().endsWith('.epub') ? 'Ch.' : 'Pg.'} ${widget.book.currentPage + 1}/${widget.book.totalPages}',
-                                          style: const TextStyle(
-                                            color: Colors.white70,
+                                          style: TextStyle(
+                                            color: t.textOnAccent.withValues(alpha: 0.77),
                                             fontSize: 9,
                                           ),
                                         ),
-                                      if (widget.book.estimatedReadingMinutes >
-                                          0)
+                                      if (widget.book.estimatedReadingMinutes > 0)
                                         Text(
                                           '• ${_formatReadingTime(widget.book.estimatedReadingMinutes)}',
-                                          style: const TextStyle(
-                                            color: Colors.white60,
+                                          style: TextStyle(
+                                            color: t.textOnAccent.withValues(alpha: 0.6),
                                             fontSize: 9,
                                           ),
                                         ),
                                       if (widget.book.lastReadAt != null)
                                         Text(
                                           '• ${_formatLastRead(widget.book.lastReadAt!)}',
-                                          style: const TextStyle(
-                                            color: Colors.white38,
+                                          style: TextStyle(
+                                            color: t.textOnAccent.withValues(alpha: 0.38),
                                             fontSize: 8,
                                             fontStyle: FontStyle.italic,
                                           ),
@@ -236,18 +232,18 @@ class _BookCardState extends State<BookCard> {
                         child: Container(
                           decoration: BoxDecoration(
                             color: widget.isSelected
-                                ? TibebConstants.accent.withValues(alpha: 0.3)
-                                : Colors.black26,
+                                ? t.primary.withValues(alpha: 0.3)
+                                : t.scrim.withValues(alpha: 0.26),
                           ),
                           child: Center(
                             child: Container(
                               decoration: BoxDecoration(
                                 color: widget.isSelected
-                                    ? TibebConstants.accent
-                                    : Colors.white24,
+                                    ? t.primary
+                                    : t.glassBorder.withValues(alpha: 0.24),
                                 shape: BoxShape.circle,
                                 border: Border.all(
-                                  color: Colors.white,
+                                  color: t.textOnAccent,
                                   width: 2,
                                 ),
                               ),
@@ -255,8 +251,8 @@ class _BookCardState extends State<BookCard> {
                               child: Icon(
                                 widget.isSelected ? Icons.check : Icons.add,
                                 color: widget.isSelected
-                                    ? Colors.black
-                                    : Colors.white,
+                                    ? t.textOnPrimary
+                                    : t.textOnAccent,
                                 size: 20,
                               ),
                             ),
@@ -280,10 +276,11 @@ class _BookCardState extends State<BookCard> {
                         widget.book.title,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        style: context.textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.w600,
                           letterSpacing: -0.2,
                           height: 1.1,
+                          color: t.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 2),
@@ -291,8 +288,8 @@ class _BookCardState extends State<BookCard> {
                         widget.book.author,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: TibebConstants.textSecondary,
+                        style: context.textTheme.bodyMedium?.copyWith(
+                          color: t.textSecondary,
                           fontSize: 12,
                         ),
                       ),
@@ -308,15 +305,13 @@ class _BookCardState extends State<BookCard> {
                       });
                     },
                     onTap: () => widget.onMenuPressed!(_tapPosition),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: TibebRadius.borderPill,
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: Icon(
                         Icons.more_vert,
                         size: 18,
-                        color: TibebConstants.textSecondary.withValues(
-                          alpha: 0.6,
-                        ),
+                        color: t.textSecondary,
                       ),
                     ),
                   ),

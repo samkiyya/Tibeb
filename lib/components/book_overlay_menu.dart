@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/book_model.dart';
-import '../core/constants.dart';
+import '../core/theme/semantics/color_scheme.dart';
 import 'glass_container.dart';
 
 class BookOverlayMenu extends ConsumerStatefulWidget {
@@ -73,6 +73,7 @@ class _BookOverlayMenuState extends ConsumerState<BookOverlayMenu>
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final t = context.tibpiColors;
 
     // Adjust position to avoid going off screen
     double left = widget.position.dx;
@@ -105,34 +106,37 @@ class _BookOverlayMenuState extends ConsumerState<BookOverlayMenu>
                     width: menuWidth,
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     borderRadius: 16,
-                    color: TibebConstants.surface,
+                    color: t.surface,
                     opacity: 0.8,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         _buildMenuItem(
+                          t: t,
                           icon: widget.book.isFavorite
                               ? Icons.favorite
                               : Icons.favorite_border,
                           label: widget.book.isFavorite ? 'Unfavorite' : 'Favorite',
-                          color: widget.book.isFavorite ? Colors.red : null,
+                          color: widget.book.isFavorite ? t.error : null,
                           onTap: () => widget.onAction('favorite'),
                         ),
                         _buildMenuItem(
+                          t: t,
                           icon: Icons.edit_outlined,
                           label: 'Edit Info',
                           onTap: () => widget.onAction('edit'),
                         ),
-                        const Divider(
-                          color: Colors.white10,
+                        Divider(
+                          color: t.borderSubtle,
                           height: 1,
                           indent: 12,
                           endIndent: 12,
                         ),
                         _buildMenuItem(
+                          t: t,
                           icon: Icons.delete_outline,
                           label: 'Remove',
-                          color: Colors.redAccent,
+                          color: t.error,
                           onTap: () => widget.onAction('delete'),
                         ),
                       ],
@@ -148,6 +152,7 @@ class _BookOverlayMenuState extends ConsumerState<BookOverlayMenu>
   }
 
   Widget _buildMenuItem({
+    required TibebThemeExtension t,
     required IconData icon,
     required String label,
     required VoidCallback onTap,
@@ -159,12 +164,12 @@ class _BookOverlayMenuState extends ConsumerState<BookOverlayMenu>
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Row(
           children: [
-            Icon(icon, size: 20, color: color ?? Colors.white70),
+            Icon(icon, size: 20, color: color ?? t.textSecondary),
             const SizedBox(width: 12),
             Text(
               label,
               style: TextStyle(
-                color: color ?? Colors.white,
+                color: color ?? t.textPrimary,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),

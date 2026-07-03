@@ -1,5 +1,5 @@
-import 'package:tibeb/core/tibeb_rank_strings.dart';
-import 'package:tibeb/core/tibeb_rank.dart';
+import 'package:tibeb/core/rank/tibeb_rank_strings.dart';
+import 'package:tibeb/core/rank/tibeb_rank.dart';
 
 extension TibebRankUI on TibebRank {
   String get name => TibebRankStrings.name[id] ?? id;

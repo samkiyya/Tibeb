@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import '../core/constants.dart';
+import '../core/theme/semantics/color_scheme.dart';
+import '../core/theme/tokens/radius.dart';
+import '../core/theme/tokens/spacing.dart';
 
 class RankUpDialog extends StatelessWidget {
   final int level;
@@ -10,20 +12,21 @@ class RankUpDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.tibpiColors;
     return Dialog(
       backgroundColor: Colors.transparent,
-      insetPadding: const EdgeInsets.symmetric(horizontal: 20),
+      insetPadding: const EdgeInsets.symmetric(horizontal: TibebSpacing.screenPadding),
       child: Container(
-        padding: const EdgeInsets.all(30),
+        padding: const EdgeInsets.all(TibebSpacing.xxl),
         decoration: BoxDecoration(
-          color: TibebConstants.surface,
-          borderRadius: BorderRadius.circular(24),
+          color: t.surface,
+          borderRadius: TibebRadius.borderXxl,
           border: Border.all(
-            color: TibebConstants.accent.withValues(alpha: 0.2),
+            color: t.primary.withValues(alpha: 0.2),
           ),
           boxShadow: [
             BoxShadow(
-              color: TibebConstants.accent.withValues(alpha: 0.1),
+              color: t.primary.withValues(alpha: 0.1),
               blurRadius: 30,
               spreadRadius: 10,
             ),
@@ -36,18 +39,18 @@ class RankUpDialog extends StatelessWidget {
               alignment: Alignment.center,
               children: [
                 Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: RadialGradient(
-                          colors: [
-                            TibebConstants.accent.withValues(alpha: 0.2),
-                            Colors.transparent,
-                          ],
-                        ),
-                      ),
-                    )
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: RadialGradient(
+                      colors: [
+                        t.primary.withValues(alpha: 0.2),
+                        Colors.transparent,
+                      ],
+                    ),
+                  ),
+                )
                     .animate(onPlay: (controller) => controller.repeat())
                     .scale(
                       begin: const Offset(1, 1),
@@ -61,15 +64,14 @@ class RankUpDialog extends StatelessWidget {
                   height: 80,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: TibebConstants.accent.withValues(alpha: 0.1),
-                    border: Border.all(color: TibebConstants.accent, width: 3),
+                    color: t.primary.withValues(alpha: 0.1),
+                    border: Border.all(color: t.primary, width: 3),
                   ),
                   child: Center(
                     child: Text(
                       '$level',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 32,
+                      style: context.textTheme.displaySmall?.copyWith(
+                        color: t.textPrimary,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -81,59 +83,57 @@ class RankUpDialog extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: TibebSpacing.xl),
             Text(
               'RANK UP!',
               style: TextStyle(
-                color: TibebConstants.accent,
+                color: t.primary,
                 fontSize: 14,
                 fontWeight: FontWeight.w900,
                 letterSpacing: 4.0,
               ),
             ).animate().fadeIn(delay: 400.ms).slideY(begin: 0.2, end: 0),
-            const SizedBox(height: 8),
+            const SizedBox(height: TibebSpacing.sm),
             Text(
               rankName,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 28,
+              style: context.textTheme.headlineLarge?.copyWith(
+                color: t.textPrimary,
                 fontWeight: FontWeight.w900,
               ),
             ).animate().fadeIn(delay: 600.ms).slideY(begin: 0.2, end: 0),
-            const SizedBox(height: 16),
+            const SizedBox(height: TibebSpacing.base),
             Text(
               'You\'ve reached a new level of mastery.\nKeep reading to unlock more!',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: TibebConstants.textSecondary,
-                fontSize: 14,
+              style: context.textTheme.bodyMedium?.copyWith(
+                color: t.textSecondary,
                 height: 1.5,
               ),
             ).animate().fadeIn(delay: 800.ms),
-            const SizedBox(height: 32),
+            const SizedBox(height: TibebSpacing.xxl),
             SizedBox(
-                  width: double.infinity,
-                  height: 54,
-                  child: ElevatedButton(
-                    onPressed: () => Navigator.pop(context),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: TibebConstants.accent,
-                      foregroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      elevation: 0,
-                    ),
-                    child: const Text(
-                      'AWESOME',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 1.2,
-                      ),
-                    ),
+              width: double.infinity,
+              height: 54,
+              child: ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: t.primary,
+                  foregroundColor: t.textOnPrimary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: TibebRadius.borderLg,
                   ),
-                )
+                  elevation: 0,
+                ),
+                child: const Text(
+                  'AWESOME',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+              ),
+            )
                 .animate()
                 .fadeIn(delay: 1.seconds)
                 .scale(begin: const Offset(0.9, 0.9)),

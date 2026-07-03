@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../../../core/constants.dart';
+import '../../../core/theme/semantics/color_scheme.dart';
 import '../../../providers/library_provider.dart';
 
 class DashboardHeader extends ConsumerWidget {
@@ -12,6 +12,7 @@ class DashboardHeader extends ConsumerWidget {
     final now = DateTime.now();
     final libraryState = ref.watch(libraryProvider);
     final rankName = libraryState.rankName;
+    final t = context.tibpiColors;
 
     return Stack(
       children: [
@@ -25,7 +26,7 @@ class DashboardHeader extends ConsumerWidget {
               shape: BoxShape.circle,
               gradient: RadialGradient(
                 colors: [
-                  TibebConstants.accent.withValues(alpha: 0.15),
+                  t.primary.withValues(alpha: 0.15),
                   Colors.transparent,
                 ],
               ),
@@ -38,7 +39,7 @@ class DashboardHeader extends ConsumerWidget {
             Text(
               DateFormat('EEEE, MMM d').format(now).toUpperCase(),
               style: TextStyle(
-                color: TibebConstants.accent.withValues(alpha: 0.8),
+                color: t.primary.withValues(alpha: 0.8),
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 2.0,
@@ -54,19 +55,19 @@ class DashboardHeader extends ConsumerWidget {
                         : now.hour < 17
                         ? 'Good Afternoon, '
                         : 'Good Evening, ',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    style: context.textTheme.bodyMedium?.copyWith(
                       fontSize: 18,
-                      color: TibebConstants.textSecondary,
+                      color: t.textSecondary,
                       height: 1.2,
                     ),
                   ),
                   TextSpan(
                     text: rankName,
-                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                    style: context.textTheme.displayLarge?.copyWith(
                       fontSize: 26,
                       fontWeight: FontWeight.w900,
                       letterSpacing: -0.5,
-                      color: TibebConstants.textPrimary,
+                      color: t.textPrimary,
                     ),
                   ),
                 ],
@@ -75,14 +76,15 @@ class DashboardHeader extends ConsumerWidget {
               overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: 16),
-            _buildXPProgressBar(libraryState),
+            _buildXPProgressBar(context, libraryState),
           ],
         ),
       ],
     );
   }
 
-  Widget _buildXPProgressBar(LibraryState state) {
+  Widget _buildXPProgressBar(BuildContext context, LibraryState state) {
+    final t = context.tibpiColors;
     final int currentXP = state.totalXP;
     final int nextLevelXP = (state.level) * 1000;
     final int currentLevelStartXP = (state.level - 1) * 1000;
@@ -99,8 +101,8 @@ class DashboardHeader extends ConsumerWidget {
           children: [
             Text(
               'LEVEL ${state.level}',
-              style: const TextStyle(
-                color: TibebConstants.textSecondary,
+              style: TextStyle(
+                color: t.textSecondary,
                 fontSize: 10,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 1.0,
@@ -108,8 +110,8 @@ class DashboardHeader extends ConsumerWidget {
             ),
             Text(
               '${currentXP % 1000} / 1000 XP',
-              style: const TextStyle(
-                color: TibebConstants.textSecondary,
+              style: TextStyle(
+                color: t.textSecondary,
                 fontSize: 10,
                 fontWeight: FontWeight.bold,
               ),
@@ -121,7 +123,7 @@ class DashboardHeader extends ConsumerWidget {
           height: 6,
           width: double.infinity,
           decoration: BoxDecoration(
-            color: TibebConstants.glassy,
+            color: t.glass,
             borderRadius: BorderRadius.circular(3),
           ),
           child: FractionallySizedBox(
@@ -131,14 +133,14 @@ class DashboardHeader extends ConsumerWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    TibebConstants.accent,
-                    TibebConstants.accent.withValues(alpha: 0.6),
+                    t.primary,
+                    t.primary.withValues(alpha: 0.6),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(3),
                 boxShadow: [
                   BoxShadow(
-                    color: TibebConstants.accent.withValues(alpha: 0.3),
+                    color: t.primary.withValues(alpha: 0.3),
                     blurRadius: 4,
                     offset: const Offset(0, 2),
                   ),

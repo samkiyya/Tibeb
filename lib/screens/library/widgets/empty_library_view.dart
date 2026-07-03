@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/constants.dart';
+import '../../../core/theme/semantics/color_scheme.dart';
+import '../../../core/theme/tokens/radius.dart';
 
 class EmptyLibraryView extends ConsumerWidget {
   final VoidCallback onImportFiles;
@@ -9,6 +10,7 @@ class EmptyLibraryView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final t = context.tibpiColors;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -16,19 +18,22 @@ class EmptyLibraryView extends ConsumerWidget {
           Icon(
             Icons.library_books,
             size: 64,
-            color: Colors.white.withValues(alpha: 0.3),
+            color: t.textSecondary.withValues(alpha: 0.3),
           ),
           const SizedBox(height: 16),
-          const Text('Your library is empty'),
+          Text(
+            'Your library is empty',
+            style: TextStyle(color: t.textPrimary),
+          ),
           const SizedBox(height: 24),
           ElevatedButton.icon(
             onPressed: onImportFiles,
             style: ElevatedButton.styleFrom(
-              backgroundColor: TibebConstants.accent,
-              foregroundColor: Colors.black,
+              backgroundColor: t.primary,
+              foregroundColor: t.textOnPrimary,
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: TibebRadius.borderLg,
               ),
             ),
             icon: const Icon(Icons.add),

@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import '../core/constants.dart';
+import '../core/theme/semantics/color_scheme.dart';
+import '../core/theme/tokens/spacing.dart';
 import '../components/activity_graph.dart';
 import '../components/stat_badge.dart';
 import '../components/daily_activity_sheet.dart';
@@ -41,17 +42,18 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   Widget build(BuildContext context) {
     final libraryState = ref.watch(libraryProvider);
     final hasAnimated = ref.watch(hasDashboardAnimatedProvider);
+    final t = context.tibpiColors;
 
     final recentBooks =
         libraryState.allBooks.where((b) => b.lastReadAt != null).toList()
           ..sort((a, b) => b.lastReadAt!.compareTo(a.lastReadAt!));
 
     return Scaffold(
-      backgroundColor: TibebConstants.background,
+      backgroundColor: t.background,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(
-            horizontal: TibebConstants.horizontalPadding,
+            horizontal: TibebSpacing.screenPadding,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,7 +87,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               ],
               const SizedBox(height: 30),
               _animateIf(
-                _buildQuickStats(context, libraryState),
+                _buildQuickStats(context, t, libraryState),
                 hasAnimated,
                 (w) => w
                     .animate()
@@ -96,7 +98,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               _animateIf(
                 Text(
                   'Reading Activity',
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: context.textTheme.titleLarge?.copyWith(
+                    color: t.textPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 hasAnimated,
                 (w) => w.animate().fadeIn(delay: 500.ms),
@@ -105,10 +110,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               _animateIf(
                 Text(
                   'Current Month',
-                  style: TextStyle(
-                    color: TibebConstants.textSecondary,
-                    fontSize: 12,
-                  ),
+                  style: TextStyle(color: t.textSecondary, fontSize: 12),
                 ),
                 hasAnimated,
                 (w) => w.animate().fadeIn(delay: 550.ms),
@@ -122,6 +124,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   weeklyGoalValue: libraryState.weeklyGoalValue,
                   onDateTapped: (date, value) => _showDailyActivityDetail(
                     context,
+                    t,
                     libraryState,
                     date,
                     value,
@@ -141,7 +144,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     children: [
                       Text(
                         'My Shelf',
-                        style: Theme.of(context).textTheme.titleLarge,
+                        style: context.textTheme.titleLarge?.copyWith(
+                          color: t.textPrimary,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       TextButton(
                         onPressed: () {
@@ -151,7 +157,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         child: Text(
                           'See More',
                           style: TextStyle(
-                            color: TibebConstants.accent,
+                            color: t.primary,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -206,7 +212,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     return animator(widget);
   }
 
-  Widget _buildQuickStats(BuildContext context, LibraryState state) {
+  Widget _buildQuickStats(
+    BuildContext context,
+    TibebThemeExtension t,
+    LibraryState state,
+  ) {
     return Row(
       children: [
         Expanded(
@@ -221,7 +231,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             label: 'Pages',
             value: '${state.totalPagesRead}',
             icon: Icons.auto_stories,
-            color: TibebConstants.accentGreen,
+            color: t.success,
           ),
         ),
         const SizedBox(width: 8),
@@ -230,7 +240,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             label: 'Minutes',
             value: '${state.totalMinutesRead}',
             icon: Icons.timer,
-            color: Colors.orangeAccent,
+            color: t.streakFire,
           ),
         ),
         const SizedBox(width: 8),
@@ -239,7 +249,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             label: 'Level',
             value: '${state.level}',
             icon: Icons.stars_rounded,
-            color: Colors.purpleAccent,
+            color: t.primary,
           ),
         ),
       ],
@@ -248,6 +258,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 
   void _showDailyActivityDetail(
     BuildContext context,
+    TibebThemeExtension t,
     LibraryState state,
     DateTime date,
     int totalValue,
@@ -294,33 +305,31 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   }
 
   void _showDeleteConfirmation(Book book) async {
+    final t = context.tibpiColors;
     bool deleteHistory = false;
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) {
           return AlertDialog(
-            backgroundColor: TibebConstants.surface,
-            title: const Text(
-              'Remove Book',
-              style: TextStyle(color: Colors.white),
-            ),
+            backgroundColor: t.surface,
+            title: Text('Remove Book', style: TextStyle(color: t.textPrimary)),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   'Are you sure you want to remove "${book.title}"?',
-                  style: const TextStyle(color: Colors.white70),
+                  style: TextStyle(color: t.textSecondary),
                 ),
                 const SizedBox(height: 16),
                 CheckboxListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: const Text(
+                  title: Text(
                     'Remove reading history',
-                    style: TextStyle(fontSize: 14, color: Colors.white70),
+                    style: TextStyle(fontSize: 14, color: t.textSecondary),
                   ),
                   value: deleteHistory,
-                  activeColor: TibebConstants.accent,
+                  activeColor: t.primary,
                   onChanged: (val) {
                     setDialogState(() {
                       deleteHistory = val ?? false;
@@ -332,17 +341,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
-                child: const Text(
-                  'Cancel',
-                  style: TextStyle(color: Colors.white60),
-                ),
+                child: Text('Cancel', style: TextStyle(color: t.textSecondary)),
               ),
               TextButton(
                 onPressed: () => Navigator.pop(context, true),
-                child: const Text(
-                  'Remove',
-                  style: TextStyle(color: Colors.redAccent),
-                ),
+                child: Text('Remove', style: TextStyle(color: t.error)),
               ),
             ],
           );

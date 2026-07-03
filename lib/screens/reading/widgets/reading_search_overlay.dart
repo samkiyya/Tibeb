@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../models/book_model.dart';
 import '../../../models/reader_settings_model.dart';
 import '../../../models/search_result_model.dart';
-import '../../../core/constants.dart';
+import '../../../core/theme/semantics/color_scheme.dart';
 
 class ReadingSearchOverlay extends StatelessWidget {
   final Book book;
@@ -57,7 +57,7 @@ class ReadingSearchOverlay extends StatelessWidget {
               title: Text(
                 result.title,
                 style: TextStyle(
-                  color: TibebConstants.accent,
+                  color: context.tibpiColors.accent,
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
                 ),

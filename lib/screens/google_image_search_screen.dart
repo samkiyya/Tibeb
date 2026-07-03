@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import '../core/constants.dart';
+import '../core/theme/semantics/color_scheme.dart';
 
 class GoogleImageSearchScreen extends StatefulWidget {
   final String query;
@@ -129,7 +129,7 @@ class _GoogleImageSearchScreenState extends State<GoogleImageSearchScreen> {
               Navigator.pop(context, url); // Return URL to previous screen
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: TibebConstants.accent,
+              backgroundColor: context.tibpiColors.accent,
               foregroundColor: Colors.white,
             ),
             child: const Text('Select'),

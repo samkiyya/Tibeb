@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../core/constants.dart';
+import '../core/theme/semantics/color_scheme.dart';
 import './glass_container.dart';
 import '../models/book_model.dart';
 import '../providers/library_provider.dart';
@@ -26,6 +26,7 @@ class DailyActivitySheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final t = context.tibpiColors;
     final dateStr = date.toIso8601String().split('T')[0];
     final daySessions = sessionHistory
         .where((s) => s['date'] == dateStr)
@@ -70,8 +71,8 @@ class DailyActivitySheet extends ConsumerWidget {
                 children: [
                   Text(
                     DateFormat('EEEE, MMMM d').format(date),
-                    style: const TextStyle(
-                      color: Colors.white,
+                    style: TextStyle(
+                      color: t.textPrimary,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -79,7 +80,7 @@ class DailyActivitySheet extends ConsumerWidget {
                   Text(
                     'Daily Achievement',
                     style: TextStyle(
-                      color: TibebConstants.textSecondary,
+                      color: t.textSecondary,
                       fontSize: 12,
                     ),
                   ),
@@ -91,16 +92,16 @@ class DailyActivitySheet extends ConsumerWidget {
                   vertical: 6,
                 ),
                 decoration: BoxDecoration(
-                  color: TibebConstants.accent.withValues(alpha: 0.1),
+                  color: t.primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: TibebConstants.accent.withValues(alpha: 0.3),
+                    color: t.primary.withValues(alpha: 0.3),
                   ),
                 ),
                 child: Text(
                   '$totalValue $goalType',
                   style: TextStyle(
-                    color: TibebConstants.accent,
+                    color: t.primary,
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                   ),
@@ -109,22 +110,22 @@ class DailyActivitySheet extends ConsumerWidget {
             ],
           ),
           const SizedBox(height: 24),
-          const Text(
+          Text(
             'Books Read',
             style: TextStyle(
-              color: Colors.white70,
+              color: t.textSecondary,
               fontSize: 14,
               fontWeight: FontWeight.w600,
             ),
           ),
           const SizedBox(height: 12),
           if (mergedSessions.isEmpty)
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
               child: Center(
                 child: Text(
                   'No specific book data for this day',
-                  style: TextStyle(color: Colors.white38),
+                  style: TextStyle(color: t.textTertiary),
                 ),
               ),
             )
@@ -168,7 +169,7 @@ class DailyActivitySheet extends ConsumerWidget {
                             width: 32,
                             height: 48,
                             decoration: BoxDecoration(
-                              color: Colors.white10,
+                              color: t.borderSubtle,
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Padding(
@@ -180,11 +181,11 @@ class DailyActivitySheet extends ConsumerWidget {
                             ),
                           ),
                           const SizedBox(width: 12),
-                          const Expanded(
+                          Expanded(
                             child: Text(
                               'Unknown Book (Removed)',
                               style: TextStyle(
-                                color: Colors.white38,
+                                color: t.textTertiary,
                                 fontSize: 14,
                                 fontStyle: FontStyle.italic,
                               ),
@@ -192,8 +193,8 @@ class DailyActivitySheet extends ConsumerWidget {
                           ),
                           Text(
                             '+$val',
-                            style: const TextStyle(
-                              color: Colors.white38,
+                            style: TextStyle(
+                              color: t.textTertiary,
                               fontWeight: FontWeight.bold,
                               fontSize: 14,
                             ),
@@ -248,6 +249,7 @@ class DailyActivitySheet extends ConsumerWidget {
                                                   child: Image.asset(
                                                     'assets/icon.png',
                                                     fit: BoxFit.contain,
+                                                    color: t.textSecondary,
                                                   ),
                                                 ),
                                       )
@@ -263,6 +265,7 @@ class DailyActivitySheet extends ConsumerWidget {
                                                   child: Image.asset(
                                                     'assets/icon.png',
                                                     fit: BoxFit.contain,
+                                                    color: t.textSecondary,
                                                   ),
                                                 ),
                                       ),
@@ -275,8 +278,8 @@ class DailyActivitySheet extends ConsumerWidget {
                                 children: [
                                   Text(
                                     book.title,
-                                    style: const TextStyle(
-                                      color: Colors.white,
+                                    style: TextStyle(
+                                      color: t.textPrimary,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -286,7 +289,7 @@ class DailyActivitySheet extends ConsumerWidget {
                                   Text(
                                     book.author,
                                     style: TextStyle(
-                                      color: TibebConstants.textSecondary,
+                                      color: t.textSecondary,
                                       fontSize: 11,
                                     ),
                                   ),
@@ -295,8 +298,8 @@ class DailyActivitySheet extends ConsumerWidget {
                             ),
                             Text(
                               '+$val',
-                              style: const TextStyle(
-                                color: Colors.white,
+                              style: TextStyle(
+                                color: t.textPrimary,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14,
                               ),
@@ -314,7 +317,7 @@ class DailyActivitySheet extends ConsumerWidget {
             child: Text(
               'Keep it up!',
               style: TextStyle(
-                color: TibebConstants.accent.withValues(alpha: 0.8),
+                color: t.primary.withValues(alpha: 0.8),
                 fontStyle: FontStyle.italic,
                 fontSize: 14,
               ),

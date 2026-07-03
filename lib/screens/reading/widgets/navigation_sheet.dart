@@ -10,7 +10,7 @@ import '../../../models/bookmark_model.dart';
 import '../../../models/highlight_model.dart';
 import '../../../models/vocabulary_model.dart';
 import '../../../models/reader_settings_model.dart';
-import '../../../core/constants.dart';
+import '../../../core/theme/semantics/color_scheme.dart';
 import './note_editor.dart';
 import './note_view.dart';
 import './share_quote_sheet.dart';
@@ -124,9 +124,9 @@ class _NavigationSheetState extends State<NavigationSheet> {
       length: 2,
       child: Container(
         height: MediaQuery.of(context).size.height * 0.7,
-        decoration: const BoxDecoration(
-          color: TibebConstants.surface,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        decoration: BoxDecoration(
+          color: context.tibpiColors.surface,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
         ),
         child: Column(
           children: [
@@ -141,11 +141,11 @@ class _NavigationSheetState extends State<NavigationSheet> {
                 ),
               ),
             ),
-            const TabBar(
-              indicatorColor: TibebConstants.accent,
-              labelColor: TibebConstants.accent,
+            TabBar(
+              indicatorColor: context.tibpiColors.accent,
+              labelColor: context.tibpiColors.accent,
               unselectedLabelColor: Colors.white54,
-              tabs: [
+              tabs: const [
                 Tab(text: 'CHAPTERS'),
                 Tab(text: 'ANNOTATIONS'),
               ],
@@ -208,16 +208,16 @@ class _NavigationSheetState extends State<NavigationSheet> {
           ),
           const SizedBox(width: 8),
           Material(
-            color: TibebConstants.accent.withValues(alpha: 0.1),
+            color: context.tibpiColors.accent.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(12),
             child: InkWell(
               onTap: _handleJump,
               borderRadius: BorderRadius.circular(12),
-              child: const Padding(
-                padding: EdgeInsets.all(12),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
                 child: Icon(
                   Icons.arrow_forward_rounded,
-                  color: TibebConstants.accent,
+                  color: context.tibpiColors.accent,
                   size: 20,
                 ),
               ),
@@ -260,7 +260,7 @@ class _NavigationSheetState extends State<NavigationSheet> {
           return StatefulBuilder(
             builder: (context, setDialogState) {
               return AlertDialog(
-                backgroundColor: TibebConstants.surface,
+                backgroundColor: context.tibpiColors.surface,
                 title: const Text(
                   'Export Annotations',
                   style: TextStyle(color: Colors.white),
@@ -283,7 +283,7 @@ class _NavigationSheetState extends State<NavigationSheet> {
                         style: TextStyle(color: Colors.white38, fontSize: 11),
                       ),
                       value: includeVocab,
-                      activeColor: TibebConstants.accent,
+                      activeColor: context.tibpiColors.accent,
                       checkColor: Colors.black,
                       contentPadding: EdgeInsets.zero,
                       onChanged: (val) =>
@@ -301,9 +301,9 @@ class _NavigationSheetState extends State<NavigationSheet> {
                   ),
                   TextButton(
                     onPressed: () => Navigator.pop(context, includeVocab),
-                    child: const Text(
+                    child: Text(
                       'SHARE',
-                      style: TextStyle(color: TibebConstants.accent),
+                      style: TextStyle(color: context.tibpiColors.accent),
                     ),
                   ),
                 ],
@@ -413,9 +413,9 @@ class _NavigationSheetState extends State<NavigationSheet> {
       isScrollControlled: true,
       builder: (context) => Container(
         height: MediaQuery.of(context).size.height * 0.85,
-        decoration: const BoxDecoration(
-          color: TibebConstants.surface,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+        decoration: BoxDecoration(
+          color: context.tibpiColors.surface,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
         ),
         child: Column(
           children: [
@@ -442,13 +442,15 @@ class _NavigationSheetState extends State<NavigationSheet> {
                             vertical: 4,
                           ),
                           decoration: BoxDecoration(
-                            color: TibebConstants.accent.withValues(alpha: 0.1),
+                            color: context.tibpiColors.accent.withValues(
+                              alpha: 0.1,
+                            ),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: const Text(
+                          child: Text(
                             'HIGHLIGHT',
                             style: TextStyle(
-                              color: TibebConstants.accent,
+                              color: context.tibpiColors.accent,
                               fontSize: 10,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 1,
@@ -457,15 +459,15 @@ class _NavigationSheetState extends State<NavigationSheet> {
                         ),
                         const SizedBox(width: 8),
                         TextButton.icon(
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.location_on_rounded,
                             size: 16,
-                            color: TibebConstants.accent,
+                            color: context.tibpiColors.accent,
                           ),
-                          label: const Text(
+                          label: Text(
                             'GO TO POSITION',
                             style: TextStyle(
-                              color: TibebConstants.accent,
+                              color: context.tibpiColors.accent,
                               fontSize: 10,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 1,
@@ -477,9 +479,8 @@ class _NavigationSheetState extends State<NavigationSheet> {
                             widget.onHighlightTap(h);
                           },
                           style: TextButton.styleFrom(
-                            backgroundColor: TibebConstants.accent.withValues(
-                              alpha: 0.1,
-                            ),
+                            backgroundColor: context.tibpiColors.accent
+                                .withValues(alpha: 0.1),
                             padding: const EdgeInsets.symmetric(
                               horizontal: 12,
                               vertical: 0,
@@ -492,9 +493,9 @@ class _NavigationSheetState extends State<NavigationSheet> {
                         ),
                         const Spacer(),
                         IconButton(
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.edit_note_rounded,
-                            color: TibebConstants.accent,
+                            color: context.tibpiColors.accent,
                           ),
                           onPressed: () {
                             Navigator.pop(context); // Close detail sheet
@@ -556,9 +557,9 @@ class _NavigationSheetState extends State<NavigationSheet> {
                       const SizedBox(height: 32),
                       Row(
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.notes_rounded,
-                            color: TibebConstants.accent,
+                            color: context.tibpiColors.accent,
                             size: 20,
                           ),
                           const SizedBox(width: 10),
@@ -663,7 +664,7 @@ class _NavigationSheetState extends State<NavigationSheet> {
                         icon: const Icon(Icons.ios_share_rounded, size: 18),
                         label: const Text('Export Current Book'),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: TibebConstants.accent,
+                          backgroundColor: context.tibpiColors.accent,
                           foregroundColor: Colors.black,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -713,7 +714,7 @@ class _NavigationSheetState extends State<NavigationSheet> {
                           .toList();
                       await widget.onDeleteBookmarks(toDelete);
                     }
-                    
+
                     setState(() {
                       _refreshAnnotations();
                       _isSelectionMode = false;
@@ -903,16 +904,22 @@ class _NavigationSheetState extends State<NavigationSheet> {
                             spacing: 8,
                             runSpacing: 8,
                             children: vocabulary.map((v) {
-                              final isSelected = v.id != null && _selectedVocabularyIds.contains(v.id!);
+                              final isSelected =
+                                  v.id != null &&
+                                  _selectedVocabularyIds.contains(v.id!);
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 2),
                                 child: FilterChip(
                                   label: Text(
                                     v.word,
                                     style: TextStyle(
-                                      color: isSelected ? Colors.black : Colors.white70,
+                                      color: isSelected
+                                          ? Colors.black
+                                          : Colors.white70,
                                       fontSize: 12,
-                                      fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                                      fontWeight: isSelected
+                                          ? FontWeight.bold
+                                          : FontWeight.normal,
                                     ),
                                   ),
                                   selected: isSelected && _isSelectionMode,
@@ -929,14 +936,19 @@ class _NavigationSheetState extends State<NavigationSheet> {
                                       widget.onLookup?.call(v.word);
                                     }
                                   },
-                                  backgroundColor: Colors.white.withValues(alpha: 0.05),
-                                  selectedColor: TibebConstants.accent,
+                                  backgroundColor: Colors.white.withValues(
+                                    alpha: 0.05,
+                                  ),
+                                  selectedColor: context.tibpiColors.accent,
                                   checkmarkColor: Colors.black,
                                   side: BorderSide.none,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 4,
+                                    vertical: 0,
+                                  ),
                                   visualDensity: VisualDensity.compact,
                                 ),
                               );
@@ -1027,7 +1039,9 @@ class _ChapterTreeItemState extends State<_ChapterTreeItem> {
                     child: Text(
                       widget.chapter.Title?.trim() ?? 'Chapter',
                       style: TextStyle(
-                        color: isCurrent ? TibebConstants.accent : Colors.white,
+                        color: isCurrent
+                            ? context.tibpiColors.accent
+                            : Colors.white,
                         fontWeight: isCurrent
                             ? FontWeight.bold
                             : FontWeight.normal,
@@ -1138,7 +1152,9 @@ class _PdfTreeItemState extends State<_PdfTreeItem> {
                     child: Text(
                       widget.node.title,
                       style: TextStyle(
-                        color: isCurrent ? TibebConstants.accent : Colors.white,
+                        color: isCurrent
+                            ? context.tibpiColors.accent
+                            : Colors.white,
                         fontWeight: isCurrent
                             ? FontWeight.bold
                             : FontWeight.normal,
@@ -1228,8 +1244,8 @@ class _AnnotationHeader extends StatelessWidget {
               children: [
                 Text(
                   isSelectionMode ? "$selectedCount SELECTED" : "ANNOTATIONS",
-                  style: const TextStyle(
-                    color: TibebConstants.accent,
+                  style: TextStyle(
+                    color: context.tibpiColors.accent,
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.2,
@@ -1245,18 +1261,18 @@ class _AnnotationHeader extends StatelessWidget {
           ),
           if (isSelectionMode) ...[
             IconButton(
-              icon: const Icon(
+              icon: Icon(
                 Icons.format_quote_rounded,
-                color: TibebConstants.accent,
+                color: context.tibpiColors.accent,
                 size: 20,
               ),
               onPressed: selectedCount > 0 ? onShareQuote : null,
               tooltip: 'Share as Quote',
             ),
             IconButton(
-              icon: const Icon(
+              icon: Icon(
                 Icons.ios_share_rounded,
-                color: TibebConstants.accent,
+                color: context.tibpiColors.accent,
                 size: 20,
               ),
               onPressed: selectedCount > 0 ? onShareSelected : null,
@@ -1283,9 +1299,9 @@ class _AnnotationHeader extends StatelessWidget {
           ] else ...[
             if (onExport != null)
               IconButton(
-                icon: const Icon(
+                icon: Icon(
                   Icons.ios_share_rounded,
-                  color: TibebConstants.accent,
+                  color: context.tibpiColors.accent,
                   size: 18,
                 ),
                 onPressed: onExport,
@@ -1293,9 +1309,12 @@ class _AnnotationHeader extends StatelessWidget {
               ),
             TextButton(
               onPressed: onToggleSelection,
-              child: const Text(
+              child: Text(
                 'SELECT',
-                style: TextStyle(color: TibebConstants.accent, fontSize: 12),
+                style: TextStyle(
+                  color: context.tibpiColors.accent,
+                  fontSize: 12,
+                ),
               ),
             ),
           ],
@@ -1336,18 +1355,18 @@ class _ColorFilterBar extends StatelessWidget {
               selected: selectedColor == null,
               onSelected: (_) => onColorTap(null),
               backgroundColor: Colors.transparent,
-              selectedColor: TibebConstants.accent.withValues(alpha: 0.2),
-              checkmarkColor: TibebConstants.accent,
+              selectedColor: context.tibpiColors.accent.withValues(alpha: 0.2),
+              checkmarkColor: context.tibpiColors.accent,
               side: BorderSide(
                 color: selectedColor == null
-                    ? TibebConstants.accent
+                    ? context.tibpiColors.accent
                     : Colors.white10,
               ),
               visualDensity: VisualDensity.compact,
             ),
           ),
           const SizedBox(width: 8),
-          ...TibebConstants.highlightColors.map((color) {
+          ...context.tibpiColors.highlightColors.map((color) {
             final hexColor =
                 '#${color.toARGB32().toRadixString(16).substring(2).toUpperCase()}';
             final isSelected = selectedColor == hexColor;
@@ -1417,7 +1436,7 @@ class _AnnotationCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       child: Material(
         color: isSelected
-            ? TibebConstants.accent.withValues(alpha: 0.1)
+            ? context.tibpiColors.accent.withValues(alpha: 0.1)
             : Colors.white.withValues(alpha: 0.03),
         borderRadius: BorderRadius.circular(16),
         clipBehavior: Clip.antiAlias,
@@ -1432,7 +1451,7 @@ class _AnnotationCard extends StatelessWidget {
                 if (isSelectionMode) ...[
                   Checkbox(
                     value: isSelected,
-                    activeColor: TibebConstants.accent,
+                    activeColor: context.tibpiColors.accent,
                     onChanged: onSelectedChanged,
                   ),
                   const SizedBox(width: 8),
@@ -1444,10 +1463,10 @@ class _AnnotationCard extends StatelessWidget {
                       if (isHighlight) ...[
                         Container(
                           padding: const EdgeInsets.only(left: 12),
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             border: Border(
                               left: BorderSide(
-                                color: TibebConstants.accent,
+                                color: context.tibpiColors.accent,
                                 width: 3,
                               ),
                             ),
@@ -1502,18 +1521,16 @@ class _AnnotationCard extends StatelessWidget {
                                 children: [
                                   Icon(
                                     Icons.notes_rounded,
-                                    color: TibebConstants.accent.withValues(
-                                      alpha: 0.7,
-                                    ),
+                                    color: context.tibpiColors.accent
+                                        .withValues(alpha: 0.7),
                                     size: 14,
                                   ),
                                   const SizedBox(width: 6),
                                   Text(
                                     'NOTE',
                                     style: TextStyle(
-                                      color: TibebConstants.accent.withValues(
-                                        alpha: 0.7,
-                                      ),
+                                      color: context.tibpiColors.accent
+                                          .withValues(alpha: 0.7),
                                       fontSize: 10,
                                       fontWeight: FontWeight.bold,
                                       letterSpacing: 1,
@@ -1553,7 +1570,7 @@ class _AnnotationCard extends StatelessWidget {
                                     (note != null && note!.isNotEmpty)
                                         ? Icons.sticky_note_2_outlined
                                         : Icons.add_comment_outlined,
-                                    color: TibebConstants.accent,
+                                    color: context.tibpiColors.accent,
                                     size: 20,
                                   ),
                                   onPressed: onNoteTap,
