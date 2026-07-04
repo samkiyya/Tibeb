@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tibeb/shared/models/quest_model.dart';
 import '../core/theme/theme.dart';
 
 
-import '../models/quest_model.dart';
 import 'glass_container.dart';
 
 class DailyQuestsCard extends StatelessWidget {

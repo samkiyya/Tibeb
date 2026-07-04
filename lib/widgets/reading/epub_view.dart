@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:epub_view/epub_view.dart' show EpubChapter, EpubBook;
-import '../../../models/book_model.dart';
-import '../../../models/reader_settings_model.dart';
-import '../../../models/highlight_model.dart';
+import 'package:tibeb/shared/models/models.dart';
+
 import './epub_chapter_page.dart';
 
 class ReadingEpubView extends StatelessWidget {

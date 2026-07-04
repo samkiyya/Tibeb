@@ -5,15 +5,13 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:path/path.dart' as p;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:collection/collection.dart';
+import 'package:tibeb/shared/services/book_service.dart';
+import 'package:tibeb/shared/services/database_service.dart';
+import 'package:tibeb/shared/services/notification_service.dart';
 import '../core/rank/tibeb_rank_extension.dart';
 import '../core/rank/tibeb_rank_repository.dart';
-import '../models/book_model.dart';
-import '../models/bookmark_model.dart';
-import '../services/database_service.dart';
-import '../services/book_service.dart';
-import '../models/quest_model.dart';
-import '../services/notification_service.dart';
-import '../models/vocabulary_model.dart';
+import 'package:tibeb/shared/models/models.dart';
+
 
 enum BookSortBy { title, author, recent }
 
@@ -1539,3 +1537,15 @@ class _DetailedActivityData {
     required this.xp,
   });
 }
+
+// ─── Canonical alias ─────────────────────────────────────────────────────────
+// New feature-first code imports from features/library/providers/library_provider.dart
+// which re-exports this file. The alias below lets both names work
+// without any breaking changes to existing screens.
+final libraryNotifierProvider = libraryProvider;
+
+// SharedPreferences provider (used by main.dart ProviderScope override)
+final sharedPreferencesProvider =
+    Provider<dynamic>((ref) => throw UnimplementedError(
+          'sharedPreferencesProvider must be overridden in ProviderScope',
+        ));

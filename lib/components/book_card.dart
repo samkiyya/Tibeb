@@ -2,10 +2,10 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:tibeb/shared/models/book_model.dart';
 import '../core/theme/theme.dart';
 
 import '../components/glass_container.dart';
-import '../models/book_model.dart';
 
 class BookCard extends StatefulWidget {
   final Book book;

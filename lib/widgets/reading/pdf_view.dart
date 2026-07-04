@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pdfrx/pdfrx.dart';
-import 'package:tibeb/models/book_model.dart';
-import 'package:tibeb/models/reader_settings_model.dart';
-import 'package:tibeb/models/highlight_model.dart';
+import 'package:tibeb/shared/models/models.dart';
+
 
 class ReadingPdfView extends StatefulWidget {
   final Book book;

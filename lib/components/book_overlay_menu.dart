@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/book_model.dart';
-import '../core/theme/theme.dart';
+import 'package:tibeb/shared/models/book_model.dart';
+import 'package:tibeb/core/theme/theme.dart';
 import 'glass_container.dart';
 
 class BookOverlayMenu extends ConsumerStatefulWidget {

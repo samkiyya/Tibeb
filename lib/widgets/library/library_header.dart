@@ -127,8 +127,11 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
                           hasDropdown: true,
                           dropdownOptions: <String>[
                             'All',
-                            ...state.allBooks.map((b) => b.author).toSet(),
-                          ].toList(),
+                             ...state.allBooks
+      .map((b) => b.author)
+      .whereType<String>()
+      .toSet(),
+                          ],
                           onSelected: (val) => notifier.setAuthorFilter(val),
                           onTap: () {},
                         ),

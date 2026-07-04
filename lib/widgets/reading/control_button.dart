@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../models/reader_settings_model.dart';
+import 'package:tibeb/shared/models/models.dart';
 
 class ControlButton extends StatelessWidget {
   final Widget child;

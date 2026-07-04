@@ -1,6 +1,7 @@
 import 'dart:io' as io;
 import 'dart:async';
 import 'package:tibeb/core/theme/theme.dart';
+import 'package:tibeb/shared/services/database_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +15,7 @@ import 'package:pdfrx/pdfrx.dart';
 import '../components/display_settings_sheet.dart';
 import '../providers/library_provider.dart';
 import '../providers/reader_settings_provider.dart';
-import '../models/book_model.dart';
-import '../models/reader_settings_model.dart';
-import '../models/bookmark_model.dart';
-import '../models/search_result_model.dart';
+import 'package:tibeb/shared/models/models.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:battery_plus/battery_plus.dart';
@@ -34,8 +32,6 @@ import '../widgets/reading/reading_footer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import '../utils/tutorial_helper.dart';
-import '../models/highlight_model.dart';
-import '../services/database_service.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ReadingScreen extends ConsumerStatefulWidget {

@@ -4,7 +4,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:markdown_quill/markdown_quill.dart';
 import 'package:markdown/markdown.dart' as md;
 import '../../../core/theme/theme.dart';
-import '../../../models/reader_settings_model.dart';
+import 'package:tibeb/shared/models/models.dart';
 
 class NoteEditor extends StatefulWidget {
   final String initialMarkdown;

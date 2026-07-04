@@ -1,9 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import '../models/book_model.dart';
-import '../models/bookmark_model.dart';
-import '../models/highlight_model.dart';
-import '../models/vocabulary_model.dart';
+import '../models/models.dart';
+
 
 class DatabaseService {
   static final DatabaseService _instance = DatabaseService._internal();

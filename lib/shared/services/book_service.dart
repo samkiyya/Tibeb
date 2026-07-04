@@ -5,10 +5,10 @@ import 'package:path/path.dart' as p;
 import 'package:epubx/epubx.dart';
 import 'package:image/image.dart' as img;
 import 'package:file_picker/file_picker.dart';
-import 'package:tibeb/models/book_model.dart';
-import 'package:tibeb/services/database_service.dart';
+import 'package:tibeb/shared/models/models.dart';
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
+import 'package:tibeb/shared/services/database_service.dart';
 
 class BookService {
   final DatabaseService _dbService = DatabaseService();

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:tibeb/shared/models/models.dart';
 import '../core/theme/theme.dart';
 
 import '../components/activity_graph.dart';
@@ -14,7 +15,6 @@ import '../widgets/dashboard/continue_reading_card.dart';
 import '../widgets/dashboard/shelf_item.dart';
 import '../components/streak_widget.dart';
 import 'main_navigation.dart';
-import '../models/book_model.dart';
 import 'edit_book_screen.dart';
 import '../components/book_overlay_menu.dart';
 

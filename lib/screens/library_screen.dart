@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tibeb/shared/services/book_service.dart';
 import '../core/theme/theme.dart';
 
 import '../components/book_card.dart';
 import '../components/glass_container.dart';
 import '../providers/library_provider.dart';
-import '../models/book_model.dart';
-import '../services/book_service.dart';
+import 'package:tibeb/shared/models/models.dart';
+
 import '../screens/reading_screen.dart';
 import '../widgets/library/empty_library_view.dart';
 import '../widgets/library/library_header.dart';

@@ -10,8 +10,8 @@ import 'package:epub_view/epub_view.dart'
 import 'package:flutter_html/flutter_html.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:android_intent_plus/android_intent.dart';
-import '../../../models/reader_settings_model.dart';
-import '../../../models/highlight_model.dart';
+import 'package:tibeb/shared/models/models.dart';
+
 import '../../../core/theme/theme.dart';
 import 'share_quote_sheet.dart';
 import 'note_editor.dart';

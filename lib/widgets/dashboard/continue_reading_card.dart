@@ -1,13 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import '../../../app/router.dart';
 import '../../../core/theme/theme.dart';
-
-
 import '../../../components/glass_container.dart';
-import '../../../models/book_model.dart';
+import 'package:tibeb/shared/models/models.dart';
 import '../../../providers/library_provider.dart';
-import '../../screens/reading_screen.dart';
 
 class ContinueReadingCard extends ConsumerStatefulWidget {
   final Book book;
@@ -41,10 +40,7 @@ class _ContinueReadingCardState extends ConsumerState<ContinueReadingCard> {
       onTap: () {
         ref.read(currentlyReadingProvider.notifier).state = widget.book;
         ref.read(libraryProvider.notifier).markBookAsOpened(widget.book);
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const ReadingScreen()),
-        );
+        context.push(AppRoutes.reader, extra: widget.book);
       },
       onLongPress: () {
         if (widget.onLongPress != null) widget.onLongPress!(_tapPosition);

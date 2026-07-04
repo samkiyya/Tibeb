@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../models/book_model.dart';
-import '../../../models/reader_settings_model.dart';
+import 'package:tibeb/shared/models/models.dart';
+
 import '../../../core/theme/theme.dart';
 import './control_button.dart';
 

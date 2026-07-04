@@ -1,12 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/book_model.dart';
+import 'package:tibeb/shared/models/models.dart';
+import 'package:tibeb/shared/services/book_service.dart';
 import '../providers/library_provider.dart';
 import '../core/theme/theme.dart';
 
 import 'google_image_search_screen.dart';
-import '../services/book_service.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart' as p;
 

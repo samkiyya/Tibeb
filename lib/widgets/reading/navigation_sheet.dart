@@ -5,11 +5,8 @@ import 'package:share_plus/share_plus.dart';
 import 'package:epub_view/epub_view.dart' show EpubChapter;
 import 'package:pdfrx/pdfrx.dart' show PdfOutlineNode;
 
-import '../../../models/book_model.dart';
-import '../../../models/bookmark_model.dart';
-import '../../../models/highlight_model.dart';
-import '../../../models/vocabulary_model.dart';
-import '../../../models/reader_settings_model.dart';
+import 'package:tibeb/shared/models/models.dart';
+
 import '../../../core/theme/theme.dart';
 import './note_editor.dart';
 import './note_view.dart';
