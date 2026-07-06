@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../core/theme/theme.dart';
 
-import './glass_container.dart';
+import 'glass_container.dart';
 
 class StreakWidget extends StatelessWidget {
   final int streak;

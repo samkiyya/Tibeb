@@ -7,7 +7,7 @@ import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 import 'package:tibeb/core/rank/tibeb_rank.dart';
 import 'package:tibeb/core/rank/tibeb_rank_repository.dart';
 import 'package:tibeb/core/theme/theme.dart';
-import 'package:tibeb/components/glass_container.dart';
+import 'package:tibeb/widgets/glass_container.dart';
 import 'package:tibeb/providers/library_provider.dart';
 import 'package:tibeb/screens/dashboard_screen.dart';
 import 'package:tibeb/screens/library_screen.dart';
@@ -17,7 +17,7 @@ import 'package:tibeb/screens/reading_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:tibeb/utils/tutorial_helper.dart';
-import 'package:tibeb/components/rank_up_dialog.dart';
+import 'package:tibeb/widgets/rank_up_dialog.dart';
 
 class NavigationState {
   final int current;

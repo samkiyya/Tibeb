@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://samkiyya.github.io/Tibeb/sitemap.xml

@@ -3,20 +3,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import '../core/theme/theme.dart';
+import 'package:tibeb/core/theme/theme.dart';
 
-import '../components/activity_graph.dart';
-import '../components/stat_badge.dart';
-import '../components/daily_activity_sheet.dart';
-import '../providers/library_provider.dart';
-import '../widgets/dashboard/dashboard_header.dart';
-import '../widgets/dashboard/continue_reading_card.dart';
-import '../widgets/dashboard/shelf_item.dart';
-import '../components/streak_widget.dart';
+import 'package:tibeb/widgets/activity_graph.dart';
+import 'package:tibeb/widgets/stat_badge.dart';
+import 'package:tibeb/widgets/daily_activity_sheet.dart';
+import 'package:tibeb/providers/library_provider.dart';
+import 'package:tibeb/widgets/dashboard/dashboard_header.dart';
+import 'package:tibeb/widgets/dashboard/continue_reading_card.dart';
+import 'package:tibeb/widgets/dashboard/shelf_item.dart';
+import 'package:tibeb/widgets/streak_widget.dart';
 import 'main_navigation.dart';
-import '../models/book_model.dart';
-import 'edit_book_screen.dart';
-import '../components/book_overlay_menu.dart';
+import 'package:tibeb/models/book_model.dart';
+import 'package:tibeb/screens/edit_book_screen.dart';
+import 'package:tibeb/widgets/book_overlay_menu.dart';
 
 final hasDashboardAnimatedProvider = StateProvider<bool>((ref) => false);
 

@@ -11,7 +11,7 @@ import 'package:path/path.dart' as p;
 import 'package:epub_view/epub_view.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:pdfrx/pdfrx.dart';
-import '../components/display_settings_sheet.dart';
+import '../widgets/display_settings_sheet.dart';
 import '../providers/library_provider.dart';
 import '../providers/reader_settings_provider.dart';
 import '../models/book_model.dart';

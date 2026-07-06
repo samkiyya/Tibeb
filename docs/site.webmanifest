@@ -1,0 +1,22 @@
+{
+  "name": "Tibeb - Wisdom in Every Page",
+  "short_name": "Tibeb",
+  "icons": [
+    {
+      "src": "/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "start_url": "./index.html",
+  "theme_color": "#D4A843",
+  "background_color": "#0A0B0E",
+  "display": "standalone"
+}

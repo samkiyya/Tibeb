@@ -5,7 +5,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../core/theme/theme.dart';
 import '../providers/library_provider.dart';
-import '../components/glass_container.dart';
+import '../widgets/glass_container.dart';
 import '../services/notification_service.dart';
 
 class SettingsScreen extends ConsumerWidget {

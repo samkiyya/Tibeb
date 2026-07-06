@@ -1,11 +1,11 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/theme/theme.dart';
+import 'package:tibeb/widgets/book_card/book_cover.dart';
+import 'package:tibeb/core/theme/theme.dart';
 
-import '../../../models/book_model.dart';
-import '../../../providers/library_provider.dart';
-import '../../screens/reading_screen.dart';
+import 'package:tibeb/models/book_model.dart';
+import 'package:tibeb/providers/library_provider.dart';
+import 'package:tibeb/screens/reading_screen.dart';
 
 class ShelfItem extends ConsumerStatefulWidget {
   final Book book;
@@ -46,93 +46,65 @@ class _ShelfItemState extends ConsumerState<ShelfItem> {
       onLongPress: () {
         if (widget.onLongPress != null) widget.onLongPress!(_tapPosition);
       },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              Container(
-                width: 100,
-                height: 140,
-                decoration: BoxDecoration(
+      child: SizedBox(
+        width: 110,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              children: [
+                ClipRRect(
                   borderRadius: TibebRadius.borderMd,
-                  color: t.surfaceOverlay,
-                  boxShadow: t.card.shadow,
+                  child: BookCover(
+                    path: widget.book.coverPath,
+                    placeholderColor: t.surfaceOverlay,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                child: ClipRRect(
-                  borderRadius: TibebRadius.borderMd,
-                  child: widget.book.coverPath.startsWith('assets')
-                      ? Image.asset(
-                          widget.book.coverPath,
-                          fit: BoxFit.cover,
-                          alignment: Alignment.topCenter,
-                          errorBuilder: (context, error, stackTrace) => Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Image.asset(
-                              'assets/icon.png',
-                              fit: BoxFit.contain,
-                              alignment: Alignment.topCenter,
-                            ),
-                          ),
-                        )
-                      : Image.file(
-                          File(widget.book.coverPath),
-                          fit: BoxFit.cover,
-                          alignment: Alignment.topCenter,
-                          errorBuilder: (context, error, stackTrace) => Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Image.asset(
-                              'assets/icon.png',
-                              fit: BoxFit.contain,
-                              alignment: Alignment.topCenter,
-                            ),
-                          ),
+                if (widget.onMenuPressed != null)
+                  Positioned(
+                    top: 4,
+                    right: 4,
+                    child: InkWell(
+                      onTapDown: (details) {
+                        setState(() {
+                          _tapPosition = details.globalPosition;
+                        });
+                      },
+                      onTap: () => widget.onMenuPressed!(_tapPosition),
+                      borderRadius: TibebRadius.borderPill,
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: t.scrim.withValues(alpha: 0.45),
+                          shape: BoxShape.circle,
                         ),
-                ),
-              ),
-              if (widget.onMenuPressed != null)
-                Positioned(
-                  top: 4,
-                  right: 4,
-                  child: InkWell(
-                    onTapDown: (details) {
-                      setState(() {
-                        _tapPosition = details.globalPosition;
-                      });
-                    },
-                    onTap: () => widget.onMenuPressed!(_tapPosition),
-                    borderRadius: TibebRadius.borderPill,
-                    child: Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        color: t.scrim.withValues(alpha: 0.45),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        Icons.more_vert,
-                        size: 16,
-                        color: t.textOnPrimary,
+                        child: Icon(
+                          Icons.more_vert,
+                          size: 16,
+                          color: t.textOnPrimary,
+                        ),
                       ),
                     ),
                   ),
-                ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          SizedBox(
-            width: 100,
-            child: Text(
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
               widget.book.title,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
               style: TextStyle(
                 color: t.textPrimary,
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
+                height: 1.1, // 🔥 key fix
               ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

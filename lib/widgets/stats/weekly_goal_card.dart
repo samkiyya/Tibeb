@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/theme.dart';
-import '../../../components/glass_container.dart';
+import '../glass_container.dart';
 import '../../../providers/library_provider.dart';
 
 class WeeklyGoalCard extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../core/theme/theme.dart';
-import './glass_container.dart';
+import 'glass_container.dart';
 import '../models/book_model.dart';
 import '../providers/library_provider.dart';
 import '../screens/reading_screen.dart';

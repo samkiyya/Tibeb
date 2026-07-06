@@ -3,7 +3,7 @@ import '../../../core/rank/tibeb_rank.dart';
 import '../../../core/rank/tibeb_rank_extension.dart';
 import '../../../core/rank/tibeb_rank_repository.dart';
 import '../../../core/theme/theme.dart';
-import '../../../components/glass_container.dart';
+import '../glass_container.dart';
 import '../../../providers/library_provider.dart';
 
 class LevelMetadataSheet extends StatelessWidget {
