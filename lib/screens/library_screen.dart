@@ -15,7 +15,7 @@ import '../screens/edit_book_screen.dart';
 import '../widgets/book_overlay_menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
-import '../utils/tutorial_helper.dart';
+import '../widgets/tutorial_coach.dart';
 
 class LibraryScreen extends ConsumerStatefulWidget {
   const LibraryScreen({super.key});

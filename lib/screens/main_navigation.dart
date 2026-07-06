@@ -16,7 +16,7 @@ import 'package:tibeb/screens/settings_screen.dart';
 import 'package:tibeb/screens/reading_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
-import 'package:tibeb/utils/tutorial_helper.dart';
+import 'package:tibeb/widgets/tutorial_coach.dart';
 import 'package:tibeb/widgets/rank_up_dialog.dart';
 
 class NavigationState {

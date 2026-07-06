@@ -33,7 +33,7 @@ import '../widgets/reading/pdf_view.dart';
 import '../widgets/reading/reading_footer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
-import '../utils/tutorial_helper.dart';
+import '../widgets/tutorial_coach.dart';
 import '../models/highlight_model.dart';
 import '../services/database_service.dart';
 import 'package:share_plus/share_plus.dart';
