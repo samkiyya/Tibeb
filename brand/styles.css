@@ -53,18 +53,20 @@ body {
   border-bottom: 1px solid var(--border-golden);
 }
 
-.brand-icon {
+.brand-logo-sm {
   width: 36px;
   height: 36px;
-  background: var(--tibeb-wisdom);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.3rem;
-  color: var(--tibeb-ink);
-  font-weight: 700;
-  text-decoration: none;
+  border-radius: 9px;
+  display: block;
+}
+
+.brand-link {
+  display: inline-block;
+  border-bottom: none !important;
+}
+
+.brand-link:hover {
+  border-bottom-color: transparent !important;
 }
 
 .brand-text {
@@ -210,23 +212,79 @@ strong {
   margin-bottom: 1.5rem;
 }
 
-.brand-icon-lg {
+.brand-logo-lg {
   width: 72px;
   height: 72px;
-  background: linear-gradient(135deg, var(--tibeb-wisdom) 0%, var(--tibeb-wisdom-light) 100%);
   border-radius: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.8rem;
-  color: var(--tibeb-ink);
-  font-weight: 700;
   box-shadow: 0 8px 24px rgba(212, 168, 67, 0.25);
   transition: transform 0.3s;
 }
 
-.brand-icon-lg:hover {
+.brand-logo-lg:hover {
   transform: scale(1.05) rotate(5deg);
+}
+
+/* Screenshots Showcase */
+.screenshots-showcase {
+  margin-top: 3.5rem;
+}
+
+.screenshots-grid {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding: 1rem 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--tibeb-wisdom) rgba(30, 41, 59, 0.25);
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+}
+
+.screenshots-grid::-webkit-scrollbar {
+  height: 6px;
+}
+
+.screenshots-grid::-webkit-scrollbar-track {
+  background: rgba(30, 41, 59, 0.25);
+  border-radius: 3px;
+}
+
+.screenshots-grid::-webkit-scrollbar-thumb {
+  background: var(--tibeb-wisdom);
+  border-radius: 3px;
+}
+
+.screenshot-item {
+  flex: 0 0 240px;
+  scroll-snap-align: start;
+  text-align: center;
+  background: rgba(30, 41, 59, 0.25);
+  border: 1px solid rgba(212, 168, 67, 0.1);
+  border-radius: 16px;
+  padding: 0.75rem;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.screenshot-item:hover {
+  transform: translateY(-4px);
+  border-color: rgba(212, 168, 67, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.screenshot-item img {
+  width: 100%;
+  aspect-ratio: 9 / 19.5;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.screenshot-item span {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--tibeb-wisdom-light);
+  display: block;
 }
 
 .brand-title {
