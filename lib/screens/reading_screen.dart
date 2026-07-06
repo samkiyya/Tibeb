@@ -35,7 +35,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import '../widgets/tutorial_coach.dart';
 import '../models/highlight_model.dart';
-import '../services/database_service.dart';
+import '../providers/database_providers.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ReadingScreen extends ConsumerStatefulWidget {
@@ -150,10 +150,15 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
         if (mounted) {
           final settings = ref.read(readerSettingsProvider);
           if (isPdf) {
-            // For PDFs, always force white on open
-            ref
-                .read(readerSettingsProvider.notifier)
-                .setTheme(ReaderTheme.white);
+            if (settings.pdfTheme != null) {
+              ref
+                  .read(readerSettingsProvider.notifier)
+                  .setTheme(settings.pdfTheme!);
+            } else {
+              ref
+                  .read(readerSettingsProvider.notifier)
+                  .setTheme(ReaderTheme.white);
+            }
           } else if (settings.epubTheme != null) {
             // For EPUBs, restore the last used epubTheme preference
             ref
@@ -248,8 +253,8 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
       final bookmarks = await ref
           .read(libraryProvider.notifier)
           .getBookmarks(book.id!);
-      final dbService = DatabaseService();
-      final highlights = await dbService.getHighlightsForBook(book.id!);
+      final db = ref.read(databaseRepositoryProvider);
+      final highlights = await db.getHighlightsForBook(book.id!);
       if (mounted) {
         setState(() {
           _bookmarks = bookmarks;
@@ -1442,7 +1447,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
         )
         .firstOrNull;
 
-    final dbService = DatabaseService();
+    final db = ref.read(databaseRepositoryProvider);
 
     if (existing != null) {
       // Update color and note of existing highlight
@@ -1450,15 +1455,15 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
         color: highlight.color,
         note: highlight.note,
       );
-      await dbService.updateHighlight(updated);
+      await db.updateHighlight(updated);
     } else {
       // Insert new highlight with correct bookId
       final withBookId = highlight.copyWith(bookId: book!.id!);
-      await dbService.insertHighlight(withBookId);
+      await db.insertHighlight(withBookId);
     }
 
     // Reload from DB to get correct IDs
-    final highlights = await dbService.getHighlightsForBook(book!.id!);
+    final highlights = await db.getHighlightsForBook(book!.id!);
     if (mounted) {
       setState(() => _highlights = highlights);
     }
@@ -1468,10 +1473,10 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
     final book = ref.read(currentlyReadingProvider);
     if (book?.id == null) return;
 
-    final dbService = DatabaseService();
-    await dbService.deleteHighlight(highlightId);
+    final db = ref.read(databaseRepositoryProvider);
+    await db.deleteHighlight(highlightId);
 
-    final highlights = await dbService.getHighlightsForBook(book!.id!);
+    final highlights = await db.getHighlightsForBook(book!.id!);
     if (mounted) {
       setState(() => _highlights = highlights);
     }
@@ -2332,9 +2337,9 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
           getVocabulary: () =>
               ref.read(libraryProvider.notifier).getVocabularyForBook(book.id!),
           onUpdateHighlight: (h) async {
-            await DatabaseService().updateHighlight(h);
-            final updatedHighlights = await DatabaseService()
-                .getHighlightsForBook(book.id!);
+            final db = ref.read(databaseRepositoryProvider);
+            await db.updateHighlight(h);
+            final updatedHighlights = await db.getHighlightsForBook(book.id!);
             if (mounted) {
               setState(() {
                 _highlights = updatedHighlights;
@@ -2377,7 +2382,9 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
           },
           getBookmarks: () =>
               ref.read(libraryProvider.notifier).getBookmarks(book.id!),
-          getHighlights: () => DatabaseService().getHighlightsForBook(book.id!),
+          getHighlights: () => ref
+              .read(databaseRepositoryProvider)
+              .getHighlightsForBook(book.id!),
           highlights: _highlights,
           onHighlightTap: (h) {
             Navigator.pop(context);
@@ -2421,12 +2428,12 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
             await _deleteHighlight(id);
           },
           onDeleteHighlights: (ids) async {
-            final dbService = DatabaseService();
+            final db = ref.read(databaseRepositoryProvider);
             for (final id in ids) {
-              await dbService.deleteHighlight(id);
+              await db.deleteHighlight(id);
             }
             if (book.id != null) {
-              final highlights = await dbService.getHighlightsForBook(book.id!);
+              final highlights = await db.getHighlightsForBook(book.id!);
               if (mounted) {
                 setState(() => _highlights = highlights);
               }

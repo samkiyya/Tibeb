@@ -4,21 +4,24 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tibeb/models/reader_settings_model.dart';
+import 'package:tibeb/core/theme/tibeb_theme_provider.dart';
 import 'package:tibeb/providers/library_provider.dart';
 
 const String _readerSettingsKey = 'reader_settings';
 
 final readerSettingsProvider =
     StateNotifierProvider<ReaderSettingsNotifier, ReaderSettings>((ref) {
-  return ReaderSettingsNotifier(ref);
-});
+      final prefs = ref.watch(sharedPreferencesProvider);
+      return ReaderSettingsNotifier(ref, prefs);
+    });
 
 class ReaderSettingsNotifier extends StateNotifier<ReaderSettings> {
   final Ref _ref;
-  SharedPreferences? _prefs;
+  final SharedPreferences _prefs;
   Timer? _saveTimer;
 
-  ReaderSettingsNotifier(this._ref) : super(ReaderSettings.defaults) {
+  ReaderSettingsNotifier(this._ref, this._prefs)
+    : super(ReaderSettings.defaults) {
     _loadSettings();
   }
 
@@ -28,10 +31,9 @@ class ReaderSettingsNotifier extends StateNotifier<ReaderSettings> {
     super.dispose();
   }
 
-  Future<void> _loadSettings() async {
+  void _loadSettings() {
     try {
-      _prefs ??= await SharedPreferences.getInstance();
-      final settingsJson = _prefs?.getString(_readerSettingsKey);
+      final settingsJson = _prefs.getString(_readerSettingsKey);
       if (settingsJson != null) {
         final map = jsonDecode(settingsJson) as Map<String, dynamic>;
         state = ReaderSettings.fromMap(map);
@@ -46,8 +48,7 @@ class ReaderSettingsNotifier extends StateNotifier<ReaderSettings> {
     _saveTimer?.cancel();
     _saveTimer = Timer(const Duration(seconds: 2), () async {
       try {
-        _prefs ??= await SharedPreferences.getInstance();
-        await _prefs?.setString(_readerSettingsKey, jsonEncode(state.toMap()));
+        await _prefs.setString(_readerSettingsKey, jsonEncode(state.toMap()));
       } catch (e) {
         // Silently fail - settings will be lost on restart
       }
@@ -59,9 +60,10 @@ class ReaderSettingsNotifier extends StateNotifier<ReaderSettings> {
     final isPdf = book?.filePath.toLowerCase().endsWith('.pdf') ?? false;
 
     if (isPdf) {
-      // For PDFs, we only update the transient active theme (temporary change)
+      // For PDFs, we update both active theme AND sticky pdfTheme preference
       state = state.copyWith(
         theme: theme,
+        pdfTheme: theme,
         usePublisherDefaults: false,
       );
     } else {

@@ -13,6 +13,7 @@ enum ReaderLockState { none, zoom, all }
 class ReaderSettings {
   final ReaderTheme theme;
   final ReaderTheme? epubTheme;
+  final ReaderTheme? pdfTheme;
   final String typeface;
   final double textSize;
   final double lineHeight;
@@ -24,6 +25,7 @@ class ReaderSettings {
   const ReaderSettings({
     this.theme = ReaderTheme.black,
     this.epubTheme,
+    this.pdfTheme,
     this.typeface = 'Merriweather',
     this.textSize = 18.0,
     this.lineHeight = 1.6,
@@ -36,6 +38,7 @@ class ReaderSettings {
   ReaderSettings copyWith({
     ReaderTheme? theme,
     ReaderTheme? epubTheme,
+    ReaderTheme? pdfTheme,
     String? typeface,
     double? textSize,
     double? lineHeight,
@@ -47,6 +50,7 @@ class ReaderSettings {
     return ReaderSettings(
       theme: theme ?? this.theme,
       epubTheme: epubTheme ?? this.epubTheme,
+      pdfTheme: pdfTheme ?? this.pdfTheme,
       typeface: typeface ?? this.typeface,
       textSize: textSize ?? this.textSize,
       lineHeight: lineHeight ?? this.lineHeight,
@@ -133,6 +137,7 @@ class ReaderSettings {
     return {
       'theme': theme.index,
       'epubTheme': epubTheme?.index,
+      'pdfTheme': pdfTheme?.index,
       'typeface': typeface,
       'textSize': textSize,
       'lineHeight': lineHeight,
@@ -150,15 +155,17 @@ class ReaderSettings {
       epubTheme: map['epubTheme'] != null
           ? ReaderTheme.values[map['epubTheme'] as int]
           : null,
+      pdfTheme: map['pdfTheme'] != null
+          ? ReaderTheme.values[map['pdfTheme'] as int]
+          : null,
       typeface: map['typeface'] as String? ?? 'Merriweather',
       textSize: (map['textSize'] as num?)?.toDouble() ?? 18.0,
       lineHeight: (map['lineHeight'] as num?)?.toDouble() ?? 1.6,
       alignment: ReaderAlignment.values[map['alignment'] as int? ?? 2],
       usePublisherDefaults: map['usePublisherDefaults'] as bool? ?? false,
-      autoScrollSpeed: (map['autoScrollSpeed'] as num).toDouble().clamp(
-        0.5,
-        10.0,
-      ),
+      autoScrollSpeed: ((map['autoScrollSpeed'] as num?) ?? 2.0)
+          .toDouble()
+          .clamp(0.5, 10.0),
       lockState: ReaderLockState.values[map['lockState'] as int? ?? 0],
     );
   }

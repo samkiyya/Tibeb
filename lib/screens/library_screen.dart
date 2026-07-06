@@ -178,9 +178,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
   Future<void> _handleSelectiveImport() async {
     final notifier = ref.read(libraryProvider.notifier);
     final bookService = BookService();
-    final t = ref.read(currentlyReadingProvider.notifier).state != null
-        ? Theme.of(context).extension<TibebThemeExtension>()!
-        : context.tibpiColors;
+    final t = context.tibpiColors;
 
     final hasPermission = await bookService.requestPermissions();
     if (!hasPermission) {
@@ -200,31 +198,29 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
       return;
     }
 
-    // Use pickBooks directly which uses pickFiles, bypassing getDirectoryPath restrictions
-    final importedBooks = await bookService.pickBooks();
+    final files = await bookService.pickBookFiles();
+    if (files.isEmpty) return;
 
-    if (importedBooks.isNotEmpty) {
-      // Reload books to ensure UI updates with new imports
-      await notifier.loadBooks();
+    final paths = files.map((f) => f.path).toList();
+    final importedBooks = await notifier.importFiles(paths);
 
-      if (mounted) {
-        ScaffoldMessenger.of(context)
-          ..clearSnackBars()
-          ..showSnackBar(
-            SnackBar(
-              backgroundColor: t.surface,
-              content: Text(
-                'Successfully imported ${importedBooks.length} books.',
-                style: TextStyle(color: t.textPrimary),
-              ),
-              action: SnackBarAction(
-                label: 'OK',
-                onPressed: () {},
-                textColor: t.primary,
-              ),
+    if (mounted && importedBooks.isNotEmpty) {
+      ScaffoldMessenger.of(context)
+        ..clearSnackBars()
+        ..showSnackBar(
+          SnackBar(
+            backgroundColor: t.surface,
+            content: Text(
+              'Successfully imported ${importedBooks.length} books.',
+              style: TextStyle(color: t.textPrimary),
             ),
-          );
-      }
+            action: SnackBarAction(
+              label: 'OK',
+              onPressed: () {},
+              textColor: t.primary,
+            ),
+          ),
+        );
     }
   }
 
@@ -378,10 +374,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: t.surface,
-        title: Text(
-          'Add to Category',
-          style: TextStyle(color: t.textPrimary),
-        ),
+        title: Text('Add to Category', style: TextStyle(color: t.textPrimary)),
         content: TextField(
           controller: textController,
           style: TextStyle(color: t.textPrimary),
@@ -400,17 +393,11 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: Text(
-              'Cancel',
-              style: TextStyle(color: t.textSecondary),
-            ),
+            child: Text('Cancel', style: TextStyle(color: t.textSecondary)),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            child: Text(
-              'Add',
-              style: TextStyle(color: t.primary),
-            ),
+            child: Text('Add', style: TextStyle(color: t.primary)),
           ),
         ],
       ),
@@ -447,10 +434,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: t.surface,
-        title: Text(
-          'Remove Books',
-          style: TextStyle(color: t.textPrimary),
-        ),
+        title: Text('Remove Books', style: TextStyle(color: t.textPrimary)),
         content: Text(
           'Are you sure you want to remove ${_selectedBookIds.length} books? Your reading progress and history will be kept if you re-import them.',
           style: TextStyle(color: t.textSecondary),
@@ -458,17 +442,11 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: Text(
-              'Cancel',
-              style: TextStyle(color: t.textSecondary),
-            ),
+            child: Text('Cancel', style: TextStyle(color: t.textSecondary)),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            child: Text(
-              'Remove',
-              style: TextStyle(color: t.error),
-            ),
+            child: Text('Remove', style: TextStyle(color: t.error)),
           ),
         ],
       ),
@@ -527,10 +505,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
         builder: (context, setDialogState) {
           return AlertDialog(
             backgroundColor: t.surface,
-            title: Text(
-              'Remove Book',
-              style: TextStyle(color: t.textPrimary),
-            ),
+            title: Text('Remove Book', style: TextStyle(color: t.textPrimary)),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -558,17 +533,11 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
-                child: Text(
-                  'Cancel',
-                  style: TextStyle(color: t.textSecondary),
-                ),
+                child: Text('Cancel', style: TextStyle(color: t.textSecondary)),
               ),
               TextButton(
                 onPressed: () => Navigator.pop(context, true),
-                child: Text(
-                  'Remove',
-                  style: TextStyle(color: t.error),
-                ),
+                child: Text('Remove', style: TextStyle(color: t.error)),
               ),
             ],
           );

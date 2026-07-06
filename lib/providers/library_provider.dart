@@ -5,15 +5,17 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:path/path.dart' as p;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:collection/collection.dart';
+import '../core/database/database.dart' show ReadingSessionEntity;
 import '../core/rank/tibeb_rank_extension.dart';
 import '../core/rank/tibeb_rank_repository.dart';
+import '../core/repositories/database_repository.dart';
 import '../models/book_model.dart';
 import '../models/bookmark_model.dart';
-import '../services/database_service.dart';
-import '../services/book_service.dart';
 import '../models/quest_model.dart';
-import '../services/notification_service.dart';
 import '../models/vocabulary_model.dart';
+import '../services/book_service.dart';
+import '../services/notification_service.dart';
+import 'database_providers.dart';
 
 enum BookSortBy { title, author, recent }
 
@@ -61,7 +63,7 @@ class LibraryState {
   final Map<String, int> dailyMinutes;
   final Map<String, int> dailyXP;
   final Set<String> unlockedAchievements;
-  final List<Map<String, dynamic>> sessionHistory;
+  final List<ReadingSessionEntity> sessionHistory;
   final List<DailyQuest> dailyQuests;
   final bool isStreakActiveToday;
   final bool notificationsEnabled;
@@ -102,7 +104,7 @@ class LibraryState {
     this.dailyMinutes = const {},
     this.dailyXP = const {},
     this.unlockedAchievements = const {},
-    this.sessionHistory = const [],
+    this.sessionHistory = const <ReadingSessionEntity>[],
     this.dailyQuests = const [],
     this.isStreakActiveToday = false,
     this.notificationsEnabled = true,
@@ -214,7 +216,7 @@ class LibraryState {
     Map<String, int>? dailyMinutes,
     Map<String, int>? dailyXP,
     Set<String>? unlockedAchievements,
-    List<Map<String, dynamic>>? sessionHistory,
+    List<ReadingSessionEntity>? sessionHistory,
     List<DailyQuest>? dailyQuests,
     bool? isStreakActiveToday,
     bool? notificationsEnabled,
@@ -275,7 +277,7 @@ final libraryProvider = StateNotifierProvider<LibraryNotifier, LibraryState>((
 
 class LibraryNotifier extends StateNotifier<LibraryState> {
   final Ref _ref;
-  final DatabaseService _dbService = DatabaseService();
+  late final DatabaseRepository _db;
   final BookService _bookService = BookService();
 
   LibraryNotifier(this._ref)
@@ -297,6 +299,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
           sortAscending: false,
         ),
       ) {
+    _db = _ref.read(databaseRepositoryProvider);
     _init();
   }
 
@@ -441,10 +444,10 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
   Future<void> loadBooks() async {
     state = state.copyWith(isLoading: true);
     try {
-      final books = await _dbService.getBooks();
-      final sessions = await _dbService.getReadingSessions();
-      final questXp = await _dbService.getTotalQuestXP();
-      final lookupCount = await _dbService.getDictionaryLookupCount();
+      final books = await _db.getBooks();
+      final sessions = await _db.getReadingSessions();
+      final questXp = await _db.getTotalQuestXP();
+      final lookupCount = await _db.getDictionaryLookupCount();
 
       final streak = _calculateStreak(sessions);
       final activity = _calculateDetailedActivity(sessions, books);
@@ -476,26 +479,24 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
     }
   }
 
-  bool _isStreakActiveToday(List<Map<String, dynamic>> sessions) {
+  bool _isStreakActiveToday(List<ReadingSessionEntity> sessions) {
     if (sessions.isEmpty) return false;
     final today = DateTime.now().toIso8601String().split('T')[0];
-    return sessions.any((s) => s['date'] == today);
+    return sessions.any((s) => s.date == today);
   }
 
   Future<void> _loadQuests() async {
     final today = DateTime.now().toIso8601String().split('T')[0];
-    final questMaps = await _dbService.getQuestsForDate(today);
+    final quests = await _db.getQuestsForDate(today);
 
-    if (questMaps.isEmpty) {
+    if (quests.isEmpty) {
       final newQuests = _generateDailyQuests(today);
       for (var q in newQuests) {
-        await _dbService.insertQuest(q.toMap());
+        await _db.insertQuest(q);
       }
       state = state.copyWith(dailyQuests: newQuests);
     } else {
-      state = state.copyWith(
-        dailyQuests: questMaps.map((m) => DailyQuest.fromMap(m)).toList(),
-      );
+      state = state.copyWith(dailyQuests: quests);
     }
   }
 
@@ -537,7 +538,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
   }
 
   _UserStats _calculateStats(
-    List<Map<String, dynamic>> sessions,
+    List<ReadingSessionEntity> sessions,
     List<Book> books,
     int questXp,
     int lookupCount,
@@ -545,8 +546,8 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
     int totalPages = 0;
     int totalMinutes = 0;
     for (var s in sessions) {
-      totalPages += (s['pagesRead'] as int? ?? 0);
-      totalMinutes += (s['durationMinutes'] as int? ?? 0);
+      totalPages += s.pagesRead;
+      totalMinutes += s.durationMinutes;
     }
 
     final finishedBooks = books.where((b) => b.progress >= 0.99).length;
@@ -557,33 +558,21 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
     // EPUB: 40 per chapter (since epubs "pages" are chapters), 5 per minute
     int xp = 0;
     for (var s in sessions) {
-      final p = (s['pagesRead'] as int? ?? 0);
-      final m = (s['durationMinutes'] as int? ?? 0);
+      final pg = s.pagesRead;
+      final m = s.durationMinutes;
+      final sessionTimestamp = s.timestamp;
 
-      // Boost calculation
       double multiplier = 1.0;
-      final sessionTimestamp = s['timestamp'] != null
-          ? DateTime.tryParse(s['timestamp']) ?? DateTime.parse(s['date'])
-          : DateTime.parse(s['date']);
-
-      // Early Bird: 6 AM - 9 AM (1.5x)
       if (sessionTimestamp.hour >= 6 && sessionTimestamp.hour < 9) {
         multiplier = 1.5;
-      }
-      // Night Owl: 10 PM - 1 AM (1.5x)
-      else if (sessionTimestamp.hour >= 22 || sessionTimestamp.hour < 1) {
+      } else if (sessionTimestamp.hour >= 22 || sessionTimestamp.hour < 1) {
         multiplier = 1.5;
       }
-
-      // Weekend Warrior: 2x XP on Sat/Sun (Overrides time boosts)
       if (sessionTimestamp.weekday == DateTime.saturday ||
           sessionTimestamp.weekday == DateTime.sunday) {
         multiplier = 2.0;
       }
-
-      // Base XP: 10 per page + 5 per minute
-      // (EPUBs are normalized to 10 "pages" per chapter in updateBookProgress)
-      xp += ((p * 10 + m * 5) * multiplier).round();
+      xp += ((pg * 10 + m * 5) * multiplier).round();
     }
 
     // Add Quest XP from historical database
@@ -612,26 +601,18 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
     }
 
     // Time & Session based achievements
-    final readOnSat = sessions.any((s) {
-      final ts = s['timestamp'] != null
-          ? DateTime.tryParse(s['timestamp']) ?? DateTime.parse(s['date'])
-          : DateTime.parse(s['date']);
-      return ts.weekday == DateTime.saturday;
-    });
-    final readOnSun = sessions.any((s) {
-      final ts = s['timestamp'] != null
-          ? DateTime.tryParse(s['timestamp']) ?? DateTime.parse(s['date'])
-          : DateTime.parse(s['date']);
-      return ts.weekday == DateTime.sunday;
-    });
+    final readOnSat = sessions.any(
+      (s) => s.timestamp.weekday == DateTime.saturday,
+    );
+    final readOnSun = sessions.any(
+      (s) => s.timestamp.weekday == DateTime.sunday,
+    );
     if (readOnSat && readOnSun) achievements.add('weekend_warrior');
 
     for (var s in sessions) {
-      final pages = (s['pagesRead'] as int? ?? 0);
-      final minutes = (s['durationMinutes'] as int? ?? 0);
-      final ts = s['timestamp'] != null
-          ? DateTime.tryParse(s['timestamp']) ?? DateTime.parse(s['date'])
-          : DateTime.parse(s['date']);
+      final pages = s.pagesRead;
+      final minutes = s.durationMinutes;
+      final ts = s.timestamp;
 
       if (pages >= 100) achievements.add('century_club');
       if (minutes >= 120) achievements.add('marathoner');
@@ -652,11 +633,11 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
     );
   }
 
-  int _calculateStreak(List<Map<String, dynamic>> sessions) {
+  int _calculateStreak(List<ReadingSessionEntity> sessions) {
     if (sessions.isEmpty) return 0;
 
     final readDates = sessions
-        .map((s) => s['date'] as String)
+        .map((s) => s.date)
         .toSet()
         .map((d) => DateTime.parse(d))
         .toList();
@@ -690,7 +671,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
   }
 
   _DetailedActivityData _calculateDetailedActivity(
-    List<Map<String, dynamic>> sessions,
+    List<ReadingSessionEntity> sessions,
     List<Book> books,
   ) {
     final pages = <String, int>{};
@@ -698,8 +679,8 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
     final xpMap = <String, int>{};
 
     for (var session in sessions) {
-      final date = session['date'] as String;
-      final bookId = session['bookId'] as int?;
+      final date = session.date;
+      final bookId = session.bookId;
       final book = books.firstWhere(
         (b) => b.id == bookId,
         orElse: () => books.isNotEmpty
@@ -714,12 +695,12 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
       );
       final isEpub = book.filePath.toLowerCase().endsWith('.epub');
 
-      final p = (session['pagesRead'] as int? ?? 0);
-      final m = (session['durationMinutes'] as int? ?? 0);
+      final pg = session.pagesRead;
+      final m = session.durationMinutes;
 
-      final xp = isEpub ? (p * 40) + (m * 5) : (p * 10) + (m * 5);
+      final xp = isEpub ? (pg * 40) + (m * 5) : (pg * 10) + (m * 5);
 
-      pages[date] = (pages[date] ?? 0) + p;
+      pages[date] = (pages[date] ?? 0) + pg;
       minutes[date] = (minutes[date] ?? 0) + m;
       xpMap[date] = (xpMap[date] ?? 0) + xp;
     }
@@ -932,7 +913,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
   Future<List<Book>> importFiles(List<String> paths) async {
     state = state.copyWith(isLoading: true);
     final List<Book> result = [];
-    final existing = await _dbService.getBooks();
+    final existing = await _db.getBooks();
 
     for (var path in paths) {
       final file = io.File(path);
@@ -946,17 +927,17 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
 
         if (duplicate == null) {
           final bookToInsert = book.copyWith(folderPath: p.dirname(path));
-          final id = await _dbService.insertBook(bookToInsert);
+          final id = await _db.insertBook(bookToInsert);
           result.add(bookToInsert.copyWith(id: id));
         } else if (duplicate.isDeleted) {
           debugPrint('Restoring soft-deleted book: ${duplicate.title}');
           final bookToUpdate = duplicate.copyWith(
             isDeleted: false,
             folderPath: p.dirname(path),
-            filePath: path, // Path might have changed
+            filePath: path,
           );
-          await _dbService.updateBook(bookToUpdate);
-          await _dbService.restoreBook(duplicate.id!);
+          await _db.updateBook(bookToUpdate);
+          await _db.restoreBook(duplicate.id!);
           result.add(bookToUpdate);
         } else {
           debugPrint('Duplicate book found, skipping: ${book.title}');
@@ -1002,7 +983,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
           : book.estimatedReadingMinutes,
       lastPosition: lastPosition ?? book.lastPosition,
     );
-    await _dbService.updateBook(updatedBook);
+    await _db.updateBook(updatedBook);
 
     // Record session
     int finalPages = pagesRead ?? 0;
@@ -1027,15 +1008,15 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
     }
 
     if (finalPages > 0 || finalMinutes > 0) {
-      await _dbService.insertReadingSession(bookId, finalPages, finalMinutes);
+      await _db.insertReadingSession(bookId, finalPages, finalMinutes);
     }
 
     _updateStateAndSync(updatedBook);
 
     // Refresh stats
-    final sessions = await _dbService.getReadingSessions();
-    final questXp = await _dbService.getTotalQuestXP();
-    final lookupCount = await _dbService.getDictionaryLookupCount();
+    final sessions = await _db.getReadingSessions();
+    final questXp = await _db.getTotalQuestXP();
+    final lookupCount = await _db.getDictionaryLookupCount();
 
     final activity = _calculateDetailedActivity(sessions, state.allBooks);
     final stats = _calculateStats(
@@ -1178,7 +1159,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
           isCompleted: newlyCompleted,
         );
         updatedQuests.add(updated);
-        await _dbService.updateQuestProgress(
+        await _db.updateQuestProgress(
           updated.id,
           updated.currentValue,
           updated.isCompleted,
@@ -1215,9 +1196,9 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
         }
       }
 
-      final sessions = await _dbService.getReadingSessions();
-      final questXp = await _dbService.getTotalQuestXP();
-      final lookupCount = await _dbService.getDictionaryLookupCount();
+      final sessions = await _db.getReadingSessions();
+      final questXp = await _db.getTotalQuestXP();
+      final lookupCount = await _db.getDictionaryLookupCount();
       final stats = _calculateStats(
         sessions,
         state.allBooks,
@@ -1273,23 +1254,19 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
 
   /// Calculate user's average reading speed in pages per minute
   Future<double> _getReadingSpeed() async {
-    final sessions = await _dbService.getReadingSessions();
+    final sessions = await _db.getReadingSessions();
 
-    if (sessions.isEmpty) {
-      return 1.0; // Default: 1 page per minute
-    }
+    if (sessions.isEmpty) return 1.0;
 
     int totalPages = 0;
     int totalMinutes = 0;
 
     for (var session in sessions) {
-      totalPages += (session['pagesRead'] as int? ?? 0);
-      totalMinutes += (session['durationMinutes'] as int? ?? 0);
+      totalPages += session.pagesRead;
+      totalMinutes += session.durationMinutes;
     }
 
-    if (totalMinutes == 0) {
-      return 1.0;
-    }
+    if (totalMinutes == 0) return 1.0;
 
     return (totalPages / totalMinutes).clamp(0.1, 100.0);
   }
@@ -1297,9 +1274,8 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
   Future<void> markBookAsOpened(Book book) async {
     if (book.lastReadAt == null) {
       final updatedBook = book.copyWith(lastReadAt: DateTime.now());
-      await _dbService.updateBook(updatedBook);
+      await _db.updateBook(updatedBook);
 
-      // Update local state to remove "NEW" tag instantly
       state = state.copyWith(
         allBooks: state.allBooks
             .map((b) => b.id == updatedBook.id ? updatedBook : b)
@@ -1337,7 +1313,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
     );
 
     // Re-calculate activity data
-    final sessions = await _dbService.getReadingSessions();
+    final sessions = await _db.getReadingSessions();
     final activity = _calculateDetailedActivity(sessions, state.allBooks);
 
     state = state.copyWith(
@@ -1349,16 +1325,16 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
 
   Future<void> deleteBook(int id, {bool deleteHistory = false}) async {
     if (deleteHistory) {
-      await _dbService.hardDeleteBook(id);
+      await _db.hardDeleteBook(id);
     } else {
-      await _dbService.softDeleteBook(id);
+      await _db.softDeleteBook(id);
     }
     await loadBooks();
   }
 
   Future<void> toggleBookFavorite(Book book) async {
     final updatedBook = book.copyWith(isFavorite: !book.isFavorite);
-    await _dbService.updateBook(updatedBook);
+    await _db.updateBook(updatedBook);
     await loadBooks();
   }
 
@@ -1397,7 +1373,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
           currentTags.add(cleanTag);
           final finalTags = currentTags.join(', ');
           final updatedBook = book.copyWith(tags: finalTags);
-          await _dbService.updateBook(updatedBook);
+          await _db.updateBook(updatedBook);
           _updateStateAndSync(updatedBook);
         }
       }
@@ -1405,7 +1381,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
   }
 
   Future<void> updateBook(Book updatedBook) async {
-    await _dbService.updateBook(updatedBook);
+    await _db.updateBook(updatedBook);
     _updateStateAndSync(updatedBook);
   }
 
@@ -1430,15 +1406,15 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
 
   // Bookmark specialized methods
   Future<void> addBookmark(Bookmark bookmark) async {
-    await _dbService.insertBookmark(bookmark);
+    await _db.insertBookmark(bookmark);
   }
 
   Future<List<Bookmark>> getBookmarks(int bookId) async {
-    return await _dbService.getBookmarks(bookId);
+    return await _db.getBookmarksForBook(bookId);
   }
 
   Future<void> deleteBookmark(int bookmarkId) async {
-    await _dbService.deleteBookmark(bookmarkId);
+    await _db.deleteBookmark(bookmarkId);
   }
 
   void _updateStateAndSync(Book updatedBook) {
@@ -1460,8 +1436,8 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
   }
 
   Future<void> recordDictionaryLookup(String word, int bookId) async {
-    await _dbService.insertDictionaryLookup(word, bookId);
-    final count = await _dbService.getDictionaryLookupCount();
+    await _db.insertDictionaryLookup(word, bookId);
+    final count = await _db.getDictionaryLookupCount();
 
     state = state.copyWith(totalLookups: count);
 
@@ -1479,7 +1455,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
             isCompleted: newlyCompleted,
           ),
         );
-        await _dbService.updateQuestProgress(quest.id, newVal, newlyCompleted);
+        await _db.updateQuestProgress(quest.id, newVal, newlyCompleted);
         changed = true;
       } else {
         updatedQuests.add(quest);
@@ -1495,7 +1471,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
   }
 
   Future<List<VocabularyLookup>> getVocabularyForBook(int bookId) async {
-    return await _dbService.getDictionaryLookupsForBook(bookId);
+    return await _db.getDictionaryLookupsForBook(bookId);
   }
 
   void _queueNotification({
