@@ -163,9 +163,6 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
         padding: const EdgeInsets.all(20),
         onReorderItem: (oldIndex, newIndex) {
           setState(() {
-            if (oldIndex < newIndex) {
-              newIndex -= 1;
-            }
             final track = _audioTracks.removeAt(oldIndex);
             _audioTracks.insert(newIndex, track);
           });

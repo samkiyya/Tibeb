@@ -13,7 +13,7 @@ class DailyActivitySheet extends ConsumerWidget {
   final int totalValue;
   final String goalType;
   final List<Book> allBooks;
-  final List<dynamic> sessionHistory;
+  final List<dynamic> sessionHistory; // accepts both ReadingSessionEntity and Map
 
   const DailyActivitySheet({
     super.key,
@@ -28,7 +28,29 @@ class DailyActivitySheet extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final t = context.tibpiColors;
     final dateStr = date.toIso8601String().split('T')[0];
+
+    // Normalise each session to a plain map so we can handle both
+    // ReadingSessionEntity (Drift) and legacy Map<String, dynamic> entries.
+    List<Map<String, dynamic>> toMap(dynamic s) {
+      if (s is Map) {
+        return [Map<String, dynamic>.from(s)];
+      }
+      try {
+        return [
+          {
+            'bookId': (s as dynamic).bookId as int,
+            'pagesRead': (s as dynamic).pagesRead as int,
+            'durationMinutes': (s as dynamic).durationMinutes as int,
+            'date': (s as dynamic).date as String,
+          },
+        ];
+      } catch (_) {
+        return [];
+      }
+    }
+
     final daySessions = sessionHistory
+        .expand(toMap)
         .where((s) => s['date'] == dateStr)
         .toList();
 
