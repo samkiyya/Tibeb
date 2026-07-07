@@ -79,9 +79,7 @@ class _NavItem extends ConsumerWidget {
         onTap: () {
           final current = ref.read(navigationStateProvider).current;
           if (current != index) {
-            ref
-    .read(navigationStateProvider.notifier)
-    .changeTab(index);
+            ref.read(navigationStateProvider.notifier).changeTab(index);
           }
         },
         behavior: HitTestBehavior.opaque,
