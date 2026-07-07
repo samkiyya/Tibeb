@@ -10,7 +10,6 @@ import '../widgets/glass_container.dart';
 import '../widgets/activity_graph.dart';
 import '../widgets/stat_badge.dart';
 import '../widgets/daily_activity_sheet.dart';
-import '../widgets/stats/daily_quests_card.dart';
 
 class StatsScreen extends ConsumerStatefulWidget {
   const StatsScreen({super.key});
