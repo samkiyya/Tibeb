@@ -1015,14 +1015,14 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
 
     // Refresh stats
     final sessions = await _db.getReadingSessions();
-    final questXp = await _db.getTotalQuestWP();
+    final questWp = await _db.getTotalQuestWP();
     final lookupCount = await _db.getDictionaryLookupCount();
 
     final activity = _calculateDetailedActivity(sessions, state.allBooks);
     final stats = _calculateStats(
       sessions,
       state.allBooks,
-      questXp,
+      questWp,
       lookupCount,
     );
 

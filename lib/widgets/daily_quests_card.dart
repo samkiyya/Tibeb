@@ -44,17 +44,17 @@ class DailyQuestsCard extends StatelessWidget {
                         vertical: 2,
                       ),
                       decoration: BoxDecoration(
-                        color: t.xpGold.withValues(alpha: 0.2),
+                        color: t.wpGold.withValues(alpha: 0.2),
                         borderRadius: TibebRadius.borderXs,
                         border: Border.all(
-                          color: t.xpGold.withValues(alpha: 0.5),
+                          color: t.wpGold.withValues(alpha: 0.5),
                           width: 1,
                         ),
                       ),
                       child: Text(
                         '2X WP',
                         style: TextStyle(
-                          color: t.xpGold,
+                          color: t.wpGold,
                           fontSize: 10,
                           fontWeight: FontWeight.bold,
                         ),
@@ -67,7 +67,7 @@ class DailyQuestsCard extends StatelessWidget {
                 isWeekend
                     ? Icons.celebration
                     : Icons.assignment_turned_in_outlined,
-                color: isWeekend ? t.xpGold : t.textSecondary,
+                color: isWeekend ? t.wpGold : t.textSecondary,
                 size: 18,
               ),
             ],
@@ -164,14 +164,14 @@ class _QuestItem extends StatelessWidget {
                 Text(
                   'Reward: ${quest.wpReward} WP',
                   style: TextStyle(
-                    color: isWeekend ? t.xpGold : t.textSecondary,
+                    color: isWeekend ? t.wpGold : t.textSecondary,
                     fontSize: 11,
                     fontWeight: isWeekend ? FontWeight.bold : FontWeight.normal,
                   ),
                 ),
                 if (isWeekend) ...[
                   const SizedBox(width: 4),
-                  Icon(Icons.flash_on, color: t.xpGold, size: 10),
+                  Icon(Icons.flash_on, color: t.wpGold, size: 10),
                 ],
               ],
             ),

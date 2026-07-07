@@ -1,7 +1,6 @@
 // services/rank_service.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tibeb/core/rank/tibeb_rank.dart';
 import 'package:tibeb/core/rank/tibeb_rank_repository.dart';
 import 'package:tibeb/providers/library_provider.dart';
 import 'package:tibeb/widgets/rank_up_dialog.dart';

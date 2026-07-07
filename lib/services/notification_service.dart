@@ -123,16 +123,16 @@ class NotificationService {
     // Saturday 10:00 AM
     await _notifications.zonedSchedule(
       id: 1000,
-      title: '2x XP Weekend!',
+      title: '2x WP Weekend!',
       body:
-          "It's the weekend! Earn double XP for all reading activities and quests.",
+          "It's the weekend! Earn double WP for all reading activities and quests.",
       scheduledDate: _nextInstanceOfDayAndTime(DateTime.saturday, 10, 0),
       notificationDetails: const NotificationDetails(
         android: AndroidNotificationDetails(
           'tibeb_boosts',
           'Boost Notifications',
           channelDescription:
-              'Notifications for 2x XP weekends and special events',
+              'Notifications for 2x WP weekends and special events',
           importance: Importance.high,
           priority: Priority.high,
         ),
@@ -145,7 +145,7 @@ class NotificationService {
     // Sunday 10:00 AM
     await _notifications.zonedSchedule(
       id: 1001,
-      title: "Don't miss out on 2x XP!",
+      title: "Don't miss out on 2x WP!",
       body:
           "Last day of the weekend boost! Get your reading in and level up faster.",
       scheduledDate: _nextInstanceOfDayAndTime(DateTime.sunday, 10, 0),
@@ -154,7 +154,7 @@ class NotificationService {
           'tibeb_boosts',
           'Boost Notifications',
           channelDescription:
-              'Notifications for 2x XP weekends and special events',
+              'Notifications for 2x WP weekends and special events',
           importance: Importance.high,
           priority: Priority.high,
         ),

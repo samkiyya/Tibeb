@@ -152,7 +152,7 @@ class DailyActivitySheet extends ConsumerWidget {
                   } else if (goalType == 'minutes') {
                     val = session['durationMinutes'] as int? ?? 0;
                   } else {
-                    // XP
+                    // wP
                     final isEpub =
                         book?.filePath.toLowerCase().endsWith('.epub') ?? false;
                     final p = session['pagesRead'] as int? ?? 0;

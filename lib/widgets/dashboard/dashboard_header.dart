@@ -76,14 +76,14 @@ class DashboardHeader extends ConsumerWidget {
               overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: 16),
-            _buildXPProgressBar(context, libraryState),
+            _buildWPProgressBar(context, libraryState),
           ],
         ),
       ],
     );
   }
 
-  Widget _buildXPProgressBar(BuildContext context, LibraryState state) {
+  Widget _buildWPProgressBar(BuildContext context, LibraryState state) {
     final t = context.tibpiColors;
     final int currentWP = state.totalWP;
     final int nextLevelWP = (state.level) * 1000;

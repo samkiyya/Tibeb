@@ -115,7 +115,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
   Widget _buildQuickStats(BuildContext context, TibebThemeExtension t, LibraryState state) {
     final Color streakColor = state.isStreakActiveToday
         ? (state.currentStreak >= 30
-            ? t.xpGold
+            ? t.wpGold
             : (state.currentStreak >= 7 ? t.streakFire : t.primary))
         : t.textSecondary;
 

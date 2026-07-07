@@ -242,7 +242,7 @@ class TibebThemeExtension extends ThemeExtension<TibebThemeExtension> {
   Color get shimmer => colorSystem.placeholder;
   Color get scrim => colorSystem.scrim;
   Color get ripple => colorSystem.primary.withValues(alpha: 0.1);
-  Color get xpGold => colorSystem.primary;
+  Color get wpGold => colorSystem.primary;
   Color get streakFire => const Color(0xFFFF6B35);
   Color get achievementGlow => colorSystem.primary;
   List<Color> get graphLevels => [

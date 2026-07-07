@@ -60,7 +60,7 @@ class WeeklyGoalCard extends StatelessWidget {
             _buildGoalProgress(
               context: context,
               t: t,
-              title: 'Experience',
+              title: 'Wisdom Points (WP)',
               current: state.weeklyWPRead.toDouble(),
               goal: state.weeklyWPGoal,
               unit: 'WP',

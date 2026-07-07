@@ -14,7 +14,7 @@ class StreakWidget extends StatelessWidget {
     final t = context.tibpiColors;
     final Color fireColor = isActive
         ? (streak >= 30
-              ? t.xpGold
+              ? t.wpGold
               : (streak >= 7 ? t.streakFire : t.error))
         : t.textTertiary;
 
