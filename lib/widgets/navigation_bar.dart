@@ -1,17 +1,31 @@
-// widgets/navigation_bar.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tibeb/core/theme/theme.dart';
 import 'package:tibeb/providers/navigation_provider.dart';
 import 'package:tibeb/widgets/glass_container.dart';
 
+/// The floating glass bottom navigation bar.
+///
+/// [itemKeys] can optionally wire up GlobalKeys for the tutorial coach marks.
+/// Pass them in order: [homeKey, libraryKey, statsKey, settingsKey].
 class CustomBottomNavigationBar extends ConsumerWidget {
-  const CustomBottomNavigationBar({super.key});
+  final List<GlobalKey?> itemKeys;
+
+  const CustomBottomNavigationBar({
+    super.key,
+    this.itemKeys = const [null, null, null, null],
+  });
+
+  static const _items = [
+    (icon: Icons.dashboard_rounded, label: 'Home'),
+    (icon: Icons.menu_book_rounded, label: 'Library'),
+    (icon: Icons.bar_chart_rounded, label: 'Stats'),
+    (icon: Icons.settings_rounded, label: 'Settings'),
+  ];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final navState = ref.watch(navigationStateProvider);
-    final selectedIndex = navState.current;
+    final selectedIndex = ref.watch(navigationStateProvider).current;
 
     return SafeArea(
       bottom: true,
@@ -24,73 +38,61 @@ class CustomBottomNavigationBar extends ConsumerWidget {
           borderRadius: 35,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildNavItem(
-                context,
-                ref,
-                index: 0,
-                icon: Icons.dashboard_rounded,
-                label: 'Home',
+            children: List.generate(
+              _items.length,
+              (index) => _NavItem(
+                index: index,
+                icon: _items[index].icon,
+                label: _items[index].label,
+                isSelected: selectedIndex == index,
+                itemKey: index < itemKeys.length ? itemKeys[index] : null,
               ),
-              _buildNavItem(
-                context,
-                ref,
-                index: 1,
-                icon: Icons.menu_book_rounded,
-                label: 'Library',
-              ),
-              _buildNavItem(
-                context,
-                ref,
-                index: 2,
-                icon: Icons.bar_chart_rounded,
-                label: 'Stats',
-              ),
-              _buildNavItem(
-                context,
-                ref,
-                index: 3,
-                icon: Icons.settings_rounded,
-                label: 'Settings',
-              ),
-            ],
+            ),
           ),
         ),
       ),
     );
   }
+}
 
-  Widget _buildNavItem(
-     BuildContext context, 
-    WidgetRef ref, {
-    required int index,
-    required IconData icon,
-    required String label,
-  }) {
-    final navState = ref.watch(navigationStateProvider);
-    final selectedIndex = navState.current;
-    final isSelected = selectedIndex == index;
+class _NavItem extends ConsumerWidget {
+  final int index;
+  final IconData icon;
+  final String label;
+  final bool isSelected;
+  final GlobalKey? itemKey;
+
+  const _NavItem({
+    required this.index,
+    required this.icon,
+    required this.label,
+    required this.isSelected,
+    this.itemKey,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final t = context.tibpiColors;
 
     return Expanded(
       child: GestureDetector(
         onTap: () {
-          if (selectedIndex != index) {
-            ref.read(navigationStateProvider.notifier).state = NavigationState(
-              current: index,
-              previous: selectedIndex,
-            );
+          final current = ref.read(navigationStateProvider).current;
+          if (current != index) {
+            ref
+    .read(navigationStateProvider.notifier)
+    .changeTab(index);
           }
         },
         behavior: HitTestBehavior.opaque,
         child: Column(
+          key: itemKey,
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: [
             Icon(
               icon,
-              color: isSelected
-                  ? context.tibpiColors.primary
-                  : context.tibpiColors.textTertiary,
+              color: isSelected ? t.primary : t.textTertiary,
               size: 28,
             ),
             if (isSelected)
@@ -99,7 +101,7 @@ class CustomBottomNavigationBar extends ConsumerWidget {
                 width: 4,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: context.tibpiColors.primary,
+                  color: t.primary,
                   shape: BoxShape.circle,
                 ),
               ),

@@ -1,33 +1,21 @@
-import 'dart:async';
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/legacy.dart';
-import 'package:receive_sharing_intent/receive_sharing_intent.dart';
-import 'package:tibeb/core/rank/tibeb_rank.dart';
-import 'package:tibeb/core/rank/tibeb_rank_repository.dart';
-import 'package:tibeb/core/theme/theme.dart';
-import 'package:tibeb/widgets/glass_container.dart';
-import 'package:tibeb/providers/library_provider.dart';
+
+import 'package:tibeb/providers/navigation_provider.dart';
+
 import 'package:tibeb/screens/dashboard_screen.dart';
 import 'package:tibeb/screens/library_screen.dart';
 import 'package:tibeb/screens/stats_screen.dart';
 import 'package:tibeb/screens/settings_screen.dart';
-import 'package:tibeb/screens/reading_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+
+import 'package:tibeb/services/navigation_service.dart';
+import 'package:tibeb/services/tutorial_service.dart';
+
+import 'package:tibeb/widgets/navigation_bar.dart';
 import 'package:tibeb/widgets/tutorial_coach.dart';
-import 'package:tibeb/widgets/rank_up_dialog.dart';
 
-class NavigationState {
-  final int current;
-  final int previous;
-  NavigationState({required this.current, required this.previous});
-}
-
-final navigationStateProvider = StateProvider<NavigationState>(
-  (ref) => NavigationState(current: 0, previous: 0),
-);
+import 'package:tibeb/widgets/app_event_listener.dart';
 
 class MainNavigation extends ConsumerStatefulWidget {
   const MainNavigation({super.key});
@@ -37,326 +25,128 @@ class MainNavigation extends ConsumerStatefulWidget {
 }
 
 class _MainNavigationState extends ConsumerState<MainNavigation> {
-  StreamSubscription? _intentDataStreamSubscription;
+  final NavigationService _navigationService = NavigationService();
 
-  final GlobalKey _homeKey = GlobalKey();
-  final GlobalKey _libraryKey = GlobalKey();
-  final GlobalKey _statsKey = GlobalKey();
-  final GlobalKey _settingsKey = GlobalKey();
+  final TutorialService _tutorialService = TutorialService();
+
+  static const List<Widget> _screens = [
+    DashboardScreen(),
+
+    LibraryScreen(),
+
+    StatsScreen(),
+
+    SettingsScreen(),
+  ];
 
   @override
   void initState() {
     super.initState();
 
-    // For sharing or opening while app is running
-    _intentDataStreamSubscription = ReceiveSharingIntent.instance
-        .getMediaStream()
-        .listen(
-          (List<SharedMediaFile> value) {
-            if (mounted) {
-              _handleSharedFiles(value);
-            }
-          },
-          onError: (err) {
-            debugPrint("getIntentDataStream error: $err");
-          },
-        );
+    _navigationService.initialize(ref: ref);
 
-    // For sharing or opening when app is closed
-    ReceiveSharingIntent.instance.getInitialMedia().then((
-      List<SharedMediaFile> value,
-    ) {
-      if (mounted) {
-        _handleSharedFiles(value);
-      }
-    });
-
-    _checkFirstLaunch();
+    _initializeTutorial();
   }
 
-  @override
-  void dispose() {
-    _intentDataStreamSubscription?.cancel();
-    super.dispose();
-  }
+  Future<void> _initializeTutorial() async {
+    final shouldShow = await _tutorialService.shouldShowTutorial();
 
-  Future<void> _handleSharedFiles(List<SharedMediaFile> files) async {
-    if (files.isEmpty) return;
-
-    final paths = files.map((f) => f.path).toList();
-    // Import files and get the list of imported/matching books
-    final books = await ref.read(libraryProvider.notifier).importFiles(paths);
-
-    // After import, try to open the first one
-    if (books.isNotEmpty) {
-      final book = books.first;
-      ref.read(currentlyReadingProvider.notifier).state = book;
-      ref.read(libraryProvider.notifier).markBookAsOpened(book);
-
-      // Navigate to ReadingScreen
-      if (mounted) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const ReadingScreen()),
-        );
-      }
+    if (!mounted || !shouldShow) {
+      return;
     }
-  }
 
-  Future<void> _checkFirstLaunch() async {
-    final prefs = await SharedPreferences.getInstance();
-    final isFirstLaunch = prefs.getBool('is_first_launch') ?? true;
+    await Future.delayed(const Duration(milliseconds: 600));
 
-    if (isFirstLaunch && mounted) {
-      Future.delayed(const Duration(milliseconds: 500), () {
-        if (mounted) {
-          _showTutorial();
-        }
-      });
+    if (!mounted) {
+      return;
     }
-  }
-
-  void _showTutorial() {
-    final targets = [
-      TutorialHelper.createTarget(
-        identify: "home_target",
-        keyTarget: _homeKey,
-        title: "Home Dashboard",
-        description:
-            "Welcome to tibeb! Here you can quickly resume your current book and see your recent activity.",
-        contentAlign: ContentAlign.top,
-      ),
-      TutorialHelper.createTarget(
-        identify: "library_target",
-        keyTarget: _libraryKey,
-        title: "Your Library",
-        description:
-            "Access all your imported books here. Tap the plus button to add new EPUB or PDF files.",
-        contentAlign: ContentAlign.top,
-      ),
-      TutorialHelper.createTarget(
-        identify: "stats_target",
-        keyTarget: _statsKey,
-        title: "Reading Stats",
-        description:
-            "Track your reading habits, view your level, and check your achievements as you read more books.",
-        contentAlign: ContentAlign.top,
-      ),
-      TutorialHelper.createTarget(
-        identify: "settings_target",
-        keyTarget: _settingsKey,
-        title: "App Settings",
-        description:
-            "Customize your reading experience, adjust your preferences, and access help or about sections.",
-        contentAlign: ContentAlign.top,
-      ),
-    ];
 
     TutorialHelper.showTutorial(
       context: context,
-      targets: targets,
+
+      targets: _tutorialService.buildTargets(),
+
       onClickTarget: (target) {
-        if (target.identify == "library_target") {
-          ref.read(navigationStateProvider.notifier).state = NavigationState(
-            current: 1,
-            previous: 0,
-          );
-        } else if (target.identify == "stats_target") {
-          ref.read(navigationStateProvider.notifier).state = NavigationState(
-            current: 2,
-            previous: 1, // Assuming moving forward
-          );
-        } else if (target.identify == "settings_target") {
-          ref.read(navigationStateProvider.notifier).state = NavigationState(
-            current: 3,
-            previous: 2,
-          );
+        const map = {
+          'library_target': 1,
+
+          'stats_target': 2,
+
+          'settings_target': 3,
+        };
+
+        final index = map[target.identify];
+
+        if (index != null) {
+          ref.read(navigationStateProvider.notifier).changeTab(index);
         }
       },
+
       onFinish: () {
-        SharedPreferences.getInstance().then((prefs) {
-          prefs.setBool('is_first_launch', false);
-        });
+        _tutorialService.markComplete();
       },
+
       onSkip: () {
-        SharedPreferences.getInstance().then((prefs) {
-          prefs.setBool('is_first_launch', false);
-        });
+        _tutorialService.markComplete();
+
         return true;
       },
     );
   }
 
   @override
-  Widget build(BuildContext context) {
-    final navState = ref.watch(navigationStateProvider);
-    final selectedIndex = navState.current;
-    final isReverse = navState.current < navState.previous;
+  void dispose() {
+    _navigationService.dispose();
 
-    // Global celebration listener (Rank Up)
-    ref.listen(libraryProvider.select((s) => s.level), (previous, next) {
-      final state = ref.read(libraryProvider);
-      if (!state.isReading) {
-        _checkAndShowRankUp(context, next, state);
-      }
-    });
-
-    ref.listen(libraryProvider.select((s) => s.isReading), (
-      previous,
-      isReading,
-    ) {
-      if (previous == true && isReading == false) {
-        final state = ref.read(libraryProvider);
-        _checkAndShowRankUp(context, state.level, state);
-      }
-    });
-
-    final List<Widget> screens = [
-      const DashboardScreen(), // Home
-      const LibraryScreen(), // Library
-      const StatsScreen(), // Stats
-      const SettingsScreen(), // Settings
-    ];
-
-    return Scaffold(
-      body: PageTransitionSwitcher(
-        duration: const Duration(milliseconds: 300),
-        reverse: isReverse,
-        transitionBuilder: (child, animation, secondaryAnimation) {
-          return SharedAxisTransition(
-            animation: animation,
-            secondaryAnimation: secondaryAnimation,
-            transitionType: SharedAxisTransitionType.horizontal,
-            fillColor: context.tibpiColors.background,
-            child: child,
-          );
-        },
-        child: Container(
-          key: ValueKey<int>(selectedIndex),
-          child: screens[selectedIndex],
-        ),
-      ),
-      extendBody: true,
-      bottomNavigationBar: SafeArea(
-        bottom: true,
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: GlassContainer(
-            height: 70,
-            blur: 20,
-            opacity: 0.1,
-            borderRadius: 35,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildNavItem(
-                  ref,
-                  index: 0,
-                  icon: Icons.dashboard_rounded,
-                  label: 'Home',
-                  itemKey: _homeKey,
-                ),
-                _buildNavItem(
-                  ref,
-                  index: 1,
-                  icon: Icons.menu_book_rounded,
-                  label: 'Library',
-                  itemKey: _libraryKey,
-                ),
-                _buildNavItem(
-                  ref,
-                  index: 2,
-                  icon: Icons.bar_chart_rounded,
-                  label: 'Stats',
-                  itemKey: _statsKey,
-                ),
-                _buildNavItem(
-                  ref,
-                  index: 3,
-                  icon: Icons.settings_rounded,
-                  label: 'Settings',
-                  itemKey: _settingsKey,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+    super.dispose();
   }
 
-  Widget _buildNavItem(
-    WidgetRef ref, {
-    required int index,
-    required IconData icon,
-    required String label,
-    GlobalKey? itemKey,
-  }) {
-    final navState = ref.watch(navigationStateProvider);
-    final selectedIndex = navState.current;
-    final isSelected = selectedIndex == index;
+  @override
+  Widget build(BuildContext context) {
+    final navigation = ref.watch(navigationStateProvider);
 
-    return Expanded(
-      child: GestureDetector(
-        onTap: () {
-          if (selectedIndex != index) {
-            ref.read(navigationStateProvider.notifier).state = NavigationState(
-              current: index,
-              previous: selectedIndex,
+    final index = navigation.current;
+
+    final reverse = navigation.current < navigation.previous;
+
+    return AppEventListener(
+      child: Scaffold(
+        body: PageTransitionSwitcher(
+          duration: const Duration(milliseconds: 300),
+
+          reverse: reverse,
+
+          transitionBuilder: (child, animation, secondaryAnimation) {
+            return SharedAxisTransition(
+              animation: animation,
+
+              secondaryAnimation: secondaryAnimation,
+
+              transitionType: SharedAxisTransitionType.horizontal,
+
+              fillColor: Theme.of(context).scaffoldBackgroundColor,
+
+              child: child,
             );
-          }
-        },
-        behavior: HitTestBehavior.opaque,
-        child: Column(
-          key: itemKey,
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Icon(
-              icon,
-              color: isSelected
-                  ? context.tibpiColors.primary
-                  : context.tibpiColors.textTertiary,
-              size: 28,
-            ),
-            if (isSelected)
-              Container(
-                margin: const EdgeInsets.only(top: 4),
-                width: 4,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: context.tibpiColors.primary,
-                  shape: BoxShape.circle,
-                ),
-              ),
+          },
+
+          child: KeyedSubtree(key: ValueKey(index), child: _screens[index]),
+        ),
+
+        extendBody: true,
+
+        bottomNavigationBar: CustomBottomNavigationBar(
+          itemKeys: [
+            _tutorialService.homeKey,
+
+            _tutorialService.libraryKey,
+
+            _tutorialService.statsKey,
+
+            _tutorialService.settingsKey,
           ],
         ),
       ),
     );
-  }
-
-  void _checkAndShowRankUp(
-    BuildContext context,
-    int nextLevel,
-    LibraryState state,
-  ) {
-    final TibebRank currentRank = TibebRankRepository.instance.getCurrentRank(
-      nextLevel,
-      state.unlockedAchievements.length,
-    );
-    final TibebRank lastRank = TibebRankRepository.instance.getCurrentRank(
-      state.lastCelebratedLevel,
-      state.unlockedAchievements.length,
-    );
-
-    if (currentRank.level > lastRank.level) {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) =>
-            RankUpDialog(level: nextLevel, rankName: state.rankName),
-      );
-      ref.read(libraryProvider.notifier).markLevelCelebrated(nextLevel);
-    }
   }
 }

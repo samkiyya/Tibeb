@@ -1,108 +1,95 @@
-// services/tutorial_service.dart
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tibeb/providers/navigation_provider.dart';
-import 'package:tibeb/widgets/tutorial_coach.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+import 'package:flutter/material.dart';
+
+import '../widgets/tutorial_coach.dart';
+
 
 class TutorialService {
-  static const String firstLaunchKey = 'is_first_launch';
+
+  static const String _firstLaunchKey = 'is_first_launch';
+
 
   final GlobalKey homeKey = GlobalKey();
   final GlobalKey libraryKey = GlobalKey();
   final GlobalKey statsKey = GlobalKey();
   final GlobalKey settingsKey = GlobalKey();
 
-  Future<void> checkAndShowTutorial({
-    required BuildContext context,
-    required WidgetRef ref,
-    required bool Function() mountedChecker,
-  }) async {
-    final prefs = await SharedPreferences.getInstance();
-    final isFirstLaunch = prefs.getBool(firstLaunchKey) ?? true;
 
-    if (isFirstLaunch && mountedChecker()) {
-      Future.delayed(const Duration(milliseconds: 500), () {
-        if (mountedChecker()) {
-          _showTutorial(context, ref);
-        }
-      });
-    }
+
+  Future<bool> shouldShowTutorial() async {
+
+    final prefs =
+        await SharedPreferences.getInstance();
+
+    return prefs.getBool(_firstLaunchKey) ?? true;
+
   }
 
-  void _showTutorial(BuildContext context, WidgetRef ref) {
-    final targets = [
+
+
+  List<TargetFocus> buildTargets() {
+
+    return [
+
       TutorialHelper.createTarget(
-        identify: "home_target",
+        identify: 'home_target',
         keyTarget: homeKey,
-        title: "Home Dashboard",
+        title: 'Home Dashboard',
         description:
-            "Welcome to tibeb! Here you can quickly resume your current book and see your recent activity.",
+            'Welcome to Tibeb! Resume your current book and see your recent activity here.',
         contentAlign: ContentAlign.top,
       ),
+
+
+
       TutorialHelper.createTarget(
-        identify: "library_target",
+        identify: 'library_target',
         keyTarget: libraryKey,
-        title: "Your Library",
+        title: 'Your Library',
         description:
-            "Access all your imported books here. Tap the plus button to add new EPUB or PDF files.",
+            'All your imported books live here. Tap the + button to add EPUB or PDF files.',
         contentAlign: ContentAlign.top,
       ),
+
+
+
       TutorialHelper.createTarget(
-        identify: "stats_target",
+        identify: 'stats_target',
         keyTarget: statsKey,
-        title: "Reading Stats",
+        title: 'Reading Stats',
         description:
-            "Track your reading habits, view your level, and check your achievements as you read more books.",
+            'Track streaks, Wisdom Points, levels, and achievements as you read.',
         contentAlign: ContentAlign.top,
       ),
+
+
+
       TutorialHelper.createTarget(
-        identify: "settings_target",
+        identify: 'settings_target',
         keyTarget: settingsKey,
-        title: "App Settings",
+        title: 'App Settings',
         description:
-            "Customize your reading experience, adjust your preferences, and access help or about sections.",
+            'Customise notifications, appearance, and more.',
         contentAlign: ContentAlign.top,
       ),
+
     ];
 
-    TutorialHelper.showTutorial(
-      context: context,
-      targets: targets,
-      onClickTarget: (target) => _handleTutorialNavigation(target, ref),
-      onFinish: _markTutorialComplete,
-      onSkip: _markTutorialComplete,
+  }
+
+
+
+  Future<void> markComplete() async {
+
+    final prefs =
+        await SharedPreferences.getInstance();
+
+    await prefs.setBool(
+      _firstLaunchKey,
+      false,
     );
+
   }
 
-  void _handleTutorialNavigation(TargetModel target, WidgetRef ref) {
-    final navigationMap = {
-      "library_target": 1,
-      "stats_target": 2,
-      "settings_target": 3,
-    };
-
-    final index = navigationMap[target.identify];
-    if (index != null) {
-      final currentNavState = ref.read(navigationStateProvider);
-      ref.read(navigationStateProvider.notifier).state = NavigationState(
-        current: index,
-        previous: currentNavState.current,
-      );
-    }
-  }
-
-  bool _markTutorialComplete() {
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.setBool(firstLaunchKey, false);
-    });
-    return true;
-  }
-
-  // Getters for global keys
-  GlobalKey getHomeKey() => homeKey;
-  GlobalKey getLibraryKey() => libraryKey;
-  GlobalKey getStatsKey() => statsKey;
-  GlobalKey getSettingsKey() => settingsKey;
 }

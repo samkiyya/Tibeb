@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:tibeb/core/theme/theme.dart';
+import 'package:tibeb/providers/navigation_provider.dart';
 
 import 'package:tibeb/widgets/activity_graph.dart';
 import 'package:tibeb/widgets/stat_badge.dart';
@@ -13,7 +14,6 @@ import 'package:tibeb/widgets/dashboard/dashboard_header.dart';
 import 'package:tibeb/widgets/dashboard/continue_reading_card.dart';
 import 'package:tibeb/widgets/dashboard/shelf_item.dart';
 import 'package:tibeb/widgets/streak_widget.dart';
-import 'main_navigation.dart';
 import 'package:tibeb/models/book_model.dart';
 import 'package:tibeb/screens/edit_book_screen.dart';
 import 'package:tibeb/widgets/book_overlay_menu.dart';
@@ -151,8 +151,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       ),
                       TextButton(
                         onPressed: () {
-                          ref.read(navigationStateProvider.notifier).state =
-                              NavigationState(current: 1, previous: 0);
+                          ref
+    .read(navigationStateProvider.notifier)
+    .changeTab(1);
                         },
                         child: Text(
                           'See More',
