@@ -1,6 +1,4 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tibeb/widgets/reading/epub_reader_layer.dart';
 import 'package:tibeb/widgets/reading/pdf_reader_layer.dart';
@@ -8,7 +6,6 @@ import 'package:tibeb/widgets/reading/pdf_reader_layer.dart';
 import '../providers/library_provider.dart';
 import '../providers/reader_settings_provider.dart';
 import '../models/book_model.dart';
-import '../models/search_result_model.dart';
 import '../widgets/reading/reading_footer.dart';
 import '../widgets/reading/reading_content_area.dart';
 import '../widgets/reading/reading_controls_overlay.dart';
@@ -20,11 +17,14 @@ import 'reading/battery_controller.dart';
 import 'reading/bookmark_controller.dart';
 import 'reading/epub_reading_manager.dart';
 import 'reading/navigation_manager.dart';
-import 'reading/navigation_sheet_helper.dart';
 import 'reading/pdf_reading_manager.dart';
 import 'reading/progress_controller.dart';
 import 'reading/reading_actions.dart';
-import 'reading/reading_tutorial_helper.dart';
+import 'reading/reading_content_coordinator.dart';
+import 'reading/reading_controls_coordinator.dart';
+import 'reading/reading_lifecycle.dart';
+import 'reading/reading_search_manager.dart';
+import 'reading/reading_ui_state.dart';
 import 'reading/search_controller.dart';
 
 class ReadingScreen extends ConsumerStatefulWidget {
@@ -45,11 +45,13 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
   final BatteryController _battery = BatteryController();
   late final AutoScrollController _autoScroll = AutoScrollController();
 
-  // ── Reading-state managers ────────────────────────────────────────────────
+  // ── Domain managers ───────────────────────────────────────────────────────
   final EpubReadingManager _epub = EpubReadingManager();
   final PdfReadingManager _pdf = PdfReadingManager();
-  late final NavigationManager _nav =
-      NavigationManager(epub: _epub, pdf: _pdf);
+  late final NavigationManager _nav = NavigationManager(epub: _epub, pdf: _pdf);
+
+  // ── UI state ──────────────────────────────────────────────────────────────
+  final ReadingUiState _ui = ReadingUiState();
 
   // ── Shared ValueNotifiers ─────────────────────────────────────────────────
   final ValueNotifier<double> _pullDistanceNotifier = ValueNotifier(0.0);
@@ -58,33 +60,24 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
   final ValueNotifier<bool> _showControlsNotifier = ValueNotifier(true);
   final ValueNotifier<String> _currentTimeNotifier = ValueNotifier('');
 
-  // ── UI flags ──────────────────────────────────────────────────────────────
-  bool _isNavigationSheetOpen = false;
-  bool _isOrientationLandscape = false;
-  bool _isAudioControlsExpanded = false;
-  bool _isJumpingFromToc = false;
-
-  // ── Search state ──────────────────────────────────────────────────────────
-  bool _isSearching = false;
-  List<SearchResult> _searchResults = [];
-  bool _isSearchLoading = false;
-  String? _activeSearchQuery;
-  bool _isSearchResultsCollapsed = false;
-
   // ── Layer keys ────────────────────────────────────────────────────────────
   final GlobalKey<EpubReaderLayerState> _epubLayerKey = GlobalKey();
   final GlobalKey<PdfReaderLayerState> _pdfLayerKey = GlobalKey();
 
-  // ── Tutorial GlobalKeys ───────────────────────────────────────────────────
-  final GlobalKey _audioKey = GlobalKey();
-  final GlobalKey _searchKey = GlobalKey();
-  final GlobalKey _lockKey = GlobalKey();
-  final GlobalKey _tocKey = GlobalKey();
-  final GlobalKey _autoScrollKey = GlobalKey();
-  final GlobalKey _displaySettingsKey = GlobalKey();
+  // ── Tutorial keys ─────────────────────────────────────────────────────────
+  late final TutorialKeys _tutorialKeys = TutorialKeys(
+    tocKey: GlobalKey(),
+    searchKey: GlobalKey(),
+    lockKey: GlobalKey(),
+    audioKey: GlobalKey(),
+    autoScrollKey: GlobalKey(),
+    displaySettingsKey: GlobalKey(),
+  );
+
+  // ── Lifecycle manager ─────────────────────────────────────────────────────
+  late final ReadingLifecycle _lifecycle;
 
   // ── Misc ──────────────────────────────────────────────────────────────────
-  Timer? _currentTimeTimer;
   int? _lastBookId;
 
   // ── Lifecycle ─────────────────────────────────────────────────────────────
@@ -92,104 +85,51 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-        () => ref.read(libraryProvider.notifier).setReadingActive(true));
-
-    _battery.init();
-    _battery.onBatteryChanged = () {
-      if (mounted) setState(() {});
-    };
-
-    _updateTime();
-    _currentTimeTimer =
-        Timer.periodic(const Duration(seconds: 1), (_) => _updateTime());
-
-    _audio.init();
-    _audioSync.init(ref: ref, getContext: () => context);
-    _audio.onIndexChanged = () {
-      if (mounted) setState(() {});
-    };
-
-    _bookmarks.onStateChanged = () {
-      if (mounted) setState(() {});
-    };
-
-    _autoScroll.init(this, () => _pdfLayerKey.currentState?.pdfController);
-    _autoScroll.isEpubGetter = () {
-      final book = ref.read(currentlyReadingProvider);
-      return book?.filePath.toLowerCase().endsWith('.epub') ?? false;
-    };
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _loadBookmarks();
-      ref.read(libraryProvider.notifier).setReadingActive(true);
-      final book = ref.read(currentlyReadingProvider);
-      if (book != null) {
-        ReadingTutorialHelper.checkAndShow(
-          context: context,
-          isPdf: book.filePath.toLowerCase().endsWith('.pdf'),
-          tocKey: _tocKey,
-          searchKey: _searchKey,
-          lockKey: _lockKey,
-          audioKey: _audioKey,
-          autoScrollKey: _autoScrollKey,
-          displaySettingsKey: _displaySettingsKey,
-        );
-      }
-    });
+    _lifecycle = ReadingLifecycle(
+      audio: _audio,
+      audioSync: _audioSync,
+      autoScroll: _autoScroll,
+      battery: _battery,
+      bookmarks: _bookmarks,
+      progress: _progress,
+      search: _search,
+      currentTimeNotifier: _currentTimeNotifier,
+      pullDistanceNotifier: _pullDistanceNotifier,
+      isPullingDownNotifier: _isPullingDownNotifier,
+      scrollProgressNotifier: _scrollProgressNotifier,
+      showControlsNotifier: _showControlsNotifier,
+      onBatteryChanged: () { if (mounted) setState(() {}); },
+      onIndexChanged: () { if (mounted) setState(() {}); },
+      onBookmarkStateChanged: () { if (mounted) setState(() {}); },
+      onTimeTick: _updateTime,
+      tutorialKeys: _tutorialKeys,
+      getPdfController: () => _pdfLayerKey.currentState?.pdfController,
+      getIsEpub: () {
+        final book = ref.read(currentlyReadingProvider);
+        return book?.filePath.toLowerCase().endsWith('.epub') ?? false;
+      },
+    );
+    _lifecycle.init(
+      vsync: this,
+      ref: ref,
+      context: context,
+      loadBookmarks: _loadBookmarks,
+    );
   }
 
   @override
   void deactivate() {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    Future.microtask(
-        () => ref.read(libraryProvider.notifier).setReadingActive(false));
+    ReadingLifecycle.onDeactivate(ref);
     super.deactivate();
   }
 
   @override
   void dispose() {
-    _audio.dispose();
-    _progress.dispose();
-    _search.dispose();
-    _autoScroll.dispose();
-    _currentTimeTimer?.cancel();
-    _battery.dispose();
-    _pullDistanceNotifier.dispose();
-    _isPullingDownNotifier.dispose();
-    _scrollProgressNotifier.dispose();
-    _currentTimeNotifier.dispose();
-    _showControlsNotifier.dispose();
-    ReadingActions.resetOrientation();
+    _lifecycle.teardown();
     super.dispose();
   }
 
-  // ── Reset on book switch ──────────────────────────────────────────────────
-
-  void _resetReadingViewState() {
-    final book = ref.read(currentlyReadingProvider);
-    if (book != null) {
-      ReadingActions.resetThemeForBook(
-        book: book, ref: ref, settings: ref.read(readerSettingsProvider));
-    }
-    _epub.reset();
-    _pdf.reset();
-    _isJumpingFromToc = false;
-    _isSearching = false;
-    _searchResults = [];
-    _isSearchLoading = false;
-    _activeSearchQuery = null;
-    _isSearchResultsCollapsed = false;
-    _bookmarks.reset();
-    _progress.initialized = false;
-    _progress.pagesReadThisSession.clear();
-    _progress.epubChaptersReadThisSession.clear();
-  }
-
-  Future<void> _loadBookmarks() async {
-    final book = ref.read(currentlyReadingProvider);
-    if (book != null) await _bookmarks.load(book.id!, ref);
-  }
+  // ── Helpers ───────────────────────────────────────────────────────────────
 
   void _updateTime() {
     final now = DateTime.now();
@@ -198,7 +138,10 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
     if (_currentTimeNotifier.value != t) _currentTimeNotifier.value = t;
   }
 
-  // ── Progress helpers ──────────────────────────────────────────────────────
+  Future<void> _loadBookmarks() async {
+    final book = ref.read(currentlyReadingProvider);
+    if (book != null) await _bookmarks.load(book.id!, ref);
+  }
 
   double _currentProgress(Book book) {
     return ProgressController.calculateCurrentProgress(
@@ -234,18 +177,28 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
     );
   }
 
-  // ── Navigation actions ────────────────────────────────────────────────────
+  void _resetReadingViewState(Book book) {
+    ReadingActions.resetThemeForBook(
+        book: book, ref: ref, settings: ref.read(readerSettingsProvider));
+    _epub.reset();
+    _pdf.reset();
+    _ui.reset();
+    _bookmarks.reset();
+    _progress.initialized = false;
+    _progress.pagesReadThisSession.clear();
+    _progress.epubChaptersReadThisSession.clear();
+  }
 
   void _jumpToPdfPage(int pageNumber) {
     if (!_pdf.isPdfReady || _pdf.pdfPages <= 0) return;
     final target = _nav.onJumpToPage(pageNumber);
     if (target == null) return;
-    setState(() {
-      _isJumpingFromToc = true;
-      _pdf.setPage(target - 1);
-      _scrollProgressNotifier.value =
-          _pdf.pdfPages > 1 ? ((target - 1) / (_pdf.pdfPages - 1)).clamp(0.0, 1.0) : 1.0;
-    });
+    _ui.isJumpingFromToc = true;
+    _pdf.setPage(target - 1);
+    _scrollProgressNotifier.value = _pdf.pdfPages > 1
+        ? ((target - 1) / (_pdf.pdfPages - 1)).clamp(0.0, 1.0)
+        : 1.0;
+    setState(() {});
     _pdfLayerKey.currentState?.jumpToPage(target);
     _progress.recordInteraction();
   }
@@ -255,78 +208,17 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
       if (_epub.chapters.isEmpty || _epub.totalLength == 0) return;
       final t = _nav.onJumpToPercentEpub(percent);
       if (t == null) return;
-      setState(() {
-        _epub.shouldJumpToBottom = false;
-        _epub.currentChapterIndex = t.chapterIndex;
-        _epub.initialScrollProgress = t.scrollFraction;
-        _epub.currentChapter = t.chapterTitle;
-      });
+      _epub.shouldJumpToBottom = false;
+      _epub.currentChapterIndex = t.chapterIndex;
+      _epub.initialScrollProgress = t.scrollFraction;
+      _epub.currentChapter = t.chapterTitle;
+      setState(() {});
       _epubLayerKey.currentState?.jumpToChapter(t.chapterIndex);
       _progress.recordInteraction();
     } else {
       final page = _nav.onJumpToPercentPdf(percent);
       if (page != null) _jumpToPdfPage(page);
     }
-  }
-
-  // ── Search ────────────────────────────────────────────────────────────────
-
-  Future<void> _handleSearch(String query, Book book) async {
-    if (query.trim().isEmpty) { setState(() => _searchResults = []); return; }
-    setState(() { _isSearchLoading = true; _searchResults = []; });
-    try {
-      List<SearchResult> results;
-      if (book.filePath.toLowerCase().endsWith('.pdf')) {
-        results = await _search.searchPdf(
-          query,
-          _pdfLayerKey.currentState?.pdfController,
-          _pdfLayerKey.currentState?.pdfSearcher,
-        );
-      } else {
-        results = await _search.searchEpub(
-          query, _epub.chapters,
-          (h) => h.replaceAll(RegExp(r'<[^>]*>|&[^;]+;'), ' ').trim(),
-        );
-      }
-      setState(() => _searchResults = results);
-    } catch (e) {
-      debugPrint('Search error: $e');
-    } finally {
-      setState(() { _isSearchLoading = false; _isSearchResultsCollapsed = false; });
-    }
-  }
-
-  void _goToSearchResult(SearchResult result, Book book) {
-    final nav = _nav.onSearchResult(result, book);
-    setState(() {
-      _isJumpingFromToc = true;
-      _activeSearchQuery = nav.query;
-      _isSearchResultsCollapsed = true;
-      if (nav.isEpub) {
-        final idx = nav.epubChapterIndex!;
-        if (idx != _epub.currentChapterIndex) {
-          _epub.currentChapterIndex = idx;
-          _epub.currentChapter = _epub.chapters[idx].Title ?? 'Chapter ${idx + 1}';
-        }
-        if (nav.scrollFraction != null) {
-          _epub.initialScrollProgress = nav.scrollFraction!;
-        }
-        _epubLayerKey.currentState?.jumpToChapter(idx);
-      } else {
-        final idx = nav.pdfPageIndex!;
-        if (idx != _pdf.pdfCurrentPage) {
-          _pdf.setPage(idx);
-          _scrollProgressNotifier.value = _pdf.pdfPages > 1
-              ? (idx / (_pdf.pdfPages - 1)).clamp(0.0, 1.0)
-              : 1.0;
-        }
-        if (nav.pdfMatch != null) {
-          _pdfLayerKey.currentState?.goToMatch(nav.pdfMatch!);
-        } else {
-          _pdfLayerKey.currentState?.jumpToPage(idx + 1);
-        }
-      }
-    });
   }
 
   // ── Build ─────────────────────────────────────────────────────────────────
@@ -338,15 +230,13 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
 
     if (book != null && _lastBookId != book.id) {
       _lastBookId = book.id;
-      _resetReadingViewState();
+      _resetReadingViewState(book);
     }
 
-    // Keep auto-scroll speed in sync with settings
     if (_autoScroll.isScrolling &&
         _autoScroll.speedNotifier.value != settings.autoScrollSpeed) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) _autoScroll.syncSpeed(settings.autoScrollSpeed);
-      });
+      WidgetsBinding.instance.addPostFrameCallback(
+          (_) { if (mounted) _autoScroll.syncSpeed(settings.autoScrollSpeed); });
     }
 
     if (book == null) {
@@ -368,6 +258,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
     }
 
     final isEpub = book.filePath.toLowerCase().endsWith('.epub');
+
     _audioSync.syncForBook(book, onError: (msg) {
       if (mounted) {
         ScaffoldMessenger.of(context)
@@ -375,6 +266,33 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
           ..showSnackBar(SnackBar(content: Text(msg)));
       }
     });
+
+    // Build per-frame coordinators (cheap — no allocation of controllers)
+    final contentCoord = ReadingContentCoordinator(
+      epub: _epub, pdf: _pdf, progress: _progress,
+      ui: _ui, scrollProgressNotifier: _scrollProgressNotifier,
+      ref: ref, book: book, onStateChanged: () => setState(() {}),
+    );
+
+    final controlsCoord = ReadingControlsCoordinator(
+      context: context, ref: ref, book: book, settings: settings,
+      audio: _audio, audioSync: _audioSync, autoScroll: _autoScroll,
+      bookmarks: _bookmarks, progress: _progress,
+      searchManager: ReadingSearchManager(
+        search: _search, nav: _nav, epub: _epub, pdf: _pdf, ui: _ui,
+        epubLayerKey: _epubLayerKey, pdfLayerKey: _pdfLayerKey,
+        scrollProgressNotifier: _scrollProgressNotifier,
+      ),
+      nav: _nav, epub: _epub, pdf: _pdf, ui: _ui, search: _search,
+      showControlsNotifier: _showControlsNotifier,
+      scrollProgressNotifier: _scrollProgressNotifier,
+      epubLayerKey: _epubLayerKey,
+      onStateChanged: () => setState(() {}),
+      getCurrentProgress: () => _currentProgress(book),
+      jumpToPdfPage: _jumpToPdfPage,
+      jumpToPercent: _jumpToPercent,
+      syncFinalProgress: _syncFinalProgress,
+    );
 
     return Scaffold(
       backgroundColor: settings.backgroundColor,
@@ -394,9 +312,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
                   child: Stack(
                     children: [
                       ReadingContentArea(
-                        book: book,
-                        settings: settings,
-                        isEpub: isEpub,
+                        book: book, settings: settings, isEpub: isEpub,
                         epubLayerKey: _epubLayerKey,
                         pdfLayerKey: _pdfLayerKey,
                         highlights: _bookmarks.highlights,
@@ -405,9 +321,8 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
                         scrollProgressNotifier: _scrollProgressNotifier,
                         autoScrollSpeedNotifier: _autoScroll.speedNotifier,
                         showControlsNotifier: _showControlsNotifier,
-                        activeSearchQuery: _activeSearchQuery,
-                        epub: _epub,
-                        pdf: _pdf,
+                        activeSearchQuery: _ui.activeSearchQuery,
+                        epub: _epub, pdf: _pdf,
                         onToggleControls: () => ReadingActions.toggleControls(
                           showControlsNotifier: _showControlsNotifier,
                           progress: _progress,
@@ -416,117 +331,18 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
                         onHighlight: (h) => _bookmarks.addHighlight(h, ref),
                         onDeleteHighlight: (id) =>
                             _bookmarks.deleteHighlight(id, ref),
-                        onLookup: (w) => ReadingActions.lookupDictionary(
-                            word: w, ref: ref),
-                        onEpubLoaded: (chapters, epubBook, initialScroll,
-                            initialChapterIndex) {
-                          _epub.load(
-                            loadedChapters: chapters,
-                            loadedBook: epubBook,
-                            savedScrollProgress: initialScroll,
-                            initialChapterIndex: initialChapterIndex,
-                          );
-                          _progress.onEpubChapterEntry();
-                          setState(() {});
-                          _progress.initialized = true;
-                          _progress.startHeartbeat(
-                              book, ref, () => _currentProgress(book));
-                        },
-                        onEpubPageChanged: (index) {
-                          if (index == _epub.currentChapterIndex) return;
-                          _epub.onPageChanged(
-                            newIndex: index,
-                            isJumpingFromToc: _isJumpingFromToc,
-                            progress: _progress,
-                          );
-                          _scrollProgressNotifier.value = 0.0;
-                          _progress.recordInteraction();
-                          final prog = _currentProgress(book);
-                          final pagesRead = _progress.totalEpubPagesRead(
-                              _epub.chapters, _epub.chapterLengths);
-                          ref
-                              .read(libraryProvider.notifier)
-                              .updateBookProgress(
-                            book.id!, prog,
-                            pagesRead: pagesRead > 0 ? pagesRead : 0,
-                            durationMinutes: 0,
-                            currentPage: _epub.currentChapterIndex,
-                            totalPages: _epub.chapters.length,
-                            estimateReadingTime: false,
-                          );
-                          if (pagesRead > 0) {
-                            _progress.epubChaptersReadThisSession.clear();
-                          }
-                          setState(() {});
-                        },
-                        onPdfLoaded: (outline, totalPages, initialPage) {
-                          _pdf.isPdfReady = true;
-                          _pdf.pdfPages = totalPages;
-                          _pdf.loadOutline(outline);
-                          _pdf.setPage(initialPage, totalPages: totalPages);
-                          _scrollProgressNotifier.value = totalPages > 1
-                              ? (initialPage / (totalPages - 1)).clamp(0.0, 1.0)
-                              : 1.0;
-                          if (!_progress.initialized) {
-                            _progress.onPdfPageEntry();
-                            _progress.startHeartbeat(
-                                book, ref, () => _currentProgress(book));
-                            _progress.initialized = true;
-                          }
-                          setState(() {});
-                        },
-                        onPdfPageChanged: (page, total) {
-                          if (_isJumpingFromToc) {
-                            if (page == _pdf.pdfCurrentPage) {
-                              setState(() => _isJumpingFromToc = false);
-                            } else {
-                              return;
-                            }
-                          }
-                          if (page == _pdf.pdfCurrentPage &&
-                              total == _pdf.pdfPages) {
-                            return;
-                          }
-                          if (!_progress.initialized) {
-                            _progress.lastSyncTime = DateTime.now();
-                            _progress.onPdfPageEntry();
-                            _progress.initialized = true;
-                            _pdf.setPage(page, totalPages: total);
-                            _scrollProgressNotifier.value = total > 1
-                                ? (page / (total - 1)).clamp(0.0, 1.0)
-                                : 1.0;
-                            ref
-                                .read(libraryProvider.notifier)
-                                .updateBookProgress(
-                              book.id!, book.progress,
-                              pagesRead: 0, durationMinutes: 0,
-                              currentPage: page, totalPages: total,
-                              estimateReadingTime: false,
-                            );
-                            setState(() {});
-                            return;
-                          }
-                          _progress.countAndMaybeClearPdfPages(
-                              previousPage: _pdf.pdfCurrentPage,
-                              newPage: page,
-                              clearAfter: false);
-                          _progress.onPdfPageEntry();
-                          _pdf.setPage(page, totalPages: total);
-                          _scrollProgressNotifier.value = total > 1
-                              ? (page / (total - 1)).clamp(0.0, 1.0)
-                              : 1.0;
-                          final prog = _currentProgress(book);
-                          _progress.schedulePdfProgressUpdate(
-                              book, page, total, prog, ref,
-                              clearSession: true);
-                          setState(() {});
-                        },
+                        onLookup: (w) =>
+                            ReadingActions.lookupDictionary(word: w, ref: ref),
+                        onEpubLoaded: contentCoord.onEpubLoaded,
+                        onEpubPageChanged: contentCoord.onEpubPageChanged,
+                        onPdfLoaded: contentCoord.onPdfLoaded,
+                        onPdfPageChanged: contentCoord.onPdfPageChanged,
                         onJumpedToBottom: () =>
                             setState(() => _epub.shouldJumpToBottom = false),
                         onJumpedToPosition: () =>
                             setState(() => _epub.initialScrollProgress = 0.0),
                       ),
-                      _buildControlsOverlay(book, settings),
+                      _buildControlsOverlay(book, settings, controlsCoord),
                     ],
                   ),
                 ),
@@ -534,9 +350,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
               ValueListenableBuilder<String>(
                 valueListenable: _currentTimeNotifier,
                 builder: (context, time, _) => ReadingFooter(
-                  book: book,
-                  settings: settings,
-                  currentTime: time,
+                  book: book, settings: settings, currentTime: time,
                   currentChapter: isEpub
                       ? _epub.currentChapter
                       : _pdf.currentChapter,
@@ -554,181 +368,62 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
     );
   }
 
-  // ── Controls overlay ──────────────────────────────────────────────────────
-
-  Widget _buildControlsOverlay(Book book, settings) {
+  Widget _buildControlsOverlay(
+    Book book,
+    settings,
+    ReadingControlsCoordinator coord,
+  ) {
     final isEpub = book.filePath.toLowerCase().endsWith('.epub');
     return ReadingControlsOverlay(
-      book: book,
-      settings: settings,
-      audio: _audio,
-      bookmarks: _bookmarks,
-      search: _search,
+      book: book, settings: settings,
+      audio: _audio, bookmarks: _bookmarks, search: _search,
       showControlsNotifier: _showControlsNotifier,
       currentTimeNotifier: _currentTimeNotifier,
       scrollProgressNotifier: _scrollProgressNotifier,
       autoScrollSpeedNotifier: _autoScroll.speedNotifier,
-      isSearching: _isSearching,
-      isSearchLoading: _isSearchLoading,
-      isSearchResultsCollapsed: _isSearchResultsCollapsed,
-      searchResults: _searchResults,
+      isSearching: _ui.isSearching,
+      isSearchLoading: _ui.isSearchLoading,
+      isSearchResultsCollapsed: _ui.isSearchResultsCollapsed,
+      searchResults: _ui.searchResults,
       currentChapter: isEpub ? _epub.currentChapter : _pdf.currentChapter,
       currentChapterIndex: _epub.currentChapterIndex,
       pdfCurrentPage: _pdf.pdfCurrentPage,
       pdfPages: _pdf.pdfPages,
       isPdfReady: _pdf.isPdfReady,
-      isNavigationSheetOpen: _isNavigationSheetOpen,
+      isNavigationSheetOpen: _ui.isNavigationSheetOpen,
       isAutoScrolling: _autoScroll.isScrolling,
-      isOrientationLandscape: _isOrientationLandscape,
-      isAudioControlsExpanded: _isAudioControlsExpanded,
-      tocKey: _tocKey,
-      audioKey: _audioKey,
-      autoScrollKey: _autoScrollKey,
-      displaySettingsKey: _displaySettingsKey,
-      searchKey: _searchKey,
-      lockKey: _lockKey,
-      onBackPressed: () { _syncFinalProgress(book); Navigator.of(context).pop(); },
-      onToggleSearch: () {
-        setState(() { _isSearching = true; });
-        ReadingActions.setControlsVisibility(
-            visible: true, showControlsNotifier: _showControlsNotifier);
-        _search.focusNode.requestFocus();
-      },
-      onClearSearch: () => setState(() {
-        _isSearching = false;
-        _search.textController.clear();
-        _searchResults = [];
-        _activeSearchQuery = null;
-      }),
-      onSearchSubmitted: (v) => _handleSearch(v, book),
-      onToggleSearchResultsCollapse: () =>
-          setState(() => _isSearchResultsCollapsed = !_isSearchResultsCollapsed),
-      onToggleLock: () => ReadingActions.toggleLock(ref: ref, progress: _progress),
-      onToggleAudioControls: () =>
-          setState(() => _isAudioControlsExpanded = !_isAudioControlsExpanded),
-      onPickAudio: () => _audio.pickAndAdd(context, book, ref),
-      onShowNavigationSheet: () => _showNavigationSheet(book, settings),
-      onToggleBookmark: () => _bookmarks.toggleBookmark(
-        context: context, book: book, ref: ref,
-        progress: _currentProgress(book),
-        currentChapterIndex: _epub.currentChapterIndex,
-        scrollProgress: _scrollProgressNotifier.value,
-        isPdfReady: _pdf.isPdfReady,
-        pdfCurrentPage: _pdf.pdfCurrentPage,
-        chapters: _epub.chapters,
-      ),
-      onToggleAutoScroll: () => setState(() {
-        _autoScroll.isScrolling = ReadingActions.toggleAutoScroll(
-          isCurrentlyScrolling: _autoScroll.isScrolling,
-          settingsSpeed: settings.autoScrollSpeed,
-          speedNotifier: _autoScroll.speedNotifier,
-        );
-      }),
-      onToggleOrientation: () => setState(() {
-        _isOrientationLandscape =
-            ReadingActions.toggleOrientation(isCurrentlyLandscape: _isOrientationLandscape);
-      }),
-      onShowDisplaySettings: () => ReadingActions.showDisplaySettings(context),
-      onIncrementPlaybackSpeed: () => setState(() => _audio.incrementPlaybackSpeed()),
+      isOrientationLandscape: _ui.isOrientationLandscape,
+      isAudioControlsExpanded: _ui.isAudioControlsExpanded,
+      tocKey: _tutorialKeys.tocKey,
+      audioKey: _tutorialKeys.audioKey,
+      autoScrollKey: _tutorialKeys.autoScrollKey,
+      displaySettingsKey: _tutorialKeys.displaySettingsKey,
+      searchKey: _tutorialKeys.searchKey,
+      lockKey: _tutorialKeys.lockKey,
+      onBackPressed: coord.onBackPressed,
+      onToggleSearch: coord.onToggleSearch,
+      onClearSearch: coord.onClearSearch,
+      onSearchSubmitted: coord.onSearchSubmitted,
+      onToggleSearchResultsCollapse: coord.onToggleSearchResultsCollapse,
+      onToggleLock: coord.onToggleLock,
+      onToggleAudioControls: coord.onToggleAudioControls,
+      onPickAudio: coord.onPickAudio,
+      onShowNavigationSheet: coord.onShowNavigationSheet,
+      onToggleBookmark: coord.onToggleBookmark,
+      onToggleAutoScroll: coord.onToggleAutoScroll,
+      onToggleOrientation: coord.onToggleOrientation,
+      onShowDisplaySettings: coord.onShowDisplaySettings,
+      onIncrementPlaybackSpeed: coord.onIncrementPlaybackSpeed,
       onSkip: _audio.skip,
-      onNextTrack: _audio.player.hasNext ? () => _audio.player.seekToNext() : null,
-      onPrevTrack: _audio.player.hasPrevious ? () => _audio.player.seekToPrevious() : null,
-      onShowTrackList: () => ReadingActions.showTrackList(
-          context: context, settings: settings, audio: _audio, ref: ref),
+      onNextTrack: _audio.player.hasNext
+          ? () => _audio.player.seekToNext()
+          : null,
+      onPrevTrack: _audio.player.hasPrevious
+          ? () => _audio.player.seekToPrevious()
+          : null,
+      onShowTrackList: coord.onShowTrackList,
       getDisplayProgress: () => _currentProgress(book),
-      onResultTap: (r) => _goToSearchResult(r, book),
-    );
-  }
-
-  // ── Navigation sheet ──────────────────────────────────────────────────────
-
-  void _showNavigationSheet(Book book, settings) {
-    NavigationSheetHelper.show(
-      context: context,
-      ref: ref,
-      book: book,
-      settings: settings,
-      chapters: _epub.chapters,
-      tocChapters: _epub.epubBook?.Chapters ?? [],
-      pdfOutline: _pdf.pdfOutline,
-      tocPdfOutline: _pdf.tocPdfOutline,
-      currentChapterIndex: _epub.currentChapterIndex,
-      currentPdfNode: _pdf.currentPdfNode,
-      pdfPages: _pdf.pdfPages,
-      pdfCurrentPage: _pdf.pdfCurrentPage,
-      bookmarks: _bookmarks,
-      scrollProgressNotifier: _scrollProgressNotifier,
-      onOpenSheet: () => setState(() => _isNavigationSheetOpen = true),
-      onCloseSheet: () => setState(() => _isNavigationSheetOpen = false),
-      onChapterTap: (index) {
-        final target = _nav.onEpubChapterTap(index);
-        if (target == null) return;
-        setState(() {
-          _epub.currentChapterIndex = target;
-          _epub.currentChapter =
-              _epub.chapters[target].Title ?? 'Chapter ${target + 1}';
-        });
-        _epubLayerKey.currentState?.jumpToChapter(target);
-      },
-      onPdfOutlineTap: (node) {
-        final page = _nav.onPdfOutlineTap(node);
-        if (page != null) _jumpToPdfPage(page);
-      },
-      onJumpToPage: (page) {
-        final target = _nav.onJumpToPage(page);
-        if (target != null) _jumpToPdfPage(target);
-      },
-      onJumpToPercent: (percent) =>
-          Future.delayed(const Duration(milliseconds: 300),
-              () { if (mounted) _jumpToPercent(percent, book); }),
-      onHighlightTap: (h) {
-        if (book.filePath.toLowerCase().endsWith('.epub')) {
-          final t = _nav.onEpubHighlightTap(h, _epub.chapters);
-          if (t == null) return;
-          final isSameChapter = t.chapterIndex == _epub.currentChapterIndex;
-          setState(() {
-            _epub.currentChapterIndex = t.chapterIndex;
-            _epub.initialScrollProgress = t.scrollFraction;
-            _epub.currentChapter = t.chapterTitle;
-          });
-          _epubLayerKey.currentState?.jumpToChapter(t.chapterIndex);
-          if (isSameChapter) {
-            _progress.recordInteraction();
-          }
-        } else {
-          final page = _nav.onPdfHighlightTap(h);
-          if (page != null) _jumpToPdfPage(page);
-        }
-      },
-      onBookmarkTap: (bookmark) {
-        if (book.filePath.toLowerCase().endsWith('.epub')) {
-          final t = _nav.onEpubBookmarkTap(bookmark, _epub.chapters);
-          if (t == null) return;
-          if (t.isCfiJump) {
-            _epubLayerKey.currentState?.jumpToCfi(t.cfi!);
-          } else if (bookmark.position.contains(':')) {
-            // Position with scroll fraction — instant jump
-            setState(() {
-              _epub.currentChapterIndex = t.chapterIndex;
-              _epub.initialScrollProgress = t.scrollFraction;
-              _epub.currentChapter = t.chapterTitle;
-            });
-            _epubLayerKey.currentState?.jumpToChapter(t.chapterIndex);
-          } else {
-            // Plain integer index — animated jump (matches reference animateToPage)
-            setState(() {
-              _epub.currentChapterIndex = t.chapterIndex;
-              _epub.initialScrollProgress = t.scrollFraction;
-              _epub.currentChapter = t.chapterTitle;
-            });
-            _epubLayerKey.currentState?.animateToChapter(t.chapterIndex);
-          }
-        } else {
-          final page = _nav.onPdfBookmarkTap(bookmark);
-          if (page != null) _jumpToPdfPage(page);
-        }
-      },
-      onLookup: (w) => ReadingActions.lookupDictionary(word: w, ref: ref),
+      onResultTap: coord.onResultTap,
     );
   }
 }
