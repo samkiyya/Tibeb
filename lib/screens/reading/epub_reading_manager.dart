@@ -22,6 +22,7 @@ class EpubReadingManager {
     required List<EpubChapter> loadedChapters,
     required EpubBook loadedBook,
     required double savedScrollProgress,
+    required int initialChapterIndex,
   }) {
     final lengths = loadedChapters
         .map((c) => c.HtmlContent?.length ?? 0)
@@ -30,10 +31,11 @@ class EpubReadingManager {
     epubBook = loadedBook;
     chapterLengths = lengths;
     totalLength = lengths.fold(0, (s, l) => s + l);
-    currentChapterIndex = 0;
-    currentChapter = loadedChapters.isNotEmpty
-        ? (loadedChapters[0].Title ?? 'Chapter 1')
-        : 'Chapter 1';
+    currentChapterIndex = initialChapterIndex;
+    currentChapter = (initialChapterIndex < loadedChapters.length
+            ? loadedChapters[initialChapterIndex].Title
+            : null) ??
+        'Chapter ${initialChapterIndex + 1}';
     initialScrollProgress = savedScrollProgress;
   }
 

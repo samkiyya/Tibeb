@@ -24,8 +24,12 @@ class EpubReaderLayer extends StatefulWidget {
   final Function(int) onDeleteHighlight;
   final Function(String) onLookup;
 
-  final Function(List<EpubChapter> chapters, EpubBook epubBook,
-      double initialScrollProgress) onLoaded;
+  final Function(
+    List<EpubChapter> chapters,
+    EpubBook epubBook,
+    double initialScrollProgress,
+    int initialChapterIndex,
+  ) onLoaded;
   final Function(int index) onPageChanged;
 
   final bool shouldJumpToBottom;
@@ -89,6 +93,14 @@ class EpubReaderLayerState extends State<EpubReaderLayer> {
     _pageController?.jumpToPage(index);
   }
 
+  void animateToChapter(int index) {
+    _pageController?.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOutCubic,
+    );
+  }
+
   void jumpToCfi(String cfi) {
     _epubController?.gotoEpubCfi(cfi);
   }
@@ -148,7 +160,7 @@ class EpubReaderLayerState extends State<EpubReaderLayer> {
         _pageController = PageController(initialPage: initialPage);
       });
 
-      widget.onLoaded(_chapters, _epubBook!, initialScrollProgress);
+      widget.onLoaded(_chapters, _epubBook!, initialScrollProgress, initialPage);
     });
   }
 

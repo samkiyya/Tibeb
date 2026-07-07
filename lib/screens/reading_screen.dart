@@ -418,12 +418,15 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
                             _bookmarks.deleteHighlight(id, ref),
                         onLookup: (w) => ReadingActions.lookupDictionary(
                             word: w, ref: ref),
-                        onEpubLoaded: (chapters, epubBook, initialScroll) {
+                        onEpubLoaded: (chapters, epubBook, initialScroll,
+                            initialChapterIndex) {
                           _epub.load(
                             loadedChapters: chapters,
                             loadedBook: epubBook,
                             savedScrollProgress: initialScroll,
+                            initialChapterIndex: initialChapterIndex,
                           );
+                          _progress.onEpubChapterEntry();
                           setState(() {});
                           _progress.initialized = true;
                           _progress.startHeartbeat(
@@ -682,12 +685,16 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
         if (book.filePath.toLowerCase().endsWith('.epub')) {
           final t = _nav.onEpubHighlightTap(h, _epub.chapters);
           if (t == null) return;
+          final isSameChapter = t.chapterIndex == _epub.currentChapterIndex;
           setState(() {
             _epub.currentChapterIndex = t.chapterIndex;
             _epub.initialScrollProgress = t.scrollFraction;
             _epub.currentChapter = t.chapterTitle;
           });
           _epubLayerKey.currentState?.jumpToChapter(t.chapterIndex);
+          if (isSameChapter) {
+            _progress.recordInteraction();
+          }
         } else {
           final page = _nav.onPdfHighlightTap(h);
           if (page != null) _jumpToPdfPage(page);
@@ -699,13 +706,22 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
           if (t == null) return;
           if (t.isCfiJump) {
             _epubLayerKey.currentState?.jumpToCfi(t.cfi!);
-          } else {
+          } else if (bookmark.position.contains(':')) {
+            // Position with scroll fraction — instant jump
             setState(() {
               _epub.currentChapterIndex = t.chapterIndex;
               _epub.initialScrollProgress = t.scrollFraction;
               _epub.currentChapter = t.chapterTitle;
             });
             _epubLayerKey.currentState?.jumpToChapter(t.chapterIndex);
+          } else {
+            // Plain integer index — animated jump (matches reference animateToPage)
+            setState(() {
+              _epub.currentChapterIndex = t.chapterIndex;
+              _epub.initialScrollProgress = t.scrollFraction;
+              _epub.currentChapter = t.chapterTitle;
+            });
+            _epubLayerKey.currentState?.animateToChapter(t.chapterIndex);
           }
         } else {
           final page = _nav.onPdfBookmarkTap(bookmark);

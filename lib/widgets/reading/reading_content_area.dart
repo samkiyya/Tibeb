@@ -69,6 +69,7 @@ class ReadingContentArea extends StatelessWidget {
     List<EpubChapter> chapters,
     EpubBook epubBook,
     double initialScrollProgress,
+    int initialChapterIndex,
   ) onEpubLoaded;
   final Function(int index) onEpubPageChanged;
 
