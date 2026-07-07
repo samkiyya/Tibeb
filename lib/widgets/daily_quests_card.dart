@@ -52,7 +52,7 @@ class DailyQuestsCard extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        '2X XP',
+                        '2X WP',
                         style: TextStyle(
                           color: t.xpGold,
                           fontSize: 10,
@@ -162,7 +162,7 @@ class _QuestItem extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  'Reward: ${quest.xpReward} XP',
+                  'Reward: ${quest.wpReward} WP',
                   style: TextStyle(
                     color: isWeekend ? t.xpGold : t.textSecondary,
                     fontSize: 11,

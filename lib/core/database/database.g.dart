@@ -2140,12 +2140,12 @@ class $QuestsTable extends Quests with TableInfo<$QuestsTable, QuestEntity> {
     requiredDuringInsert: false,
     defaultValue: const Constant(0),
   );
-  static const VerificationMeta _xpRewardMeta = const VerificationMeta(
-    'xpReward',
+  static const VerificationMeta _wpRewardMeta = const VerificationMeta(
+    'wpReward',
   );
   @override
-  late final GeneratedColumn<int> xpReward = GeneratedColumn<int>(
-    'xp_reward',
+  late final GeneratedColumn<int> wpReward = GeneratedColumn<int>(
+    'wp_reward',
     aliasedName,
     false,
     type: DriftSqlType.int,
@@ -2183,7 +2183,7 @@ class $QuestsTable extends Quests with TableInfo<$QuestsTable, QuestEntity> {
     type,
     targetValue,
     currentValue,
-    xpReward,
+    wpReward,
     isCompleted,
     date,
   ];
@@ -2243,13 +2243,13 @@ class $QuestsTable extends Quests with TableInfo<$QuestsTable, QuestEntity> {
         ),
       );
     }
-    if (data.containsKey('xp_reward')) {
+    if (data.containsKey('wp_reward')) {
       context.handle(
-        _xpRewardMeta,
-        xpReward.isAcceptableOrUnknown(data['xp_reward']!, _xpRewardMeta),
+        _wpRewardMeta,
+        wpReward.isAcceptableOrUnknown(data['wp_reward']!, _wpRewardMeta),
       );
     } else if (isInserting) {
-      context.missing(_xpRewardMeta);
+      context.missing(_wpRewardMeta);
     }
     if (data.containsKey('is_completed')) {
       context.handle(
@@ -2303,9 +2303,9 @@ class $QuestsTable extends Quests with TableInfo<$QuestsTable, QuestEntity> {
         DriftSqlType.int,
         data['${effectivePrefix}current_value'],
       )!,
-      xpReward: attachedDatabase.typeMapping.read(
+      wpReward: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
-        data['${effectivePrefix}xp_reward'],
+        data['${effectivePrefix}wp_reward'],
       )!,
       isCompleted: attachedDatabase.typeMapping.read(
         DriftSqlType.bool,
@@ -2334,7 +2334,7 @@ class QuestEntity extends DataClass implements Insertable<QuestEntity> {
   final QuestType type;
   final int targetValue;
   final int currentValue;
-  final int xpReward;
+  final int wpReward;
   final bool isCompleted;
   final String date;
   const QuestEntity({
@@ -2344,7 +2344,7 @@ class QuestEntity extends DataClass implements Insertable<QuestEntity> {
     required this.type,
     required this.targetValue,
     required this.currentValue,
-    required this.xpReward,
+    required this.wpReward,
     required this.isCompleted,
     required this.date,
   });
@@ -2359,7 +2359,7 @@ class QuestEntity extends DataClass implements Insertable<QuestEntity> {
     }
     map['target_value'] = Variable<int>(targetValue);
     map['current_value'] = Variable<int>(currentValue);
-    map['xp_reward'] = Variable<int>(xpReward);
+    map['wp_reward'] = Variable<int>(wpReward);
     map['is_completed'] = Variable<bool>(isCompleted);
     map['date'] = Variable<String>(date);
     return map;
@@ -2373,7 +2373,7 @@ class QuestEntity extends DataClass implements Insertable<QuestEntity> {
       type: Value(type),
       targetValue: Value(targetValue),
       currentValue: Value(currentValue),
-      xpReward: Value(xpReward),
+      wpReward: Value(wpReward),
       isCompleted: Value(isCompleted),
       date: Value(date),
     );
@@ -2393,7 +2393,7 @@ class QuestEntity extends DataClass implements Insertable<QuestEntity> {
       ),
       targetValue: serializer.fromJson<int>(json['targetValue']),
       currentValue: serializer.fromJson<int>(json['currentValue']),
-      xpReward: serializer.fromJson<int>(json['xpReward']),
+      wpReward: serializer.fromJson<int>(json['wpReward']),
       isCompleted: serializer.fromJson<bool>(json['isCompleted']),
       date: serializer.fromJson<String>(json['date']),
     );
@@ -2408,7 +2408,7 @@ class QuestEntity extends DataClass implements Insertable<QuestEntity> {
       'type': serializer.toJson<int>($QuestsTable.$convertertype.toJson(type)),
       'targetValue': serializer.toJson<int>(targetValue),
       'currentValue': serializer.toJson<int>(currentValue),
-      'xpReward': serializer.toJson<int>(xpReward),
+      'wpReward': serializer.toJson<int>(wpReward),
       'isCompleted': serializer.toJson<bool>(isCompleted),
       'date': serializer.toJson<String>(date),
     };
@@ -2421,7 +2421,7 @@ class QuestEntity extends DataClass implements Insertable<QuestEntity> {
     QuestType? type,
     int? targetValue,
     int? currentValue,
-    int? xpReward,
+    int? wpReward,
     bool? isCompleted,
     String? date,
   }) => QuestEntity(
@@ -2431,7 +2431,7 @@ class QuestEntity extends DataClass implements Insertable<QuestEntity> {
     type: type ?? this.type,
     targetValue: targetValue ?? this.targetValue,
     currentValue: currentValue ?? this.currentValue,
-    xpReward: xpReward ?? this.xpReward,
+    wpReward: wpReward ?? this.wpReward,
     isCompleted: isCompleted ?? this.isCompleted,
     date: date ?? this.date,
   );
@@ -2449,7 +2449,7 @@ class QuestEntity extends DataClass implements Insertable<QuestEntity> {
       currentValue: data.currentValue.present
           ? data.currentValue.value
           : this.currentValue,
-      xpReward: data.xpReward.present ? data.xpReward.value : this.xpReward,
+      wpReward: data.wpReward.present ? data.wpReward.value : this.wpReward,
       isCompleted: data.isCompleted.present
           ? data.isCompleted.value
           : this.isCompleted,
@@ -2466,7 +2466,7 @@ class QuestEntity extends DataClass implements Insertable<QuestEntity> {
           ..write('type: $type, ')
           ..write('targetValue: $targetValue, ')
           ..write('currentValue: $currentValue, ')
-          ..write('xpReward: $xpReward, ')
+          ..write('wpReward: $wpReward, ')
           ..write('isCompleted: $isCompleted, ')
           ..write('date: $date')
           ..write(')'))
@@ -2481,7 +2481,7 @@ class QuestEntity extends DataClass implements Insertable<QuestEntity> {
     type,
     targetValue,
     currentValue,
-    xpReward,
+    wpReward,
     isCompleted,
     date,
   );
@@ -2495,7 +2495,7 @@ class QuestEntity extends DataClass implements Insertable<QuestEntity> {
           other.type == this.type &&
           other.targetValue == this.targetValue &&
           other.currentValue == this.currentValue &&
-          other.xpReward == this.xpReward &&
+          other.wpReward == this.wpReward &&
           other.isCompleted == this.isCompleted &&
           other.date == this.date);
 }
@@ -2507,7 +2507,7 @@ class QuestsCompanion extends UpdateCompanion<QuestEntity> {
   final Value<QuestType> type;
   final Value<int> targetValue;
   final Value<int> currentValue;
-  final Value<int> xpReward;
+  final Value<int> wpReward;
   final Value<bool> isCompleted;
   final Value<String> date;
   final Value<int> rowid;
@@ -2518,7 +2518,7 @@ class QuestsCompanion extends UpdateCompanion<QuestEntity> {
     this.type = const Value.absent(),
     this.targetValue = const Value.absent(),
     this.currentValue = const Value.absent(),
-    this.xpReward = const Value.absent(),
+    this.wpReward = const Value.absent(),
     this.isCompleted = const Value.absent(),
     this.date = const Value.absent(),
     this.rowid = const Value.absent(),
@@ -2530,7 +2530,7 @@ class QuestsCompanion extends UpdateCompanion<QuestEntity> {
     required QuestType type,
     required int targetValue,
     this.currentValue = const Value.absent(),
-    required int xpReward,
+    required int wpReward,
     this.isCompleted = const Value.absent(),
     required String date,
     this.rowid = const Value.absent(),
@@ -2539,7 +2539,7 @@ class QuestsCompanion extends UpdateCompanion<QuestEntity> {
        description = Value(description),
        type = Value(type),
        targetValue = Value(targetValue),
-       xpReward = Value(xpReward),
+       wpReward = Value(wpReward),
        date = Value(date);
   static Insertable<QuestEntity> custom({
     Expression<String>? id,
@@ -2548,7 +2548,7 @@ class QuestsCompanion extends UpdateCompanion<QuestEntity> {
     Expression<int>? type,
     Expression<int>? targetValue,
     Expression<int>? currentValue,
-    Expression<int>? xpReward,
+    Expression<int>? wpReward,
     Expression<bool>? isCompleted,
     Expression<String>? date,
     Expression<int>? rowid,
@@ -2560,7 +2560,7 @@ class QuestsCompanion extends UpdateCompanion<QuestEntity> {
       if (type != null) 'type': type,
       if (targetValue != null) 'target_value': targetValue,
       if (currentValue != null) 'current_value': currentValue,
-      if (xpReward != null) 'xp_reward': xpReward,
+      if (wpReward != null) 'wp_reward': wpReward,
       if (isCompleted != null) 'is_completed': isCompleted,
       if (date != null) 'date': date,
       if (rowid != null) 'rowid': rowid,
@@ -2574,7 +2574,7 @@ class QuestsCompanion extends UpdateCompanion<QuestEntity> {
     Value<QuestType>? type,
     Value<int>? targetValue,
     Value<int>? currentValue,
-    Value<int>? xpReward,
+    Value<int>? wpReward,
     Value<bool>? isCompleted,
     Value<String>? date,
     Value<int>? rowid,
@@ -2586,7 +2586,7 @@ class QuestsCompanion extends UpdateCompanion<QuestEntity> {
       type: type ?? this.type,
       targetValue: targetValue ?? this.targetValue,
       currentValue: currentValue ?? this.currentValue,
-      xpReward: xpReward ?? this.xpReward,
+      wpReward: wpReward ?? this.wpReward,
       isCompleted: isCompleted ?? this.isCompleted,
       date: date ?? this.date,
       rowid: rowid ?? this.rowid,
@@ -2616,8 +2616,8 @@ class QuestsCompanion extends UpdateCompanion<QuestEntity> {
     if (currentValue.present) {
       map['current_value'] = Variable<int>(currentValue.value);
     }
-    if (xpReward.present) {
-      map['xp_reward'] = Variable<int>(xpReward.value);
+    if (wpReward.present) {
+      map['wp_reward'] = Variable<int>(wpReward.value);
     }
     if (isCompleted.present) {
       map['is_completed'] = Variable<bool>(isCompleted.value);
@@ -2640,7 +2640,7 @@ class QuestsCompanion extends UpdateCompanion<QuestEntity> {
           ..write('type: $type, ')
           ..write('targetValue: $targetValue, ')
           ..write('currentValue: $currentValue, ')
-          ..write('xpReward: $xpReward, ')
+          ..write('wpReward: $wpReward, ')
           ..write('isCompleted: $isCompleted, ')
           ..write('date: $date, ')
           ..write('rowid: $rowid')
@@ -5160,7 +5160,7 @@ typedef $$QuestsTableCreateCompanionBuilder =
       required QuestType type,
       required int targetValue,
       Value<int> currentValue,
-      required int xpReward,
+      required int wpReward,
       Value<bool> isCompleted,
       required String date,
       Value<int> rowid,
@@ -5173,7 +5173,7 @@ typedef $$QuestsTableUpdateCompanionBuilder =
       Value<QuestType> type,
       Value<int> targetValue,
       Value<int> currentValue,
-      Value<int> xpReward,
+      Value<int> wpReward,
       Value<bool> isCompleted,
       Value<String> date,
       Value<int> rowid,
@@ -5219,8 +5219,8 @@ class $$QuestsTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<int> get xpReward => $composableBuilder(
-    column: $table.xpReward,
+  ColumnFilters<int> get wpReward => $composableBuilder(
+    column: $table.wpReward,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -5274,8 +5274,8 @@ class $$QuestsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<int> get xpReward => $composableBuilder(
-    column: $table.xpReward,
+  ColumnOrderings<int> get wpReward => $composableBuilder(
+    column: $table.wpReward,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -5323,8 +5323,8 @@ class $$QuestsTableAnnotationComposer
     builder: (column) => column,
   );
 
-  GeneratedColumn<int> get xpReward =>
-      $composableBuilder(column: $table.xpReward, builder: (column) => column);
+  GeneratedColumn<int> get wpReward =>
+      $composableBuilder(column: $table.wpReward, builder: (column) => column);
 
   GeneratedColumn<bool> get isCompleted => $composableBuilder(
     column: $table.isCompleted,
@@ -5372,7 +5372,7 @@ class $$QuestsTableTableManager
                 Value<QuestType> type = const Value.absent(),
                 Value<int> targetValue = const Value.absent(),
                 Value<int> currentValue = const Value.absent(),
-                Value<int> xpReward = const Value.absent(),
+                Value<int> wpReward = const Value.absent(),
                 Value<bool> isCompleted = const Value.absent(),
                 Value<String> date = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
@@ -5383,7 +5383,7 @@ class $$QuestsTableTableManager
                 type: type,
                 targetValue: targetValue,
                 currentValue: currentValue,
-                xpReward: xpReward,
+                wpReward: wpReward,
                 isCompleted: isCompleted,
                 date: date,
                 rowid: rowid,
@@ -5396,7 +5396,7 @@ class $$QuestsTableTableManager
                 required QuestType type,
                 required int targetValue,
                 Value<int> currentValue = const Value.absent(),
-                required int xpReward,
+                required int wpReward,
                 Value<bool> isCompleted = const Value.absent(),
                 required String date,
                 Value<int> rowid = const Value.absent(),
@@ -5407,7 +5407,7 @@ class $$QuestsTableTableManager
                 type: type,
                 targetValue: targetValue,
                 currentValue: currentValue,
-                xpReward: xpReward,
+                wpReward: wpReward,
                 isCompleted: isCompleted,
                 date: date,
                 rowid: rowid,

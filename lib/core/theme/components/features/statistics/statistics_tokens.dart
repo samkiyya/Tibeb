@@ -9,7 +9,7 @@ class TibebStatisticsThemeTokens {
   final Color streak;
   final Color achievement;
   final Color goal;
-  final Color xp;
+  final Color wp;
 
   const TibebStatisticsThemeTokens({
     required this.charts,
@@ -18,7 +18,7 @@ class TibebStatisticsThemeTokens {
     required this.streak,
     required this.achievement,
     required this.goal,
-    required this.xp,
+    required this.wp,
   });
 
   factory TibebStatisticsThemeTokens.light(TibebColorSystem colors) {
@@ -29,7 +29,7 @@ class TibebStatisticsThemeTokens {
       streak: const Color(0xFFFF6B35),
       achievement: colors.primary,
       goal: colors.primary,
-      xp: colors.primary,
+      wp: colors.primary,
     );
   }
 
@@ -41,7 +41,7 @@ class TibebStatisticsThemeTokens {
       streak: const Color(0xFFFF6B35),
       achievement: colors.primary,
       goal: colors.primary,
-      xp: colors.primary,
+      wp: colors.primary,
     );
   }
 }

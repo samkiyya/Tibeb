@@ -114,7 +114,7 @@ class SettingsScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '${state.totalXP}',
+                      '${state.totalWP}',
                       style: TextStyle(
                         color: t.primary,
                         fontSize: 18,
@@ -122,7 +122,7 @@ class SettingsScreen extends ConsumerWidget {
                       ),
                     ),
                     Text(
-                      'TOTAL XP',
+                      'TOTAL WP',
                       style: TextStyle(
                         color: t.textTertiary,
                         fontSize: 10,

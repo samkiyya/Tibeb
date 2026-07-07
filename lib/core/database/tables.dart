@@ -62,7 +62,7 @@ class Quests extends Table {
   IntColumn get type => intEnum<QuestType>()();
   IntColumn get targetValue => integer()();
   IntColumn get currentValue => integer().withDefault(const Constant(0))();
-  IntColumn get xpReward => integer()();
+  IntColumn get wpReward => integer()();
   BoolColumn get isCompleted => boolean().withDefault(const Constant(false))();
   TextColumn get date => text()(); // yyyy-MM-dd
 

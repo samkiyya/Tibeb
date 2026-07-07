@@ -29,13 +29,13 @@ class QuestsDao extends DatabaseAccessor<AppDatabase> with _$QuestsDaoMixin {
     );
   }
 
-  Future<int> getTotalQuestXP() async {
+  Future<int> getTotalQuestWP() async {
     final query = selectOnly(quests)
-      ..addColumns([quests.xpReward.sum()])
+      ..addColumns([quests.wpReward.sum()])
       ..where(quests.isCompleted.equals(true));
 
     final result = await query
-        .map((row) => row.read(quests.xpReward.sum()))
+        .map((row) => row.read(quests.wpReward.sum()))
         .getSingleOrNull();
     return result ?? 0;
   }

@@ -54,21 +54,21 @@ class WeeklyGoalCard extends StatelessWidget {
               unit: 'minutes',
             ),
           ],
-          if (state.weeklyXPGoal > 0) ...[
+          if (state.weeklyWPGoal > 0) ...[
             if (state.weeklyPageGoal > 0 || state.weeklyMinuteGoal > 0)
               const SizedBox(height: 20),
             _buildGoalProgress(
               context: context,
               t: t,
               title: 'Experience',
-              current: state.weeklyXPRead.toDouble(),
-              goal: state.weeklyXPGoal,
-              unit: 'XP',
+              current: state.weeklyWPRead.toDouble(),
+              goal: state.weeklyWPGoal,
+              unit: 'WP',
             ),
           ],
           if (state.weeklyPageGoal == 0 &&
               state.weeklyMinuteGoal == 0 &&
-              state.weeklyXPGoal == 0)
+              state.weeklyWPGoal == 0)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: Center(

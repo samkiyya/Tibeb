@@ -172,7 +172,7 @@ extension QuestMapper on QuestEntity {
       type: type,
       targetValue: targetValue,
       currentValue: currentValue,
-      xpReward: xpReward,
+      wpReward: wpReward,
       isCompleted: isCompleted,
       date: DateTime.parse(date),
     );
@@ -188,7 +188,7 @@ extension QuestDomainMapper on DailyQuest {
       type: Value(type),
       targetValue: Value(targetValue),
       currentValue: Value(currentValue),
-      xpReward: Value(xpReward),
+      wpReward: Value(wpReward),
       isCompleted: Value(isCompleted),
       date: Value(date.toIso8601String().split('T')[0]),
     );

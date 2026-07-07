@@ -85,12 +85,12 @@ class DashboardHeader extends ConsumerWidget {
 
   Widget _buildXPProgressBar(BuildContext context, LibraryState state) {
     final t = context.tibpiColors;
-    final int currentXP = state.totalXP;
-    final int nextLevelXP = (state.level) * 1000;
-    final int currentLevelStartXP = (state.level - 1) * 1000;
+    final int currentWP = state.totalWP;
+    final int nextLevelWP = (state.level) * 1000;
+    final int currentLevelStartWP = (state.level - 1) * 1000;
     final double progress =
-        ((currentXP - currentLevelStartXP) /
-                (nextLevelXP - currentLevelStartXP))
+        ((currentWP - currentLevelStartWP) /
+                (nextLevelWP - currentLevelStartWP))
             .clamp(0.0, 1.0);
 
     return Column(
@@ -109,7 +109,7 @@ class DashboardHeader extends ConsumerWidget {
               ),
             ),
             Text(
-              '${currentXP % 1000} / 1000 XP',
+              '${currentWP % 1000} / 1000 WP',
               style: TextStyle(
                 color: t.textSecondary,
                 fontSize: 10,

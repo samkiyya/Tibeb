@@ -51,17 +51,17 @@ class LibraryState {
   final BookSortBy sortBy;
   final bool sortAscending;
   final int currentStreak;
-  final int totalXP;
+  final int totalWP;
   final int level;
   final int totalPagesRead;
   final int totalMinutesRead;
   final double weeklyPageGoal;
   final double weeklyMinuteGoal;
-  final double weeklyXPGoal;
+  final double weeklyWPGoal;
   final String weeklyGoalType; // Kept for backward compat with ActivityGraph
   final Map<String, int> dailyPages;
   final Map<String, int> dailyMinutes;
-  final Map<String, int> dailyXP;
+  final Map<String, int> dailyWP;
   final Set<String> unlockedAchievements;
   final List<ReadingSessionEntity> sessionHistory;
   final List<DailyQuest> dailyQuests;
@@ -91,18 +91,18 @@ class LibraryState {
     this.sortBy = BookSortBy.recent,
     this.sortAscending = false,
     this.currentStreak = 0,
-    this.totalXP = 0,
+    this.totalWP = 0,
     this.level = 1,
     this.lastCelebratedLevel = 1,
     this.totalPagesRead = 0,
     this.totalMinutesRead = 0,
     this.weeklyPageGoal = 100,
     this.weeklyMinuteGoal = 0,
-    this.weeklyXPGoal = 0,
+    this.weeklyWPGoal = 0,
     this.weeklyGoalType = 'pages',
     this.dailyPages = const {},
     this.dailyMinutes = const {},
-    this.dailyXP = const {},
+    this.dailyWP = const {},
     this.unlockedAchievements = const {},
     this.sessionHistory = const <ReadingSessionEntity>[],
     this.dailyQuests = const [],
@@ -118,13 +118,13 @@ class LibraryState {
   double get weeklyGoalValue {
     if (weeklyGoalType == 'pages') return weeklyPageGoal;
     if (weeklyGoalType == 'minutes') return weeklyMinuteGoal;
-    return weeklyXPGoal;
+    return weeklyWPGoal;
   }
 
   Map<String, int> get dailyReadingValues {
     if (weeklyGoalType == 'pages') return dailyPages;
     if (weeklyGoalType == 'minutes') return dailyMinutes;
-    return dailyXP;
+    return dailyWP;
   }
 
   List<int> get activityData {
@@ -161,7 +161,7 @@ class LibraryState {
 
   int get weeklyPagesRead => _sumForCurrentWeek(dailyPages);
   int get weeklyMinutesRead => _sumForCurrentWeek(dailyMinutes);
-  int get weeklyXPRead => _sumForCurrentWeek(dailyXP);
+  int get weeklyWPRead => _sumForCurrentWeek(dailyWP);
 
   bool get dailyGoalReached {
     final today = DateTime.now().toIso8601String().split('T')[0];
@@ -203,18 +203,18 @@ class LibraryState {
     BookSortBy? sortBy,
     bool? sortAscending,
     int? currentStreak,
-    int? totalXP,
+    int? totalWP,
     int? level,
     int? lastCelebratedLevel,
     int? totalPagesRead,
     int? totalMinutesRead,
     double? weeklyPageGoal,
     double? weeklyMinuteGoal,
-    double? weeklyXPGoal,
+    double? weeklyWPGoal,
     String? weeklyGoalType,
     Map<String, int>? dailyPages,
     Map<String, int>? dailyMinutes,
-    Map<String, int>? dailyXP,
+    Map<String, int>? dailyWP,
     Set<String>? unlockedAchievements,
     List<ReadingSessionEntity>? sessionHistory,
     List<DailyQuest>? dailyQuests,
@@ -242,18 +242,18 @@ class LibraryState {
       sortBy: sortBy ?? this.sortBy,
       sortAscending: sortAscending ?? this.sortAscending,
       currentStreak: currentStreak ?? this.currentStreak,
-      totalXP: totalXP ?? this.totalXP,
+      totalWP: totalWP ?? this.totalWP,
       level: level ?? this.level,
       lastCelebratedLevel: lastCelebratedLevel ?? this.lastCelebratedLevel,
       totalPagesRead: totalPagesRead ?? this.totalPagesRead,
       totalMinutesRead: totalMinutesRead ?? this.totalMinutesRead,
       weeklyPageGoal: weeklyPageGoal ?? this.weeklyPageGoal,
       weeklyMinuteGoal: weeklyMinuteGoal ?? this.weeklyMinuteGoal,
-      weeklyXPGoal: weeklyXPGoal ?? this.weeklyXPGoal,
+      weeklyWPGoal: weeklyWPGoal ?? this.weeklyWPGoal,
       weeklyGoalType: weeklyGoalType ?? this.weeklyGoalType,
       dailyPages: dailyPages ?? this.dailyPages,
       dailyMinutes: dailyMinutes ?? this.dailyMinutes,
-      dailyXP: dailyXP ?? this.dailyXP,
+      dailyWP: dailyWP ?? this.dailyWP,
       unlockedAchievements: unlockedAchievements ?? this.unlockedAchievements,
       sessionHistory: sessionHistory ?? this.sessionHistory,
       dailyQuests: dailyQuests ?? this.dailyQuests,
@@ -358,7 +358,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
     final prefs = await SharedPreferences.getInstance();
     final pageGoal = prefs.getDouble('weeklyPageGoal');
     final minuteGoal = prefs.getDouble('weeklyMinuteGoal') ?? 0.0;
-    final xpGoal = prefs.getDouble('weeklyXPGoal') ?? 0.0;
+    final wpGoal = prefs.getDouble('weeklyWPGoal') ?? 0.0;
 
     final notificationsEnabled = prefs.getBool('notificationsEnabled') ?? true;
     final reminderHour = prefs.getInt('reminderHour') ?? 20;
@@ -387,7 +387,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
     state = state.copyWith(
       weeklyPageGoal: finalPageGoal,
       weeklyMinuteGoal: minuteGoal,
-      weeklyXPGoal: xpGoal,
+      weeklyWPGoal: wpGoal,
       weeklyGoalType: finalType,
       lastCelebratedLevel: celebrated,
       notificationsEnabled: notificationsEnabled,
@@ -446,12 +446,12 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
     try {
       final books = await _db.getBooks();
       final sessions = await _db.getReadingSessions();
-      final questXp = await _db.getTotalQuestXP();
+      final questWp = await _db.getTotalQuestWP();
       final lookupCount = await _db.getDictionaryLookupCount();
 
       final streak = _calculateStreak(sessions);
       final activity = _calculateDetailedActivity(sessions, books);
-      final stats = _calculateStats(sessions, books, questXp, lookupCount);
+      final stats = _calculateStats(sessions, books, questWp, lookupCount);
       final visibleBooks = books.where((b) => !b.isDeleted).toList();
 
       state = state.copyWith(
@@ -462,8 +462,8 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
         isStreakActiveToday: _isStreakActiveToday(sessions),
         dailyPages: activity.pages,
         dailyMinutes: activity.minutes,
-        dailyXP: activity.xp,
-        totalXP: stats.xp,
+        dailyWP: activity.wp,
+        totalWP: stats.wp,
         level: stats.level,
         totalPagesRead: stats.totalPages,
         totalMinutesRead: stats.totalMinutes,
@@ -513,7 +513,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
         description: 'Read 5 pages today.',
         type: QuestType.pages,
         targetValue: 5,
-        xpReward: 100 * multiplier,
+        wpReward: 100 * multiplier,
         date: date,
       ),
       DailyQuest(
@@ -522,7 +522,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
         description: 'Read for 15 minutes.',
         type: QuestType.minutes,
         targetValue: 15,
-        xpReward: 150 * multiplier,
+        wpReward: 150 * multiplier,
         date: date,
       ),
       DailyQuest(
@@ -531,7 +531,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
         description: 'Read before 9:00 AM.',
         type: QuestType.earlyBird,
         targetValue: 1,
-        xpReward: 200 * multiplier,
+        wpReward: 200 * multiplier,
         date: date,
       ),
     ];
@@ -540,7 +540,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
   _UserStats _calculateStats(
     List<ReadingSessionEntity> sessions,
     List<Book> books,
-    int questXp,
+    int questWp,
     int lookupCount,
   ) {
     int totalPages = 0;
@@ -553,10 +553,10 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
     final finishedBooks = books.where((b) => b.progress >= 0.99).length;
     final streak = _calculateStreak(sessions);
 
-    // XP calculation:
+    // WP calculation:
     // PDF: 10 per page, 5 per minute
     // EPUB: 40 per chapter (since epubs "pages" are chapters), 5 per minute
-    int xp = 0;
+    int wp = 0;
     for (var s in sessions) {
       final pg = s.pagesRead;
       final m = s.durationMinutes;
@@ -572,14 +572,14 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
           sessionTimestamp.weekday == DateTime.sunday) {
         multiplier = 2.0;
       }
-      xp += ((pg * 10 + m * 5) * multiplier).round();
+      wp += ((pg * 10 + m * 5) * multiplier).round();
     }
 
-    // Add Quest XP from historical database
-    xp += questXp;
+    // Add Quest WP from historical database
+    wp += questWp;
 
-    // Level calculation: 1 level per 1000 XP
-    int level = (xp ~/ 1000) + 1;
+    // Level calculation: 1 level per 1000 WP
+    int level = (wp ~/ 1000) + 1;
     if (level > 99) level = 99;
 
     // Achievements check
@@ -625,7 +625,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
     if (lookupCount >= 100) achievements.add('polyglot');
 
     return _UserStats(
-      xp: xp,
+      wp: wp,
       level: level,
       totalPages: totalPages,
       totalMinutes: totalMinutes,
@@ -676,7 +676,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
   ) {
     final pages = <String, int>{};
     final minutes = <String, int>{};
-    final xpMap = <String, int>{};
+    final wpMap = <String, int>{};
 
     for (var session in sessions) {
       final date = session.date;
@@ -698,21 +698,21 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
       final pg = session.pagesRead;
       final m = session.durationMinutes;
 
-      final xp = isEpub ? (pg * 40) + (m * 5) : (pg * 10) + (m * 5);
+      final wp = isEpub ? (pg * 40) + (m * 5) : (pg * 10) + (m * 5);
 
       pages[date] = (pages[date] ?? 0) + pg;
       minutes[date] = (minutes[date] ?? 0) + m;
-      xpMap[date] = (xpMap[date] ?? 0) + xp;
+      wpMap[date] = (wpMap[date] ?? 0) + wp;
     }
 
-    return _DetailedActivityData(pages: pages, minutes: minutes, xp: xpMap);
+    return _DetailedActivityData(pages: pages, minutes: minutes, wp: wpMap);
   }
 
   // Helper getters for backward compat on graph if needed
   Map<String, int> get dailyReadingValues {
     if (state.weeklyGoalType == 'pages') return state.dailyPages;
     if (state.weeklyGoalType == 'minutes') return state.dailyMinutes;
-    return state.dailyXP;
+    return state.dailyWP;
   }
 
   void setSearchQuery(String query) {
@@ -1015,7 +1015,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
 
     // Refresh stats
     final sessions = await _db.getReadingSessions();
-    final questXp = await _db.getTotalQuestXP();
+    final questXp = await _db.getTotalQuestWP();
     final lookupCount = await _db.getDictionaryLookupCount();
 
     final activity = _calculateDetailedActivity(sessions, state.allBooks);
@@ -1051,8 +1051,8 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
       currentStreak: _calculateStreak(sessions),
       dailyPages: activity.pages,
       dailyMinutes: activity.minutes,
-      dailyXP: activity.xp,
-      totalXP: stats.xp,
+      dailyWP: activity.wp,
+      totalWP: stats.wp,
       level: stats.level,
       totalPagesRead: stats.totalPages,
       totalMinutesRead: stats.totalMinutes,
@@ -1184,25 +1184,25 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
             NotificationService().showNotification(
               id: q.id.hashCode,
               title: 'Quest Completed!',
-              body: 'You completed: ${q.title}. +${q.xpReward} XP earned!',
+              body: 'You completed: ${q.title}. +${q.wpReward} WP earned!',
             );
           } else {
             _queueNotification(
               id: q.id.hashCode,
               title: 'Quest Completed!',
-              body: 'You completed: ${q.title}. +${q.xpReward} XP earned!',
+              body: 'You completed: ${q.title}. +${q.wpReward} WP earned!',
             );
           }
         }
       }
 
       final sessions = await _db.getReadingSessions();
-      final questXp = await _db.getTotalQuestXP();
+      final questWp = await _db.getTotalQuestWP();
       final lookupCount = await _db.getDictionaryLookupCount();
       final stats = _calculateStats(
         sessions,
         state.allBooks,
-        questXp,
+        questWp,
         lookupCount,
       );
 
@@ -1248,7 +1248,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
         }
       }
 
-      state = state.copyWith(totalXP: stats.xp, level: stats.level);
+      state = state.copyWith(totalWP: stats.wp, level: stats.level);
     }
   }
 
@@ -1290,25 +1290,25 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
   Future<void> updateWeeklyGoals({
     double? pages,
     double? minutes,
-    double? xp,
+    double? wp,
     String? activeType,
   }) async {
     final prefs = await SharedPreferences.getInstance();
 
     final newPages = pages ?? state.weeklyPageGoal;
     final newMinutes = minutes ?? state.weeklyMinuteGoal;
-    final newXP = xp ?? state.weeklyXPGoal;
+    final newWP = wp ?? state.weeklyWPGoal;
     final newType = activeType ?? state.weeklyGoalType;
 
     if (pages != null) await prefs.setDouble('weeklyPageGoal', pages);
     if (minutes != null) await prefs.setDouble('weeklyMinuteGoal', minutes);
-    if (xp != null) await prefs.setDouble('weeklyXPGoal', xp);
+    if (wp != null) await prefs.setDouble('weeklyWPGoal', wp);
     if (activeType != null) await prefs.setString('weeklyGoalType', activeType);
 
     state = state.copyWith(
       weeklyPageGoal: newPages,
       weeklyMinuteGoal: newMinutes,
-      weeklyXPGoal: newXP,
+      weeklyWPGoal: newWP,
       weeklyGoalType: newType,
     );
 
@@ -1319,7 +1319,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
     state = state.copyWith(
       dailyPages: activity.pages,
       dailyMinutes: activity.minutes,
-      dailyXP: activity.xp,
+      dailyWP: activity.wp,
     );
   }
 
@@ -1489,14 +1489,14 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
 }
 
 class _UserStats {
-  final int xp;
+  final int wp;
   final int level;
   final int totalPages;
   final int totalMinutes;
   final Set<String> achievements;
 
   _UserStats({
-    required this.xp,
+    required this.wp,
     required this.level,
     required this.totalPages,
     required this.totalMinutes,
@@ -1507,11 +1507,11 @@ class _UserStats {
 class _DetailedActivityData {
   final Map<String, int> pages;
   final Map<String, int> minutes;
-  final Map<String, int> xp;
+  final Map<String, int> wp;
 
   _DetailedActivityData({
     required this.pages,
     required this.minutes,
-    required this.xp,
+    required this.wp,
   });
 }

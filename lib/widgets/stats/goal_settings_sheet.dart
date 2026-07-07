@@ -15,12 +15,12 @@ class GoalSettingsSheet extends ConsumerStatefulWidget {
 class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
   late double _pagesValue;
   late double _minutesValue;
-  late double _xpValue;
+  late double _wpValue;
   late String _activeType;
 
   late TextEditingController _pagesController;
   late TextEditingController _minutesController;
-  late TextEditingController _xpController;
+  late TextEditingController _wpController;
 
   @override
   void initState() {
@@ -28,7 +28,7 @@ class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
     final state = ref.read(libraryProvider);
     _pagesValue = state.weeklyPageGoal;
     _minutesValue = state.weeklyMinuteGoal;
-    _xpValue = state.weeklyXPGoal;
+    _wpValue = state.weeklyWPGoal;
     _activeType = state.weeklyGoalType;
 
     _pagesController = TextEditingController(
@@ -37,14 +37,14 @@ class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
     _minutesController = TextEditingController(
       text: _minutesValue.toInt().toString(),
     );
-    _xpController = TextEditingController(text: _xpValue.toInt().toString());
+    _wpController = TextEditingController(text: _wpValue.toInt().toString());
   }
 
   @override
   void dispose() {
     _pagesController.dispose();
     _minutesController.dispose();
-    _xpController.dispose();
+    _wpController.dispose();
     super.dispose();
   }
 
@@ -62,10 +62,10 @@ class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
     });
   }
 
-  void _updateXP(double newValue) {
+  void _updateWP(double newValue) {
     setState(() {
-      _xpValue = newValue.clamp(0, 10000);
-      _xpController.text = _xpValue.toInt().toString();
+      _wpValue = newValue.clamp(0, 10000);
+      _wpController.text = _wpValue.toInt().toString();
     });
   }
 
@@ -128,15 +128,15 @@ class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
               const SizedBox(height: 20),
               _buildGoalInput(
                 t: t,
-                title: 'XP Goal',
-                unit: 'XP',
-                controller: _xpController,
-                value: _xpValue,
-                isActive: _activeType == 'xp',
-                onChanged: (val) => _xpValue = val,
-                onDecrement: () => _updateXP(_xpValue - 100),
-                onIncrement: () => _updateXP(_xpValue + 100),
-                onSelect: () => setState(() => _activeType = 'xp'),
+                title: 'WP Goal',
+                unit: 'WP',
+                controller: _wpController,
+                value: _wpValue,
+                isActive: _activeType == 'wp',
+                onChanged: (val) => _wpValue = val,
+                onDecrement: () => _updateWP(_wpValue - 100),
+                onIncrement: () => _updateWP(_wpValue + 100),
+                onSelect: () => setState(() => _activeType = 'wp'),
               ),
 
               const SizedBox(height: 32),
@@ -150,7 +150,7 @@ class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
                         .updateWeeklyGoals(
                           pages: _pagesValue,
                           minutes: _minutesValue,
-                          xp: _xpValue,
+                          wp: _wpValue,
                           activeType: _activeType,
                         );
                     Navigator.pop(context);

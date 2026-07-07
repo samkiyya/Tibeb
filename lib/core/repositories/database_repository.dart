@@ -40,7 +40,7 @@ abstract class DatabaseRepository {
     int currentValue,
     bool isCompleted,
   );
-  Future<int> getTotalQuestXP();
+  Future<int> getTotalQuestWP();
 
   // Highlights operations
   Stream<List<Highlight>> watchHighlightsForBook(int bookId);
@@ -174,8 +174,8 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
-  Future<int> getTotalQuestXP() {
-    return _db.questsDao.getTotalQuestXP();
+  Future<int> getTotalQuestWP() {
+    return _db.questsDao.getTotalQuestWP();
   }
 
   // Highlights

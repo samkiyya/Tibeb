@@ -7,7 +7,7 @@ class DailyQuest {
   final QuestType type;
   final int targetValue;
   final int currentValue;
-  final int xpReward;
+  final int wpReward;
   final bool isCompleted;
   final DateTime date;
 
@@ -18,7 +18,7 @@ class DailyQuest {
     required this.type,
     required this.targetValue,
     this.currentValue = 0,
-    required this.xpReward,
+    required this.wpReward,
     this.isCompleted = false,
     required this.date,
   });
@@ -32,7 +32,7 @@ class DailyQuest {
     QuestType? type,
     int? targetValue,
     int? currentValue,
-    int? xpReward,
+    int? wpReward,
     bool? isCompleted,
     DateTime? date,
   }) {
@@ -43,7 +43,7 @@ class DailyQuest {
       type: type ?? this.type,
       targetValue: targetValue ?? this.targetValue,
       currentValue: currentValue ?? this.currentValue,
-      xpReward: xpReward ?? this.xpReward,
+      wpReward: wpReward ?? this.wpReward,
       isCompleted: isCompleted ?? this.isCompleted,
       date: date ?? this.date,
     );
@@ -57,7 +57,7 @@ class DailyQuest {
       'type': type.index,
       'targetValue': targetValue,
       'currentValue': currentValue,
-      'xpReward': xpReward,
+      'wpReward': wpReward,
       'isCompleted': isCompleted ? 1 : 0,
       'date': date.toIso8601String().split('T')[0],
     };
@@ -71,7 +71,7 @@ class DailyQuest {
       type: QuestType.values[map['type']],
       targetValue: map['targetValue'],
       currentValue: map['currentValue'],
-      xpReward: map['xpReward'],
+      wpReward: map['wpReward'],
       isCompleted: map['isCompleted'] == 1,
       date: DateTime.parse(map['date']),
     );

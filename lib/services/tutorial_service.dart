@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class TutorialService {
-  static const String FIRST_LAUNCH_KEY = 'is_first_launch';
+  static const String firstLaunchKey = 'is_first_launch';
 
   final GlobalKey homeKey = GlobalKey();
   final GlobalKey libraryKey = GlobalKey();
@@ -20,7 +20,7 @@ class TutorialService {
     required bool Function() mountedChecker,
   }) async {
     final prefs = await SharedPreferences.getInstance();
-    final isFirstLaunch = prefs.getBool(FIRST_LAUNCH_KEY) ?? true;
+    final isFirstLaunch = prefs.getBool(firstLaunchKey) ?? true;
 
     if (isFirstLaunch && mountedChecker()) {
       Future.delayed(const Duration(milliseconds: 500), () {
@@ -95,7 +95,7 @@ class TutorialService {
 
   bool _markTutorialComplete() {
     SharedPreferences.getInstance().then((prefs) {
-      prefs.setBool(FIRST_LAUNCH_KEY, false);
+      prefs.setBool(firstLaunchKey, false);
     });
     return true;
   }

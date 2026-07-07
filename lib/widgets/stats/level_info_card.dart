@@ -80,7 +80,7 @@ class LevelInfoCard extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(4),
                     child: LinearProgressIndicator(
-                      value: (state.totalXP % 1000) / 1000,
+                      value: (state.totalWP % 1000) / 1000,
                       backgroundColor: t.borderSubtle,
                       valueColor: AlwaysStoppedAnimation<Color>(t.primary),
                       minHeight: 6,
@@ -91,7 +91,7 @@ class LevelInfoCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '${state.totalXP % 1000} / 1000 XP',
+                        '${state.totalWP % 1000} / 1000 WP',
                         style: TextStyle(
                           color: t.textSecondary,
                           fontSize: 10,
@@ -99,7 +99,7 @@ class LevelInfoCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '${1000 - (state.totalXP % 1000)} XP to level up',
+                        '${1000 - (state.totalWP % 1000)} WP to level up',
                         style: TextStyle(
                           color: t.primary.withValues(alpha: 0.6),
                           fontSize: 10,
