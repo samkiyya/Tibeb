@@ -1,5 +1,6 @@
 import 'dart:io' as io;
 import 'dart:async';
+import 'package:tibeb/widgets/reading/track_list_sheet.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart';
@@ -14,21 +15,10 @@ import '../providers/reader_settings_provider.dart';
 import '../models/book_model.dart';
 import '../models/reader_settings_model.dart';
 import '../models/search_result_model.dart';
-import 'package:battery_plus/battery_plus.dart';
-
-import '../widgets/reading/reading_header.dart';
-import '../widgets/reading/reading_search_overlay.dart';
-import '../widgets/reading/reading_audio_section.dart';
-import '../widgets/reading/play_pause_button.dart';
-import '../widgets/reading/reading_bottom_controls.dart';
 import '../widgets/reading/navigation_sheet.dart';
 import '../widgets/reading/epub_view.dart';
 import '../widgets/reading/pdf_view.dart';
 import '../widgets/reading/reading_footer.dart';
-import '../widgets/reading/track_list_sheet.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
-import '../widgets/tutorial_coach.dart';
 import '../providers/database_providers.dart';
 
 import 'reading/audio_controller.dart';
@@ -36,6 +26,9 @@ import 'reading/progress_controller.dart';
 import 'reading/search_controller.dart';
 import 'reading/bookmark_controller.dart';
 import 'reading/export_helper.dart';
+import 'reading/battery_controller.dart';
+import 'reading/reading_tutorial_helper.dart';
+import '../widgets/reading/reading_controls_overlay.dart';
 
 class ReadingScreen extends ConsumerStatefulWidget {
   const ReadingScreen({super.key});
@@ -103,9 +96,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
   Duration _lastPdfElapsed = Duration.zero;
 
   // ── Battery ─────────────────────────────────────────────────────────────
-  int _batteryLevel = 100;
-  final Battery _battery = Battery();
-  StreamSubscription<BatteryState>? _batterySubscription;
+  final BatteryController _battery = BatteryController();
 
   // ── Tutorial keys ───────────────────────────────────────────────────────
   final GlobalKey _audioKey = GlobalKey();
@@ -133,8 +124,10 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
     });
 
     // Battery
-    _getInitialBattery();
-    _startBatterySubscription();
+    _battery.init();
+    _battery.onBatteryChanged = () {
+      if (mounted) setState(() {});
+    };
 
     // Clock
     _updateTime();
@@ -192,10 +185,22 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
     });
     _autoScrollSpeedNotifier.addListener(_handleGlobalSpeedChange);
 
-    _checkFirstLaunch();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadBookmarks();
       ref.read(libraryProvider.notifier).setReadingActive(true);
+      final book = ref.read(currentlyReadingProvider);
+      if (book != null) {
+        ReadingTutorialHelper.checkAndShow(
+          context: context,
+          isPdf: book.filePath.toLowerCase().endsWith('.pdf'),
+          tocKey: _tocKey,
+          searchKey: _searchKey,
+          lockKey: _lockKey,
+          audioKey: _audioKey,
+          autoScrollKey: _autoScrollKey,
+          displaySettingsKey: _displaySettingsKey,
+        );
+      }
     });
   }
 
@@ -216,7 +221,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
     _epubController?.dispose();
     _pageController?.dispose();
     _currentTimeTimer?.cancel();
-    _batterySubscription?.cancel();
+    _battery.dispose();
     _pullDistanceNotifier.dispose();
     _isPullingDownNotifier.dispose();
     _scrollProgressNotifier.dispose();
@@ -353,25 +358,9 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
     return flattened;
   }
 
-  // ═══════════════════════════════════════════════════════════════════════
-  // BATTERY
-  // ═══════════════════════════════════════════════════════════════════════
 
-  Future<void> _getInitialBattery() async {
-    try {
-      final level = await _battery.batteryLevel;
-      if (mounted) setState(() => _batteryLevel = level);
-    } catch (e) {
-      debugPrint('Error getting battery level: $e');
-    }
-  }
 
-  void _startBatterySubscription() {
-    _batterySubscription = _battery.onBatteryStateChanged.listen((state) async {
-      final level = await _battery.batteryLevel;
-      if (mounted) setState(() => _batteryLevel = level);
-    });
-  }
+
 
   // ═══════════════════════════════════════════════════════════════════════
   // UI CONTROLS
@@ -847,106 +836,9 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
     }
   }
 
-  // ═══════════════════════════════════════════════════════════════════════
-  // TUTORIAL
-  // ═══════════════════════════════════════════════════════════════════════
 
-  Future<void> _checkFirstLaunch() async {
-    final prefs = await SharedPreferences.getInstance();
-    final isMainFirstLaunch = prefs.getBool('is_first_launch') ?? true;
-    if (isMainFirstLaunch) return;
-    final isFirstLaunch = prefs.getBool('is_first_launch_reading') ?? true;
-    if (isFirstLaunch && mounted) {
-      Future.delayed(const Duration(milliseconds: 500), () {
-        if (mounted) _showTutorial();
-      });
-    }
-  }
 
-  void _showTutorial() {
-    final book = ref.read(currentlyReadingProvider);
-    if (book == null) return;
-    final isPdf = book.filePath.toLowerCase().endsWith('.pdf');
 
-    final targets = <TargetFocus>[
-      TutorialHelper.createTarget(
-        identify: "toc_target",
-        keyTarget: _tocKey,
-        alignSkip: Alignment.topRight,
-        title: "Navigation",
-        description:
-            "Access the Table of Contents, outlines, and your bookmarks.",
-        contentAlign: ContentAlign.top,
-      ),
-      TutorialHelper.createTarget(
-        identify: "search_target",
-        keyTarget: _searchKey,
-        alignSkip: Alignment.bottomLeft,
-        title: "Search",
-        description: "Find specific phrases or words quickly within the book.",
-        contentAlign: ContentAlign.bottom,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        textAlign: TextAlign.right,
-      ),
-      if (isPdf)
-        TutorialHelper.createTarget(
-          identify: "lock_target",
-          keyTarget: _lockKey,
-          alignSkip: Alignment.bottomRight,
-          title: "Scroll Lock",
-          description:
-              "Lock the PDF to horizontal scrolling, vertical scrolling, or lock the zoom level.",
-          contentAlign: ContentAlign.bottom,
-        ),
-      TutorialHelper.createTarget(
-        identify: "audio_target",
-        keyTarget: _audioKey,
-        alignSkip: Alignment.topRight,
-        title: "Immersive Audio",
-        description:
-            "Tap the + icon to attach an audiobook file. If one is attached, tap here to open the audio controls.",
-        contentAlign: ContentAlign.top,
-      ),
-      TutorialHelper.createTarget(
-        identify: "autoscroll_target",
-        keyTarget: _autoScrollKey,
-        alignSkip: Alignment.topLeft,
-        title: "Auto-Scroll",
-        description:
-            "Sit back and let the app scroll for you. Adjust the speed in the settings.",
-        contentAlign: ContentAlign.top,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        textAlign: TextAlign.right,
-      ),
-      TutorialHelper.createTarget(
-        identify: "display_target",
-        keyTarget: _displaySettingsKey,
-        alignSkip: Alignment.topLeft,
-        title: "Display Settings",
-        description:
-            "Customize fonts, themes, margins, and more to suit your reading style.",
-        contentAlign: ContentAlign.top,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        textAlign: TextAlign.right,
-      ),
-    ];
-
-    TutorialHelper.showTutorial(
-      context: context,
-      targets: targets,
-      onFinish: () {
-        SharedPreferences.getInstance().then((prefs) {
-          prefs.setBool('is_first_launch_reading', false);
-        });
-      },
-      onSkip: () {
-        SharedPreferences.getInstance().then((prefs) {
-          prefs.setBool('is_first_launch_reading', false);
-        });
-        return true;
-      },
-    );
-  }
 
   // ═══════════════════════════════════════════════════════════════════════
   // NAVIGATION SHEET
@@ -1259,7 +1151,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
                     settings: settings,
                     currentTime: currentTime,
                     currentChapter: _currentChapter,
-                    batteryLevel: _batteryLevel,
+                    batteryLevel: _battery.batteryLevel,
                     scrollProgressNotifier: _scrollProgressNotifier,
                     totalChapters: _chapters.length,
                     currentChapterIndex: _currentChapterIndex,
@@ -1395,196 +1287,91 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
     Book book,
     ReaderSettings settings,
   ) {
-    final isEpub = book.filePath.toLowerCase().endsWith('.epub');
-    final currentTracks = _audio.effectiveTracks(book);
-
-    return ValueListenableBuilder<bool>(
-      valueListenable: _showControlsNotifier,
-      builder: (context, showControls, _) {
-        return Stack(
-          children: [
-            AnimatedPositioned(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeOutCubic,
-              top: showControls ? 0 : -200,
-              left: 0,
-              right: 0,
-              child: ValueListenableBuilder<String>(
-                valueListenable: _currentTimeNotifier,
-                builder: (context, currentTime, _) {
-                  return ReadingHeader(
-                    searchKey: _searchKey,
-                    lockKey: _lockKey,
-                    book: book,
-                    settings: settings,
-                    currentChapter: _currentChapter,
-                    pageInfo: isEpub
-                        ? ValueListenableBuilder<double>(
-                            valueListenable: _scrollProgressNotifier,
-                            builder: (context, scrollProgress, _) {
-                              final displayProgress = _currentProgress(book);
-                              return Text(
-                                '${(displayProgress * 100).toStringAsFixed(0)}%',
-                                style: TextStyle(
-                                  color: settings.textColor,
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              );
-                            },
-                          )
-                        : Text(
-                            '${_pdfCurrentPage + 1} / $_pdfPages',
-                            style: TextStyle(
-                              color: settings.textColor,
-                              fontSize: 11,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                    isSearching: _isSearching,
-                    isSearchLoading: _isSearchLoading,
-                    isSearchResultsCollapsed: _isSearchResultsCollapsed,
-                    searchResultsCount: _searchResults.length,
-                    searchController: _search.textController,
-                    searchFocusNode: _search.focusNode,
-                    onBackPressed: () {
-                      _syncFinalProgress(book);
-                      Navigator.of(context).pop();
-                    },
-                    onToggleSearch: () {
-                      _isSearching = true;
-                      _setControlsVisibility(true);
-                      setState(() {});
-                      _search.focusNode.requestFocus();
-                    },
-                    onClearSearch: () {
-                      setState(() {
-                        _isSearching = false;
-                        _search.textController.clear();
-                        _searchResults = [];
-                        _activeSearchQuery = null;
-                      });
-                    },
-                    onSearchSubmitted: (value) => _handleSearch(value, book),
-                    onToggleSearchResultsCollapse: () => setState(
-                      () => _isSearchResultsCollapsed =
-                          !_isSearchResultsCollapsed,
-                    ),
-                    onToggleLock: _toggleLock,
-                    searchResultsOverlay: ReadingSearchOverlay(
-                      book: book,
-                      settings: settings,
-                      searchResults: _searchResults,
-                      onResultTap: (result) => _goToSearchResult(result, book),
-                    ),
-                  );
-                },
-              ),
-            ),
-            AnimatedPositioned(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeOutCubic,
-              bottom: showControls ? 0 : -800,
-              left: 0,
-              right: 0,
-              child: ReadingBottomControls(
-                tocKey: _tocKey,
-                audioKey: _audioKey,
-                autoScrollKey: _autoScrollKey,
-                displaySettingsKey: _displaySettingsKey,
-                book: book,
-                settings: settings,
-                isAudioControlsExpanded: _audio.isLoaded
-                    ? (_audio.isLoading ? false : true)
-                    : false,
-                isNavigationSheetOpen: _isNavigationSheetOpen,
-                isAutoScrolling: _isAutoScrolling,
-                isBookmarked:
-                    _bookmarks.getCurrentBookmark(
-                      book: book,
-                      currentChapterIndex: _currentChapterIndex,
-                      scrollProgress: _scrollProgressNotifier.value,
-                      isPdfReady: _isPdfReady,
-                      pdfCurrentPage: _pdfCurrentPage,
-                    ) !=
-                    null,
-                playbackSpeed: _audio.playbackSpeed,
-                isOrientationLandscape: _isOrientationLandscape,
-                audioSection: ReadingAudioSection(
-                  settings: settings,
-                  isLoading: _audio.isLoading,
-                  positionNotifier: _audio.positionNotifier,
-                  durationNotifier: _audio.durationNotifier,
-                  currentIndexNotifier: _audio.indexNotifier,
-                  audioTracks: currentTracks,
-                  isDraggingSlider: _audio.isDraggingSlider,
-                  sliderDragValue: _audio.sliderDragValue,
-                  onChangeStart: (value) {
-                    setState(() {
-                      _audio.isDraggingSlider = true;
-                      _audio.sliderDragValue = value;
-                    });
-                  },
-                  onChanged: (value) {
-                    setState(() {
-                      _audio.sliderDragValue = value;
-                    });
-                    _audio.positionNotifier.value = Duration(
-                      milliseconds: value.toInt(),
-                    );
-                  },
-                  onChangeEnd: (value) async {
-                    await _audio.player.seek(
-                      Duration(milliseconds: value.toInt()),
-                    );
-                    setState(() => _audio.isDraggingSlider = false);
-                  },
-                  formatDuration: _audio.formatDuration,
-                  isOrientationLandscape: _isOrientationLandscape,
-                ),
-                playPauseButton: PlayPauseButton(
-                  isPlayingNotifier: _audio.isPlayingNotifier,
-                  onTap: _audio.togglePlayPause,
-                ),
-                onToggleAudioControls: () => setState(() {}),
-                onPickAudio: () => _audio.pickAndAdd(context, book, ref),
-                onShowNavigationSheet: () =>
-                    _showNavigationSheet(book: book, settings: settings),
-                onToggleBookmark: () => _toggleBookmark(book),
-                onToggleAutoScroll: () {
-                  setState(() {
-                    _isAutoScrolling = !_isAutoScrolling;
-                    final activeSpeed = settings.autoScrollSpeed < 0.5
-                        ? 2.0
-                        : settings.autoScrollSpeed;
-                    _autoScrollSpeedNotifier.value = _isAutoScrolling
-                        ? activeSpeed
-                        : 0.0;
-                  });
-                },
-                onToggleOrientation: _toggleOrientation,
-                onShowDisplaySettings: () => showDisplaySettingsSheet(context),
-                onIncrementPlaybackSpeed: () {
-                  setState(() => _audio.incrementPlaybackSpeed());
-                },
-                onSkip: _audio.skip,
-                onNextTrack: _audio.player.hasNext
-                    ? () => _audio.player.seekToNext()
-                    : null,
-                onPrevTrack: _audio.player.hasPrevious
-                    ? () => _audio.player.seekToPrevious()
-                    : null,
-                onShowTrackList: () => showTrackListSheet(
-                  context: context,
-                  settings: settings,
-                  audio: _audio,
-                  ref: ref,
-                ),
-              ),
-            ),
-          ],
-        );
+    return ReadingControlsOverlay(
+      book: book,
+      settings: settings,
+      audio: _audio,
+      bookmarks: _bookmarks,
+      search: _search,
+      showControlsNotifier: _showControlsNotifier,
+      currentTimeNotifier: _currentTimeNotifier,
+      scrollProgressNotifier: _scrollProgressNotifier,
+      autoScrollSpeedNotifier: _autoScrollSpeedNotifier,
+      isSearching: _isSearching,
+      isSearchLoading: _isSearchLoading,
+      isSearchResultsCollapsed: _isSearchResultsCollapsed,
+      searchResults: _searchResults,
+      currentChapter: _currentChapter,
+      currentChapterIndex: _currentChapterIndex,
+      pdfCurrentPage: _pdfCurrentPage,
+      pdfPages: _pdfPages,
+      isPdfReady: _isPdfReady,
+      isNavigationSheetOpen: _isNavigationSheetOpen,
+      isAutoScrolling: _isAutoScrolling,
+      isOrientationLandscape: _isOrientationLandscape,
+      tocKey: _tocKey,
+      audioKey: _audioKey,
+      autoScrollKey: _autoScrollKey,
+      displaySettingsKey: _displaySettingsKey,
+      searchKey: _searchKey,
+      lockKey: _lockKey,
+      onBackPressed: () {
+        _syncFinalProgress(book);
+        Navigator.of(context).pop();
       },
+      onToggleSearch: () {
+        _isSearching = true;
+        _setControlsVisibility(true);
+        setState(() {});
+        _search.focusNode.requestFocus();
+      },
+      onClearSearch: () {
+        setState(() {
+          _isSearching = false;
+          _search.textController.clear();
+          _searchResults = [];
+          _activeSearchQuery = null;
+        });
+      },
+      onSearchSubmitted: (value) => _handleSearch(value, book),
+      onToggleSearchResultsCollapse: () => setState(
+        () => _isSearchResultsCollapsed = !_isSearchResultsCollapsed,
+      ),
+      onToggleLock: _toggleLock,
+      onToggleAudioControls: () => setState(() {}),
+      onPickAudio: () => _audio.pickAndAdd(context, book, ref),
+      onShowNavigationSheet: () =>
+          _showNavigationSheet(book: book, settings: settings),
+      onToggleBookmark: () => _toggleBookmark(book),
+      onToggleAutoScroll: () {
+        setState(() {
+          _isAutoScrolling = !_isAutoScrolling;
+          final activeSpeed = settings.autoScrollSpeed < 0.5
+              ? 2.0
+              : settings.autoScrollSpeed;
+          _autoScrollSpeedNotifier.value = _isAutoScrolling ? activeSpeed : 0.0;
+        });
+      },
+      onToggleOrientation: _toggleOrientation,
+      onShowDisplaySettings: () => showDisplaySettingsSheet(context),
+      onIncrementPlaybackSpeed: () {
+        setState(() => _audio.incrementPlaybackSpeed());
+      },
+      onSkip: _audio.skip,
+      onNextTrack: _audio.player.hasNext
+          ? () => _audio.player.seekToNext()
+          : null,
+      onPrevTrack: _audio.player.hasPrevious
+          ? () => _audio.player.seekToPrevious()
+          : null,
+      onShowTrackList: () => showTrackListSheet(
+        context: context,
+        settings: settings,
+        audio: _audio,
+        ref: ref,
+      ),
+      getDisplayProgress: () => _currentProgress(book),
+      onResultTap: (result) => _goToSearchResult(result, book),
     );
   }
 }
