@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../core/theme/theme.dart';
+import '../../core/theme/theme.dart';
 
 
-import '../models/quest_model.dart';
-import 'glass_container.dart';
+import '../../models/quest_model.dart';
+import '../glass_container.dart';
 
 class DailyQuestsCard extends StatelessWidget {
   final List<DailyQuest> quests;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../core/rank/tibeb_rank_extension.dart';
-import '../../../core/rank/tibeb_rank_repository.dart';
-import '../../../core/theme/theme.dart';
-import '../glass_container.dart';
-import '../../../providers/library_provider.dart';
+import 'package:tibeb/core/rank/tibeb_rank_extension.dart';
+import 'package:tibeb/core/rank/tibeb_rank_repository.dart';
+import 'package:tibeb/core/theme/theme.dart';
+import 'package:tibeb/widgets/glass_container.dart';
+import 'package:tibeb/providers/library_provider.dart';
 
 class LevelInfoCard extends StatelessWidget {
   final LibraryState state;

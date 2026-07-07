@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/theme.dart';
+import 'package:tibeb/core/theme/theme.dart';
 
-import '../../../providers/library_provider.dart';
+import 'package:tibeb/providers/library_provider.dart';
 
 class AchievementBadge extends StatelessWidget {
   final String title;

@@ -58,7 +58,7 @@ class LibraryState {
   final double weeklyPageGoal;
   final double weeklyMinuteGoal;
   final double weeklyWPGoal;
-  final String weeklyGoalType; // Kept for backward compat with ActivityGraph
+  final String weeklyGoalType;
   final Map<String, int> dailyPages;
   final Map<String, int> dailyMinutes;
   final Map<String, int> dailyWP;

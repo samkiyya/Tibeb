@@ -10,11 +10,16 @@ import 'package:tibeb/core/theme/theme.dart';
 import 'package:tibeb/widgets/glass_container.dart';
 import 'package:tibeb/models/book_model.dart';
 
+
+typedef PositionCallback = void Function(Offset position);
+
 class BookCard extends StatefulWidget {
+
+  
   final Book book;
   final VoidCallback? onTap;
-  final Function(Offset)? onLongPress;
-  final Function(Offset)? onMenuPressed;
+  final PositionCallback? onLongPress;
+  final PositionCallback? onMenuPressed;
   final GlobalKey? menuKey;
   final bool isSelected;
   final bool selectionMode;

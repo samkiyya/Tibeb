@@ -3,17 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../core/theme/theme.dart';
 
+import '../providers/library_provider.dart';
+
+import '../widgets/stats/stats.dart';
 import '../widgets/glass_container.dart';
 import '../widgets/activity_graph.dart';
 import '../widgets/stat_badge.dart';
 import '../widgets/daily_activity_sheet.dart';
-import '../providers/library_provider.dart';
-import '../widgets/stats/level_info_card.dart';
-import '../widgets/stats/weekly_goal_card.dart';
-import '../widgets/stats/achievements_grid.dart';
-import '../widgets/stats/goal_settings_sheet.dart';
-import '../widgets/stats/level_metadata_sheet.dart';
-import '../widgets/daily_quests_card.dart';
+import '../widgets/stats/daily_quests_card.dart';
 
 class StatsScreen extends ConsumerStatefulWidget {
   const StatsScreen({super.key});

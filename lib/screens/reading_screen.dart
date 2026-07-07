@@ -1,31 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tibeb/widgets/reading/epub_reader_layer.dart';
-import 'package:tibeb/widgets/reading/pdf_reader_layer.dart';
 
 import '../providers/library_provider.dart';
 import '../providers/reader_settings_provider.dart';
 import '../models/book_model.dart';
-import '../widgets/reading/reading_footer.dart';
-import '../widgets/reading/reading_content_area.dart';
-import '../widgets/reading/reading_controls_overlay.dart';
 
-import 'reading/audio_controller.dart';
-import 'reading/audio_sync_controller.dart';
-import 'reading/auto_scroll_controller.dart';
-import 'reading/battery_controller.dart';
-import 'reading/bookmark_controller.dart';
-import 'reading/epub_reading_manager.dart';
-import 'reading/navigation_manager.dart';
-import 'reading/pdf_reading_manager.dart';
-import 'reading/progress_controller.dart';
-import 'reading/reading_actions.dart';
-import 'reading/reading_content_coordinator.dart';
-import 'reading/reading_controls_coordinator.dart';
-import 'reading/reading_lifecycle.dart';
-import 'reading/reading_search_manager.dart';
-import 'reading/reading_ui_state.dart';
-import 'reading/search_controller.dart';
+import 'package:tibeb/widgets/reading/reading.dart';
+import 'package:tibeb/screens/reading/reading.dart';
+
 
 class ReadingScreen extends ConsumerStatefulWidget {
   const ReadingScreen({super.key});

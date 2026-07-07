@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/theme/theme.dart';
+import 'package:tibeb/core/theme/theme.dart';
 
-import '../glass_container.dart';
-import '../../../providers/library_provider.dart';
+import 'package:tibeb/widgets/glass_container.dart';
+import 'package:tibeb/providers/library_provider.dart';
 
 class GoalSettingsSheet extends ConsumerStatefulWidget {
   const GoalSettingsSheet({super.key});

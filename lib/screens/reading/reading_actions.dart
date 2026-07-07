@@ -9,7 +9,7 @@ import '../../models/book_model.dart';
 import '../../models/reader_settings_model.dart';
 import '../../providers/library_provider.dart';
 import '../../providers/reader_settings_provider.dart';
-import '../../widgets/display_settings_sheet.dart';
+import '../../widgets/reading/display_settings_sheet.dart';
 import '../../widgets/reading/track_list_sheet.dart';
 import 'audio_controller.dart';
 import 'progress_controller.dart';

@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/reader_settings_model.dart';
-import '../providers/reader_settings_provider.dart';
-import '../core/theme/theme.dart';
+import '../../models/reader_settings_model.dart';
+import '../../providers/reader_settings_provider.dart';
+import '../../core/theme/theme.dart';
 
 
 class DisplaySettingsSheet extends ConsumerStatefulWidget {

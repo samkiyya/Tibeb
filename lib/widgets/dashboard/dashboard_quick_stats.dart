@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tibeb/core/theme/theme.dart';
 import 'package:tibeb/providers/library_provider.dart';
 import 'package:tibeb/widgets/stat_badge.dart';
-import 'package:tibeb/widgets/streak_widget.dart';
+import 'package:tibeb/widgets/dashboard/streak_widget.dart';
 
 /// Four-badge row: streak, total pages, total minutes, current level.
 class DashboardQuickStats extends StatelessWidget {
