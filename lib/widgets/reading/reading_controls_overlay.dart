@@ -38,6 +38,7 @@ class ReadingControlsOverlay extends StatelessWidget {
   final bool isNavigationSheetOpen;
   final bool isAutoScrolling;
   final bool isOrientationLandscape;
+  final bool isAudioControlsExpanded;
 
   // GlobalKeys for tutorial alignment
   final GlobalKey tocKey;
@@ -92,6 +93,7 @@ class ReadingControlsOverlay extends StatelessWidget {
     required this.isNavigationSheetOpen,
     required this.isAutoScrolling,
     required this.isOrientationLandscape,
+    required this.isAudioControlsExpanded,
     required this.tocKey,
     required this.audioKey,
     required this.autoScrollKey,
@@ -207,9 +209,7 @@ class ReadingControlsOverlay extends StatelessWidget {
                 displaySettingsKey: displaySettingsKey,
                 book: book,
                 settings: settings,
-                isAudioControlsExpanded: audio.isLoaded
-                    ? (audio.isLoading ? false : true)
-                    : false,
+                isAudioControlsExpanded: isAudioControlsExpanded,
                 isNavigationSheetOpen: isNavigationSheetOpen,
                 isAutoScrolling: isAutoScrolling,
                 isBookmarked:

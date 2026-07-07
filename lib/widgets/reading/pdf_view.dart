@@ -74,7 +74,10 @@ class _ReadingPdfViewState extends State<ReadingPdfView> {
     }
   }
 
-  void _onViewerReadyInternal(PdfDocument document, PdfViewerController controller) {
+  void _onViewerReadyInternal(
+    PdfDocument document,
+    PdfViewerController controller,
+  ) {
     if (!_filterReady && mounted) {
       // Small delay to ensure the platform view has painted its first frame
       // before applying a complex blend mode (like Difference).
@@ -104,9 +107,7 @@ class _ReadingPdfViewState extends State<ReadingPdfView> {
         backgroundColor: Colors.white,
 
         onViewerReady: _onViewerReadyInternal,
-        textSelectionParams: const PdfTextSelectionParams(
-          enabled: true,
-        ),
+        textSelectionParams: const PdfTextSelectionParams(enabled: true),
         margin: 4.0,
         pageDropShadow: const BoxShadow(
           color: Colors.black12,
@@ -117,16 +118,20 @@ class _ReadingPdfViewState extends State<ReadingPdfView> {
         interactionEndFrictionCoefficient: 0.000005,
         verticalCacheExtent: 3.0,
         maxImageBytesCachedOnMemory: 256 * 1024 * 1024,
-         sizeDelegateProvider: PdfViewerSizeDelegateProviderSmart(
-    maxScale:widget.settings.lockState != ReaderLockState.none
-                ? (widget.controller.isReady ? widget.controller.currentZoom : 1.0)
-                : 8.0,
-                minScale:widget.settings.lockState != ReaderLockState.none
-                            ? (widget.controller.isReady ? widget.controller.currentZoom : 1.0)
-                            : 0.1,
-    smartMaxScale : 8.0,
-    maxPagesVisible:5
-  ),
+        sizeDelegateProvider: PdfViewerSizeDelegateProviderSmart(
+          maxScale: widget.settings.lockState != ReaderLockState.none
+              ? (widget.controller.isReady
+                    ? widget.controller.currentZoom
+                    : 1.0)
+              : 8.0,
+          minScale: widget.settings.lockState != ReaderLockState.none
+              ? (widget.controller.isReady
+                    ? widget.controller.currentZoom
+                    : 1.0)
+              : 0.1,
+          smartMaxScale: 8.0,
+          maxPagesVisible: 5,
+        ),
         panEnabled: true,
         scaleEnabled: widget.settings.lockState == ReaderLockState.none,
         panAxis: widget.settings.lockState == ReaderLockState.all
