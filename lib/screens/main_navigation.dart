@@ -82,6 +82,11 @@ class _MainNavigationState extends ConsumerState<MainNavigation> {
         if (index != null) {
           ref.read(navigationStateProvider.notifier).changeTab(index);
         }
+
+        // When audiobook FAB target is tapped during tutorial, show the import sheet
+        if (target.identify == 'audiobook_fab_target') {
+          AudiobookImportSheet.show(context);
+        }
       },
 
       onFinish: () {
@@ -138,7 +143,9 @@ class _MainNavigationState extends ConsumerState<MainNavigation> {
         extendBody: true,
 
         // Audiobook import FAB — accessible from every tab
-        floatingActionButton: const _AudiobookFab(),
+        floatingActionButton: _AudiobookFab(
+          tutorialKey: _tutorialService.audiobookFabKey,
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
         bottomNavigationBar: CustomBottomNavigationBar(
@@ -160,7 +167,8 @@ class _MainNavigationState extends ConsumerState<MainNavigation> {
 // Positioned above the notch bar using floatingActionButtonLocation.
 
 class _AudiobookFab extends ConsumerStatefulWidget {
-  const _AudiobookFab();
+  final GlobalKey? tutorialKey;
+  const _AudiobookFab({this.tutorialKey});
 
   @override
   ConsumerState<_AudiobookFab> createState() => _AudiobookFabState();
@@ -196,6 +204,7 @@ class _AudiobookFabState extends ConsumerState<_AudiobookFab>
     return ScaleTransition(
       scale: _scale,
       child: FloatingActionButton(
+        key: widget.tutorialKey,
         heroTag: 'audiobook_import_fab',
         onPressed: () => AudiobookImportSheet.show(context),
         backgroundColor: t.primary,

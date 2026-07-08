@@ -12,6 +12,7 @@ class TutorialService {
 
   final GlobalKey homeKey = GlobalKey();
   final GlobalKey libraryKey = GlobalKey();
+  final GlobalKey audiobookFabKey = GlobalKey();
   final GlobalKey statsKey = GlobalKey();
   final GlobalKey settingsKey = GlobalKey();
 
@@ -49,6 +50,18 @@ class TutorialService {
         title: 'Your Library',
         description:
             'All your imported books live here. Tap the + button to add EPUB or PDF files.',
+        contentAlign: ContentAlign.top,
+      ),
+
+
+
+      TutorialHelper.createTarget(
+        identify: 'audiobook_fab_target',
+        keyTarget: audiobookFabKey,
+        title: 'Import Audiobooks',
+        description:
+            'Tap this button to import standalone audiobooks (MP3, M4A, M4B, FLAC…). '
+            'Title, author, and cover art are extracted automatically from embedded tags.',
         contentAlign: ContentAlign.top,
       ),
 

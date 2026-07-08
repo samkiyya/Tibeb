@@ -1,4 +1,5 @@
 import 'dart:io' as io;
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:file_picker/file_picker.dart';
@@ -9,6 +10,8 @@ import 'package:path_provider/path_provider.dart';
 import '../core/theme/theme.dart';
 import '../models/book_model.dart';
 import '../providers/library_provider.dart';
+import '../providers/navigation_provider.dart';
+import '../services/audio_metadata_parser.dart';
 
 // ---------------------------------------------------------------------------
 // AudioBook Model — pure audiobook entry with no EPUB/PDF dependency
@@ -124,6 +127,9 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
   final _titleCtrl = TextEditingController();
   final _authorCtrl = TextEditingController();
 
+  Uint8List? _extractedCoverBytes;
+  String? _extractedCoverMime;
+
   @override
   void dispose() {
     _titleCtrl.dispose();
@@ -135,10 +141,44 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
     setState(() => _error = null);
     final meta = await AudiobookImportService.pickAndImport();
     if (meta == null) return;
+
+    // Try to extract embedded metadata (title, author, cover) from the
+    // first audio file — most audiobooks embed ID3v2 / MP4 ilst tags.
+    String extractedTitle = meta.title;
+    String extractedAuthor = meta.author;
+    Uint8List? coverBytes;
+    String? coverMime;
+
+    for (final track in meta.tracks) {
+      final parsed = await AudioMetadataParser.parseFile(track.path);
+      if (parsed == null) continue;
+
+      // Take the first non-null title / author we find
+      if (parsed.title != null && parsed.title!.trim().isNotEmpty && extractedTitle == meta.title) {
+        extractedTitle = parsed.title!.trim();
+      }
+      if (parsed.author != null && parsed.author!.trim().isNotEmpty && extractedAuthor == 'Unknown') {
+        extractedAuthor = parsed.author!.trim();
+      }
+      if (parsed.coverBytes != null && parsed.coverBytes!.isNotEmpty && coverBytes == null) {
+        coverBytes = parsed.coverBytes;
+        coverMime = parsed.coverMime;
+      }
+      // Stop scanning once we have all three fields
+      if (extractedTitle != meta.title && extractedAuthor != 'Unknown' && coverBytes != null) break;
+    }
+
     setState(() {
-      _meta = meta;
-      _titleCtrl.text = meta.title;
-      _authorCtrl.text = meta.author;
+      _meta = AudiobookMeta(
+        title: extractedTitle,
+        author: extractedAuthor,
+        coverPath: meta.coverPath,
+        tracks: meta.tracks,
+      );
+      _titleCtrl.text = extractedTitle;
+      _authorCtrl.text = extractedAuthor;
+      _extractedCoverBytes = coverBytes;
+      _extractedCoverMime = coverMime;
     });
   }
 
@@ -160,13 +200,27 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
         setState(() => _importProgress = (i + 1) / _meta!.tracks.length);
       }
 
+      // Save extracted cover art to disk if we have one
+      String coverPath = '';
+      if (_extractedCoverBytes != null && _extractedCoverBytes!.isNotEmpty) {
+        final appDir = await getApplicationDocumentsDirectory();
+        final coversDir = io.Directory(p.join(appDir.path, 'covers'));
+        if (!await coversDir.exists()) await coversDir.create(recursive: true);
+        final ext = (_extractedCoverMime == 'image/png') ? '.png' : '.jpg';
+        final coverFile = io.File(
+          p.join(coversDir.path, '${DateTime.now().millisecondsSinceEpoch}$ext'),
+        );
+        await coverFile.writeAsBytes(_extractedCoverBytes!);
+        coverPath = coverFile.path;
+      }
+
       // Build a Book with filePath = 'audioonly://' sentinel.
       // The reading screen knows to show the audio-only player when
       // filePath starts with 'audioonly://'.
       final book = Book(
         title: _titleCtrl.text.trim().isEmpty ? 'Audiobook' : _titleCtrl.text.trim(),
         author: _authorCtrl.text.trim().isEmpty ? 'Unknown' : _authorCtrl.text.trim(),
-        coverPath: '',
+        coverPath: coverPath,
         filePath: 'audioonly://${copiedTracks.first.path}',
         addedAt: DateTime.now(),
         audioTracks: copiedTracks,
@@ -243,7 +297,11 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
       SizedBox(
         width: double.infinity,
         child: ElevatedButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            // Switch to Library tab (index 1) before dismissing
+            ref.read(navigationStateProvider.notifier).changeTab(1);
+            Navigator.pop(context);
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: t.primary,
             foregroundColor: Colors.white,
