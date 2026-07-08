@@ -1,9 +1,12 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 
+import 'package:tibeb/models/book_model.dart';
+import 'package:tibeb/screens/reading_screen.dart';
+import 'package:tibeb/screens/audiobook_player_screen.dart';
 import '../providers/library_provider.dart';
 import '../providers/navigation_provider.dart';
 
@@ -155,5 +158,28 @@ class NavigationService {
 
     _intentDataStreamSubscription?.cancel();
 
+  }
+}
+
+class BookRouter {
+  static void openBook(BuildContext context, WidgetRef ref, Book book) {
+    ref.read(currentlyReadingProvider.notifier).state = book;
+    ref.read(libraryProvider.notifier).markBookAsOpened(book);
+    
+    if (book.isAudioOnly) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AudioOnlyPlayerScreen(book: book),
+        ),
+      );
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const ReadingScreen(),
+        ),
+      );
+    }
   }
 }

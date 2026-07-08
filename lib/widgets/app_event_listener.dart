@@ -6,6 +6,7 @@ import 'package:tibeb/providers/navigation_provider.dart';
 import 'package:tibeb/providers/rank_provider.dart';
 
 import 'package:tibeb/screens/reading_screen.dart';
+import 'package:tibeb/screens/audiobook_player_screen.dart';
 
 import 'package:tibeb/services/rank_service.dart';
 
@@ -63,16 +64,23 @@ class _AppEventListenerState extends ConsumerState<AppEventListener> {
 
       switch (event.type) {
         case NavigationEventType.openReader:
-          await Navigator.of(
-            context,
-          ).push(MaterialPageRoute(builder: (_) => const ReadingScreen()));
+          final book = ref.read(currentlyReadingProvider);
+          final isAudioOnly = book?.isAudioOnly ?? false;
 
-          if (!mounted) {
-            return;
+          if (isAudioOnly && book != null) {
+            await Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => AudioOnlyPlayerScreen(book: book),
+              ),
+            );
+          } else {
+            await Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const ReadingScreen()),
+            );
           }
 
+          if (!mounted) return;
           ref.read(navigationEventProvider.notifier).clear();
-
           break;
       }
     });

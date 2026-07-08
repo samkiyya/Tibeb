@@ -257,6 +257,32 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
     return result;
   }
 
+  /// Inserts a pre-built audio-only [Book] (no EPUB/PDF) into the library.
+  /// The book's [filePath] should start with 'audioonly://' as a sentinel.
+  Future<Book> importAudiobook(Book book) async {
+    final existing = await _db.getBooks();
+    final duplicate = existing.firstWhereOrNull(
+      (b) => b.filePath == book.filePath,
+    );
+
+    if (duplicate != null && !duplicate.isDeleted) {
+      debugPrint('Duplicate audiobook found, skipping: ${book.title}');
+      return duplicate;
+    }
+
+    if (duplicate != null && duplicate.isDeleted) {
+      final restored = duplicate.copyWith(isDeleted: false);
+      await _db.updateBook(restored);
+      await _db.restoreBook(duplicate.id!);
+      await loadBooks();
+      return restored;
+    }
+
+    final id = await _db.insertBook(book);
+    await loadBooks();
+    return book.copyWith(id: id);
+  }
+
   Future<void> _loadQuests() async {
     final today = DateTime.now().toIso8601String().split('T')[0];
     final quests = await _db.getQuestsForDate(today);

@@ -5,8 +5,7 @@ import 'package:intl/intl.dart';
 import '../core/theme/theme.dart';
 import 'glass_container.dart';
 import '../models/book_model.dart';
-import '../providers/library_provider.dart';
-import '../screens/reading_screen.dart';
+import '../services/navigation_service.dart';
 
 class DailyActivitySheet extends ConsumerWidget {
   final DateTime date;
@@ -232,18 +231,9 @@ class DailyActivitySheet extends ConsumerWidget {
                       onTap: () {
                         // Close bottom sheet before navigation
                         Navigator.pop(context);
-
-                        ref.read(currentlyReadingProvider.notifier).state =
-                            book;
-                        ref
-                            .read(libraryProvider.notifier)
-                            .markBookAsOpened(book!);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ReadingScreen(),
-                          ),
-                        );
+                        if (book != null) {
+                          BookRouter.openBook(context, ref, book);
+                        }
                       },
                       borderRadius: BorderRadius.circular(8),
                       child: Padding(

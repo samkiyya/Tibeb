@@ -7,7 +7,7 @@ import '../widgets/glass_container.dart';
 import '../providers/library_provider.dart';
 import '../models/book_model.dart';
 import '../services/book_service.dart';
-import '../screens/reading_screen.dart';
+import '../services/navigation_service.dart';
 import '../widgets/library/empty_library_view.dart';
 import '../widgets/library/library_header.dart';
 import '../widgets/library/add_book_fab.dart';
@@ -462,12 +462,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
   }
 
   void _showBookDetails(Book book) {
-    ref.read(currentlyReadingProvider.notifier).state = book;
-    ref.read(libraryProvider.notifier).markBookAsOpened(book);
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const ReadingScreen()),
-    );
+    BookRouter.openBook(context, ref, book);
   }
 
   void _showBookOptions(Book book, Offset tapPosition) {

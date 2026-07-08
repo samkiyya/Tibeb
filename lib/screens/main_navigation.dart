@@ -1,9 +1,11 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tibeb/core/theme/system/color_scheme.dart';
 
 import 'package:tibeb/providers/navigation_provider.dart';
 
+import 'package:tibeb/screens/audiobook_player_screen.dart';
 import 'package:tibeb/screens/dashboard_screen.dart';
 import 'package:tibeb/screens/library_screen.dart';
 import 'package:tibeb/screens/stats_screen.dart';
@@ -135,16 +137,97 @@ class _MainNavigationState extends ConsumerState<MainNavigation> {
 
         extendBody: true,
 
+        // Audiobook import FAB — accessible from every tab
+        floatingActionButton: const _AudiobookFab(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+
         bottomNavigationBar: CustomBottomNavigationBar(
           itemKeys: [
             _tutorialService.homeKey,
-
             _tutorialService.libraryKey,
-
             _tutorialService.statsKey,
-
             _tutorialService.settingsKey,
           ],
+        ),
+      ),
+    );
+  }
+}
+
+// ─── Audiobook Import FAB ─────────────────────────────────────────────────────
+//
+// A compact pulsing FAB that opens AudiobookImportSheet.
+// Positioned above the notch bar using floatingActionButtonLocation.
+
+class _AudiobookFab extends ConsumerStatefulWidget {
+  const _AudiobookFab();
+
+  @override
+  ConsumerState<_AudiobookFab> createState() => _AudiobookFabState();
+}
+
+class _AudiobookFabState extends ConsumerState<_AudiobookFab>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _pulse;
+  late Animation<double> _scale;
+
+  @override
+  void initState() {
+    super.initState();
+    _pulse = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1800),
+    )..repeat(reverse: true);
+    _scale = Tween<double>(begin: 1.0, end: 1.06).animate(
+      CurvedAnimation(parent: _pulse, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _pulse.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tibpiColors;
+
+    return ScaleTransition(
+      scale: _scale,
+      child: FloatingActionButton(
+        heroTag: 'audiobook_import_fab',
+        onPressed: () => AudiobookImportSheet.show(context),
+        backgroundColor: t.primary,
+        elevation: 8,
+        tooltip: 'Import Audiobook',
+        shape: const CircleBorder(),
+        child: Container(
+          width: 56,
+          height: 56,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: LinearGradient(
+              colors: [
+                t.primary,
+                t.primary.withValues(alpha: 0.8),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: t.primary.withValues(alpha: 0.4),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: const Icon(
+            Icons.headphones_rounded,
+            color: Colors.white,
+            size: 26,
+          ),
         ),
       ),
     );

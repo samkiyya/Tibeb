@@ -6,8 +6,7 @@ import '../../../core/theme/theme.dart';
 
 import '../glass_container.dart';
 import '../../../models/book_model.dart';
-import '../../../providers/library_provider.dart';
-import '../../screens/reading_screen.dart';
+import '../../services/navigation_service.dart';
 
 class ContinueReadingCard extends ConsumerStatefulWidget {
   final Book book;
@@ -39,12 +38,7 @@ class _ContinueReadingCardState extends ConsumerState<ContinueReadingCard> {
         });
       },
       onTap: () {
-        ref.read(currentlyReadingProvider.notifier).state = widget.book;
-        ref.read(libraryProvider.notifier).markBookAsOpened(widget.book);
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const ReadingScreen()),
-        );
+        BookRouter.openBook(context, ref, widget.book);
       },
       onLongPress: () {
         if (widget.onLongPress != null) widget.onLongPress!(_tapPosition);

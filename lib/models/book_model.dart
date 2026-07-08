@@ -78,6 +78,8 @@ class Book {
     this.isDeleted = false,
   });
 
+  bool get isAudioOnly => filePath.startsWith('audioonly://');
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,
