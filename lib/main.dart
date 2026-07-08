@@ -12,6 +12,28 @@ import 'package:tibeb/services/notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Intercept Flutter rendering/layout exceptions globally to show a user-friendly screen
+  ErrorWidget.builder = (FlutterErrorDetails details) {
+    return MaterialApp(
+      title: 'tibeb',
+      debugShowCheckedModeBanner: false,
+      theme: TibebTheme.dark(),
+      home: Scaffold(
+        body: ErrorState(
+          title: 'An unexpected rendering error occurred',
+          description: 'Tibeb encountered a layout/UI boundary failure. We have logged this error.',
+          error: details.exceptionAsString(),
+        ),
+      ),
+    );
+  };
+
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.presentError(details);
+    debugPrint('Global Flutter Error: ${details.exception}');
+  };
+
   await NotificationService().init();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

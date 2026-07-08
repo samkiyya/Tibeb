@@ -803,12 +803,12 @@ main() →
 
 **Goal:** Make the app safe to ship without data loss or crashes.
 
-- [ ] **Add error boundaries** — `ErrorWidget.builder` globally. Implement actual `ErrorState` widget using existing token infrastructure. Try-catch wrappers on EPUB/PDF parsing with user-facing error screen ("This file is corrupted. Try re-importing.").
+- [x] **Add error boundaries** — `ErrorWidget.builder` globally. Implement actual `ErrorState` widget using existing token infrastructure. Try-catch wrappers on EPUB/PDF parsing with user-facing error screen ("This file is corrupted. Try re-importing.").
 - [ ] **Fix OOM risks** — Use `md5.startChunkedConversion()` with file stream for hashing. Add max file size limit before loading EPUBs into RAM (e.g., 50MB soft limit with user warning).
 - [ ] **Add Drift DB indices** — Use `@TableIndex` annotation in `tables.dart` on: `bookmarks.bookId`, `highlights.bookId`, `reading_sessions.bookId`, `reading_sessions.date`, `dictionary_lookups.bookId`.
 - [ ] **Optimize session loading** — Add `getRecentSessions(int limit)` to `ReadingSessionsDao` querying `ORDER BY date DESC LIMIT 365`. Use this for streak calculation.
 - [ ] **Set up CI/CD** — GitHub Actions workflow: `flutter analyze`, `flutter test` (even if minimal), `flutter build apk --release`.
-- [ ] **Implement EmptyState and ErrorState widgets** — Complete the scaffolded widget files using the existing token infrastructure.
+- [x] **Implement EmptyState and ErrorState widgets** — Complete the scaffolded widget files using the existing token infrastructure.
 - [ ] **Delete orphaned `file_selection_screen.dart`** — Or document its future purpose and add a route for it.
 
 **Success Metrics:** Zero crashes on corrupt files. Startup time <1s for libraries <100 books. CI pipeline passes on every PR.

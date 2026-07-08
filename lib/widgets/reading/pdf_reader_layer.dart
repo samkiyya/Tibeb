@@ -1,9 +1,11 @@
+import 'dart:io' as io;
 import 'package:flutter/material.dart';
 import 'package:pdfrx/pdfrx.dart';
 import '../../models/book_model.dart';
 import '../../models/reader_settings_model.dart';
 import '../../models/highlight_model.dart';
 import 'pdf_view.dart';
+import '../error_state/error_state.dart';
 
 /// Encapsulates all PDF viewer controller lifecycles, outline parsings, and layout compositions.
 class PdfReaderLayer extends StatefulWidget {
@@ -74,6 +76,21 @@ class PdfReaderLayerState extends State<PdfReaderLayer> {
 
   @override
   Widget build(BuildContext context) {
+    final file = io.File(widget.book.filePath);
+    if (!file.existsSync()) {
+      return Scaffold(
+        backgroundColor: widget.settings.backgroundColor,
+        body: ErrorState(
+          title: 'Failed to load PDF book',
+          description: 'The file may be corrupted, missing, or in an unsupported format.',
+          error: 'Book file does not exist at path: ${widget.book.filePath}',
+          onRetry: () {
+            setState(() {});
+          },
+        ),
+      );
+    }
+
     if (_pdfController == null) {
       return const Center(child: CircularProgressIndicator());
     }

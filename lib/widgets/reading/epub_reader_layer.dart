@@ -5,6 +5,7 @@ import '../../models/book_model.dart';
 import '../../models/reader_settings_model.dart';
 import '../../models/highlight_model.dart';
 import 'epub_view.dart';
+import '../error_state/error_state.dart';
 
 /// Encapsulates all EPUB controller lifecycles, gesture listenings, and layout compositions.
 class EpubReaderLayer extends StatefulWidget {
@@ -105,9 +106,19 @@ class EpubReaderLayerState extends State<EpubReaderLayer> {
     _epubController?.gotoEpubCfi(cfi);
   }
 
+  String? _errorMessage;
+
   void _initEpub() {
+    final file = io.File(widget.book.filePath);
+    if (!file.existsSync()) {
+      setState(() {
+        _errorMessage = 'Book file does not exist at path: ${widget.book.filePath}';
+      });
+      return;
+    }
+
     final controller = EpubController(
-      document: EpubDocument.openFile(io.File(widget.book.filePath)),
+      document: EpubDocument.openFile(file),
       epubCfi: widget.book.lastPosition,
     );
     _epubController = controller;
@@ -149,8 +160,7 @@ class EpubReaderLayerState extends State<EpubReaderLayer> {
         }
         final double remaining = targetTotalProgress - accumulatedLength;
         final double chapterLen = lengths[initialPage].toDouble();
-        initialScrollProgress =
-            (chapterLen > 0 ? remaining / chapterLen : 0.0).clamp(0.0, 1.0);
+        initialScrollProgress = (chapterLen > 0 ? remaining / chapterLen : 0.0).clamp(0.0, 1.0);
       }
 
       setState(() {
@@ -158,9 +168,16 @@ class EpubReaderLayerState extends State<EpubReaderLayer> {
         _chapters = flattened;
         _currentChapterIndex = initialPage;
         _pageController = PageController(initialPage: initialPage);
+        _errorMessage = null;
       });
 
       widget.onLoaded(_chapters, _epubBook!, initialScrollProgress, initialPage);
+    }).catchError((error) {
+      if (!mounted) return;
+      setState(() {
+        _errorMessage = error.toString();
+      });
+      debugPrint('Error loading EPUB: $error');
     });
   }
 
@@ -177,6 +194,25 @@ class EpubReaderLayerState extends State<EpubReaderLayer> {
 
   @override
   Widget build(BuildContext context) {
+    if (_errorMessage != null) {
+      return Scaffold(
+        backgroundColor: widget.settings.backgroundColor,
+        body: ErrorState(
+          title: 'Failed to load EPUB book',
+          description: 'The file may be corrupted, missing, or in an unsupported format.',
+          error: _errorMessage,
+          onRetry: () {
+            setState(() {
+              _errorMessage = null;
+              _epubBook = null;
+              _pageController = null;
+            });
+            _initEpub();
+          },
+        ),
+      );
+    }
+
     if (_epubBook == null || _pageController == null) {
       return const Center(child: CircularProgressIndicator());
     }
