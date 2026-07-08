@@ -97,6 +97,20 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
       context: context,
       loadBookmarks: _loadBookmarks,
     );
+
+    // Sync audio precisely once on route initialization to avoid build-cycle race conditions
+    final book = ref.read(currentlyReadingProvider);
+    if (book != null) {
+      _audioSync.syncForBook(book, onError: (msg) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            ScaffoldMessenger.of(context)
+              ..clearSnackBars()
+              ..showSnackBar(SnackBar(content: Text(msg)));
+          }
+        });
+      });
+    }
   }
 
   @override
@@ -240,14 +254,6 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
     }
 
     final isEpub = book.filePath.toLowerCase().endsWith('.epub');
-
-    _audioSync.syncForBook(book, onError: (msg) {
-      if (mounted) {
-        ScaffoldMessenger.of(context)
-          ..clearSnackBars()
-          ..showSnackBar(SnackBar(content: Text(msg)));
-      }
-    });
 
     // Build per-frame coordinators (cheap — no allocation of controllers)
     final contentCoord = ReadingContentCoordinator(

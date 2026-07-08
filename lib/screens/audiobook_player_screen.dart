@@ -561,14 +561,58 @@ class _AudioOnlyPlayerScreenState extends ConsumerState<AudioOnlyPlayerScreen>
       }
     });
     _player.positionStream.listen((pos) {
-      if (mounted) setState(() => _position = pos);
+      if (mounted) {
+        setState(() => _position = pos);
+        _maybeSave(pos);
+      }
     });
     _player.durationStream.listen((dur) {
       if (mounted) setState(() => _duration = dur ?? Duration.zero);
     });
     _player.currentIndexStream.listen((idx) {
-      if (idx != null && mounted) setState(() => _currentIndex = idx);
+      if (idx != null && mounted) {
+        setState(() => _currentIndex = idx);
+        _saveProgress(_player.position.inMilliseconds, idx);
+      }
     });
+  }
+
+  DateTime _lastSaveTime = DateTime.now();
+  int _lastSavedMs = -1;
+
+  void _maybeSave(Duration pos) {
+    final now = DateTime.now();
+    final ms = pos.inMilliseconds;
+    final diff = (ms - _lastSavedMs).abs();
+    final elapsed = now.difference(_lastSaveTime);
+    if (elapsed > const Duration(seconds: 10) || diff > 5000) {
+      _saveProgress(ms, _player.currentIndex ?? 0);
+    }
+  }
+
+  Future<void> _saveProgress(int ms, int index) async {
+    _lastSaveTime = DateTime.now();
+    _lastSavedMs = ms;
+
+    final totalTracks = widget.book.audioTracks.length;
+    if (totalTracks == 0) return;
+
+    double currentTrackProgress = 0.0;
+    if (_duration.inMilliseconds > 0) {
+      currentTrackProgress = ms / _duration.inMilliseconds;
+    }
+    double overallProgress = (index + currentTrackProgress) / totalTracks;
+    overallProgress = overallProgress.clamp(0.0, 1.0);
+
+    final updatedBook = widget.book.copyWith(
+      audioLastPosition: ms,
+      audioLastIndex: index,
+      progress: overallProgress,
+      lastReadAt: DateTime.now(),
+    );
+
+    // Persist position and calculated progress back to database repository
+    await ref.read(libraryProvider.notifier).updateBook(updatedBook);
   }
 
   Future<void> _initPlayer() async {
@@ -591,9 +635,14 @@ class _AudioOnlyPlayerScreenState extends ConsumerState<AudioOnlyPlayerScreen>
   @override
   void dispose() {
     _artAnim.dispose();
+    // Flush the final position to the repository before disposing
+    final currentPos = _player.position.inMilliseconds;
+    final currentIndex = _player.currentIndex ?? 0;
+    _saveProgress(currentPos, currentIndex);
     _player.dispose();
     super.dispose();
   }
+
 
   String _fmt(Duration d) {
     final h = d.inHours;
