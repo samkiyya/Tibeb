@@ -8,6 +8,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:tibeb/models/book_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
+import 'package:collection/collection.dart';
 import 'package:pdfrx/pdfrx.dart' as pdfrx;
 
 class BookService {
@@ -50,8 +51,46 @@ class BookService {
       final bytes = await file.readAsBytes();
       final epubBook = await EpubReader.readBook(bytes);
 
-      String author = epubBook.Author ?? 'Unknown';
-      String title = epubBook.Title ?? p.basenameWithoutExtension(file.path);
+      // 1. Resolve Title
+      String title = epubBook.Title ?? '';
+      if (title.trim().isEmpty) {
+        final titles = epubBook.Schema?.Package?.Metadata?.Titles;
+        if (titles != null && titles.isNotEmpty) {
+          title = titles.first;
+        }
+      }
+      if (title.trim().isEmpty) {
+        title = p.basenameWithoutExtension(file.path);
+      }
+
+      // 2. Resolve Author (check creators, package metadata, fallback to book author, then contributors)
+      String author = '';
+      final creators = epubBook.Schema?.Package?.Metadata?.Creators;
+      if (creators != null && creators.isNotEmpty) {
+        for (final c in creators) {
+          if (c.Creator != null && c.Creator!.trim().isNotEmpty) {
+            author = c.Creator!.trim();
+            break;
+          }
+        }
+      }
+      if (author.isEmpty) {
+        author = epubBook.Author ?? '';
+      }
+      if (author.trim().isEmpty || author.toLowerCase() == 'unknown') {
+        final contributors = epubBook.Schema?.Package?.Metadata?.Contributors;
+        if (contributors != null && contributors.isNotEmpty) {
+          for (final c in contributors) {
+            if (c.Contributor != null && c.Contributor!.trim().isNotEmpty) {
+              author = c.Contributor!.trim();
+              break;
+            }
+          }
+        }
+      }
+      if (author.trim().isEmpty) {
+        author = 'Unknown';
+      }
 
       // Extract genre/subject from the OPF metadata
       String genre = 'Unknown';
@@ -67,8 +106,32 @@ class BookService {
         series = publishers.first;
       }
 
-      String coverPath = '';
+      // 3. Resolve Cover Page bytes (automatic fallback to manual file manifest search)
+      Uint8List? coverBytes;
       if (epubBook.CoverImage != null) {
+        try {
+          coverBytes = Uint8List.fromList(img.encodeJpg(epubBook.CoverImage!, quality: 85));
+        } catch (e) {
+          debugPrint('Error encoding epubBook.CoverImage: $e');
+        }
+      }
+
+      if (coverBytes == null) {
+        // Search manifest images manually for filename matching 'cover'
+        final images = epubBook.Content?.Images;
+        if (images != null && images.isNotEmpty) {
+          final coverFile = images.values.firstWhereOrNull(
+            (f) => f.FileName?.toLowerCase().contains('cover') ?? false,
+          ) ?? images.values.firstOrNull;
+
+          if (coverFile != null && coverFile.Content != null) {
+            coverBytes = Uint8List.fromList(coverFile.Content!);
+          }
+        }
+      }
+
+      String coverPath = '';
+      if (coverBytes != null && coverBytes.isNotEmpty) {
         final appDir = await getApplicationDocumentsDirectory();
         final coversDir = Directory(p.join(appDir.path, 'covers'));
         if (!await coversDir.exists()) await coversDir.create();
@@ -77,10 +140,7 @@ class BookService {
           coversDir.path,
           '${DateTime.now().millisecondsSinceEpoch}.jpg',
         );
-        final image = epubBook.CoverImage;
-        if (image != null) {
-          await File(coverPath).writeAsBytes(img.encodeJpg(image, quality: 85));
-        }
+        await File(coverPath).writeAsBytes(coverBytes);
       }
 
       return Book(
@@ -209,17 +269,82 @@ class BookService {
 
       final combined = String.fromCharCodes([...headBytes, ...tailBytes]);
 
-      // Look for PDF metadata keys: /Title, /Author, /Subject, /Keywords
+      // Look for PDF metadata keys in the /Info dictionary
       for (final key in ['Title', 'Author', 'Subject', 'Keywords']) {
         final value = _extractPdfStringValue(combined, '/$key');
         if (value != null && value.isNotEmpty) {
           result[key.toLowerCase()] = value;
         }
       }
+
+      // Merge with XMP metadata if missing
+      final xmpMeta = _extractXmpMetadata(combined);
+      if (result['title'] == null && xmpMeta['title'] != null) {
+        result['title'] = xmpMeta['title'];
+      }
+      if (result['author'] == null && xmpMeta['author'] != null) {
+        result['author'] = xmpMeta['author'];
+      }
+      if (result['subject'] == null && xmpMeta['subject'] != null) {
+        result['subject'] = xmpMeta['subject'];
+      }
     } catch (e) {
       debugPrint('PDF metadata extraction failed (non-fatal): $e');
     }
     return result;
+  }
+
+  Map<String, String?> _extractXmpMetadata(String content) {
+    final result = <String, String?>{};
+    final startIdx = content.indexOf('<x:xmpmeta');
+    if (startIdx >= 0) {
+      final endIdx = content.indexOf('</x:xmpmeta>', startIdx);
+      if (endIdx > startIdx) {
+        final xmp = content.substring(startIdx, endIdx);
+
+        final title = _extractXmlTagContent(xmp, 'title');
+        if (title != null && title.isNotEmpty) {
+          result['title'] = title;
+        }
+
+        final creator = _extractXmlTagContent(xmp, 'creator') ?? _extractXmlTagContent(xmp, 'Author');
+        if (creator != null && creator.isNotEmpty) {
+          result['author'] = creator;
+        }
+
+        final subject = _extractXmlTagContent(xmp, 'subject');
+        if (subject != null && subject.isNotEmpty) {
+          result['subject'] = subject;
+        }
+      }
+    }
+    return result;
+  }
+
+  String? _extractXmlTagContent(String xml, String tagName) {
+    final reg = RegExp('<[^:>]*:?$tagName[^>]*>(.*?)</[^:>]*:?$tagName>', caseSensitive: false, dotAll: true);
+    final match = reg.firstMatch(xml);
+    if (match != null) {
+      String inner = match.group(1) ?? '';
+      final liReg = RegExp('<rdf:li[^>]*>(.*?)</rdf:li>', caseSensitive: false, dotAll: true);
+      final liMatch = liReg.firstMatch(inner);
+      if (liMatch != null) {
+        return _cleanXmlText(liMatch.group(1) ?? '');
+      }
+      return _cleanXmlText(inner);
+    }
+    return null;
+  }
+
+  String _cleanXmlText(String text) {
+    return text
+        .replaceAll('&amp;', '&')
+        .replaceAll('&lt;', '<')
+        .replaceAll('&gt;', '>')
+        .replaceAll('&quot;', '"')
+        .replaceAll('&apos;', "'")
+        .replaceAll(RegExp(r'<[^>]*>'), '')
+        .trim();
   }
 
   /// Extracts a PDF string value after the given key marker.

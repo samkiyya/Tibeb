@@ -37,7 +37,7 @@ class AudiobookMeta {
 // ---------------------------------------------------------------------------
 
 class AudiobookImportService {
-  static const _supported = ['mp3', 'mp4', 'm4a', 'aac', 'ogg', 'flac', 'wav', 'm4b'];
+  static const _supported = ['mp3', 'm4a', 'm4b', 'aac', 'ogg', 'flac', 'wav'];
 
   /// Pick one or more audio files and return them as an [AudiobookMeta].
   /// Returns null if the user cancels.
