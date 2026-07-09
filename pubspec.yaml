@@ -53,6 +53,7 @@ dependencies:
   riverpod_annotation: ^4.0.3
   drift: ^2.34.0
   sqlite3: ^3.3.4
+  syncfusion_flutter_pdf: ^33.2.13
 
 dependency_overrides:
   epubx:

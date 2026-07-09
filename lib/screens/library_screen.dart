@@ -267,7 +267,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
             ),
       floatingActionButton: Padding(
         padding: EdgeInsets.only(
-          bottom: 76 + MediaQuery.paddingOf(context).bottom,
+          bottom:  MediaQuery.paddingOf(context).bottom,
         ),
         child: AddBookFab(key: _fabKey, onPressed: _handleSelectiveImport),
       ),

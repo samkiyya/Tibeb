@@ -1,31 +1,32 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
-import 'package:epubx/epubx.dart';
-import 'package:image/image.dart' as img;
 import 'package:file_picker/file_picker.dart';
+
 import 'package:tibeb/models/book_model.dart';
-import 'package:http/http.dart' as http;
-import 'package:crypto/crypto.dart';
-import 'package:collection/collection.dart';
-import 'package:pdfrx/pdfrx.dart' as pdfrx;
+import 'book_cover_storage.dart';
+import 'epub_metadata_parser.dart';
+import 'pdf_cover_renderer.dart';
+import 'pdf_metadata_parser.dart';
 
+/// Orchestrates book-file processing.
+///
+/// Responsibilities:
+/// - File picking via the OS picker
+/// - Delegating format-specific parsing to [EpubMetadataParser] /
+///   [PdfMetadataParser] / [PdfCoverRenderer]
+/// - Persisting cover images via [BookCoverStorage]
+/// - Assembling the final [Book] record
+///
+/// Does NOT contain any parsing logic itself.
 class BookService {
-  Future<Book?> processFile(File file) async {
-    final extension = p.extension(file.path).toLowerCase();
-    if (extension == '.epub') {
-      return await _processEpub(file);
-    } else if (extension == '.pdf') {
-      return await _processPdf(file);
-    }
-    return null;
-  }
+  // ── File picking ──────────────────────────────────────────────────────────
 
-  Future<bool> requestPermissions() async {
-    return true;
-  }
+  /// Always returns true — permission is handled by the OS picker on Android.
+  Future<bool> requestPermissions() async => true;
 
+  /// Opens the system file picker filtered to EPUB and PDF files.
+  /// Returns an empty list if the user cancels or picks nothing.
   Future<List<File>> pickBookFiles() async {
     final result = await FilePicker.pickFiles(
       type: FileType.custom,
@@ -34,7 +35,7 @@ class BookService {
     );
 
     if (result == null || result.files.isEmpty) {
-      debugPrint('No files picked');
+      debugPrint('BookService: no files picked');
       return [];
     }
 
@@ -44,184 +45,75 @@ class BookService {
         .toList();
   }
 
-  // ── EPUB Processing ─────────────────────────────────────────────────────────
+  // ── Entry point ───────────────────────────────────────────────────────────
+
+  /// Processes a single book file and returns a [Book] ready for insertion,
+  /// or null if the format is unsupported or parsing fails.
+  Future<Book?> processFile(File file) async {
+    final ext = p.extension(file.path).toLowerCase();
+    switch (ext) {
+      case '.epub':
+        return _processEpub(file);
+      case '.pdf':
+        return _processPdf(file);
+      default:
+        debugPrint('BookService: unsupported extension "$ext"');
+        return null;
+    }
+  }
+
+  // ── EPUB ──────────────────────────────────────────────────────────────────
 
   Future<Book?> _processEpub(File file) async {
     try {
-      final bytes = await file.readAsBytes();
-      final epubBook = await EpubReader.readBook(bytes);
+      final meta = await EpubMetadataParser.parse(file);
+      if (meta == null) return null;
 
-      // 1. Resolve Title
-      String title = epubBook.Title ?? '';
-      if (title.trim().isEmpty) {
-        final titles = epubBook.Schema?.Package?.Metadata?.Titles;
-        if (titles != null && titles.isNotEmpty) {
-          title = titles.first;
-        }
-      }
-      if (title.trim().isEmpty) {
-        title = p.basenameWithoutExtension(file.path);
-      }
-
-      // 2. Resolve Author (check creators, package metadata, fallback to book author, then contributors)
-      String author = '';
-      final creators = epubBook.Schema?.Package?.Metadata?.Creators;
-      if (creators != null && creators.isNotEmpty) {
-        for (final c in creators) {
-          if (c.Creator != null && c.Creator!.trim().isNotEmpty) {
-            author = c.Creator!.trim();
-            break;
-          }
-        }
-      }
-      if (author.isEmpty) {
-        author = epubBook.Author ?? '';
-      }
-      if (author.trim().isEmpty || author.toLowerCase() == 'unknown') {
-        final contributors = epubBook.Schema?.Package?.Metadata?.Contributors;
-        if (contributors != null && contributors.isNotEmpty) {
-          for (final c in contributors) {
-            if (c.Contributor != null && c.Contributor!.trim().isNotEmpty) {
-              author = c.Contributor!.trim();
-              break;
-            }
-          }
-        }
-      }
-      if (author.trim().isEmpty) {
-        author = 'Unknown';
-      }
-
-      // Extract genre/subject from the OPF metadata
-      String genre = 'Unknown';
-      final subjects = epubBook.Schema?.Package?.Metadata?.Subjects;
-      if (subjects != null && subjects.isNotEmpty) {
-        genre = subjects.first;
-      }
-
-      // Extract publisher
-      String? series;
-      final publishers = epubBook.Schema?.Package?.Metadata?.Publishers;
-      if (publishers != null && publishers.isNotEmpty) {
-        series = publishers.first;
-      }
-
-      // 3. Resolve Cover Page bytes (automatic fallback to manual file manifest search)
-      Uint8List? coverBytes;
-      if (epubBook.CoverImage != null) {
-        try {
-          coverBytes = Uint8List.fromList(img.encodeJpg(epubBook.CoverImage!, quality: 85));
-        } catch (e) {
-          debugPrint('Error encoding epubBook.CoverImage: $e');
-        }
-      }
-
-      if (coverBytes == null) {
-        // Search manifest images manually for filename matching 'cover'
-        final images = epubBook.Content?.Images;
-        if (images != null && images.isNotEmpty) {
-          final coverFile = images.values.firstWhereOrNull(
-            (f) => f.FileName?.toLowerCase().contains('cover') ?? false,
-          ) ?? images.values.firstOrNull;
-
-          if (coverFile != null && coverFile.Content != null) {
-            coverBytes = Uint8List.fromList(coverFile.Content!);
-          }
-        }
-      }
-
-      String coverPath = '';
-      if (coverBytes != null && coverBytes.isNotEmpty) {
-        final appDir = await getApplicationDocumentsDirectory();
-        final coversDir = Directory(p.join(appDir.path, 'covers'));
-        if (!await coversDir.exists()) await coversDir.create();
-
-        coverPath = p.join(
-          coversDir.path,
-          '${DateTime.now().millisecondsSinceEpoch}.jpg',
-        );
-        await File(coverPath).writeAsBytes(coverBytes);
-      }
+      final coverPath = meta.coverBytes != null
+          ? await BookCoverStorage.saveBytes(meta.coverBytes!)
+          : '';
 
       return Book(
-        title: title,
-        author: author,
+        title: meta.title,
+        author: meta.author,
         coverPath: coverPath,
         filePath: file.path,
         addedAt: DateTime.now(),
         folderPath: p.dirname(file.path),
-        contentHash: await _calculateFileHash(file),
-        genre: genre,
-        series: series,
+        contentHash: await BookCoverStorage.md5Hash(file),
+        genre: meta.genre,
+        series: meta.series,
       );
     } catch (e) {
-      debugPrint('Error processing epub: $e');
+      debugPrint('BookService: error processing EPUB: $e');
       return null;
     }
   }
 
-  // ── PDF Processing ──────────────────────────────────────────────────────────
+  // ── PDF ───────────────────────────────────────────────────────────────────
 
   Future<Book?> _processPdf(File file) async {
     try {
-      // 1. Extract metadata from the raw PDF /Info dictionary
-      final pdfMeta = await _extractPdfMetadata(file);
-      final title = (pdfMeta['title'] != null && pdfMeta['title']!.trim().isNotEmpty)
-          ? pdfMeta['title']!.trim()
-          : p.basenameWithoutExtension(file.path);
-      final author = (pdfMeta['author'] != null && pdfMeta['author']!.trim().isNotEmpty)
-          ? pdfMeta['author']!.trim()
-          : 'Unknown';
-      final subject = pdfMeta['subject'] ?? '';
-      final genre = subject.isNotEmpty ? subject : 'Unknown';
+      // Parse text metadata and render the cover concurrently
+      final results = await Future.wait([
+        PdfMetadataParser.parse(file),
+        PdfCoverRenderer.render(file),
+      ]);
 
-      // 2. Generate cover thumbnail from page 1 via pdfrx
-      String coverPath = '';
-      int totalPages = 0;
-      try {
-        final doc = await pdfrx.PdfDocument.openFile(file.path);
-        totalPages = doc.pages.length;
+      final meta = results[0] as PdfMetadata;
+      final render = results[1] as PdfRenderResult;
 
-        if (doc.pages.isNotEmpty) {
-          final page = doc.pages.first;
-          // Render at 2x scale for crisp thumbnails (max ~600px wide)
-          final scale = (600 / page.width).clamp(1.0, 3.0);
-          final renderW = (page.width * scale).toInt();
-          final renderH = (page.height * scale).toInt();
+      final title =
+          meta.effectiveTitle ?? p.basenameWithoutExtension(file.path);
+      final author = meta.effectiveAuthor ?? 'Unknown';
+      final genre =
+          (meta.effectiveSubject?.isNotEmpty ?? false)
+              ? meta.effectiveSubject!
+              : 'Unknown';
 
-          final pdfImage = await page.render(
-            fullWidth: renderW.toDouble(),
-            fullHeight: renderH.toDouble(),
-          );
-
-          if (pdfImage != null) {
-            // Convert raw RGBA/BGRA pixels to a JPG via the `image` package
-            // pdfrx's PdfImage pixels are always in BGRA format.
-            final decoded = img.Image.fromBytes(
-              width: pdfImage.width,
-              height: pdfImage.height,
-              bytes: pdfImage.pixels.buffer,
-              numChannels: 4,
-              order: img.ChannelOrder.bgra,
-            );
-
-            final appDir = await getApplicationDocumentsDirectory();
-            final coversDir = Directory(p.join(appDir.path, 'covers'));
-            if (!await coversDir.exists()) await coversDir.create(recursive: true);
-
-            coverPath = p.join(
-              coversDir.path,
-              '${DateTime.now().millisecondsSinceEpoch}.jpg',
-            );
-            await File(coverPath).writeAsBytes(img.encodeJpg(decoded, quality: 85));
-
-            pdfImage.dispose();
-          }
-        }
-        await doc.dispose();
-      } catch (e) {
-        debugPrint('PDF cover/page-count extraction failed (non-fatal): $e');
-      }
+      final coverPath = render.coverBytes != null
+          ? await BookCoverStorage.saveBytes(render.coverBytes!)
+          : '';
 
       return Book(
         title: title,
@@ -230,235 +122,25 @@ class BookService {
         filePath: file.path,
         addedAt: DateTime.now(),
         folderPath: p.dirname(file.path),
-        contentHash: await _calculateFileHash(file),
+        contentHash: await BookCoverStorage.md5Hash(file),
         genre: genre,
-        totalPages: totalPages,
+        totalPages: render.totalPages,
       );
     } catch (e) {
-      debugPrint('Error processing pdf: $e');
+      debugPrint('BookService: error processing PDF: $e');
       return null;
     }
   }
 
-  /// Parses the raw PDF bytes to find the /Info dictionary and extract
-  /// /Title, /Author, /Subject, /Keywords metadata strings.
-  /// This is a best-effort parser — some PDFs have no metadata at all.
-  Future<Map<String, String?>> _extractPdfMetadata(File file) async {
-    final result = <String, String?>{
-      'title': null,
-      'author': null,
-      'subject': null,
-      'keywords': null,
-    };
+  // ── Cover utilities (delegated) ───────────────────────────────────────────
 
-    try {
-      // Read the tail of the file where cross-ref/trailer/info usually live.
-      // Most PDF metadata is in the last ~8KB, but read up to 64KB to be safe.
-      final raf = await file.open(mode: FileMode.read);
-      final fileLen = await raf.length();
-      final readLen = fileLen < 65536 ? fileLen : 65536;
-      await raf.setPosition(fileLen - readLen);
-      final tailBytes = await raf.read(readLen);
-      await raf.close();
+  /// Downloads a cover from [url] and saves it to the covers directory.
+  /// Returns the saved path, or empty string on failure.
+  Future<String> downloadCover(String url) =>
+      BookCoverStorage.downloadCover(url);
 
-      // Also read the first ~8KB for linearized PDFs with metadata at the top
-      final headRaf = await file.open(mode: FileMode.read);
-      final headLen = fileLen < 8192 ? fileLen : 8192;
-      final headBytes = await headRaf.read(headLen);
-      await headRaf.close();
-
-      final combined = String.fromCharCodes([...headBytes, ...tailBytes]);
-
-      // Look for PDF metadata keys in the /Info dictionary
-      for (final key in ['Title', 'Author', 'Subject', 'Keywords']) {
-        final value = _extractPdfStringValue(combined, '/$key');
-        if (value != null && value.isNotEmpty) {
-          result[key.toLowerCase()] = value;
-        }
-      }
-
-      // Merge with XMP metadata if missing
-      final xmpMeta = _extractXmpMetadata(combined);
-      if (result['title'] == null && xmpMeta['title'] != null) {
-        result['title'] = xmpMeta['title'];
-      }
-      if (result['author'] == null && xmpMeta['author'] != null) {
-        result['author'] = xmpMeta['author'];
-      }
-      if (result['subject'] == null && xmpMeta['subject'] != null) {
-        result['subject'] = xmpMeta['subject'];
-      }
-    } catch (e) {
-      debugPrint('PDF metadata extraction failed (non-fatal): $e');
-    }
-    return result;
-  }
-
-  Map<String, String?> _extractXmpMetadata(String content) {
-    final result = <String, String?>{};
-    final startIdx = content.indexOf('<x:xmpmeta');
-    if (startIdx >= 0) {
-      final endIdx = content.indexOf('</x:xmpmeta>', startIdx);
-      if (endIdx > startIdx) {
-        final xmp = content.substring(startIdx, endIdx);
-
-        final title = _extractXmlTagContent(xmp, 'title');
-        if (title != null && title.isNotEmpty) {
-          result['title'] = title;
-        }
-
-        final creator = _extractXmlTagContent(xmp, 'creator') ?? _extractXmlTagContent(xmp, 'Author');
-        if (creator != null && creator.isNotEmpty) {
-          result['author'] = creator;
-        }
-
-        final subject = _extractXmlTagContent(xmp, 'subject');
-        if (subject != null && subject.isNotEmpty) {
-          result['subject'] = subject;
-        }
-      }
-    }
-    return result;
-  }
-
-  String? _extractXmlTagContent(String xml, String tagName) {
-    final reg = RegExp('<[^:>]*:?$tagName[^>]*>(.*?)</[^:>]*:?$tagName>', caseSensitive: false, dotAll: true);
-    final match = reg.firstMatch(xml);
-    if (match != null) {
-      String inner = match.group(1) ?? '';
-      final liReg = RegExp('<rdf:li[^>]*>(.*?)</rdf:li>', caseSensitive: false, dotAll: true);
-      final liMatch = liReg.firstMatch(inner);
-      if (liMatch != null) {
-        return _cleanXmlText(liMatch.group(1) ?? '');
-      }
-      return _cleanXmlText(inner);
-    }
-    return null;
-  }
-
-  String _cleanXmlText(String text) {
-    return text
-        .replaceAll('&amp;', '&')
-        .replaceAll('&lt;', '<')
-        .replaceAll('&gt;', '>')
-        .replaceAll('&quot;', '"')
-        .replaceAll('&apos;', "'")
-        .replaceAll(RegExp(r'<[^>]*>'), '')
-        .trim();
-  }
-
-  /// Extracts a PDF string value after the given key marker.
-  /// Handles both literal strings (`/Key (value)`) and hex strings (`/Key <hex>`).
-  String? _extractPdfStringValue(String content, String key) {
-    final keyIndex = content.indexOf(key);
-    if (keyIndex < 0) return null;
-
-    // Scan forward from key position for ( or <
-    final afterKey = content.substring(keyIndex + key.length).trimLeft();
-
-    if (afterKey.startsWith('(')) {
-      // Literal string: extract content between matching parentheses
-      int depth = 0;
-      int start = -1;
-      for (int i = 0; i < afterKey.length && i < 2048; i++) {
-        if (afterKey[i] == '(' && (i == 0 || afterKey[i - 1] != '\\')) {
-          if (depth == 0) start = i + 1;
-          depth++;
-        } else if (afterKey[i] == ')' && afterKey[i - 1] != '\\') {
-          depth--;
-          if (depth == 0) {
-            final raw = afterKey.substring(start, i);
-            return _decodePdfLiteralString(raw);
-          }
-        }
-      }
-    } else if (afterKey.startsWith('<')) {
-      // Hex string: extract between < and >
-      final end = afterKey.indexOf('>');
-      if (end > 1) {
-        final hex = afterKey.substring(1, end).replaceAll(RegExp(r'\s'), '');
-        return _decodePdfHexString(hex);
-      }
-    }
-    return null;
-  }
-
-  String _decodePdfLiteralString(String raw) {
-    // Handle PDF escape sequences
-    return raw
-        .replaceAll('\\n', '\n')
-        .replaceAll('\\r', '\r')
-        .replaceAll('\\t', '\t')
-        .replaceAll('\\(', '(')
-        .replaceAll('\\)', ')')
-        .replaceAll('\\\\', '\\');
-  }
-
-  String _decodePdfHexString(String hex) {
-    // Check for UTF-16 BOM (FEFF)
-    if (hex.length >= 4 && hex.substring(0, 4).toUpperCase() == 'FEFF') {
-      final bytes = <int>[];
-      for (int i = 4; i + 3 < hex.length; i += 4) {
-        bytes.add(int.parse(hex.substring(i, i + 4), radix: 16));
-      }
-      return String.fromCharCodes(bytes);
-    }
-    // Otherwise treat as byte pairs → Latin-1
-    final bytes = <int>[];
-    for (int i = 0; i + 1 < hex.length; i += 2) {
-      bytes.add(int.parse(hex.substring(i, i + 2), radix: 16));
-    }
-    return String.fromCharCodes(bytes);
-  }
-
-  // ── Shared utilities ────────────────────────────────────────────────────────
-
-  Future<String> downloadCover(String url) async {
-    try {
-      final response = await http.get(Uri.parse(url));
-      if (response.statusCode == 200) {
-        final appDir = await getApplicationDocumentsDirectory();
-        final coversDir = Directory(p.join(appDir.path, 'covers'));
-        if (!await coversDir.exists()) await coversDir.create();
-
-        final coverPath = p.join(
-          coversDir.path,
-          '${DateTime.now().millisecondsSinceEpoch}.jpg',
-        );
-        await File(coverPath).writeAsBytes(response.bodyBytes);
-        return coverPath;
-      }
-    } catch (e) {
-      debugPrint('Error downloading cover: $e');
-    }
-    return '';
-  }
-
-  Future<String> saveLocalCover(File file) async {
-    try {
-      final appDir = await getApplicationDocumentsDirectory();
-      final coversDir = Directory(p.join(appDir.path, 'covers'));
-      if (!await coversDir.exists()) await coversDir.create();
-
-      final coverPath = p.join(
-        coversDir.path,
-        '${DateTime.now().millisecondsSinceEpoch}${p.extension(file.path)}',
-      );
-      await file.copy(coverPath);
-      return coverPath;
-    } catch (e) {
-      debugPrint('Error saving local cover: $e');
-    }
-    return '';
-  }
-
-  Future<String> _calculateFileHash(File file) async {
-    try {
-      final bytes = await file.readAsBytes();
-      return md5.convert(bytes).toString();
-    } catch (e) {
-      debugPrint('Error calculating file hash: $e');
-      return '';
-    }
-  }
+  /// Copies a local cover [file] into the app's covers directory.
+  /// Returns the new path, or empty string on failure.
+  Future<String> saveLocalCover(File file) =>
+      BookCoverStorage.saveLocalFile(file);
 }
