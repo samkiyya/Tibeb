@@ -1,0 +1,68 @@
+{
+  "@@locale": "om",
+  "appName": "Tibeb",
+  "appDescription": "Tibeb bukii fi sagalee buukuu ilmaan namaa kanaafii baramtuudha.",
+  
+  "settings": "Qindaa'ina",
+  "engagement": "Hojiirra oolchuu",
+  "appearance": "Mul'ata",
+  "notifications": "Yaadannoo",
+  "language": "Afaan",
+  "support": "Gargaarsa",
+  "about": "Waa'ee",
+  
+  "level": "Mataa",
+  "totalWP": "Jalqaba Kadhoo Guutuu",
+  "streak": "Dhumaa",
+  "pages": "Buu'uraa",
+  "minutes": "daqiiqaa",
+  
+  "theme": "Mul'ata",
+  "light": "Ifa",
+  "dark": "Gurraacha",
+  "system": "Seerii",
+  "alerts": "Yaadannoo",
+  
+  "readingPreferences": "Qindaa'ina Barbaachisuu",
+  "fontSettings": "Qindaa'ina Qubee",
+  "customizeReadingExperience": "Barbaaduu barreessuu sirrii taasuu",
+  "displayMode": "Afaan Mul'achuu",
+  "pageLayoutOrientation": "Qubee bukuu fi jajjaboo",
+  "readingSpeed": "Speeda Barreessuu",
+  "autoScrollPacing": "Dirqama dirree sirrii",
+  
+  "appExperience": "Dandeettii App",
+  "dailyReminders": "Yaadannoo Guyyaa",
+  "keepReadingStreakAlive": "Yaadannoo barreessuu jabuu",
+  "privacy": "Sirrii namoota",
+  "dataPermissions": "Daata fi yaada",
+  "storage": "Kayyoo",
+  "manageAppData": "Daata app sirrii taasuu",
+  
+  "supportAbout": "Gargaarsa fi Waa'ee",
+  "supportDeveloper": "Gargaarsa Develuper",
+  "helpSupportProject": "Gargaarsa proojeektiif deemuu ❤️",
+  "contribute": "Galgala",
+  "helpBuildGitHub": "GitHub irratti gaaffii deebisuu 🚀",
+  "rateApp": "App Lakkoofsi",
+  "leaveReview": "Gaaffii deebisi ⭐",
+  "shareApp": "App Qooda",
+  "shareWithFriends": "Soddaa waliin qooda 📢",
+  
+  "reminderTime": "Yaada Time",
+  "testNotification": "Yaadannoo Qabxii",
+  "receiveTestAlert": "Yaadannoo sirrii taasuuuf qabxii yaadaa barbaaduu.",
+  
+  "comingSoon": "Gara dhihaa",
+  "languageSupportComingSoon": "Gargaarsa afaan gara dhihaa! Afaan hedduu qabannee beekama jirra.",
+  "gotIt": "Eeyyee",
+  "maybeLater": "Booda",
+  "openSettings": "Qindaa'ina Ulii",
+  
+  "notificationsBlocked": "Yaadannoo Cufame",
+  "notificationsBlockedMessage": "Yaadannoo barreessuu seerii keessanii cufameera. Sirrii taasisuu!",
+  "notificationPermissionsRequired": "Yaadannoo bu'uura si barbaachisa.",
+  
+  "madeWithLove": "Samuel waliin hojii eegale ❤️",
+  "version": "Versiyooni"
+}

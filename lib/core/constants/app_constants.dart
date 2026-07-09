@@ -24,7 +24,7 @@ class AppConstants {
   static const String linkedInUrl = 'https://linkedin.com/in/samkiyya';
   
   // Feature Flags
-  static const bool languageToggleEnabled = false; // Coming soon
+  static const bool languageToggleEnabled = true; // Now implemented
   static const bool syncEnabled = false; // Coming soon
   static const bool cloudEnabled = false; // Coming soon
   

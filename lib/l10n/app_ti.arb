@@ -1,0 +1,68 @@
+{
+  "@@locale": "ti",
+  "appName": "ጥበብ",
+  "appDescription": "ጥበብ ናይ ኩሉ ሰብ ነፃ መጽሓፍ ከምኡእ ድምጺ መጽሓፍ ኣንባቢ እዩ።",
+  
+  "settings": "ቅዲሚ",
+  "engagement": "ስራሕ",
+  "appearance": "መልክዕ",
+  "notifications": "ማስታወሲ",
+  "language": "ቋንቋ",
+  "support": "ድጋፍ",
+  "about": "ስለ",
+  
+  "level": "ደረጃ",
+  "totalWP": "ጠቅላሊ ወርቂ ነጥብ",
+  "streak": "ቀጠሮ",
+  "pages": "ገጾት",
+  "minutes": "ደቂቃታት",
+  
+  "theme": "ቀለም",
+  "light": "ብርሃት",
+  "dark": "ጸሊም",
+  "system": "ስርዓት",
+  "alerts": "ማስታወሲ",
+  
+  "readingPreferences": "ምርጫታት ንባብ",
+  "fontSettings": "ቅዲሚ ፊደል",
+  "customizeReadingExperience": "ፍሉያት ንባብ ኣቐምጥ",
+  "displayMode": "ኣካል ምርኣይ",
+  "pageLayoutOrientation": "ኣቀማመጥ ገጽ ከምኡእ ኣቅጣጫ",
+  "readingSpeed": "ፍጥነት ንባብ",
+  "autoScrollPacing": "ራስ-ሰል ከምኡእ ፍጥነት",
+  
+  "appExperience": "ፍሉያት መተግበሪ",
+  "dailyReminders": "ዕለታዊ ማስታወሲ",
+  "keepReadingStreakAlive": "ቀጠሮ ንባብ ኣቐጥል",
+  "privacy": "የግል ምስኢት",
+  "dataPermissions": "ዳታ ከምኡእ ፍቃድ",
+  "storage": "ኣካል ማካንን",
+  "manageAppData": "ዳታ መተግበሪ ኣስተዳደር",
+  
+  "supportAbout": "ድጋፍ ከምኡእ ስለ",
+  "supportDeveloper": "ኣዘጋጁ ድጋፍ",
+  "helpSupportProject": "ፕሮጀክት ድጋፍ ሓግዝ ❤️",
+  "contribute": "ኣስተዋጽኦ",
+  "helpBuildGitHub": "በጊትሀብ ላይ ሓግዝ 🚀",
+  "rateApp": "መተግበሪ ኣመዓዛይ",
+  "leaveReview": "ግምገማ ስግኣ ⭐",
+  "shareApp": "መተግበሪ ኣካብይ",
+  "shareWithFriends": "ከዓማንኽዮት ኣካብይ 📢",
+  
+  "reminderTime": "ጊዜ ማስታወሲ",
+  "testNotification": "ፈተና ማስታወሲ",
+  "receiveTestAlert": "ማስታወሲ እንዴት እንደሚሰርም ለማረጋገጥ ፈተና ማስታወሲ ይቀበሉ።",
+  
+  "comingSoon": "በቅርብ ጊዜ",
+  "languageSupportComingSoon": "ድጋፍ ቋንቋ በቅርብ ጊዜ ይመጣል! ብዙ ቋንቋ ኣማራጮች ለማምጣት እያሰራን እዩ።",
+  "gotIt": "ገበነ",
+  "maybeLater": "በኋላ",
+  "openSettings": "ቅዲሚ ይክፈቱ",
+  
+  "notificationsBlocked": "ማስታወሲ ተከልክለዋል",
+  "notificationsBlockedMessage": "የንባብ ማስታወሲ በስርዓት ቅዲሚ ተከልክለዋል። ለመቀጠር እባክዎ ያንቁት!",
+  "notificationPermissionsRequired": "ለማስታወሲ ፍቃድ ያስፈልጋል።",
+  
+  "madeWithLove": "በፍቅር በሰሙኤል የተሰራ ❤️",
+  "version": "እትም"
+}

@@ -1,0 +1,68 @@
+{
+  "@@locale": "en",
+  "appName": "tibeb",
+  "appDescription": "tibeb is a free book + audiobook reader for everyone.",
+  
+  "settings": "Settings",
+  "engagement": "Engagement",
+  "appearance": "Appearance",
+  "notifications": "Notifications",
+  "language": "Language",
+  "support": "Support",
+  "about": "About",
+  
+  "level": "Level",
+  "totalWP": "TOTAL WP",
+  "streak": "Streak",
+  "pages": "Pages",
+  "minutes": "Minutes",
+  
+  "theme": "Theme",
+  "light": "Light",
+  "dark": "Dark",
+  "system": "System",
+  "alerts": "Alerts",
+  
+  "readingPreferences": "Reading Preferences",
+  "fontSettings": "Font Settings",
+  "customizeReadingExperience": "Customize reading experience",
+  "displayMode": "Display Mode",
+  "pageLayoutOrientation": "Page layout & orientation",
+  "readingSpeed": "Reading Speed",
+  "autoScrollPacing": "Auto-scroll & pacing",
+  
+  "appExperience": "App Experience",
+  "dailyReminders": "Daily Reminders",
+  "keepReadingStreakAlive": "Keep your reading streak alive",
+  "privacy": "Privacy",
+  "dataPermissions": "Data & permissions",
+  "storage": "Storage",
+  "manageAppData": "Manage app data",
+  
+  "supportAbout": "Support & About",
+  "supportDeveloper": "Support Developer",
+  "helpSupportProject": "Help support the project ❤️",
+  "contribute": "Contribute",
+  "helpBuildGitHub": "Help build on GitHub 🚀",
+  "rateApp": "Rate App",
+  "leaveReview": "Leave a review ⭐",
+  "shareApp": "Share App",
+  "shareWithFriends": "Share with friends 📢",
+  
+  "reminderTime": "Reminder Time",
+  "testNotification": "Test Notification",
+  "receiveTestAlert": "Receive a test alert to verify reminders work.",
+  
+  "comingSoon": "Coming Soon",
+  "languageSupportComingSoon": "Language support is coming soon! We're working hard to bring you multiple language options.",
+  "gotIt": "Got it",
+  "maybeLater": "Maybe Later",
+  "openSettings": "Open Settings",
+  
+  "notificationsBlocked": "Notifications Blocked",
+  "notificationsBlockedMessage": "Reading reminders are currently blocked by your system settings. Please enable them to stay on track!",
+  "notificationPermissionsRequired": "Notification permissions are required for reminders.",
+  
+  "madeWithLove": "Made with ❤️ by Samuel",
+  "version": "Version"
+}

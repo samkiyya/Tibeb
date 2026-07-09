@@ -133,4 +133,43 @@ class ReaderSettingsNotifier extends StateNotifier<ReaderSettings> {
     state = ReaderSettings.defaults;
     _saveSettings();
   }
+
+  // New methods for settings sheets
+  void setFontFamily(String fontFamily) {
+    state = state.copyWith(typeface: fontFamily, usePublisherDefaults: false);
+    _saveSettings();
+  }
+
+  void setFontSize(double fontSize) {
+    state = state.copyWith(textSize: fontSize.clamp(12.0, 32.0), usePublisherDefaults: false);
+    _saveSettings();
+  }
+
+  void setPageMode(String pageMode) {
+    // This is a placeholder - page mode logic would need to be implemented
+    _saveSettings();
+  }
+
+  void setOrientation(String orientation) {
+    // This is a placeholder - orientation logic would need to be implemented
+    _saveSettings();
+  }
+
+  void setReadingTheme(String readingTheme) {
+    ReaderTheme theme;
+    switch (readingTheme) {
+      case 'light':
+        theme = ReaderTheme.white;
+        break;
+      case 'sepia':
+        theme = ReaderTheme.cream;
+        break;
+      case 'dark':
+        theme = ReaderTheme.black;
+        break;
+      default:
+        theme = ReaderTheme.black;
+    }
+    setTheme(theme);
+  }
 }

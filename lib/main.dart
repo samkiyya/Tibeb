@@ -2,13 +2,12 @@ import 'dart:io' as io;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_quill/flutter_quill.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:tibeb/core/theme/theme.dart';
 import 'package:tibeb/screens/main_navigation.dart';
 import 'package:tibeb/services/notification_service.dart';
+import 'package:tibeb/services/localization_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,7 +57,9 @@ void main() async {
 
   runApp(
     ProviderScope(
-      overrides: [sharedPreferencesProvider.overrideWithValue(sharedPrefs)],
+      overrides: [
+        sharedPreferencesProvider.overrideWithValue(sharedPrefs),
+      ],
       child: const TibebApp(),
     ),
   );
@@ -70,6 +71,8 @@ class TibebApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeModeProvider);
+    final supportedLocales = ref.watch(supportedLocalesProvider);
+    final localizationsDelegates = ref.watch(localizationsDelegatesProvider);
 
     return MaterialApp(
       title: 'tibeb',
@@ -77,13 +80,8 @@ class TibebApp extends ConsumerWidget {
       theme: TibebTheme.light(),
       darkTheme: TibebTheme.dark(),
       themeMode: themeMode,
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        FlutterQuillLocalizations.delegate,
-      ],
-      supportedLocales: const [Locale('en', 'US')],
+      localizationsDelegates: localizationsDelegates,
+      supportedLocales: supportedLocales,
       home: const MainNavigation(),
     );
   }

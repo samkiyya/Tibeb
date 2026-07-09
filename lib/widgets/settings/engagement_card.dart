@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme/theme.dart';
 import '../../providers/library/library_state.dart';
 import '../glass_container.dart';
+import '../../l10n/app_localizations.dart';
 
 class EngagementCard extends StatelessWidget {
   final LibraryState state;
@@ -14,6 +15,7 @@ class EngagementCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
 
     return GlassContainer(
       padding: const EdgeInsets.all(20),
@@ -33,7 +35,7 @@ class EngagementCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Level ${state.level}',
+                  '${l10n.level} ${state.level}',
                   style: TextStyle(
                     color: t.textPrimary,
                     fontSize: 18,
@@ -59,7 +61,7 @@ class EngagementCard extends StatelessWidget {
                 ),
               ),
               Text(
-                'TOTAL WP',
+                l10n.totalWP,
                 style: TextStyle(
                   color: t.textTertiary,
                   fontSize: 10,

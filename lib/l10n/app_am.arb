@@ -1,0 +1,68 @@
+{
+  "@@locale": "am",
+  "appName": "ጥበብ",
+  "appDescription": "ጥበብ ለሁሉም ሰው ነፃ መጽሐፍ እና የድምጽ መጽሐፍ አንባቢ ነው።",
+  
+  "settings": "ቅንብሮች",
+  "engagement": "ስራ",
+  "appearance": "አርሳይ",
+  "notifications": "ማስታወሻዎች",
+  "language": "ቋንቋ",
+  "support": "ድጋፍ",
+  "about": "ስለ",
+  
+  "level": "ደረጃ",
+  "totalWP": "ጠቅላላ ወርቅ ነጥብ",
+  "streak": "ቀጠሮ",
+  "pages": "ገጾች",
+  "minutes": "ደቂቃዎች",
+  
+  "theme": "ገጽታ",
+  "light": "ብርሃት",
+  "dark": "ጨለማ",
+  "system": "ስርዓት",
+  "alerts": "ማስታወሻዎች",
+  
+  "readingPreferences": "የንባብ ምርጫዎች",
+  "fontSettings": "የፊደል ቅንብሮች",
+  "customizeReadingExperience": "የንባብ ተሞክሮዎን ይምረጡ",
+  "displayMode": "የአሳይ ዘዴ",
+  "pageLayoutOrientation": "የገጽ አቀማመጥ እና አቅጣጫ",
+  "readingSpeed": "የንባብ ፍጥነት",
+  "autoScrollPacing": "ራስ-ሰል እና ፍጥነት",
+  
+  "appExperience": "የመተግበሪያ ተሞክሮ",
+  "dailyReminders": "የዕለት ተወሳክ ማስታወሻዎች",
+  "keepReadingStreakAlive": "የንባብ ቀጠሮዎን ይቀጥቡ",
+  "privacy": "የግል ማስረጃ",
+  "dataPermissions": "ዳታ እና ፍቃዶች",
+  "storage": "ማከማቻ",
+  "manageAppData": "የመተግበሪያ ዳታን ያስተዳድሩ",
+  
+  "supportAbout": "ድጋፍ እና ስለ",
+  "supportDeveloper": "አዘጋጁን ይድጋፉ",
+  "helpSupportProject": "ፕሮጀክቱን ለመደጋፍ ይረዱ ❤️",
+  "contribute": "አስተዋጽኦ",
+  "helpBuildGitHub": "በጊትሀብ ላይ ለመገንባት ይረዱ 🚀",
+  "rateApp": "መተግበሪያውን ይመዝግቡ",
+  "leaveReview": "ግምገማ ይስጡ ⭐",
+  "shareApp": "መተግበሪያውን ያካፍሉ",
+  "shareWithFriends": "ከጓደኞች ጋር ያካፍሉ 📢",
+  
+  "reminderTime": "የማስታወሻ ጊዜ",
+  "testNotification": "የማስታወሻ ፈተና",
+  "receiveTestAlert": "ማስታወሻዎች እንዴት እንደሚሰሩ ለማረጋገጥ ፈተና ማስታወሻ ይቀበሉ።",
+  
+  "comingSoon": "በቅርብ ጊዜ",
+  "languageSupportComingSoon": "የቋንቋ ድጋፍ በቅርብ ጊዜ ይመጣል! ብዙ ቋንቋ አማራጮችን ለማምጣት እያሰራን ነው።",
+  "gotIt": "ገባኝ",
+  "maybeLater": "በኋላ",
+  "openSettings": "ቅንብሮችን ይክፈቱ",
+  
+  "notificationsBlocked": "ማስታወሻዎች ተከልክለዋል",
+  "notificationsBlockedMessage": "የንባብ ማስታወሻዎች በስርዓት ቅንብሮችዎ ተከልክለዋል። ለመቀጠር እባክዎ ያንቁት!",
+  "notificationPermissionsRequired": "ለማስታወሻዎች ፍቃድ ያስፈልጋል።",
+  
+  "madeWithLove": "በፍቅር በሰሙኤል የተሰራ ❤️",
+  "version": "እትም"
+}

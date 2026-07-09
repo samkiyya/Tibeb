@@ -7,6 +7,7 @@ import '../providers/library_provider.dart';
 import '../providers/settings_provider.dart';
 import '../widgets/settings/settings_widgets.dart';
 import '../widgets/glass_container.dart';
+import '../l10n/app_localizations.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -15,6 +16,7 @@ class SettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final t = context.tibpiColors;
     final libraryState = ref.watch(libraryProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: t.background,
@@ -28,7 +30,7 @@ class SettingsScreen extends ConsumerWidget {
             flexibleSpace: FlexibleSpaceBar(
               titlePadding: const EdgeInsets.only(left: 20, bottom: 16),
               title: Text(
-                'Settings',
+                l10n.settings,
                 style: context.textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.w800,
                   color: t.textPrimary,
@@ -47,7 +49,7 @@ class SettingsScreen extends ConsumerWidget {
             sliver: SliverList(
               delegate: SliverChildListDelegate([
                 // User Profile Card - Hero Section
-                _buildProfileCard(libraryState, t)
+                _buildProfileCard(libraryState, t, l10n)
                     .animate()
                     .fadeIn(duration: 400.ms, delay: 0.ms)
                     .slideY(begin: 0.1, end: 0, duration: 400.ms, delay: 0.ms),
@@ -55,7 +57,7 @@ class SettingsScreen extends ConsumerWidget {
                 const SizedBox(height: 24),
                 
                 // Quick Settings Grid
-                _buildQuickSettingsGrid(context, ref, t)
+                _buildQuickSettingsGrid(context, ref, l10n, t)
                     .animate()
                     .fadeIn(duration: 400.ms, delay: 100.ms)
                     .slideY(begin: 0.1, end: 0, duration: 400.ms, delay: 100.ms),
@@ -63,9 +65,9 @@ class SettingsScreen extends ConsumerWidget {
                 const SizedBox(height: 32),
                 
                 // Reading Preferences Section
-                _buildSectionHeader('Reading Preferences', Icons.menu_book_rounded, t),
+                _buildSectionHeader(l10n.readingPreferences, Icons.menu_book_rounded, t),
                 const SizedBox(height: 12),
-                _buildReadingPreferences(context, ref, t)
+                _buildReadingPreferences(context, ref, l10n, t)
                     .animate()
                     .fadeIn(duration: 400.ms, delay: 200.ms)
                     .slideY(begin: 0.1, end: 0, duration: 400.ms, delay: 200.ms),
@@ -73,9 +75,9 @@ class SettingsScreen extends ConsumerWidget {
                 const SizedBox(height: 32),
                 
                 // App Experience Section
-                _buildSectionHeader('App Experience', Icons.tune_rounded, t),
+                _buildSectionHeader(l10n.appExperience, Icons.tune_rounded, t),
                 const SizedBox(height: 12),
-                _buildAppExperience(context, ref, t)
+                _buildAppExperience(context, ref, l10n, t)
                     .animate()
                     .fadeIn(duration: 400.ms, delay: 300.ms)
                     .slideY(begin: 0.1, end: 0, duration: 400.ms, delay: 300.ms),
@@ -83,9 +85,9 @@ class SettingsScreen extends ConsumerWidget {
                 const SizedBox(height: 32),
                 
                 // Support & About Section
-                _buildSectionHeader('Support & About', Icons.info_rounded, t),
+                _buildSectionHeader(l10n.supportAbout, Icons.info_rounded, t),
                 const SizedBox(height: 12),
-                _buildSupportSection(context, ref, t)
+                _buildSupportSection(context, ref, l10n, t)
                     .animate()
                     .fadeIn(duration: 400.ms, delay: 400.ms)
                     .slideY(begin: 0.1, end: 0, duration: 400.ms, delay: 400.ms),
@@ -102,7 +104,7 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildProfileCard(LibraryState state, TibebThemeExtension t) {
+  Widget _buildProfileCard(LibraryState state, TibebThemeExtension t, AppLocalizations l10n) {
     return GlassContainer(
       padding: const EdgeInsets.all(20),
       child: Row(
@@ -189,7 +191,7 @@ class SettingsScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Level ${state.level} • ${state.totalWP} WP',
+                  '${l10n.level} ${state.level} • ${state.totalWP} WP',
                   style: TextStyle(
                     color: t.textSecondary,
                     fontSize: 13,
@@ -248,14 +250,14 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildQuickSettingsGrid(BuildContext context, WidgetRef ref, TibebThemeExtension t) {
+  Widget _buildQuickSettingsGrid(BuildContext context, WidgetRef ref, AppLocalizations l10n, TibebThemeExtension t) {
     return Row(
       children: [
         Expanded(
           child: _buildQuickSettingTile(
             icon: Icons.palette_rounded,
-            label: 'Theme',
-            onTap: () => _showThemeBottomSheet(context, ref, t),
+            label: l10n.theme,
+            onTap: () => _showThemeBottomSheet(context, ref, l10n, t),
             t: t,
           ),
         ),
@@ -263,8 +265,8 @@ class SettingsScreen extends ConsumerWidget {
         Expanded(
           child: _buildQuickSettingTile(
             icon: Icons.notifications_rounded,
-            label: 'Alerts',
-            onTap: () => _showNotificationBottomSheet(context, ref, t),
+            label: l10n.alerts,
+            onTap: () => _showNotificationBottomSheet(context, ref, l10n, t),
             t: t,
           ),
         ),
@@ -272,8 +274,8 @@ class SettingsScreen extends ConsumerWidget {
         Expanded(
           child: _buildQuickSettingTile(
             icon: Icons.language_rounded,
-            label: 'Language',
-            onTap: () => _showLanguageBottomSheet(context, ref, t),
+            label: l10n.language,
+            onTap: () => _showLanguageBottomSheet(context, ref, l10n, t),
             t: t,
           ),
         ),
@@ -314,31 +316,31 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildReadingPreferences(BuildContext context, WidgetRef ref, TibebThemeExtension t) {
+  Widget _buildReadingPreferences(BuildContext context, WidgetRef ref, AppLocalizations l10n, TibebThemeExtension t) {
     return GlassContainer(
       child: Column(
         children: [
           _buildSettingsTile(
             icon: Icons.text_fields_rounded,
-            title: 'Font Settings',
-            subtitle: 'Customize reading experience',
-            onTap: () {},
+            title: l10n.fontSettings,
+            subtitle: l10n.customizeReadingExperience,
+            onTap: () => _showFontSettingsSheet(context, t, l10n),
             t: t,
           ),
           Divider(color: t.borderSubtle, height: 1),
           _buildSettingsTile(
             icon: Icons.auto_stories_rounded,
-            title: 'Display Mode',
-            subtitle: 'Page layout & orientation',
-            onTap: () {},
+            title: l10n.displayMode,
+            subtitle: l10n.pageLayoutOrientation,
+            onTap: () => _showDisplaySettingsSheet(context, t, l10n),
             t: t,
           ),
           Divider(color: t.borderSubtle, height: 1),
           _buildSettingsTile(
             icon: Icons.speed_rounded,
-            title: 'Reading Speed',
-            subtitle: 'Auto-scroll & pacing',
-            onTap: () {},
+            title: l10n.readingSpeed,
+            subtitle: l10n.autoScrollPacing,
+            onTap: () {}, // TODO: Implement reading speed settings
             t: t,
           ),
         ],
@@ -346,14 +348,14 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildAppExperience(BuildContext context, WidgetRef ref, TibebThemeExtension t) {
+  Widget _buildAppExperience(BuildContext context, WidgetRef ref, AppLocalizations l10n, TibebThemeExtension t) {
     return GlassContainer(
       child: Column(
         children: [
           _buildSwitchTile(
             icon: Icons.notifications_active_rounded,
-            title: 'Daily Reminders',
-            subtitle: 'Keep your reading streak alive',
+            title: l10n.dailyReminders,
+            subtitle: l10n.keepReadingStreakAlive,
             value: ref.watch(settingsProvider).notificationsEnabled,
             onChanged: (val) {
               ref.read(settingsProvider.notifier).updateNotificationSettings(enabled: val);
@@ -364,17 +366,17 @@ class SettingsScreen extends ConsumerWidget {
           Divider(color: t.borderSubtle, height: 1),
           _buildSettingsTile(
             icon: Icons.shield_rounded,
-            title: 'Privacy',
-            subtitle: 'Data & permissions',
-            onTap: () {},
+            title: l10n.privacy,
+            subtitle: l10n.dataPermissions,
+            onTap: () => _showPrivacySettingsSheet(context, t, l10n),
             t: t,
           ),
           Divider(color: t.borderSubtle, height: 1),
           _buildSettingsTile(
             icon: Icons.storage_rounded,
-            title: 'Storage',
-            subtitle: 'Manage app data',
-            onTap: () {},
+            title: l10n.storage,
+            subtitle: l10n.manageAppData,
+            onTap: () => _showStorageSettingsSheet(context, t, l10n),
             t: t,
           ),
         ],
@@ -382,38 +384,38 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildSupportSection(BuildContext context, WidgetRef ref, TibebThemeExtension t) {
+  Widget _buildSupportSection(BuildContext context, WidgetRef ref, AppLocalizations l10n, TibebThemeExtension t) {
     return GlassContainer(
       child: Column(
         children: [
           _buildSettingsTile(
             icon: Icons.volunteer_activism_rounded,
-            title: 'Support Developer',
-            subtitle: 'Help support the project ❤️',
+            title: l10n.supportDeveloper,
+            subtitle: l10n.helpSupportProject,
             onTap: () => ref.read(settingsProvider.notifier).launchUrl(AppConstants.supportUrl),
             t: t,
           ),
           Divider(color: t.borderSubtle, height: 1),
           _buildSettingsTile(
             icon: Icons.code_rounded,
-            title: 'Contribute',
-            subtitle: 'Help build on GitHub 🚀',
+            title: l10n.contribute,
+            subtitle: l10n.helpBuildGitHub,
             onTap: () => ref.read(settingsProvider.notifier).launchUrl(AppConstants.githubUrl),
             t: t,
           ),
           Divider(color: t.borderSubtle, height: 1),
           _buildSettingsTile(
             icon: Icons.star_rate_rounded,
-            title: 'Rate App',
-            subtitle: 'Leave a review ⭐',
+            title: l10n.rateApp,
+            subtitle: l10n.leaveReview,
             onTap: () => ref.read(settingsProvider.notifier).rateApp(),
             t: t,
           ),
           Divider(color: t.borderSubtle, height: 1),
           _buildSettingsTile(
             icon: Icons.share_rounded,
-            title: 'Share App',
-            subtitle: 'Share with friends 📢',
+            title: l10n.shareApp,
+            subtitle: l10n.shareWithFriends,
             onTap: () => ref.read(settingsProvider.notifier).shareApp(),
             t: t,
           ),
@@ -504,7 +506,7 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  void _showThemeBottomSheet(BuildContext context, WidgetRef ref, TibebThemeExtension t) {
+  void _showThemeBottomSheet(BuildContext context, WidgetRef ref, AppLocalizations l10n, TibebThemeExtension t) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -516,7 +518,7 @@ class SettingsScreen extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Theme',
+                l10n.theme,
                 style: TextStyle(
                   color: t.textPrimary,
                   fontSize: 18,
@@ -533,7 +535,7 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  void _showNotificationBottomSheet(BuildContext context, WidgetRef ref, TibebThemeExtension t) {
+  void _showNotificationBottomSheet(BuildContext context, WidgetRef ref, AppLocalizations l10n, TibebThemeExtension t) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -545,7 +547,7 @@ class SettingsScreen extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Notifications',
+                l10n.notifications,
                 style: TextStyle(
                   color: t.textPrimary,
                   fontSize: 18,
@@ -562,7 +564,7 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  void _showLanguageBottomSheet(BuildContext context, WidgetRef ref, TibebThemeExtension t) {
+  void _showLanguageBottomSheet(BuildContext context, WidgetRef ref, AppLocalizations l10n, TibebThemeExtension t) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -574,7 +576,7 @@ class SettingsScreen extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Language',
+                l10n.language,
                 style: TextStyle(
                   color: t.textPrimary,
                   fontSize: 18,
@@ -585,6 +587,86 @@ class SettingsScreen extends ConsumerWidget {
               const LanguageToggle(),
               const SizedBox(height: 20),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showFontSettingsSheet(BuildContext context, TibebThemeExtension t, AppLocalizations l10n) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: GlassContainer(
+            padding: const EdgeInsets.all(20),
+            child: const FontSettingsSheet(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showDisplaySettingsSheet(BuildContext context, TibebThemeExtension t, AppLocalizations l10n) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: GlassContainer(
+            padding: const EdgeInsets.all(20),
+            child: const DisplaySettingsSheet(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showPrivacySettingsSheet(BuildContext context, TibebThemeExtension t, AppLocalizations l10n) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: GlassContainer(
+            padding: const EdgeInsets.all(20),
+            child: const PrivacySettingsSheet(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showStorageSettingsSheet(BuildContext context, TibebThemeExtension t, AppLocalizations l10n) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: GlassContainer(
+            padding: const EdgeInsets.all(20),
+            child: const StorageSettingsSheet(),
           ),
         ),
       ),

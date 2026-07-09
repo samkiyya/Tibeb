@@ -6,6 +6,7 @@ import '../../core/constants/app_constants.dart';
 import '../../providers/settings_provider.dart';
 import '../../providers/library_provider.dart';
 import '../../services/notification_service.dart';
+import '../../l10n/app_localizations.dart';
 
 class NotificationSettings extends ConsumerWidget {
   const NotificationSettings({super.key});
@@ -14,6 +15,7 @@ class NotificationSettings extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final t = context.tibpiColors;
     final state = ref.watch(settingsProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Column(
       children: [
@@ -25,11 +27,11 @@ class NotificationSettings extends ConsumerWidget {
             ref.read(libraryProvider.notifier).updateNotificationSettings(enabled: val);
           },
           title: Text(
-            'Daily Reminders',
+            l10n.dailyReminders,
             style: TextStyle(color: t.textPrimary),
           ),
           subtitle: Text(
-            'Keep your reading streak alive',
+            l10n.keepReadingStreakAlive,
             style: TextStyle(color: t.textSecondary),
           ),
           activeThumbColor: t.primary,
@@ -41,7 +43,7 @@ class NotificationSettings extends ConsumerWidget {
         if (state.notificationsEnabled)
           ListTile(
             title: Text(
-              'Reminder Time',
+              l10n.reminderTime,
               style: TextStyle(color: t.textPrimary),
             ),
             trailing: Row(
@@ -100,15 +102,15 @@ class NotificationSettings extends ConsumerWidget {
             color: t.primary,
           ),
           title: Text(
-            'Test Notification',
+            l10n.testNotification,
             style: TextStyle(color: t.textPrimary),
           ),
           subtitle: Text(
-            'Receive a test alert to verify reminders work.',
+            l10n.receiveTestAlert,
             style: TextStyle(color: t.textSecondary, fontSize: 12),
           ),
           trailing: Icon(Icons.send_rounded, color: t.primary, size: 20),
-          onTap: () => _sendTestNotification(context, ref, t),
+          onTap: () => _sendTestNotification(context, ref, t, l10n),
         ),
       ],
     );
@@ -118,6 +120,7 @@ class NotificationSettings extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     TibebThemeExtension t,
+    AppLocalizations l10n,
   ) async {
     final status = await Permission.notification.status;
 
@@ -140,21 +143,21 @@ class NotificationSettings extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(16),
                   ),
                   title: Text(
-                    'Notifications Blocked',
+                    l10n.notificationsBlocked,
                     style: TextStyle(
                       color: t.textPrimary,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   content: Text(
-                    'Reading reminders are currently blocked by your system settings. Please enable them to stay on track!',
+                    l10n.notificationsBlockedMessage,
                     style: TextStyle(color: t.textSecondary),
                   ),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.pop(context),
                       child: Text(
-                        'Maybe Later',
+                        l10n.maybeLater,
                         style: TextStyle(color: t.textTertiary),
                       ),
                     ),
@@ -164,7 +167,7 @@ class NotificationSettings extends ConsumerWidget {
                         Navigator.pop(context);
                       },
                       child: Text(
-                        'Open Settings',
+                        l10n.openSettings,
                         style: TextStyle(
                           color: t.primary,
                           fontWeight: FontWeight.bold,
@@ -192,7 +195,7 @@ class NotificationSettings extends ConsumerWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Notification permissions are required for reminders.',
+            l10n.notificationPermissionsRequired,
             style: TextStyle(color: t.textPrimary),
           ),
           backgroundColor: t.error,
