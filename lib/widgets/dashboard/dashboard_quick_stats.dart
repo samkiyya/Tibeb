@@ -13,6 +13,7 @@ class DashboardQuickStats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tibpiColors;
+  
     return Row(
       children: [
         Expanded(

@@ -28,7 +28,7 @@ class StatBadge extends StatelessWidget {
           const SizedBox(height: TibebSpacing.sm),
           Text(
             value,
-            style: context.textTheme.titleLarge?.copyWith(fontSize: 18),
+            style: context.textTheme.titleLarge?.copyWith(fontSize: 18, color: t.textSecondary),
           ),
           Text(
             label,

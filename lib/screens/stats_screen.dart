@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:tibeb/widgets/dashboard/streak_widget.dart';
 import '../core/theme/theme.dart';
 
 import '../providers/library_provider.dart';
@@ -109,20 +110,13 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
   }
 
   Widget _buildQuickStats(BuildContext context, TibebThemeExtension t, LibraryState state) {
-    final Color streakColor = state.isStreakActiveToday
-        ? (state.currentStreak >= 30
-            ? t.wpGold
-            : (state.currentStreak >= 7 ? t.streakFire : t.primary))
-        : t.textSecondary;
 
     return Row(
       children: [
         Expanded(
-          child: StatBadge(
-            label: 'Streak',
-            value: '${state.currentStreak}',
-            icon: Icons.local_fire_department,
-            color: streakColor,
+          child:StreakWidget(
+            streak: state.currentStreak,
+            isActive: state.isStreakActiveToday,
           ),
         ),
         const SizedBox(width: 12),

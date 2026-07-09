@@ -2,10 +2,10 @@
 import 'package:flutter/material.dart';
 import '../models/achievement.dart';
 
-/// Complete list — all original 18 achievements preserved, new ones appended.
+/// Complete list — IDs preserved for compatibility.
 final List<Achievement> allAchievements = [
 
-  // ── ORIGINAL 18 ──────────────────────────────────────────────────────────
+  // ── Reading Journey ─────────────────────────────────────────────────────
 
   const Achievement(
     id: 'the_first_page',
@@ -13,239 +13,266 @@ final List<Achievement> allAchievements = [
     description: 'Finish your first book (ፊደል መጀመሪያ)',
     icon: Icons.auto_stories_rounded,
   ),
+
   const Achievement(
     id: 'habit_builder',
     title: 'Regular Temari',
     description: 'Read for 3 days in a row (ቋሚ ተማሪ)',
     icon: Icons.calendar_today_rounded,
   ),
+
   const Achievement(
     id: 'seven_day_streak',
     title: "Anebabi's Path",
     description: 'Read for 7 days in a row (የአነባቢ መንገድ)',
     icon: Icons.local_fire_department_rounded,
   ),
+
   const Achievement(
     id: 'bookworm',
     title: 'Degwa Collector',
-    description: 'Total 1,000 pages read (ድጓ ሰብሳቢ)',
+    description: 'Read 1,000 pages in total (ድጓ ሰብሳቢ)',
     icon: Icons.layers_rounded,
   ),
+
   const Achievement(
     id: 'night_owl',
-    title: 'Kidan Nocturnal',
-    description: 'Read books after 10 PM (ኪዳን)',
+    title: 'Moonlight Reader',
+    description: 'Read after 10 PM (የሌሊት አንባቢ)',
     icon: Icons.bedtime_rounded,
   ),
+
   const Achievement(
     id: 'early_bird',
-    title: 'Mahlet Dawn',
-    description: 'Read books before 9 AM (ማሕሌት)',
+    title: 'Dawn Scholar',
+    description: 'Read before 9 AM (የንጋት ተማሪ)',
     icon: Icons.wb_twilight_rounded,
   ),
+
   const Achievement(
     id: 'century_club',
-    title: "Guba'e Marathon",
-    description: '100+ pages read in one go (ጉባኤ ማራቶን)',
+    title: 'Endurance Reader',
+    description: 'Read 100 pages in one session (የረጅም ንባብ)',
     icon: Icons.rocket_launch_rounded,
   ),
+
   const Achievement(
     id: 'unstoppable',
     title: "Tsehafi's Devotion",
-    description: 'Read for 30 days in a row (የፀሐፊ ጽናት)',
+    description: 'Read for 30 consecutive days (የፀሐፊ ጽናት)',
     icon: Icons.emoji_events_rounded,
   ),
+
   const Achievement(
     id: 'marathoner',
-    title: "Tse'at Vigil",
-    description: 'Read for 2 hours in one go (የሰዓታት ትጋት)',
+    title: 'Reading Vigil',
+    description: 'Read for 2 hours in one session (የንባብ ትጋት)',
     icon: Icons.hourglass_full_rounded,
   ),
+
   const Achievement(
     id: 'scholar',
     title: "Liq's Library",
-    description: 'Total 5,000 pages read (የሊቅ መጽሐፍት)',
+    description: 'Read 5,000 pages in total (የሊቅ መጽሐፍት)',
     icon: Icons.account_balance_rounded,
   ),
+
   const Achievement(
     id: 'yomibito',
-    title: 'Kibre Negest',
-    description: 'Finish 10 books in total (ክብረ ነገሥት)',
+    title: 'Kibre Negest Scholar',
+    description: 'Finish 10 books (ክብረ ነገሥት)',
     icon: Icons.workspace_premium_rounded,
   ),
+
   const Achievement(
     id: 'sensei',
-    title: "Baletibeb's Archive",
-    description: 'Finish 50 books in total (የባለጥበብ መዝገብ)',
+    title: 'Master Liq',
+    description: 'Finish 50 books (ሊቀ ሊቃውንት)',
     icon: Icons.diamond_rounded,
   ),
+
   const Achievement(
     id: 'bibliophile',
     title: 'Metsihaf Collector',
-    description: 'Add 10 books to library (መጽሐፍ ወዳድ)',
+    description: 'Add 10 books to your library (መጽሐፍ ወዳድ)',
     icon: Icons.library_add_rounded,
   ),
+
   const Achievement(
     id: 'collector',
     title: 'Gedam Archive',
-    description: 'Add 100 books to library (የገዳም መዛግብት)',
+    description: 'Add 100 books to your library (የገዳም መዛግብት)',
     icon: Icons.domain_rounded,
   ),
+
   const Achievement(
     id: 'weekend_warrior',
     title: 'Sabbath Scholar',
-    description: 'Read on both Sat and Sun (የሰንበት ተማሪ)',
+    description: 'Read on both Saturday and Sunday (የሰንበት ተማሪ)',
     icon: Icons.brightness_5_rounded,
   ),
+
   const Achievement(
     id: 'the_translator',
     title: 'Tergum Seeker',
     description: 'Look up your first word (ትርጉም ፈላጊ)',
     icon: Icons.record_voice_over_rounded,
   ),
+
   const Achievement(
     id: 'vocabulary_builder',
     title: 'Sewasew Student',
-    description: 'Total 20 words looked up (የሰዋስው ተማሪ)',
+    description: 'Look up 20 words (የሰዋስው ተማሪ)',
     icon: Icons.spellcheck_rounded,
   ),
+
   const Achievement(
     id: 'polyglot',
     title: 'Liqe Tergum',
-    description: 'Total 100 words looked up (ሊቀ ትርጉም)',
+    description: 'Look up 100 words (ሊቀ ትርጉም)',
     icon: Icons.psychology_alt_rounded,
   ),
 
-  // ── NEW: Pages milestones ─────────────────────────────────────────────────
+  // ── Page Milestones ────────────────────────────────────────────────────
 
   const Achievement(
     id: 'gondar_keep',
-    title: "Gondar's Keep",
-    description: 'Read 500 pages total (የጎንደር ምሽግ)',
-    icon: Icons.history_edu_rounded,    // history scroll = Gondar castle chronicles
-  ),
-  const Achievement(
-    id: 'sheba_wisdom',
-    title: "Sheba's Wisdom",
-    description: 'Read 2,000 pages total (የሳባ ጥበብ)',
-    icon: Icons.emoji_objects_rounded,  // lightbulb = Queen of Sheba's legendary wisdom
-  ),
-  const Achievement(
-    id: 'axum_legacy',
-    title: "Axum's Legacy",
-    description: 'Read 10,000 pages total (የአክሱም ቅርስ)',
-    icon: Icons.museum_rounded,         // museum = the enduring heritage of Axum
+    title: 'House of Manuscripts',
+    description: 'Read 500 pages (የብራና ቤት)',
+    icon: Icons.history_edu_rounded,
   ),
 
-  // ── NEW: Books finished milestones ────────────────────────────────────────
+  const Achievement(
+    id: 'sheba_wisdom',
+    title: 'Wisdom of Sheba',
+    description: 'Read 2,000 pages (የሳባ ጥበብ)',
+    icon: Icons.emoji_objects_rounded,
+  ),
+
+  const Achievement(
+    id: 'axum_legacy',
+    title: 'Axum Heritage',
+    description: 'Read 10,000 pages (የአክሱም ቅርስ)',
+    icon: Icons.museum_rounded,
+  ),
+
+  // ── Books Finished ─────────────────────────────────────────────────────
 
   const Achievement(
     id: 'fasil_crown',
-    title: "Fasil's Crown",
-    description: 'Finish 5 books in total (የፋሲል ዘውድ)',
-    icon: Icons.verified_rounded,       // verified seal = Fasilides' royal crown
-  ),
-  const Achievement(
-    id: 'yohannes_torch',
-    title: "Yohannes' Torch",
-    description: 'Finish 20 books in total (የዮሐንስ ችቦ)',
-    icon: Icons.auto_awesome_rounded,   // sparkle = Emperor Yohannes lighting knowledge
-  ),
-  const Achievement(
-    id: 'menelik_library',
-    title: "Menelik's Library",
-    description: 'Finish 100 books in total (የምኒልክ ቤተ መጻሕፍት)',
-    icon: Icons.architecture_rounded,   // architecture = Menelik's grand palace library
+    title: 'Royal Reader',
+    description: 'Finish 5 books (የንባብ ዘውድ)',
+    icon: Icons.verified_rounded,
   ),
 
-  // ── NEW: Time/hours milestones ────────────────────────────────────────────
+  const Achievement(
+    id: 'yohannes_torch',
+    title: 'Torch of Knowledge',
+    description: 'Finish 20 books (የእውቀት ችቦ)',
+    icon: Icons.auto_awesome_rounded,
+  ),
+
+  const Achievement(
+    id: 'menelik_library',
+    title: 'Grand Library',
+    description: 'Finish 100 books (ቤተ መጻሕፍት)',
+    icon: Icons.architecture_rounded,
+  ),
+
+  // ── Reading Time ───────────────────────────────────────────────────────
 
   const Achievement(
     id: 'lalibela_vigil',
-    title: "Lalibela's Vigil",
-    description: 'Read for 100 total hours (የላሊበላ ጥንቃቄ)',
-    icon: Icons.church_rounded,         // church = Lalibela's rock-hewn church devotion
+    title: 'Lalibela Vigil',
+    description: 'Read for 100 hours (የላሊበላ ትጋት)',
+    icon: Icons.church_rounded,
   ),
 
-  // ── NEW: Streak milestones ────────────────────────────────────────────────
+  // ── Long Streak ────────────────────────────────────────────────────────
 
   const Achievement(
     id: 'selassie_endurance',
-    title: "Selassie's Endurance",
-    description: 'Read for 100 days in a row (የሥላሴ ጽናት)',
-    icon: Icons.timeline_rounded,       // timeline = the long arc of regal endurance
+    title: 'Hundred-Day Scholar',
+    description: 'Read for 100 consecutive days (የ100 ቀን ተማሪ)',
+    icon: Icons.timeline_rounded,
   ),
 
-  // ── NEW: Vocabulary milestones ────────────────────────────────────────────
+  // ── Vocabulary ─────────────────────────────────────────────────────────
 
   const Achievement(
     id: 'geez_mastery',
-    title: 'Geez Mastery',
-    description: 'Look up 500 words total (የግዕዝ ዕውቀት)',
-    icon: Icons.translate_rounded,      // translation = mastery of Ge'ez classical script
+    title: "Ge'ez Mastery",
+    description: 'Look up 500 words (የግዕዝ ዕውቀት)',
+    icon: Icons.translate_rounded,
   ),
+
   const Achievement(
     id: 'qene_poet',
     title: 'Qene Poet',
-    description: 'Look up 1,000 words total (ቅኔ ባለቅኔ)',
-    icon: Icons.edit_note_rounded,      // poet's pen = Ethiopia's sacred Qene poetry
+    description: 'Look up 1,000 words (ባለቅኔ)',
+    icon: Icons.edit_note_rounded,
   ),
 
-  // ── NEW: Audiobook achievements ───────────────────────────────────────────
+  // ── Audiobooks ─────────────────────────────────────────────────────────
 
   const Achievement(
     id: 'oral_tradition',
     title: 'Oral Tradition',
     description: 'Listen to your first audiobook (የቃል ትውፊት)',
-    icon: Icons.headphones_rounded,     // headphones = Ethiopia's living oral storytelling
+    icon: Icons.headphones_rounded,
   ),
+
   const Achievement(
     id: 'azmari_listener',
     title: 'Azmari Listener',
     description: 'Listen to 5 audiobooks (አዝማሪ ሰሚ)',
-    icon: Icons.queue_music_rounded,    // music queue = Azmari wandering minstrel tradition
+    icon: Icons.queue_music_rounded,
   ),
 
-  // ── NEW: Speed & dedication ───────────────────────────────────────────────
+  // ── Special Reading ────────────────────────────────────────────────────
 
   const Achievement(
     id: 'fast_reader',
-    title: "Behailu's Speed",
-    description: 'Finish a book in under 3 days (የፍጥነት ንባብ)',
-    icon: Icons.speed_rounded,          // speedometer = reading with swift determination
-  ),
-  const Achievement(
-    id: 'annotations_scholar',
-    title: 'Margin Notes',
-    description: 'Add 20 highlights or bookmarks (የሽፋን ማስታወሻ)',
-    icon: Icons.bookmark_added_rounded, // bookmark = the scholar's annotated manuscript
+    title: 'Swift Reader',
+    description: 'Finish a book in under 3 days (ፈጣን አንባቢ)',
+    icon: Icons.speed_rounded,
   ),
 
-  // ── NEW: Seasonal / special ───────────────────────────────────────────────
+  const Achievement(
+    id: 'annotations_scholar',
+    title: 'Margin Scholar',
+    description: 'Create 20 highlights or bookmarks (የጎን ማስታወሻ)',
+    icon: Icons.bookmark_added_rounded,
+  ),
+
+  // ── Ethiopian Celebrations ─────────────────────────────────────────────
 
   const Achievement(
     id: 'timkat_reader',
     title: 'Timkat Reader',
-    description: 'Read on Ethiopian Epiphany (ጥምቀት ቀን)',
-    icon: Icons.water_rounded,          // water = the Timkat baptism ceremony
+    description: 'Read on Timkat (ጥምቀት)',
+    icon: Icons.water_rounded,
   ),
+
   const Achievement(
     id: 'enkutatash_start',
     title: 'Enkutatash Awakening',
-    description: 'Read on Ethiopian New Year (እንቁጣጣሽ ቀን)',
-    icon: Icons.celebration_rounded,    // celebration = Ethiopian New Year (Sep 11)
+    description: 'Read on Enkutatash (እንቁጣጣሽ)',
+    icon: Icons.celebration_rounded,
   ),
+
   const Achievement(
     id: 'adwa_spirit',
-    title: 'Adwa Spirit',
+    title: 'Spirit of Adwa',
     description: 'Read for 7 consecutive weeks (የዓድዋ መንፈስ)',
-    icon: Icons.flag_rounded,           // flag = the Battle of Adwa victory spirit
+    icon: Icons.flag_rounded,
   ),
+
   const Achievement(
     id: 'meskel_flame',
     title: 'Meskel Flame',
-    description: 'Read 3 books in one month (የመስቀል ነበልባል)',
-    icon: Icons.local_fire_department_rounded, // flame = the Meskel bonfire of Finding the Cross
+    description: 'Finish 3 books in one month (የመስቀል ነበልባል)',
+    icon: Icons.local_fire_department_rounded,
   ),
 ];
 
