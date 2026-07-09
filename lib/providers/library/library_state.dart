@@ -1,4 +1,6 @@
 import 'package:flutter_riverpod/legacy.dart';
+import 'package:tibeb/models/achievement.dart';
+import 'package:tibeb/models/achievements_data.dart';
 import '../../core/database/database.dart' show ReadingSessionEntity;
 import '../../core/rank/tibeb_rank_repository.dart';
 import '../../core/rank/tibeb_rank_extension.dart';
@@ -144,6 +146,20 @@ class LibraryState {
     final progress = dailyReadingValues[today] ?? 0;
     return progress >= (weeklyGoalValue / 7.0);
   }
+
+List<Achievement> get sortedAchievements {
+  // Map each base achievement to a copy with isUnlocked set
+  final list = allAchievements.map((ach) {
+    return ach.copyWith(isUnlocked: unlockedAchievements.contains(ach.id));
+  }).toList();
+
+  // Sort: unlocked first, then locked
+  list.sort((a, b) {
+    if (a.isUnlocked == b.isUnlocked) return 0;
+    return a.isUnlocked ? -1 : 1;
+  });
+  return list;
+}
 
   int _sumForCurrentWeek(Map<String, int> values) {
     final now = DateTime.now();

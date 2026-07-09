@@ -31,19 +31,19 @@ extension TibebRankUI on TibebRank {
   IconData get icon {
     switch (id) {
       case 'temari':
-        return Icons.auto_stories_outlined;
+        return Icons.import_contacts_rounded;      // open primer/notebook = a student's first reader
       case 'anebabi':
-        return Icons.menu_book_rounded;
+        return Icons.menu_book_rounded;            // open book = the reader, consistently reading
       case 'tsehafi':
-        return Icons.edit_note_rounded;
+        return Icons.draw_rounded;                 // pen/stylus = the scribe writing knowledge
       case 'liq':
-        return Icons.psychology_rounded;
+        return Icons.psychology_rounded;           // deep mind = the learned scholar's intellect
       case 'baletibeb':
-        return Icons.workspace_premium_rounded;
+        return Icons.workspace_premium_rounded;    // premium crest = the master craftsman's seal
       case 'tibebawi':
-        return Icons.diamond_rounded;
+        return Icons.diamond_rounded;              // diamond = the embodiment of wisdom, rare and perfect
       default:
-        return Icons.auto_stories_outlined;
+        return Icons.import_contacts_rounded;
     }
   }
 
