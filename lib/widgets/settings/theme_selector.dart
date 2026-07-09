@@ -38,6 +38,7 @@ class ThemeSelector extends ConsumerWidget {
                 ),
               ),
             ),
+            t: t,
           ),
         ),
         const SizedBox(width: 12),
@@ -67,6 +68,7 @@ class ThemeSelector extends ConsumerWidget {
                 ),
               ),
             ),
+            t: t,
           ),
         ),
         const SizedBox(width: 12),
@@ -94,6 +96,7 @@ class ThemeSelector extends ConsumerWidget {
                 ),
               ),
             ),
+            t: t,
           ),
         ),
       ],
@@ -107,6 +110,7 @@ class _ThemeTile extends ConsumerWidget {
   final ThemeMode themeMode;
   final bool isSelected;
   final Widget previewWidget;
+  final TibebThemeExtension t;
 
   const _ThemeTile({
     required this.title,
@@ -114,12 +118,11 @@ class _ThemeTile extends ConsumerWidget {
     required this.themeMode,
     required this.isSelected,
     required this.previewWidget,
+    required this.t,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final t = context.tibpiColors;
-
     return GestureDetector(
       onTap: () {
         ref.read(themeModeProvider.notifier).setThemeMode(themeMode);

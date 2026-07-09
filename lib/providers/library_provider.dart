@@ -184,6 +184,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
       final sessions = await _db.getReadingSessions();
       final questWp = await _db.getTotalQuestWP();
       final lookupCount = await _db.getDictionaryLookupCount();
+      final annotationCount = await _db.getTotalAnnotationCount();
 
       final streak = StatsCalculator.calculateStreak(sessions);
       final activity = StatsCalculator.calculateDetailedActivity(sessions, books);
@@ -192,6 +193,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
         books: books,
         questWp: questWp,
         lookupCount: lookupCount,
+        annotationCount: annotationCount,
       );
       final visibleBooks = books.where((b) => !b.isDeleted).toList();
 
@@ -362,6 +364,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
     final sessions = await _db.getReadingSessions();
     final questWp = await _db.getTotalQuestWP();
     final lookupCount = await _db.getDictionaryLookupCount();
+    final annotationCount = await _db.getTotalAnnotationCount();
 
     final activity = StatsCalculator.calculateDetailedActivity(sessions, state.allBooks);
     final stats = StatsCalculator.calculate(
@@ -369,6 +372,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
       books: state.allBooks,
       questWp: questWp,
       lookupCount: lookupCount,
+      annotationCount: annotationCount,
     );
 
     final newAchievements = stats.achievements.difference(

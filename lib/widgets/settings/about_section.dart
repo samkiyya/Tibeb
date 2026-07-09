@@ -20,8 +20,9 @@ class AboutSection extends ConsumerWidget {
               return Text(
                 'tibeb $version',
                 style: TextStyle(
-                  color: t.textSecondary.withValues(alpha: 0.5),
-                  fontSize: 12,
+                  color: t.textSecondary.withValues(alpha: 0.6),
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
                 ),
               );
             },
@@ -30,8 +31,8 @@ class AboutSection extends ConsumerWidget {
           Text(
             'Made with ❤️ by Samuel',
             style: TextStyle(
-              color: t.textTertiary.withValues(alpha: 0.5),
-              fontSize: 10,
+              color: t.textTertiary.withValues(alpha: 0.6),
+              fontSize: 11,
             ),
           ),
         ],

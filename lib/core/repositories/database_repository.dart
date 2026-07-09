@@ -54,6 +54,7 @@ abstract class DatabaseRepository {
   Future<int> insertDictionaryLookup(String word, int bookId);
   Future<List<VocabularyLookup>> getDictionaryLookupsForBook(int bookId);
   Future<int> getDictionaryLookupCount();
+  Future<int> getTotalAnnotationCount();
 }
 
 class DatabaseRepositoryImpl implements DatabaseRepository {
@@ -235,5 +236,12 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   @override
   Future<int> getDictionaryLookupCount() {
     return _db.dictionaryLookupsDao.getDictionaryLookupCount();
+  }
+
+  @override
+  Future<int> getTotalAnnotationCount() async {
+    final highlights = await _db.highlightsDao.getTotalHighlightCount();
+    final bookmarkCount = await _db.bookmarksDao.getTotalBookmarkCount();
+    return highlights + bookmarkCount;
   }
 }
