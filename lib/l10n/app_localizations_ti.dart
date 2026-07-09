@@ -105,7 +105,7 @@ class AppLocalizationsTi extends AppLocalizations {
   String get keepReadingStreakAlive => 'ቀጠሮ ንባብ ኣቐጥል';
 
   @override
-  String get privacy => 'የግል ምስኢት';
+  String get privacy => 'ናይ ፍርቲ ምስኢት';
 
   @override
   String get dataPermissions => 'ዳታ ከምኡእ ፍቃድ';
@@ -120,7 +120,7 @@ class AppLocalizationsTi extends AppLocalizations {
   String get supportAbout => 'ድጋፍ ከምኡእ ስለ';
 
   @override
-  String get supportDeveloper => 'አዘጋጁን ይድጋፉ';
+  String get supportDeveloper => 'ኣዘጋጁን ድጋፍ';
 
   @override
   String get helpSupportProject => 'ፕሮጀክት ድጋፍ ሓግዝ ❤️';
@@ -132,13 +132,13 @@ class AppLocalizationsTi extends AppLocalizations {
   String get helpBuildGitHub => 'በጊትሀብ ላይ ሓግዝ 🚀';
 
   @override
-  String get rateApp => 'መተግበሪያውን ይመዝግቡ';
+  String get rateApp => 'መተግበሪ ኣመዓዛይ';
 
   @override
   String get leaveReview => 'ግምገማ ስግኣ ⭐';
 
   @override
-  String get shareApp => 'መተግበሪያውን ያካፍሉ';
+  String get shareApp => 'መተግበሪ ኣካብይ';
 
   @override
   String get shareWithFriends => 'ከዓማንኽዮት ኣካብይ 📢';
@@ -173,13 +173,13 @@ class AppLocalizationsTi extends AppLocalizations {
 
   @override
   String get notificationsBlockedMessage =>
-      'የንባብ ማስታወሲ በስርዓት ቅዲሚ ተከልክለዋል። ለመቀጠር እባክዎ ያንቁት!';
+      'ማስታወሲ ንባብ ብስርዓት ቅዲሚ ተከልክለዋል። ንምቀጠር እባክዎ ያንቁት!';
 
   @override
-  String get notificationPermissionsRequired => 'ለማስታወሲ ፍቃድ ያስፈልጋል።';
+  String get notificationPermissionsRequired => 'ንማስታወሲ ፍቃድ ይግባእ።';
 
   @override
-  String get madeWithLove => 'በፍቅር በሰሙኤል የተሰራ ❤️';
+  String get madeWithLove => 'ብፍቅር ብሰሙኤል ዝተሰራ ❤️';
 
   @override
   String get version => 'እትም';
@@ -224,28 +224,28 @@ class AppLocalizationsTi extends AppLocalizations {
   String get importNow => 'አሁን አስመጣ';
 
   @override
-  String get today => 'ዛሬ';
+  String get today => 'ሎሮ';
 
   @override
-  String get yesterday => 'ትናት';
+  String get yesterday => 'ዓለት ትናት';
 
   @override
-  String get thisWeek => 'ዛሬ ሳምንት';
+  String get thisWeek => 'ሳምንት ኣሎ';
 
   @override
-  String get thisMonth => 'ዛሬ ወር';
+  String get thisMonth => 'ወር ኣሎ';
 
   @override
-  String get thisYear => 'ዛሬ አመት';
+  String get thisYear => 'ኣመት ኣሎ';
 
   @override
-  String get goodMorning => 'እንደምን ዋለ';
+  String get goodMorning => 'ኣማን ዋለ';
 
   @override
-  String get goodAfternoon => 'እንደምን አለም';
+  String get goodAfternoon => 'ኣማን አለም';
 
   @override
-  String get goodEvening => 'እንደምን ምሽት';
+  String get goodEvening => 'ኣማን ምሽት';
 
   @override
   String get seeMore => 'ተጨማሪ ይመልከቱ';
@@ -260,21 +260,21 @@ class AppLocalizationsTi extends AppLocalizations {
   String get addBooks => 'መጽሐፍት ጨምር';
 
   @override
-  String get editBookInfo => 'የመጽሐፍ መረጃ አርትዕ';
+  String get editBookInfo => 'ዳህሳው መጽሓፍ ኣርትዕ';
 
   @override
-  String get storagePermissionRequired => 'መጽሐፍትን ለማስመጣት የማከማቻ ፍቃድ ያስፈልጋል።';
+  String get storagePermissionRequired => 'መጽሓፍትን ንምኣስመጣ ዳህሳው ማካንን ይግባእ።';
 
   @override
   String successfullyImported(Object count) {
-    return '$count መጽሐፍት በተሳካ ሁኔታ ተሰብትዋል።';
+    return '$count መጽሓፍት ብተሳካ ሁኔታ ተሰብትዋል።';
   }
 
   @override
   String get ok => 'እሺ';
 
   @override
-  String get all => 'ሁሉም';
+  String get all => 'ኩሉ';
 
   @override
   String get favorites => 'ተወዳጆች';
@@ -289,13 +289,13 @@ class AppLocalizationsTi extends AppLocalizations {
   String get folder => 'ፎልደር';
 
   @override
-  String get fileType => 'የፋይል አይነት';
+  String get fileType => 'ዓይነት ፋይል';
 
   @override
   String get category => 'ምድብ';
 
   @override
-  String get selectAll => 'ሁሉም ይምረጡ';
+  String get selectAll => 'ኩሉ ይምረጡ';
 
   @override
   String get cancel => 'ተው';
@@ -304,13 +304,13 @@ class AppLocalizationsTi extends AppLocalizations {
   String get delete => 'ሰርዝ';
 
   @override
-  String get edit => 'አርትዕ';
+  String get edit => 'ኣርትዕ';
 
   @override
-  String get readingStats => 'የንባብ ስታቲስቲክስ';
+  String get readingStats => 'ስታቲስቲክስ ንባብ';
 
   @override
-  String get readingActivity => 'የንባብ እንቅስት';
+  String get readingActivity => 'ኣክቲቪቲ ንባብ';
 
   @override
   String get selectMonth => 'ወር ይምረጡ';
@@ -319,7 +319,7 @@ class AppLocalizationsTi extends AppLocalizations {
   String get achievements => 'ስኬቶች';
 
   @override
-  String get dailyQuests => 'የዕለት ተልዕሎች';
+  String get dailyQuests => 'ተልዕሎች ዕለታዊ';
 
   @override
   String get doubleWP => '2X WP';
@@ -333,105 +333,105 @@ class AppLocalizationsTi extends AppLocalizations {
   }
 
   @override
-  String get weeklyGoals => 'የሳምንት ግቦች';
+  String get weeklyGoals => 'ግቦች ሳምንታዊ';
 
   @override
-  String get noGoalsSet => 'ለዚህ ሳምንት ምንም ግብ አልተደረገም';
+  String get noGoalsSet => 'ንዚህ ሳምንት ምንም ግብ ኣልተደረገም';
 
   @override
-  String get currentLevel => 'የአሁኑ ደረጃ';
+  String get currentLevel => 'ደረጃ ኣሎ';
 
   @override
   String wpToLevelUp(Object count) {
-    return '$count WP ወደ ላይኛ ደረጃ ለመሄድ';
+    return '$count WP ንወደ ደረጃ ላይ ንምሄድ';
   }
 
   @override
-  String get searchBook => 'መጽሐፍ ፈልግ...';
+  String get searchBook => 'መጽሓፍ ፈልግ...';
 
   @override
   String get unknown => 'ያልታወቀ';
 
   @override
-  String get importAudiobook => 'የድምጽ መጽሐፍ አስመጣ';
+  String get importAudiobook => 'ድምጺ መጽሓፍ ኣስመጣ';
 
   @override
   String get cover => 'ኮቨር';
 
   @override
-  String get importing => 'በማስመጣት ላይ...';
+  String get importing => 'ብምኣስመጣ ላይ...';
 
   @override
   String get error => 'ስህተት';
 
   @override
-  String get bookUpdated => 'መጽሐፉ ተዘምቷል';
+  String get bookUpdated => 'መጽሓፉ ተዘምቷል';
 
   @override
   String get series => 'ተከታታይ';
 
   @override
-  String get tagsCommaSeparated => 'ትያጎች (በንዑስ ስርዓት የተለዩ)';
+  String get tagsCommaSeparated => 'ትያጎች (ብንዑስ ስርዓት ዝተለዩ)';
 
   @override
-  String get audiobookParts => 'የድምጽ መጽሐፍ ክፍሎች';
+  String get audiobookParts => 'ክፍሎች ድምጺ መጽሓፍ';
 
   @override
   String get items => 'እቃዎች';
 
   @override
-  String get noAudioPartsAttached => 'ምንም የድምጽ ክፍሎች አልተያዩም።';
+  String get noAudioPartsAttached => 'ምንም ክፍሎች ድምጺ ኣልተያዩም።';
 
   @override
   String get addParts => 'ክፍሎች ጨምር';
 
   @override
-  String get bookCover => 'የመጽሐፍ ኮቨር';
+  String get bookCover => 'ኮቨር መጽሓፍ';
 
   @override
   String get changeCover => 'ኮቨር ቀይር';
 
   @override
-  String get searchOnline => 'በመስመር ፈልግ';
+  String get searchOnline => 'ብመስመር ፈልግ';
 
   @override
   String get selectFiles => 'ፋይሎችን ይምረጡ';
 
   @override
-  String get import => 'አስመጣ';
+  String get import => 'ኣስመጣ';
 
   @override
-  String get supportDeveloperSubtitle => 'አዘጋጁን እና ፕሮጀክቱን ይድጋፉ ❤️';
+  String get supportDeveloperSubtitle => 'ኣዘጋጁን ከምኡእ ፕሮጀክቱን ድጋፍ ❤️';
 
   @override
-  String get contributeGitHub => 'በጊትሀብ ላይ አስተዋጽኦ';
+  String get contributeGitHub => 'ኣስተዋጽኦ ብጊትሀብ';
 
   @override
-  String get contributeGitHubSubtitle => 'የጥበብ ይወድጉ ከጊትሀብ ይርዱ 🚀';
+  String get contributeGitHubSubtitle => 'ጥበብ ዝትወድጉ ከጊትሀብ ይርዱ 🚀';
 
   @override
-  String get rateAppSubtitle => 'ጥበብን ወደዱ? ግምገማ ይስጡ! ⭐';
+  String get rateAppSubtitle => 'ጥበብ ዝትወድጉ? ግምገማ ስግኣ! ⭐';
 
   @override
-  String get shareAppSubtitle => 'ጥበብን ከጓደኞች ጋር ያካፍሉ 📢';
+  String get shareAppSubtitle => 'ጥበብ ከዓማንኽዮት ጋር ኣካብይ 📢';
 
   @override
-  String get pagesRead => 'የተነበቡ ገጾች';
+  String get pagesRead => 'ገጾት ዝተነበቡ';
 
   @override
-  String get minutesRead => 'የተነበቡ ደቂቃዎች';
+  String get minutesRead => 'ደቂቃታት ዝተነበቡ';
 
   @override
-  String get wisdomPoints => 'የጥበብ ነጥቦች (WP)';
+  String get wisdomPoints => 'ነጥቦች ጥበብ (WP)';
 
   @override
-  String get noBookSelected => 'ምንም መጽሐፍ አልተመረጠም';
+  String get noBookSelected => 'ምንም መጽሓፍ ኣልተመረጠም';
 
   @override
-  String get tapToSelectBook => 'መጽሐፍ ለመምረጥ መታ ያድርጉ';
+  String get tapToSelectBook => 'መጽሓፍ ንምምረጥ ዳሕባ ይጥዙ';
 
   @override
-  String get readingTime => 'የንባብ ጊዜ';
+  String get readingTime => 'ጊዜ ንባብ';
 
   @override
   String get progress => 'ትርፍ';
@@ -482,10 +482,10 @@ class AppLocalizationsTi extends AppLocalizations {
   String get search => 'ፈልግ';
 
   @override
-  String get searchInBook => 'በመጽሐፍ ውስጥ ፈልግ';
+  String get searchInBook => 'ብውስጥ መጽሓፍ ፈልግ';
 
   @override
-  String get noResults => 'ምንም ውጤቶች አልተገኙም';
+  String get noResults => 'ምንም ውጤቶች ኣልተገኙም';
 
   @override
   String resultsFound(Object count) {
@@ -493,10 +493,10 @@ class AppLocalizationsTi extends AppLocalizations {
   }
 
   @override
-  String get settingsSaved => 'ቅንብሮች ተቀምጠዋል';
+  String get settingsSaved => 'ቅዲሚ ተቀምጠዋል';
 
   @override
-  String get themeChanged => 'ገጽታ ተቀይሯል';
+  String get themeChanged => 'ቀለም ተቀይሯል';
 
   @override
   String get languageChanged => 'ቋንቋ ተቀይሯል';
@@ -520,34 +520,34 @@ class AppLocalizationsTi extends AppLocalizations {
   String get close => 'ዝጋ';
 
   @override
-  String get save => 'አስቀምጥ';
+  String get save => 'ኣስቀምጥ';
 
   @override
-  String get discard => 'አስወግድ';
+  String get discard => 'ኣስወግድ';
 
   @override
-  String get confirm => 'አረጋግጥ';
+  String get confirm => 'ኣረጋግጥ';
 
   @override
-  String get deleteBook => 'መጽሐፍ ሰርዝ';
+  String get deleteBook => 'መጽሓፍ ሰርዝ';
 
   @override
-  String get deleteBookConfirm => 'እርስዎ ይህንን መጽሐፍ ለመሰርድ እርግጠኛ ነዎት?';
+  String get deleteBookConfirm => 'እርስዎ ይህንን መጽሓፍ ንምሰርድ እርግጠኛ እዩ?';
 
   @override
-  String get deleteBooks => 'መጽሐፍት ሰርዝ';
+  String get deleteBooks => 'መጽሓፍት ሰርዝ';
 
   @override
   String deleteBooksConfirm(Object count) {
-    return 'እርስዎ $count መጽሐፍትን ለመሰርድ እርግጠኛ ነዎት?';
+    return 'እርስዎ $count መጽሓፍትን ንምሰርድ እርግጠኛ እዩ?';
   }
 
   @override
-  String get bookDeleted => 'መጽሐፉ ተሰርዟል';
+  String get bookDeleted => 'መጽሓፉ ተሰርዟል';
 
   @override
   String booksDeleted(Object count) {
-    return '$count መጽሐፍት ተሰርዟል';
+    return '$count መጽሓፍት ተሰርዟል';
   }
 
   @override

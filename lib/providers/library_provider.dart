@@ -441,11 +441,13 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
       final sessions = await _db.getReadingSessions();
       final questWp = await _db.getTotalQuestWP();
       final lookupCount = await _db.getDictionaryLookupCount();
+      final annotationCount = await _db.getTotalAnnotationCount();
       final stats = StatsCalculator.calculate(
         sessions: sessions,
         books: state.allBooks,
         questWp: questWp,
         lookupCount: lookupCount,
+        annotationCount: annotationCount,
       );
 
       if (stats.level > state.level) {
