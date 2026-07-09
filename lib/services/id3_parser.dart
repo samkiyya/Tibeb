@@ -404,7 +404,7 @@ class Id3Parser {
 
   /// 4-byte synchsafe integer (7 bits per byte, MSB first).
   static int _synchsafeInt(List<int> bytes, int offset) {
-    if (offset + 3 >= bytes.length) return 0;
+    if (offset + 4 > bytes.length) return 0;
     return ((bytes[offset] & 0x7F) << 21) |
         ((bytes[offset + 1] & 0x7F) << 14) |
         ((bytes[offset + 2] & 0x7F) << 7) |
@@ -413,7 +413,7 @@ class Id3Parser {
 
   /// Plain big-endian uint32.
   static int _uint32BE(List<int> bytes, int offset) {
-    if (offset + 3 >= bytes.length) return 0;
+    if (offset + 4 > bytes.length) return 0;
     return ((bytes[offset] & 0xFF) << 24) |
         ((bytes[offset + 1] & 0xFF) << 16) |
         ((bytes[offset + 2] & 0xFF) << 8) |

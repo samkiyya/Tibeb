@@ -42,59 +42,67 @@ class _ShelfItemState extends ConsumerState<ShelfItem> {
       },
       child: SizedBox(
         width: 110,
+        height: 180,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: TibebRadius.borderMd,
-                  child: BookCover(
-                    path: widget.book.coverPath,
-                    placeholderColor: t.surfaceOverlay,
-                    fit: BoxFit.cover,
+            SizedBox(
+              width: 110,
+              height: 140,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  ClipRRect(
+                    borderRadius: TibebRadius.borderMd,
+                    child: BookCover(
+                      path: widget.book.coverPath,
+                      placeholderColor: t.surfaceOverlay,
+                      fit: BoxFit.contain,
+                    ),
                   ),
-                ),
-                if (widget.onMenuPressed != null)
-                  Positioned(
-                    top: 4,
-                    right: 4,
-                    child: InkWell(
-                      onTapDown: (details) {
-                        setState(() {
-                          _tapPosition = details.globalPosition;
-                        });
-                      },
-                      onTap: () => widget.onMenuPressed!(_tapPosition),
-                      borderRadius: TibebRadius.borderPill,
-                      child: Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: t.scrim.withValues(alpha: 0.45),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.more_vert,
-                          size: 16,
-                          color: t.textOnPrimary,
+                  if (widget.onMenuPressed != null)
+                    Positioned(
+                      top: 4,
+                      right: 4,
+                      child: InkWell(
+                        onTapDown: (details) {
+                          setState(() {
+                            _tapPosition = details.globalPosition;
+                          });
+                        },
+                        onTap: () => widget.onMenuPressed!(_tapPosition),
+                        borderRadius: TibebRadius.borderPill,
+                        child: Container(
+                          padding: const EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            color: t.scrim.withValues(alpha: 0.45),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.more_vert,
+                            size: 16,
+                            color: t.textOnPrimary,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
-            const SizedBox(height: 8),
-            Text(
-              widget.book.title,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              softWrap: true,
-              style: TextStyle(
-                color: t.textPrimary,
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                height: 1.1, // 🔥 key fix
+            const SizedBox(height: 6),
+            Expanded(
+              child: Text(
+                widget.book.title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                softWrap: true,
+                style: TextStyle(
+                  color: t.textPrimary,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  height: 1.2,
+                ),
               ),
             ),
           ],

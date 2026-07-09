@@ -60,11 +60,20 @@ class AudiobookImportService {
         .map((f) => AudioTrack(path: f.path!, title: _cleanTitle(f.name)))
         .toList();
 
-    // Use the first file's parent folder name as the default title.
-    final folderName = p.basenameWithoutExtension(
-      p.dirname(files.first.path!),
-    );
-    final title = folderName.isNotEmpty ? folderName : 'Audiobook';
+    // Determine a sensible default title:
+    // 1. Parent folder name — but only if it looks like a real name (not a
+    //    timestamp, not a system cache segment, not purely numeric).
+    // 2. Otherwise use the cleaned filename of the first track.
+    final folderRaw = p.basenameWithoutExtension(p.dirname(files.first.path!));
+    final folderIsUsable = folderRaw.isNotEmpty &&
+        !RegExp(r'^\d+$').hasMatch(folderRaw) && // pure numbers = timestamp
+        !RegExp(r'^file_picker$', caseSensitive: false).hasMatch(folderRaw) &&
+        !RegExp(r'^cache$', caseSensitive: false).hasMatch(folderRaw) &&
+        folderRaw.length > 3;
+
+    final title = folderIsUsable
+        ? folderRaw.replaceAll('_', ' ').trim()
+        : _cleanTitle(files.first.name);
 
     return AudiobookMeta(
       title: title,
@@ -90,9 +99,28 @@ class AudiobookImportService {
   }
 
   static String _cleanTitle(String fileName) {
-    final name = p.basenameWithoutExtension(fileName);
-    // Remove leading track numbers like "01 - ", "Track 1 " etc.
-    return name.replaceFirst(RegExp(r'^[\d\s_-]+'), '').trim();
+    // Remove extension
+    String name = p.basenameWithoutExtension(fileName);
+    // Replace underscores and hyphens with spaces
+    name = name.replaceAll('_', ' ').replaceAll('-', ' ');
+    // Collapse multiple spaces
+    name = name.replaceAll(RegExp(r' {2,}'), ' ');
+    // Remove leading track numbers: "01 ", "1. ", "Track 1 ", etc.
+    name = name.replaceFirst(
+        RegExp(r'^(track\s*)?[\d]+[\s\.\-]+', caseSensitive: false), '');
+    // Remove trailing noise like "(Official Video)", "[HD]", "(Non Stop)", etc.
+    name = name.replaceAll(RegExp(r'\s*[\(\[][^\)\]]*[\)\]]'), '');
+    // Remove common suffix words that aren't real titles
+    name = name.replaceFirst(
+        RegExp(r'\s*(NONSTOP|NON\s*STOP|MASHUP|MIX|New Ethiopian|Non Stop)\s*$',
+            caseSensitive: false),
+        '');
+    final cleaned = name.trim();
+    // If nothing meaningful remains, use the original filename without extension
+    if (cleaned.isEmpty || cleaned.length < 3) {
+      return p.basenameWithoutExtension(fileName).replaceAll('_', ' ').trim();
+    }
+    return cleaned;
   }
 }
 
@@ -137,6 +165,23 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
     super.dispose();
   }
 
+  /// Returns true if [text] contains enough real (non-replacement) characters
+  /// to be worth showing. Rejects strings that are mostly `?` or empty boxes,
+  /// which happen when an encoding like Windows-1252 is misread as Latin-1.
+  static bool _isUsableText(String text) {
+    if (text.trim().isEmpty) return false;
+    final total = text.runes.length;
+    if (total == 0) return false;
+    // Count characters that look like replacement/garbage:
+    //   '?' (0x3F), replacement char (0xFFFD), control chars below 0x20
+    int bad = 0;
+    for (final rune in text.runes) {
+      if (rune == 0x3F || rune == 0xFFFD || rune < 0x20) bad++;
+    }
+    // Accept if fewer than 40% of characters are garbage
+    return bad / total < 0.4;
+  }
+
   Future<void> _pick() async {
     setState(() => _error = null);
     final meta = await AudiobookImportService.pickAndImport();
@@ -153,19 +198,30 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
       final parsed = await AudioMetadataParser.parseFile(track.path);
       if (parsed == null) continue;
 
-      // Take the first non-null title / author we find
-      if (parsed.title != null && parsed.title!.trim().isNotEmpty && extractedTitle == meta.title) {
+      // Accept title only if it doesn't look like garbage (more than half printable)
+      if (parsed.title != null &&
+          parsed.title!.trim().isNotEmpty &&
+          _isUsableText(parsed.title!) &&
+          extractedTitle == meta.title) {
         extractedTitle = parsed.title!.trim();
       }
-      if (parsed.author != null && parsed.author!.trim().isNotEmpty && extractedAuthor == 'Unknown') {
+      if (parsed.author != null &&
+          parsed.author!.trim().isNotEmpty &&
+          _isUsableText(parsed.author!) &&
+          extractedAuthor == 'Unknown') {
         extractedAuthor = parsed.author!.trim();
       }
-      if (parsed.coverBytes != null && parsed.coverBytes!.isNotEmpty && coverBytes == null) {
+      if (parsed.coverBytes != null &&
+          parsed.coverBytes!.isNotEmpty &&
+          coverBytes == null) {
         coverBytes = parsed.coverBytes;
         coverMime = parsed.coverMime;
       }
-      // Stop scanning once we have all three fields
-      if (extractedTitle != meta.title && extractedAuthor != 'Unknown' && coverBytes != null) break;
+      if (extractedTitle != meta.title &&
+          extractedAuthor != 'Unknown' &&
+          coverBytes != null) {
+        break;
+      }
     }
 
     setState(() {
