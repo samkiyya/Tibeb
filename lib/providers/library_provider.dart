@@ -9,6 +9,7 @@ import 'package:tibeb/models/achievements_data.dart';
 import '../core/rank/tibeb_rank_extension.dart';
 import '../core/rank/tibeb_rank_repository.dart';
 import '../core/repositories/database_repository.dart';
+import '../core/constants/app_constants.dart';
 import '../models/models.dart';
 import '../services/book_service.dart';
 import '../services/notification_service.dart';
@@ -79,7 +80,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
 
       if (state.notificationsEnabled) {
         await NotificationService().scheduleDailyReminder(
-          id: 999,
+          id: AppConstants.dailyReminderNotificationId,
           title: 'Time to read!',
           body: 'Keep your streak alive and dive back into your books.',
           hour: state.reminderHour,
@@ -95,16 +96,16 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
 
   Future<void> _loadGoal() async {
     final prefs = await SharedPreferences.getInstance();
-    final pageGoal = prefs.getDouble('weeklyPageGoal');
-    final minuteGoal = prefs.getDouble('weeklyMinuteGoal') ?? 0.0;
-    final wpGoal = prefs.getDouble('weeklyWPGoal') ?? 0.0;
+    final pageGoal = prefs.getDouble(AppConstants.weeklyPageGoalKey);
+    final minuteGoal = prefs.getDouble(AppConstants.weeklyMinuteGoalKey) ?? 0.0;
+    final wpGoal = prefs.getDouble(AppConstants.weeklyWPGoalKey) ?? 0.0;
 
-    final notificationsEnabled = prefs.getBool('notificationsEnabled') ?? true;
-    final reminderHour = prefs.getInt('reminderHour') ?? 20;
-    final reminderMinute = prefs.getInt('reminderMinute') ?? 0;
+    final notificationsEnabled = prefs.getBool(AppConstants.notificationsEnabledKey) ?? true;
+    final reminderHour = prefs.getInt(AppConstants.reminderHourKey) ?? AppConstants.defaultReminderHour;
+    final reminderMinute = prefs.getInt(AppConstants.reminderMinuteKey) ?? AppConstants.defaultReminderMinute;
 
-    double finalPageGoal = pageGoal ?? 100.0;
-    String finalType = prefs.getString('weeklyGoalType') ?? 'pages';
+    double finalPageGoal = pageGoal ?? AppConstants.defaultWeeklyPageGoal;
+    String finalType = prefs.getString(AppConstants.weeklyGoalTypeKey) ?? AppConstants.defaultGoalType;
 
     if (pageGoal == null) {
       final oldVal = prefs.getDouble('weeklyGoalValue');
@@ -113,12 +114,12 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
           finalPageGoal = oldVal;
         }
         if (finalType == 'minutes' && minuteGoal == 0) {
-          await prefs.setDouble('weeklyMinuteGoal', oldVal);
+          await prefs.setDouble(AppConstants.weeklyMinuteGoalKey, oldVal);
         }
       }
     }
 
-    final celebrated = prefs.getInt('lastCelebratedLevel') ?? 1;
+    final celebrated = prefs.getInt(AppConstants.lastCelebratedLevelKey) ?? 1;
     state = state.copyWith(
       weeklyPageGoal: finalPageGoal,
       weeklyMinuteGoal: minuteGoal,
@@ -128,7 +129,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
       notificationsEnabled: notificationsEnabled,
       reminderHour: reminderHour,
       reminderMinute: reminderMinute,
-      totalLookups: prefs.getInt('totalLookups') ?? 0,
+      totalLookups: prefs.getInt(AppConstants.totalLookupsKey) ?? 0,
     );
   }
 
@@ -139,13 +140,13 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
   }) async {
     final prefs = await SharedPreferences.getInstance();
     if (enabled != null) {
-      await prefs.setBool('notificationsEnabled', enabled);
+      await prefs.setBool(AppConstants.notificationsEnabledKey, enabled);
     }
     if (hour != null) {
-      await prefs.setInt('reminderHour', hour);
+      await prefs.setInt(AppConstants.reminderHourKey, hour);
     }
     if (minute != null) {
-      await prefs.setInt('reminderMinute', minute);
+      await prefs.setInt(AppConstants.reminderMinuteKey, minute);
     }
 
     state = state.copyWith(
@@ -156,7 +157,7 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
 
     if (state.notificationsEnabled) {
       await NotificationService().scheduleDailyReminder(
-        id: 999,
+        id: AppConstants.dailyReminderNotificationId,
         title: 'Time to read!',
         body: 'Keep your streak alive and dive back into your books.',
         hour: state.reminderHour,
@@ -164,16 +165,16 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
       );
       await NotificationService().scheduleWeekendBoostNotifications();
     } else {
-      await NotificationService().cancel(id: 999);
-      await NotificationService().cancel(id: 1000);
-      await NotificationService().cancel(id: 1001);
+      await NotificationService().cancel(id: AppConstants.dailyReminderNotificationId);
+      await NotificationService().cancel(id: AppConstants.weekendBoostNotificationId);
+      await NotificationService().cancel(id: AppConstants.weekendBoostNotificationId2);
     }
   }
 
   Future<void> markLevelCelebrated(int level) async {
     state = state.copyWith(lastCelebratedLevel: level);
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('lastCelebratedLevel', level);
+    await prefs.setInt(AppConstants.lastCelebratedLevelKey, level);
   }
 
   Future<void> loadBooks() async {
