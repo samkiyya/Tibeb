@@ -5,6 +5,7 @@ import '../../../core/rank/tibeb_rank_repository.dart';
 import '../../../core/theme/theme.dart';
 import '../glass_container.dart';
 import '../../../providers/library_provider.dart';
+import '../../../l10n/app_localizations.dart';
 
 class LevelMetadataSheet extends StatelessWidget {
   final LibraryState state;
@@ -14,6 +15,7 @@ class LevelMetadataSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
     final List<TibebRank> ranks = TibebRankRepository.instance.getAllRanks();
 
     return GlassContainer(
@@ -25,7 +27,7 @@ class LevelMetadataSheet extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Reading Ranks',
+              l10n.masteryPath,
               style: context.textTheme.titleMedium?.copyWith(
                 fontSize: 22,
                 fontWeight: FontWeight.w900,
@@ -96,7 +98,7 @@ class LevelMetadataSheet extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            rank.name,
+                            rank.getName(context),
                             style: TextStyle(
                               color: isReached
                                   ? t.textPrimary
@@ -106,7 +108,11 @@ class LevelMetadataSheet extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'Level ${rank.level}+ • ${rank.achievementsRequired} Achievements\n${rank.description}',
+                            l10n.levelAchievementsDescription(
+                              rank.level,
+                              rank.achievementsRequired,
+                              rank.getDescription(context),
+                            ),
                             style: TextStyle(
                               color: isReached
                                   ? t.textSecondary

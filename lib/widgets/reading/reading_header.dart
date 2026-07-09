@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../models/book_model.dart';
 import '../../../models/reader_settings_model.dart';
 import '../../../core/theme/theme.dart';
+import '../../../l10n/app_localizations.dart';
 
 class ReadingHeader extends StatelessWidget {
   final Book book;
@@ -83,7 +84,7 @@ class ReadingHeader extends StatelessWidget {
                         focusNode: searchFocusNode,
                         style: TextStyle(color: settings.textColor),
                         decoration: InputDecoration(
-                          hintText: 'Search book...',
+                          hintText: AppLocalizations.of(context)!.searchBook,
                           hintStyle: TextStyle(
                             color: settings.secondaryTextColor,
                           ),

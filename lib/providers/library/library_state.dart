@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:tibeb/models/achievement.dart';
 import 'package:tibeb/models/achievements_data.dart';
@@ -135,7 +136,13 @@ class LibraryState {
 
   String get rankName => TibebRankRepository.instance
       .getCurrentRank(level, unlockedAchievements.length)
-      .name;
+      .id;
+
+  String getRankName(BuildContext context) {
+    final rank = TibebRankRepository.instance
+        .getCurrentRank(level, unlockedAchievements.length);
+    return rank.getName(context);
+  }
 
   int get weeklyPagesRead => _sumForCurrentWeek(dailyPages);
   int get weeklyMinutesRead => _sumForCurrentWeek(dailyMinutes);

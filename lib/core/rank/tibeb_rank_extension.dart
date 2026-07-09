@@ -1,13 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:tibeb/core/rank/tibeb_rank_strings.dart';
 import 'package:tibeb/core/rank/tibeb_rank.dart';
+import 'package:tibeb/l10n/app_localizations.dart';
 
 extension TibebRankUI on TibebRank {
-  String get name => TibebRankStrings.name[id] ?? id;
-
   String get nameKey => 'rank_$id';
 
-  String get description => TibebRankStrings.description[id] ?? '';
+  String getName(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (id) {
+      case 'temari':
+        return l10n.rank_temari;
+      case 'anebabi':
+        return l10n.rank_anebabi;
+      case 'tsehafi':
+        return l10n.rank_tsehafi;
+      case 'liq':
+        return l10n.rank_liq;
+      case 'baletibeb':
+        return l10n.rank_baletibeb;
+      case 'tibebawi':
+        return l10n.rank_tibebawi;
+      default:
+        return id;
+    }
+  }
+
+  String getDescription(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (id) {
+      case 'temari':
+        return l10n.rank_temari_description;
+      case 'anebabi':
+        return l10n.rank_anebabi_description;
+      case 'tsehafi':
+        return l10n.rank_tsehafi_description;
+      case 'liq':
+        return l10n.rank_liq_description;
+      case 'baletibeb':
+        return l10n.rank_baletibeb_description;
+      case 'tibebawi':
+        return l10n.rank_tibebawi_description;
+      default:
+        return '';
+    }
+  }
 
   Color get color {
     switch (id) {

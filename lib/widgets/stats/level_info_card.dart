@@ -4,6 +4,7 @@ import 'package:tibeb/core/rank/tibeb_rank_repository.dart';
 import 'package:tibeb/core/theme/theme.dart';
 import 'package:tibeb/widgets/glass_container.dart';
 import 'package:tibeb/providers/library_provider.dart';
+import 'package:tibeb/l10n/app_localizations.dart';
 
 class LevelInfoCard extends StatelessWidget {
   final LibraryState state;
@@ -14,9 +15,10 @@ class LevelInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tibpiColors;
-    final currentTitle = TibebRankRepository.instance
-        .getCurrentRank(state.level, state.unlockedAchievements.length)
-        .name;
+    final l10n = AppLocalizations.of(context)!;
+    final currentRank = TibebRankRepository.instance
+        .getCurrentRank(state.level, state.unlockedAchievements.length);
+    final currentTitle = currentRank.getName(context);
 
     return GestureDetector(
       onTap: onTap,
@@ -73,7 +75,7 @@ class LevelInfoCard extends StatelessWidget {
                     ],
                   ),
                   Text(
-                    'Current Level',
+                    l10n.currentLevel,
                     style: TextStyle(color: t.textSecondary, fontSize: 12),
                   ),
                   const SizedBox(height: 8),
@@ -99,7 +101,7 @@ class LevelInfoCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '${1000 - (state.totalWP % 1000)} WP to level up',
+                        l10n.wpToLevelUp(1000 - (state.totalWP % 1000)),
                         style: TextStyle(
                           color: t.primary.withValues(alpha: 0.6),
                           fontSize: 10,

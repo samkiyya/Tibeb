@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../../core/theme/theme.dart';
 import '../../../providers/library_provider.dart';
+import '../../../l10n/app_localizations.dart';
 
 class DashboardHeader extends ConsumerWidget {
   const DashboardHeader({super.key});
@@ -11,8 +12,9 @@ class DashboardHeader extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final now = DateTime.now();
     final libraryState = ref.watch(libraryProvider);
-    final rankName = libraryState.rankName;
+    final rankName = libraryState.getRankName(context);
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
 
     return Stack(
       children: [
@@ -51,10 +53,10 @@ class DashboardHeader extends ConsumerWidget {
                 children: [
                   TextSpan(
                     text: now.hour < 12
-                        ? 'Good Morning, '
+                        ? '${l10n.goodMorning}, '
                         : now.hour < 17
-                        ? 'Good Afternoon, '
-                        : 'Good Evening, ',
+                        ? '${l10n.goodAfternoon}, '
+                        : '${l10n.goodEvening}, ',
                     style: context.textTheme.bodyMedium?.copyWith(
                       fontSize: 18,
                       color: t.textSecondary,
@@ -85,6 +87,7 @@ class DashboardHeader extends ConsumerWidget {
 
   Widget _buildWPProgressBar(BuildContext context, LibraryState state) {
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
     final int currentWP = state.totalWP;
     final int nextLevelWP = (state.level) * 1000;
     final int currentLevelStartWP = (state.level - 1) * 1000;
@@ -100,7 +103,7 @@ class DashboardHeader extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'LEVEL ${state.level}',
+              '${l10n.level} ${state.level}',
               style: TextStyle(
                 color: t.textSecondary,
                 fontSize: 10,

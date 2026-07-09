@@ -16,6 +16,7 @@ import '../widgets/book_overlay_menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import '../widgets/tutorial_coach.dart';
+import '../l10n/app_localizations.dart';
 
 class LibraryScreen extends ConsumerStatefulWidget {
   const LibraryScreen({super.key});
@@ -90,12 +91,13 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
   }
 
   void _showFabTutorial() {
+    final l10n = AppLocalizations.of(context)!;
     final targets = [
       TutorialHelper.createTarget(
         identify: "filter_target",
         keyTarget: _filterKey,
         alignSkip: Alignment.bottomRight,
-        title: "Filter & Sort",
+        title: l10n.filterSort,
         description:
             "Tap here to filter your library by genre, author, folder, or sorting method.",
         contentAlign: ContentAlign.bottom,
@@ -106,7 +108,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
         identify: "fab_target",
         keyTarget: _fabKey,
         alignSkip: Alignment.topLeft,
-        title: "Add Books",
+        title: l10n.addBooks,
         description: "Tap the + button to add new books to your library.",
         contentAlign: ContentAlign.top,
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -139,12 +141,13 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
   }
 
   void _showBookCardTutorial() {
+    final l10n = AppLocalizations.of(context)!;
     final targets = [
       TutorialHelper.createTarget(
         identify: "book_menu_target",
         keyTarget: _firstBookMenuKey,
         alignSkip: Alignment.bottomRight,
-        title: "Edit Book Info",
+        title: l10n.editBookInfo,
         description:
             "Tap the three dots to edit the book's cover, title, or author.\n\nLong-pressing the card is used to select multiple books!",
         contentAlign: ContentAlign.bottom,
@@ -179,6 +182,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
     final notifier = ref.read(libraryProvider.notifier);
     final bookService = BookService();
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
 
     final hasPermission = await bookService.requestPermissions();
     if (!hasPermission) {
@@ -188,7 +192,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
           ..showSnackBar(
             SnackBar(
               content: Text(
-                'Storage permission is required to import books.',
+                l10n.storagePermissionRequired,
                 style: TextStyle(color: t.textPrimary),
               ),
               backgroundColor: t.surface,
@@ -211,11 +215,11 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
           SnackBar(
             backgroundColor: t.surface,
             content: Text(
-              'Successfully imported ${importedBooks.length} books.',
+              l10n.successfullyImported(importedBooks.length),
               style: TextStyle(color: t.textPrimary),
             ),
             action: SnackBarAction(
-              label: 'OK',
+              label: l10n.ok,
               onPressed: () {},
               textColor: t.primary,
             ),
@@ -313,6 +317,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
   }
 
   Widget _buildSelectionHeader(TibebThemeExtension t) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: GlassContainer(
@@ -335,7 +340,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
             ),
             const Spacer(),
             IconButton(
-              tooltip: 'Select All',
+              tooltip: l10n.selectAll,
               icon: Icon(Icons.select_all, color: t.textSecondary),
               onPressed: () {
                 setState(() {

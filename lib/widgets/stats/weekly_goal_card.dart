@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../core/theme/theme.dart';
 import '../glass_container.dart';
 import '../../../providers/library_provider.dart';
+import '../../../l10n/app_localizations.dart';
 
 class WeeklyGoalCard extends StatelessWidget {
   final LibraryState state;
@@ -12,6 +13,7 @@ class WeeklyGoalCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
     return GlassContainer(
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -21,7 +23,7 @@ class WeeklyGoalCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Weekly Goals',
+                l10n.weeklyGoals,
                 style: context.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: t.textPrimary,
@@ -38,7 +40,8 @@ class WeeklyGoalCard extends StatelessWidget {
             _buildGoalProgress(
               context: context,
               t: t,
-              title: 'Pages',
+              l10n: l10n,
+              title: l10n.pages,
               current: state.weeklyPagesRead.toDouble(),
               goal: state.weeklyPageGoal,
               unit: 'pages',
@@ -48,7 +51,8 @@ class WeeklyGoalCard extends StatelessWidget {
             _buildGoalProgress(
               context: context,
               t: t,
-              title: 'Minutes',
+              l10n: l10n,
+              title: l10n.minutes,
               current: state.weeklyMinutesRead.toDouble(),
               goal: state.weeklyMinuteGoal,
               unit: 'minutes',
@@ -60,7 +64,8 @@ class WeeklyGoalCard extends StatelessWidget {
             _buildGoalProgress(
               context: context,
               t: t,
-              title: 'Wisdom Points (WP)',
+              l10n: l10n,
+              title: l10n.wisdomPoints,
               current: state.weeklyWPRead.toDouble(),
               goal: state.weeklyWPGoal,
               unit: 'WP',
@@ -73,7 +78,7 @@ class WeeklyGoalCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: Center(
                 child: Text(
-                  'No goals set for this week',
+                  l10n.noGoalsSet,
                   style: TextStyle(color: t.textSecondary),
                 ),
               ),
@@ -86,6 +91,7 @@ class WeeklyGoalCard extends StatelessWidget {
   Widget _buildGoalProgress({
     required BuildContext context,
     required TibebThemeExtension t,
+    required AppLocalizations l10n,
     required String title,
     required double current,
     required double goal,

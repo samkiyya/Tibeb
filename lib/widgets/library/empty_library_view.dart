@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/theme.dart';
+import '../../../l10n/app_localizations.dart';
 
 
 class EmptyLibraryView extends ConsumerWidget {
@@ -11,6 +12,7 @@ class EmptyLibraryView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -22,7 +24,7 @@ class EmptyLibraryView extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'Your library is empty',
+            l10n.emptyLibrary,
             style: TextStyle(color: t.textPrimary),
           ),
           const SizedBox(height: 24),
@@ -37,8 +39,8 @@ class EmptyLibraryView extends ConsumerWidget {
               ),
             ),
             icon: const Icon(Icons.add),
-            label: const Text(
-              'Add Books',
+            label: Text(
+              l10n.addBook,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),

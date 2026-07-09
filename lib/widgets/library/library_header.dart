@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/theme.dart';
 
 import '../../../providers/library_provider.dart';
+import '../../../l10n/app_localizations.dart';
 
 class LibraryHeader extends ConsumerStatefulWidget {
   final TextEditingController searchController;
@@ -33,6 +34,7 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
     final state = ref.watch(libraryProvider);
     final notifier = ref.read(libraryProvider.notifier);
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -47,7 +49,7 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
                   controller: widget.searchController,
                   style: TextStyle(color: t.textPrimary),
                   decoration: InputDecoration(
-                    hintText: 'Search titles, authors...',
+                    hintText: l10n.searchTitlesAuthors,
                     hintStyle: TextStyle(
                       color: t.textSecondary.withValues(alpha: 0.5),
                     ),
@@ -100,7 +102,7 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
                       children: [
                         _FilterChip(
                           t: t,
-                          label: 'All',
+                          label: l10n.all,
                           isSelected:
                               state.selectedGenre == 'All' &&
                               state.selectedAuthor == 'All' &&
@@ -110,7 +112,7 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
                         ),
                         _FilterChip(
                           t: t,
-                          label: 'Favorites',
+                          label: l10n.favorites,
                           isSelected: state.onlyFavorites,
                           icon: state.onlyFavorites
                               ? Icons.favorite_rounded
@@ -121,12 +123,12 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
                         _FilterChip(
                           t: t,
                           label: state.selectedAuthor == 'All'
-                              ? 'Author'
+                              ? l10n.author
                               : state.selectedAuthor,
                           isSelected: state.selectedAuthor != 'All',
                           hasDropdown: true,
                           dropdownOptions: <String>[
-                            'All',
+                            l10n.all,
                             ...state.allBooks.map((b) => b.author).toSet(),
                           ].toList(),
                           onSelected: (val) => notifier.setAuthorFilter(val),
@@ -135,12 +137,12 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
                         _FilterChip(
                           t: t,
                           label: state.selectedFolder == 'All'
-                              ? 'Folder'
+                              ? l10n.folder
                               : _getShortPath(state.selectedFolder),
                           isSelected: state.selectedFolder != 'All',
                           hasDropdown: true,
                           dropdownOptions: <String>[
-                            'All',
+                            l10n.all,
                             ...state.allBooks
                                 .map((b) => b.folderPath)
                                 .whereType<String>()
@@ -153,7 +155,7 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
                         _FilterChip(
                           t: t,
                           label: state.selectedFileType == 'All'
-                              ? 'File Type'
+                              ? l10n.fileType
                               : state.selectedFileType,
                           isSelected: state.selectedFileType != 'All',
                           hasDropdown: true,
@@ -164,12 +166,12 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
                         _FilterChip(
                           t: t,
                           label: state.selectedTag == 'All'
-                              ? 'Category'
+                              ? l10n.category
                               : state.selectedTag!,
                           isSelected: state.selectedTag != 'All',
                           hasDropdown: true,
                           dropdownOptions: <String>[
-                            'All',
+                            l10n.all,
                             ...state.allBooks
                                 .where(
                                   (b) => b.tags != null && b.tags!.isNotEmpty,

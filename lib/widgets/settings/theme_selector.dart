@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/theme.dart';
+import '../../l10n/app_localizations.dart';
 
 class ThemeSelector extends ConsumerWidget {
   const ThemeSelector({super.key});
@@ -8,13 +9,14 @@ class ThemeSelector extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
     final currentThemeMode = ref.watch(themeModeProvider);
 
     return Row(
       children: [
         Expanded(
           child: _ThemeTile(
-            title: 'Light',
+            title: l10n.light,
             icon: Icons.light_mode_rounded,
             themeMode: ThemeMode.light,
             isSelected: currentThemeMode == ThemeMode.light,
@@ -44,7 +46,7 @@ class ThemeSelector extends ConsumerWidget {
         const SizedBox(width: 12),
         Expanded(
           child: _ThemeTile(
-            title: 'Dark',
+            title: l10n.dark,
             icon: Icons.dark_mode_rounded,
             themeMode: ThemeMode.dark,
             isSelected: currentThemeMode == ThemeMode.dark,
@@ -74,7 +76,7 @@ class ThemeSelector extends ConsumerWidget {
         const SizedBox(width: 12),
         Expanded(
           child: _ThemeTile(
-            title: 'System',
+            title: l10n.system,
             icon: Icons.settings_suggest_rounded,
             themeMode: ThemeMode.system,
             isSelected: currentThemeMode == ThemeMode.system,

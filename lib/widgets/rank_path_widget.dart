@@ -3,6 +3,7 @@ import '../core/rank/tibeb_rank.dart';
 import '../core/rank/tibeb_rank_extension.dart';
 import '../core/rank/tibeb_rank_repository.dart';
 import '../core/theme/theme.dart';
+import '../l10n/app_localizations.dart';
 
 
 
@@ -19,6 +20,7 @@ class RankPathWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
     final List<TibebRank> ranks = TibebRankRepository.instance.getAllRanks();
     final TibebRank currentRank = TibebRankRepository.instance.getCurrentRank(
       currentLevel,
@@ -39,7 +41,7 @@ class RankPathWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Mastery Path',
+            l10n.masteryPath,
             style: context.textTheme.titleLarge?.copyWith(
               color: t.textPrimary,
               fontWeight: FontWeight.bold,
@@ -47,7 +49,7 @@ class RankPathWidget extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            'Current Rank: ${currentRank.name}',
+            '${l10n.currentLevel}: ${currentRank.getName(context)}',
             style: TextStyle(
               color: t.success,
               fontSize: 14,
@@ -63,6 +65,7 @@ class RankPathWidget extends StatelessWidget {
 
   Widget _buildPath(BuildContext context, List<TibebRank> ranks) {
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       children: List.generate(ranks.length, (index) {
         final rank = ranks[index];
@@ -108,7 +111,7 @@ class RankPathWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    rank.name,
+                    rank.getName(context),
                     style: TextStyle(
                       color: isReached
                           ? t.textPrimary
@@ -118,7 +121,11 @@ class RankPathWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Level ${rank.level}+ • ${rank.achievementsRequired} Achievements • ${rank.description}',
+                    l10n.levelAchievementsDescription(
+                      rank.level,
+                      rank.achievementsRequired,
+                      rank.getDescription(context),
+                    ),
                     style: TextStyle(color: t.textSecondary, fontSize: 12),
                   ),
                   const SizedBox(height: 20),

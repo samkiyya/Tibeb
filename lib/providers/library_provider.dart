@@ -5,8 +5,6 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:path/path.dart' as p;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:collection/collection.dart';
-import 'package:tibeb/models/achievements_data.dart';
-import '../core/rank/tibeb_rank_extension.dart';
 import '../core/rank/tibeb_rank_repository.dart';
 import '../core/repositories/database_repository.dart';
 import '../core/constants/app_constants.dart';
@@ -379,13 +377,12 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
       state.unlockedAchievements,
     );
     for (var achievement in newAchievements) {
-      final title = achievementTitle(achievement);
       final newDeferred = ReadingNotificationManager.showOrDefer(
         isReading: state.isReading,
         existing: state.deferredNotifications,
         id: achievement.hashCode,
         title: 'Achievement Unlocked!',
-        body: 'You earned the "$title" badge!',
+        body: 'You earned a new achievement badge!',
       );
       state = state.copyWith(deferredNotifications: newDeferred);
     }
@@ -461,13 +458,13 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
           state.unlockedAchievements.length,
         );
 
-        if (newRank.name != oldRank.name) {
+        if (newRank.id != oldRank.id) {
           final newDeferred = ReadingNotificationManager.showOrDefer(
             isReading: state.isReading,
             existing: state.deferredNotifications,
             id: 1001,
             title: 'Rank Up!',
-            body: 'Congratulations! You are now a ${newRank.name}!',
+            body: 'Congratulations! You reached a new rank!',
           );
           state = state.copyWith(deferredNotifications: newDeferred);
         } else {

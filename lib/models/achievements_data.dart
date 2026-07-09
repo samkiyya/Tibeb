@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/achievement.dart';
 
 /// Complete list — IDs preserved for compatibility.
+/// Note: Title and description are placeholders - actual localization is handled by Achievement class methods
 final List<Achievement> allAchievements = [
 
   // ── Reading Journey ─────────────────────────────────────────────────────
@@ -276,17 +277,4 @@ final List<Achievement> allAchievements = [
   ),
 ];
 
-String achievementTitle(String id) {
-  return allAchievements.firstWhere(
-    (a) => a.id == id,
-    orElse: () => const Achievement(
-      id: '',
-      title: 'New Achievement',
-      description: '',
-      icon: Icons.help_outline_rounded,
-    ),
-  ).title;
-}
-
-Map<String, String> get achievementTitleMap =>
-    Map.fromEntries(allAchievements.map((a) => MapEntry(a.id, a.title)));
+// Note: achievementTitle and achievementTitleMap functions removed since localization is now handled by Achievement class methods

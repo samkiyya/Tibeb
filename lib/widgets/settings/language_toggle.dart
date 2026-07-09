@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tibeb/providers/localization_provider.dart';
 import 'package:tibeb/providers/settings_provider.dart';
 import '../../core/theme/theme.dart';
 import '../../core/constants/app_constants.dart';
-import '../../services/localization_service.dart';
 
 class LanguageToggle extends ConsumerWidget {
   const LanguageToggle({super.key});
@@ -26,7 +26,7 @@ class LanguageToggle extends ConsumerWidget {
             isSelected: isSelected,
             onTap: () async {
               await ref.read(settingsProvider.notifier).setLanguage(languageCode);
-              await LocalizationService.saveLanguage(languageCode);
+              await ref.read(currentLocaleProvider.notifier).updateLocale(languageCode);
             },
           );
         }),

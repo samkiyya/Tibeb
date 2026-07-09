@@ -49,7 +49,7 @@ class SettingsScreen extends ConsumerWidget {
             sliver: SliverList(
               delegate: SliverChildListDelegate([
                 // User Profile Card - Hero Section
-                _buildProfileCard(libraryState, t, l10n)
+                _buildProfileCard(context, libraryState, t, l10n)
                     .animate()
                     .fadeIn(duration: 400.ms, delay: 0.ms)
                     .slideY(begin: 0.1, end: 0, duration: 400.ms, delay: 0.ms),
@@ -104,7 +104,7 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildProfileCard(LibraryState state, TibebThemeExtension t, AppLocalizations l10n) {
+  Widget _buildProfileCard(BuildContext context, LibraryState state, TibebThemeExtension t, AppLocalizations l10n) {
     return GlassContainer(
       padding: const EdgeInsets.all(20),
       child: Row(
@@ -135,7 +135,7 @@ class SettingsScreen extends ConsumerWidget {
                 ),
                 child: Center(
                   child: Text(
-                    state.rankName.substring(0, 1).toUpperCase(),
+                    state.getRankName(context).substring(0, 1).toUpperCase(),
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 24,
@@ -182,7 +182,7 @@ class SettingsScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  state.rankName,
+                  state.getRankName(context),
                   style: TextStyle(
                     color: t.textPrimary,
                     fontSize: 18,

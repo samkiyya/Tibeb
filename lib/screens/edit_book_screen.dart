@@ -9,6 +9,7 @@ import 'google_image_search_screen.dart';
 import '../services/book_service.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart' as p;
+import '../l10n/app_localizations.dart';
 
 class EditBookScreen extends ConsumerStatefulWidget {
   final Book book;
@@ -60,6 +61,7 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
   }
 
   Future<void> _save() async {
+    final l10n = AppLocalizations.of(context)!;
     final updatedBook = widget.book.copyWith(
       title: _titleController.text.trim(),
       author: _authorController.text.trim(),
@@ -79,7 +81,7 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
       Navigator.pop(context);
       ScaffoldMessenger.of(context)
         ..clearSnackBars()
-        ..showSnackBar(const SnackBar(content: Text('Book updated')));
+        ..showSnackBar(SnackBar(content: Text(l10n.bookUpdated)));
     }
   }
 
@@ -143,13 +145,14 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
   @override
   Widget build(BuildContext context) {
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: t.background,
       appBar: AppBar(
         backgroundColor: t.background,
         elevation: 0,
         title: Text(
-          'Edit Book',
+          l10n.edit,
           style: TextStyle(color: t.textPrimary, fontWeight: FontWeight.bold),
         ),
         actions: [
@@ -170,19 +173,19 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
         header: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildTextField(t, 'Title', _titleController),
+            _buildTextField(t, l10n.title, _titleController),
             const SizedBox(height: 20),
-            _buildTextField(t, 'Author', _authorController),
+            _buildTextField(t, l10n.author, _authorController),
             const SizedBox(height: 20),
-            _buildTextField(t, 'Series', _seriesController),
+            _buildTextField(t, l10n.series, _seriesController),
             const SizedBox(height: 20),
-            _buildTextField(t, 'Tags (comma separated)', _tagsController),
+            _buildTextField(t, l10n.tagsCommaSeparated, _tagsController),
             const SizedBox(height: 30),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Audiobook Parts',
+                  l10n.audiobookParts,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -191,7 +194,7 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
                 ),
                 if (_audioTracks.isNotEmpty)
                   Text(
-                    '${_audioTracks.length} items',
+                    '${_audioTracks.length} ${l10n.items}',
                     style: TextStyle(
                       color: t.textSecondary,
                       fontSize: 12,
@@ -204,7 +207,7 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: Text(
-                  'No audio parts attached.',
+                  l10n.noAudioPartsAttached,
                   style: TextStyle(color: t.textSecondary),
                 ),
               ),

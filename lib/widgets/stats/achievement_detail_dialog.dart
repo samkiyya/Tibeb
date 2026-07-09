@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:tibeb/core/theme/theme.dart';
 import 'package:tibeb/models/achievement.dart';
+import 'package:tibeb/l10n/app_localizations.dart';
 
 class AchievementDetailDialog extends StatelessWidget {
   final Achievement achievement;
@@ -11,6 +12,7 @@ class AchievementDetailDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
     return AlertDialog(
       backgroundColor: t.surface,
       shape: RoundedRectangleBorder(borderRadius: TibebRadius.borderXl),
@@ -39,7 +41,7 @@ class AchievementDetailDialog extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            achievement.title,
+            achievement.getTitle(context),
             textAlign: TextAlign.center,
             style: TextStyle(
               color: achievement.isUnlocked ? t.textPrimary : t.textSecondary,
@@ -49,7 +51,7 @@ class AchievementDetailDialog extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            achievement.description,
+            achievement.getDescription(context),
             textAlign: TextAlign.center,
             style: TextStyle(
               color: achievement.isUnlocked
@@ -60,7 +62,7 @@ class AchievementDetailDialog extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            achievement.isUnlocked ? 'Unlocked' : 'Keep reading to unlock!',
+            achievement.isUnlocked ? l10n.done : 'Keep reading to unlock!',
             style: TextStyle(
               color: achievement.isUnlocked ? t.primary : t.textSecondary,
               fontSize: 12,

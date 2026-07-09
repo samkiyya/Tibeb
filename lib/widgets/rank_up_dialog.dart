@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:tibeb/core/rank/tibeb_rank_extension.dart';
 import '../core/theme/theme.dart';
+import '../core/rank/tibeb_rank_repository.dart';
 
 
 
@@ -13,6 +15,9 @@ class RankUpDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tibpiColors;
+    final currentRank = TibebRankRepository.instance.getCurrentRank(level, 0);
+    final displayRankName = currentRank.getName(context);
+    
     return Dialog(
       backgroundColor: Colors.transparent,
       insetPadding: const EdgeInsets.symmetric(horizontal: TibebSpacing.screenPadding),
@@ -95,7 +100,7 @@ class RankUpDialog extends StatelessWidget {
             ).animate().fadeIn(delay: 400.ms).slideY(begin: 0.2, end: 0),
             const SizedBox(height: TibebSpacing.sm),
             Text(
-              rankName,
+              displayRankName,
               textAlign: TextAlign.center,
               style: context.textTheme.headlineLarge?.copyWith(
                 color: t.textPrimary,

@@ -1,3 +1,5 @@
+// This file is deprecated - all rank strings are now localized in ARB files
+// Keep this file for backward compatibility during migration
 class TibebRankStrings {
   static const Map<String, String> name = {
     'temari': 'Temari (ተማሪ)',

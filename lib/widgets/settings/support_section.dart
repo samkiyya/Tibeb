@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/theme.dart';
 import '../../core/constants/app_constants.dart';
 import '../../providers/settings_provider.dart';
+import '../../l10n/app_localizations.dart';
 
 class SupportSection extends ConsumerWidget {
   const SupportSection({super.key});
@@ -10,38 +11,39 @@ class SupportSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
 
     return Column(
       children: [
         _buildSupportTile(
           t: t,
           icon: Icons.volunteer_activism_rounded,
-          title: 'Support the Developer',
-          subtitle: 'Support the developer and the project ❤️',
+          title: l10n.supportDeveloper,
+          subtitle: l10n.supportDeveloperSubtitle,
           onTap: () => ref.read(settingsProvider.notifier).launchUrl(AppConstants.supportUrl),
         ),
         Divider(color: t.borderSubtle, height: 1),
         _buildSupportTile(
           t: t,
           icon: Icons.code_rounded,
-          title: 'Contribute on GitHub',
-          subtitle: 'Help build the future of tibeb 🚀',
+          title: l10n.contributeGitHub,
+          subtitle: l10n.contributeGitHubSubtitle,
           onTap: () => ref.read(settingsProvider.notifier).launchUrl(AppConstants.githubUrl),
         ),
         Divider(color: t.borderSubtle, height: 1),
         _buildSupportTile(
           t: t,
           icon: Icons.star_rate_rounded,
-          title: 'Rate the App',
-          subtitle: 'Love tibeb? Leave us a review! ⭐',
+          title: l10n.rateApp,
+          subtitle: l10n.rateAppSubtitle,
           onTap: () => ref.read(settingsProvider.notifier).rateApp(),
         ),
         Divider(color: t.borderSubtle, height: 1),
         _buildSupportTile(
           t: t,
           icon: Icons.share_rounded,
-          title: 'Share the App',
-          subtitle: 'Share tibeb with friends 📢',
+          title: l10n.shareApp,
+          subtitle: l10n.shareAppSubtitle,
           onTap: () => ref.read(settingsProvider.notifier).shareApp(),
         ),
       ],

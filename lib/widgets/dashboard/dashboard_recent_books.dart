@@ -5,6 +5,7 @@ import 'package:tibeb/core/theme/theme.dart';
 import 'package:tibeb/models/book_model.dart';
 import 'package:tibeb/providers/navigation_provider.dart';
 import 'package:tibeb/widgets/dashboard/shelf_item.dart';
+import 'package:tibeb/l10n/app_localizations.dart';
 import 'dashboard_actions.dart';
 import 'dashboard_animation.dart';
 
@@ -26,6 +27,7 @@ class DashboardRecentBooks extends ConsumerWidget {
     if (books.length <= 1) return const SizedBox.shrink();
 
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
     final shelfBooks = books.skip(1).take(5).toList();
 
     return Column(
@@ -36,7 +38,7 @@ class DashboardRecentBooks extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'My Shelf',
+                l10n.myShelf,
                 style: context.textTheme.titleLarge?.copyWith(
                   color: t.textPrimary,
                   fontWeight: FontWeight.bold,
@@ -47,7 +49,7 @@ class DashboardRecentBooks extends ConsumerWidget {
                   ref.read(navigationStateProvider.notifier).changeTab(1);
                 },
                 child: Text(
-                  'See More',
+                  l10n.seeMore,
                   style: TextStyle(
                     color: t.primary,
                     fontWeight: FontWeight.bold,

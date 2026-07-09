@@ -4,6 +4,7 @@ import '../../core/theme/theme.dart';
 
 import '../../models/quest_model.dart';
 import '../glass_container.dart';
+import '../../l10n/app_localizations.dart';
 
 class DailyQuestsCard extends StatelessWidget {
   final List<DailyQuest> quests;
@@ -15,6 +16,7 @@ class DailyQuestsCard extends StatelessWidget {
     if (quests.isEmpty) return const SizedBox.shrink();
 
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
     final now = DateTime.now();
     final isWeekend =
         now.weekday == DateTime.saturday || now.weekday == DateTime.sunday;
@@ -30,7 +32,7 @@ class DailyQuestsCard extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    'Daily Quests',
+                    l10n.dailyQuests,
                     style: context.textTheme.titleMedium?.copyWith(
                       color: t.textPrimary,
                       fontWeight: FontWeight.bold,
@@ -52,7 +54,7 @@ class DailyQuestsCard extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        '2X WP',
+                        l10n.doubleWP,
                         style: TextStyle(
                           color: t.wpGold,
                           fontSize: 10,
@@ -98,6 +100,7 @@ class _QuestItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
     final bool isCompleted = quest.isCompleted;
     final double progress = quest.progress.clamp(0.0, 1.0);
 
@@ -134,7 +137,7 @@ class _QuestItem extends StatelessWidget {
               ),
             ),
             Text(
-              isCompleted ? 'Done' : '${(progress * 100).toInt()}%',
+              isCompleted ? l10n.done : '${(progress * 100).toInt()}%',
               style: TextStyle(
                 color: isCompleted ? t.primary : t.textSecondary,
                 fontSize: 12,
@@ -162,7 +165,7 @@ class _QuestItem extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  'Reward: ${quest.wpReward} WP',
+                  l10n.rewardWP(quest.wpReward),
                   style: TextStyle(
                     color: isWeekend ? t.wpGold : t.textSecondary,
                     fontSize: 11,

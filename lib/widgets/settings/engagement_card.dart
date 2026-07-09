@@ -43,7 +43,7 @@ class EngagementCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  state.rankName,
+                  state.getRankName(context),
                   style: TextStyle(color: t.textSecondary, fontSize: 14),
                 ),
               ],

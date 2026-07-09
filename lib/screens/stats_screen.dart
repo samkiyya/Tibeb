@@ -11,6 +11,7 @@ import '../widgets/glass_container.dart';
 import '../widgets/activity_graph.dart';
 import '../widgets/stat_badge.dart';
 import '../widgets/daily_activity_sheet.dart';
+import '../l10n/app_localizations.dart';
 
 class StatsScreen extends ConsumerStatefulWidget {
   const StatsScreen({super.key});
@@ -26,6 +27,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
   Widget build(BuildContext context) {
     final libraryState = ref.watch(libraryProvider);
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: t.background,
@@ -36,7 +38,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Reading Stats',
+                l10n.readingStats,
                 style: context.textTheme.displaySmall?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: t.textPrimary,
@@ -61,7 +63,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Reading Activity',
+                    l10n.readingActivity,
                     style: context.textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: t.textPrimary,
@@ -110,6 +112,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
   }
 
   Widget _buildQuickStats(BuildContext context, TibebThemeExtension t, LibraryState state) {
+    final l10n = AppLocalizations.of(context)!;
 
     return Row(
       children: [
@@ -122,7 +125,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
         const SizedBox(width: 12),
         Expanded(
           child: StatBadge(
-            label: 'Pages',
+            label: l10n.pages,
             value: '${state.totalPagesRead}',
             icon: Icons.auto_stories,
             color: t.success,
@@ -131,7 +134,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
         const SizedBox(width: 12),
         Expanded(
           child: StatBadge(
-            label: 'Minutes',
+            label: l10n.minutes,
             value: '${state.totalMinutesRead}',
             icon: Icons.timer,
             color: t.streakFire,
@@ -172,6 +175,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
 
   void _showMonthPicker(BuildContext context, TibebThemeExtension t) {
     final state = ref.read(libraryProvider);
+    final l10n = AppLocalizations.of(context)!;
     final sessions = state.dailyReadingValues.keys.toList();
 
     final Set<String> availableMonthsSet = {};
@@ -211,7 +215,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
               ),
               const SizedBox(height: 20),
               Text(
-                'Select Month',
+                l10n.selectMonth,
                 style: context.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: t.textPrimary,

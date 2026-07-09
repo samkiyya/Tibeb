@@ -3,6 +3,7 @@ import 'package:tibeb/core/theme/theme.dart';
 import 'package:tibeb/providers/library_provider.dart';
 import 'package:tibeb/widgets/stats/achievement_badge.dart';
 import 'package:tibeb/widgets/stats/achievement_detail_dialog.dart';
+import 'package:tibeb/l10n/app_localizations.dart';
 
 class AchievementsGrid extends StatelessWidget {
   final LibraryState state;
@@ -12,13 +13,14 @@ class AchievementsGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
     final achievements = state.sortedAchievements; // uses the getter
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Achievements',
+          l10n.achievements,
           style: context.textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
             color: t.textPrimary,
@@ -43,8 +45,8 @@ class AchievementsGrid extends StatelessWidget {
                 builder: (_) => AchievementDetailDialog(achievement: ach),
               ),
               child: AchievementBadge(
-                title: ach.title,
-                desc: ach.description,
+                title: ach.getTitle(context),
+                desc: ach.getDescription(context),
                 icon: ach.icon,
                 isUnlocked: ach.isUnlocked,
               ),
