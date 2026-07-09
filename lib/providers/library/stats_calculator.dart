@@ -105,9 +105,61 @@ class StatsCalculator {
       if (ts.hour >= 22 || ts.hour < 1) achievements.add('night_owl');
     }
 
-    if (lookupCount >= 1) achievements.add('the_translator');
-    if (lookupCount >= 20) achievements.add('vocabulary_builder');
+    if (lookupCount >= 1)   achievements.add('the_translator');
+    if (lookupCount >= 20)  achievements.add('vocabulary_builder');
     if (lookupCount >= 100) achievements.add('polyglot');
+
+    // ── New: pages milestones ─────────────────────────────────────────────
+    if (totalPages >= 500)   achievements.add('gondar_keep');
+    if (totalPages >= 2000)  achievements.add('sheba_wisdom');
+    if (totalPages >= 10000) achievements.add('axum_legacy');
+
+    // ── New: books finished ───────────────────────────────────────────────
+    if (finishedBooks >= 5)   achievements.add('fasil_crown');
+    if (finishedBooks >= 20)  achievements.add('yohannes_torch');
+    if (finishedBooks >= 100) achievements.add('menelik_library');
+
+    // ── New: total reading hours ──────────────────────────────────────────
+    if (totalMinutes >= 6000) achievements.add('lalibela_vigil'); // 100 h × 60 min
+
+    // ── New: long streaks ─────────────────────────────────────────────────
+    if (streak >= 100) achievements.add('selassie_endurance');
+
+    // ── New: vocabulary milestones ────────────────────────────────────────
+    if (lookupCount >= 500)  achievements.add('geez_mastery');
+    if (lookupCount >= 1000) achievements.add('qene_poet');
+
+    // ── New: audiobooks ───────────────────────────────────────────────────
+    final audiobookCount = books.where((b) => b.isAudioOnly).length;
+    if (audiobookCount >= 1) achievements.add('oral_tradition');
+    if (audiobookCount >= 5) achievements.add('azmari_listener');
+
+    // ── New: annotations (highlights + bookmarks counted via totalLookups
+    //    proxy is unavailable here; unlock when pages ≥ threshold as signal)
+    //    Real annotation count is not in UserStats — use session-level proxy:
+    //    unlocked via a separate pathway in LibraryNotifier._updateQuests.
+    //    Leave placeholder — will be wired when annotation DB count is exposed.
+
+    // ── New: speed reader (finish a book in under 3 days)
+    //    Requires per-book timestamps not available here yet — placeholder.
+
+    // ── New: seasonal achievements ────────────────────────────────────────
+    final now = DateTime.now();
+
+    // Timkat (Ethiopian Epiphany) — Jan 19/20 (Gregorian)
+    final isTimkat = (now.month == 1 && (now.day == 19 || now.day == 20));
+    if (isTimkat && sessions.isNotEmpty) achievements.add('timkat_reader');
+
+    // Enkutatash (Ethiopian New Year) — Sep 11/12 (Gregorian)
+    final isEnkutatash = (now.month == 9 && (now.day == 11 || now.day == 12));
+    if (isEnkutatash && sessions.isNotEmpty) achievements.add('enkutatash_start');
+
+    // Adwa Victory Day — Mar 2 (Gregorian); unlock after 7-week streak (49 days)
+    if (streak >= 49) achievements.add('adwa_spirit');
+
+    // Meskel (Finding of the True Cross) — Sep 27; unlock: 3 books in one month
+    final booksThisMonth = finishedBooks; // proxy: total finished (improve later)
+    if (booksThisMonth >= 3) achievements.add('meskel_flame');
 
     return UserStats(
       wp: wp,

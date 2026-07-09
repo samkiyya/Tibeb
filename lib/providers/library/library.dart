@@ -1,4 +1,3 @@
-export "achievement_registry.dart";
 export "filter_engine.dart";
 export "notification_manager.dart";
 export "quest_engine.dart";

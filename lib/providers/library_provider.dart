@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:path/path.dart' as p;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:collection/collection.dart';
+import 'package:tibeb/models/achievements_data.dart';
 import '../core/rank/tibeb_rank_extension.dart';
 import '../core/rank/tibeb_rank_repository.dart';
 import '../core/repositories/database_repository.dart';
