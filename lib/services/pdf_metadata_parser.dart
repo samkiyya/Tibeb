@@ -33,9 +33,10 @@ class PdfMetadataParser {
       subject = info.subject;
       keywords = info.keywords;
 
-      if ( author.trim().isEmpty) {
-        if (info.keywords.contains('creator')) {
-          keywords = info.keywords;
+      if (author.trim().isEmpty) {
+        final kw = info.keywords;
+        if (kw.contains('creator')) {
+          keywords = kw;
         }
       }
 
