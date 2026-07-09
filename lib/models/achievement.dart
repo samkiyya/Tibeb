@@ -98,8 +98,6 @@ class Achievement {
         return l10n.achievement_timkat_reader;
       case 'enkutatash_start':
         return l10n.achievement_enkutatash_start;
-      case 'epiphany_reader':
-        return l10n.achievement_epiphany_reader;
       default:
         return title;
     }
@@ -176,8 +174,6 @@ class Achievement {
         return l10n.achievement_timkat_reader_description;
       case 'enkutatash_start':
         return l10n.achievement_enkutatash_start_description;
-      case 'epiphany_reader':
-        return l10n.achievement_epiphany_reader_description;
       default:
         return description;
     }

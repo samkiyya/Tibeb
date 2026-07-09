@@ -43,14 +43,6 @@
   "manageAppData": "Kaffala app qindeessaa",
 
   "supportAbout": "Gargaarsa fi Waa'ee",
-  "supportDeveloper": "Gargaarsa Keessattuu",
-  "helpSupportProject": "Projeektii gargaaruu ❤️",
-  "contribute": "Hirmaadhaa",
-  "helpBuildGitHub": "GitHub irratti hirmaadhaa 🚀",
-  "rateApp": "App Madaaluu",
-  "leaveReview": "Madaalsa kenni ⭐",
-  "shareApp": "App Qooduu",
-  "shareWithFriends": "Firoota waliin qooduu 📢",
 
   "reminderTime": "Yeroo yaadachiisa",
   "testNotification": "Yaadachiisa Qormaata",
@@ -277,7 +269,5 @@
   "achievement_timkat_reader": "Dubbisaa Timkaat",
   "achievement_timkat_reader_description": "Guyyaa Timkaat dubbisuu.",
   "achievement_enkutatash_start": "Barataa Enkutataash",
-  "achievement_enkutatash_start_description": "Guyyaa Enkutataash dubbisuu.",
-  "achievement_epiphany_reader": "Dubbisaa Ayyaana",
-  "achievement_epiphany_reader_description": "Guyyaa Ayyaana dubbisuu."
+  "achievement_enkutatash_start_description": "Guyyaa Enkutataash dubbisuu."
 }

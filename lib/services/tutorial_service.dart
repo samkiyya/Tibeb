@@ -2,7 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/tutorial_coach.dart';
+import 'package:tibeb/widgets/tutorial_coach.dart';
 
 
 class TutorialService {

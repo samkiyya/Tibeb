@@ -121,30 +121,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get supportAbout => 'Support and About';
 
   @override
-  String get supportDeveloper => 'Support the Developer';
-
-  @override
-  String get helpSupportProject => 'Help support the project ❤️';
-
-  @override
-  String get contribute => 'Contribute';
-
-  @override
-  String get helpBuildGitHub => 'Help build on GitHub 🚀';
-
-  @override
-  String get rateApp => 'Rate the App';
-
-  @override
-  String get leaveReview => 'Leave a review ⭐';
-
-  @override
-  String get shareApp => 'Share the App';
-
-  @override
-  String get shareWithFriends => 'Share with friends 📢';
-
-  @override
   String get reminderTime => 'Reminder Time';
 
   @override
@@ -405,6 +381,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get import => 'Import';
 
   @override
+  String get supportDeveloper => 'Support the Developer';
+
+  @override
   String get supportDeveloperSubtitle =>
       'Support the developer and the project ❤️';
 
@@ -415,7 +394,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contributeGitHubSubtitle => 'Help build the future of Tibeb 🚀';
 
   @override
+  String get rateApp => 'Rate the App';
+
+  @override
   String get rateAppSubtitle => 'Love Tibeb? Leave us a review! ⭐';
+
+  @override
+  String get shareApp => 'Share the App';
 
   @override
   String get shareAppSubtitle => 'Share Tibeb with friends 📢';
@@ -827,10 +812,4 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get achievement_enkutatash_start_description => 'Read on Enkutatash.';
-
-  @override
-  String get achievement_epiphany_reader => 'Epiphany Reader';
-
-  @override
-  String get achievement_epiphany_reader_description => 'Read on Epiphany.';
 }

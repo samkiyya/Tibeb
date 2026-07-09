@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../core/rank/tibeb_rank.dart';
-import '../core/rank/tibeb_rank_extension.dart';
-import '../core/rank/tibeb_rank_repository.dart';
-import '../core/theme/theme.dart';
-import '../l10n/app_localizations.dart';
+import 'package:tibeb/core/rank/tibeb_rank.dart';
+import 'package:tibeb/core/rank/tibeb_rank_extension.dart';
+import 'package:tibeb/core/rank/tibeb_rank_repository.dart';
+import 'package:tibeb/core/theme/theme.dart';
+import 'package:tibeb/l10n/app_localizations.dart';
 
 
 

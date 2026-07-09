@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 
 class PdfMetadata {
@@ -40,10 +39,7 @@ class PdfMetadataParser {
         }
       }
 
-    } catch (e, stack) {
-      debugPrint('[CRITICAL FAILURE] Engine parsing threw an unexpected exception: $e');
-      debugPrint(stack.toString());
-    } finally {
+    } catch (_) {    } finally {
       // Always close the memory stream allocations to prevent leaks
       document?.dispose();
     }

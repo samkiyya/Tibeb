@@ -121,30 +121,6 @@ class AppLocalizationsAm extends AppLocalizations {
   String get supportAbout => 'ድጋፍ እና ስለ መተግበሪያ';
 
   @override
-  String get supportDeveloper => 'አዘጋጁን ይደግፉ';
-
-  @override
-  String get helpSupportProject => 'ፕሮጀክቱን ለመደገፍ ይርዱ ❤️';
-
-  @override
-  String get contribute => 'አስተዋጽኦ';
-
-  @override
-  String get helpBuildGitHub => 'በጊትሀብ ላይ ለመገንባት ይርዱ 🚀';
-
-  @override
-  String get rateApp => 'መተግበሪያውን ይገምግሙ';
-
-  @override
-  String get leaveReview => 'ግምገማ ይስጡ ⭐';
-
-  @override
-  String get shareApp => 'መተግበሪያውን ያካፍሉ';
-
-  @override
-  String get shareWithFriends => 'ከጓደኞች ጋር ይጋሩ 📢';
-
-  @override
   String get reminderTime => 'የማስታወሻ ጊዜ';
 
   @override
@@ -402,19 +378,28 @@ class AppLocalizationsAm extends AppLocalizations {
   String get import => 'አስመጣ';
 
   @override
+  String get supportDeveloper => 'አዘጋጁን ይደግፉ';
+
+  @override
   String get supportDeveloperSubtitle => 'አዘጋጁን እና ፕሮጀክቱን ይደግፉ ❤️';
 
   @override
-  String get contributeGitHub => 'በጊትሀብ አስተዋጽኦ';
+  String get contributeGitHub => 'አስተዋጽኦ';
 
   @override
   String get contributeGitHubSubtitle => 'ለጥበብ መሻሻል በጊትሀብ ይሳተፉ 🚀';
 
   @override
+  String get rateApp => 'መተግበሪያውን ይገምግሙ';
+
+  @override
   String get rateAppSubtitle => 'ጥበብን ወደዱ? ግምገማ ይስጡ! ⭐';
 
   @override
-  String get shareAppSubtitle => 'ጥበብን ከጓደኞች ጋር ያካፍሉ 📢';
+  String get shareApp => 'መተግበሪያውን ያካፍሉ';
+
+  @override
+  String get shareAppSubtitle => 'ጥበብን ከጓደኞች ጋር ይጋሩ 📢';
 
   @override
   String get pagesRead => 'የተነበቡ ገጾች';
@@ -809,10 +794,4 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get achievement_enkutatash_start_description => 'በእንቁጣጣሽ ያንብቡ።';
-
-  @override
-  String get achievement_epiphany_reader => 'ጥምቀት';
-
-  @override
-  String get achievement_epiphany_reader_description => 'በጥምቀት ያንብቡ።';
 }

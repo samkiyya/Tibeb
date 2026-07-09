@@ -324,54 +324,6 @@ abstract class AppLocalizations {
   /// **'Support and About'**
   String get supportAbout;
 
-  /// No description provided for @supportDeveloper.
-  ///
-  /// In en, this message translates to:
-  /// **'Support the Developer'**
-  String get supportDeveloper;
-
-  /// No description provided for @helpSupportProject.
-  ///
-  /// In en, this message translates to:
-  /// **'Help support the project ❤️'**
-  String get helpSupportProject;
-
-  /// No description provided for @contribute.
-  ///
-  /// In en, this message translates to:
-  /// **'Contribute'**
-  String get contribute;
-
-  /// No description provided for @helpBuildGitHub.
-  ///
-  /// In en, this message translates to:
-  /// **'Help build on GitHub 🚀'**
-  String get helpBuildGitHub;
-
-  /// No description provided for @rateApp.
-  ///
-  /// In en, this message translates to:
-  /// **'Rate the App'**
-  String get rateApp;
-
-  /// No description provided for @leaveReview.
-  ///
-  /// In en, this message translates to:
-  /// **'Leave a review ⭐'**
-  String get leaveReview;
-
-  /// No description provided for @shareApp.
-  ///
-  /// In en, this message translates to:
-  /// **'Share the App'**
-  String get shareApp;
-
-  /// No description provided for @shareWithFriends.
-  ///
-  /// In en, this message translates to:
-  /// **'Share with friends 📢'**
-  String get shareWithFriends;
-
   /// No description provided for @reminderTime.
   ///
   /// In en, this message translates to:
@@ -870,6 +822,12 @@ abstract class AppLocalizations {
   /// **'Import'**
   String get import;
 
+  /// No description provided for @supportDeveloper.
+  ///
+  /// In en, this message translates to:
+  /// **'Support the Developer'**
+  String get supportDeveloper;
+
   /// No description provided for @supportDeveloperSubtitle.
   ///
   /// In en, this message translates to:
@@ -888,11 +846,23 @@ abstract class AppLocalizations {
   /// **'Help build the future of Tibeb 🚀'**
   String get contributeGitHubSubtitle;
 
+  /// No description provided for @rateApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate the App'**
+  String get rateApp;
+
   /// No description provided for @rateAppSubtitle.
   ///
   /// In en, this message translates to:
   /// **'Love Tibeb? Leave us a review! ⭐'**
   String get rateAppSubtitle;
+
+  /// No description provided for @shareApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Share the App'**
+  String get shareApp;
 
   /// No description provided for @shareAppSubtitle.
   ///
@@ -1659,18 +1629,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Read on Enkutatash.'**
   String get achievement_enkutatash_start_description;
-
-  /// No description provided for @achievement_epiphany_reader.
-  ///
-  /// In en, this message translates to:
-  /// **'Epiphany Reader'**
-  String get achievement_epiphany_reader;
-
-  /// No description provided for @achievement_epiphany_reader_description.
-  ///
-  /// In en, this message translates to:
-  /// **'Read on Epiphany.'**
-  String get achievement_epiphany_reader_description;
 }
 
 class _AppLocalizationsDelegate

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
-import '../../core/theme/theme.dart';
-import '../../l10n/app_localizations.dart';
+import 'package:tibeb/core/theme/theme.dart';
+import 'package:tibeb/l10n/app_localizations.dart';
 
 class StorageSettingsSheet extends ConsumerStatefulWidget {
   const StorageSettingsSheet({super.key});

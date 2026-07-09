@@ -7,8 +7,8 @@ import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 import 'package:tibeb/models/book_model.dart';
 import 'package:tibeb/screens/reading_screen.dart';
 import 'package:tibeb/screens/audiobook_player_screen.dart';
-import '../providers/library_provider.dart';
-import '../providers/navigation_provider.dart';
+import 'package:tibeb/providers/library_provider.dart';
+import 'package:tibeb/providers/navigation_provider.dart';
 
 
 
@@ -43,11 +43,6 @@ class NavigationService {
 
       },
       onError: (error) {
-
-        debugPrint(
-          'Share intent error: $error',
-        );
-
       },
     );
 
@@ -65,10 +60,6 @@ class NavigationService {
 
       },
       onError: (error) {
-
-        debugPrint(
-          'Initial share intent error: $error',
-        );
 
       },
     );

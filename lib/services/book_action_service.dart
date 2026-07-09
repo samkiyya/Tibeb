@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../models/book_model.dart';
-import '../providers/library_provider.dart';
-import '../screens/edit_book_screen.dart';
-import '../widgets/book_overlay_menu.dart';
+import 'package:tibeb/models/book_model.dart';
+import 'package:tibeb/providers/library_provider.dart';
+import 'package:tibeb/screens/edit_book_screen.dart';
+import 'package:tibeb/widgets/book_overlay_menu.dart';
 
 class BookActionService {
   static void show(

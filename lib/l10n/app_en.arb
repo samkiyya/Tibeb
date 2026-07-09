@@ -41,16 +41,8 @@
   "dataPermissions": "Data and permissions",
   "storage": "Storage",
   "manageAppData": "Manage app data",
-
   "supportAbout": "Support and About",
-  "supportDeveloper": "Support the Developer",
-  "helpSupportProject": "Help support the project ❤️",
-  "contribute": "Contribute",
-  "helpBuildGitHub": "Help build on GitHub 🚀",
-  "rateApp": "Rate the App",
-  "leaveReview": "Leave a review ⭐",
-  "shareApp": "Share the App",
-  "shareWithFriends": "Share with friends 📢",
+
 
   "reminderTime": "Reminder Time",
   "testNotification": "Test Notification",
@@ -277,7 +269,5 @@
   "achievement_timkat_reader": "Timkat Reader",
   "achievement_timkat_reader_description": "Read on Timkat.",
   "achievement_enkutatash_start": "Enkutatash Scholar",
-  "achievement_enkutatash_start_description": "Read on Enkutatash.",
-  "achievement_epiphany_reader": "Epiphany Reader",
-  "achievement_epiphany_reader_description": "Read on Epiphany."
+  "achievement_enkutatash_start_description": "Read on Enkutatash."
 }

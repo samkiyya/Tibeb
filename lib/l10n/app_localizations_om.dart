@@ -122,30 +122,6 @@ class AppLocalizationsOm extends AppLocalizations {
   String get supportAbout => 'Gargaarsa fi Waa\'ee';
 
   @override
-  String get supportDeveloper => 'Gargaarsa Keessattuu';
-
-  @override
-  String get helpSupportProject => 'Projeektii gargaaruu ❤️';
-
-  @override
-  String get contribute => 'Hirmaadhaa';
-
-  @override
-  String get helpBuildGitHub => 'GitHub irratti hirmaadhaa 🚀';
-
-  @override
-  String get rateApp => 'App Madaaluu';
-
-  @override
-  String get leaveReview => 'Madaalsa kenni ⭐';
-
-  @override
-  String get shareApp => 'App Qooduu';
-
-  @override
-  String get shareWithFriends => 'Firoota waliin qooduu 📢';
-
-  @override
   String get reminderTime => 'Yeroo yaadachiisa';
 
   @override
@@ -407,6 +383,9 @@ class AppLocalizationsOm extends AppLocalizations {
   String get import => 'Galchi';
 
   @override
+  String get supportDeveloper => 'Gargaarsa Keessattuu';
+
+  @override
   String get supportDeveloperSubtitle =>
       'Keessattuufi projeektii isaatti gargaaruu ❤️';
 
@@ -418,7 +397,13 @@ class AppLocalizationsOm extends AppLocalizations {
       'Tibeb fooyyessuuf GitHub irratti hirmaadhaa 🚀';
 
   @override
+  String get rateApp => 'App Madaaluu';
+
+  @override
   String get rateAppSubtitle => 'Tibeb jaalatta? Madaalsa kenni! ⭐';
+
+  @override
+  String get shareApp => 'App Qooduu';
 
   @override
   String get shareAppSubtitle => 'Tibeb firoota waliin qooduu 📢';
@@ -838,11 +823,4 @@ class AppLocalizationsOm extends AppLocalizations {
   @override
   String get achievement_enkutatash_start_description =>
       'Guyyaa Enkutataash dubbisuu.';
-
-  @override
-  String get achievement_epiphany_reader => 'Dubbisaa Ayyaana';
-
-  @override
-  String get achievement_epiphany_reader_description =>
-      'Guyyaa Ayyaana dubbisuu.';
 }

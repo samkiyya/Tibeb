@@ -1,6 +1,6 @@
 // lib/models/achievements_data.dart
 import 'package:flutter/material.dart';
-import '../models/achievement.dart';
+import 'package:tibeb/models/achievement.dart';
 
 /// Complete list — IDs preserved for compatibility.
 /// Note: Title and description are placeholders - actual localization is handled by Achievement class methods

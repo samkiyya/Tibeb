@@ -26,7 +26,6 @@ class BookCoverStorage {
       await File(path).writeAsBytes(bytes);
       return path;
     } catch (e) {
-      debugPrint('BookCoverStorage.saveBytes: $e');
       return '';
     }
   }
@@ -40,7 +39,7 @@ class BookCoverStorage {
         return saveBytes(response.bodyBytes);
       }
     } catch (e) {
-      debugPrint('BookCoverStorage.downloadCover: $e');
+      return '';
     }
     return '';
   }
@@ -57,7 +56,6 @@ class BookCoverStorage {
       await file.copy(dest);
       return dest;
     } catch (e) {
-      debugPrint('BookCoverStorage.saveLocalFile: $e');
       return '';
     }
   }
@@ -71,7 +69,6 @@ class BookCoverStorage {
       final bytes = await file.readAsBytes();
       return md5.convert(bytes).toString();
     } catch (e) {
-      debugPrint('BookCoverStorage.md5Hash: $e');
       return '';
     }
   }

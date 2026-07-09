@@ -43,14 +43,6 @@
   "manageAppData": "ዳታ መተግበሪ ኣስተዳድር",
   
   "supportAbout": "ድጋፍን ብዛዕባን",
-  "supportDeveloper": "ኣዘጋጂ ድጋፍ",
-  "helpSupportProject": "ንፕሮጀክት ድጋፍ ሓግዝ ❤️",
-  "contribute": "ኣበርክቶ",
-  "helpBuildGitHub": "ኣብ ጊትሀብ ሓግዝ 🚀",
-  "rateApp": "መተግበሪ ደረጃ",
-  "leaveReview": "ምዘና ሃብ ⭐",
-  "shareApp": "መተግበሪ ኣካፍል",
-  "shareWithFriends": "ምስ ፈተውትኻ ኣካፍል 📢",
   
   "reminderTime": "ሰዓት ኣዘኻኽሪ",
   "testNotification": "ፈተና ማስታወሻ",
@@ -143,7 +135,7 @@
   "import": "ኣስመጽ",
   "supportDeveloper": "ኣዘጋጂ ድጋፍ",
   "supportDeveloperSubtitle": "ኣዘጋጂን ፕሮጀክቱን ድጋፍ ❤️",
-  "contributeGitHub": "ብጊትሀብ ኣበርክቶ",
+  "contributeGitHub": "ኣበርክቶ",
   "contributeGitHubSubtitle": "ንጥበብ ኣብ ጊትሀብ ኣበርክቱ 🚀",
   "rateApp": "መተግበሪ ደረጃ",
   "rateAppSubtitle": "ጥበብ ይፈትዎ? ምዘና ሃብ! ⭐",
@@ -277,7 +269,5 @@
   "achievement_timkat_reader": "ጥምቀት",
   "achievement_timkat_reader_description": "ብጥምቀት ኣንብብ",
   "achievement_enkutatash_start": "እንቁጣጣሽ",
-  "achievement_enkutatash_start_description": "ብእንቁጣጣሽ ኣንብብ",
-  "achievement_epiphany_reader": "ጥምቀት",
-  "achievement_epiphany_reader_description": "ብጥምቀት ኣንብብ"
+  "achievement_enkutatash_start_description": "ብእንቁጣጣሽ ኣንብብ"
 }

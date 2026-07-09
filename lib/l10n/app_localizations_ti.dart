@@ -121,30 +121,6 @@ class AppLocalizationsTi extends AppLocalizations {
   String get supportAbout => 'ድጋፍን ብዛዕባን';
 
   @override
-  String get supportDeveloper => 'ኣዘጋጂ ድጋፍ';
-
-  @override
-  String get helpSupportProject => 'ንፕሮጀክት ድጋፍ ሓግዝ ❤️';
-
-  @override
-  String get contribute => 'ኣበርክቶ';
-
-  @override
-  String get helpBuildGitHub => 'ኣብ ጊትሀብ ሓግዝ 🚀';
-
-  @override
-  String get rateApp => 'መተግበሪ ደረጃ';
-
-  @override
-  String get leaveReview => 'ምዘና ሃብ ⭐';
-
-  @override
-  String get shareApp => 'መተግበሪ ኣካፍል';
-
-  @override
-  String get shareWithFriends => 'ምስ ፈተውትኻ ኣካፍል 📢';
-
-  @override
   String get reminderTime => 'ሰዓት ኣዘኻኽሪ';
 
   @override
@@ -403,16 +379,25 @@ class AppLocalizationsTi extends AppLocalizations {
   String get import => 'ኣስመጽ';
 
   @override
+  String get supportDeveloper => 'ኣዘጋጂ ድጋፍ';
+
+  @override
   String get supportDeveloperSubtitle => 'ኣዘጋጂን ፕሮጀክቱን ድጋፍ ❤️';
 
   @override
-  String get contributeGitHub => 'ብጊትሀብ ኣበርክቶ';
+  String get contributeGitHub => 'ኣበርክቶ';
 
   @override
   String get contributeGitHubSubtitle => 'ንጥበብ ኣብ ጊትሀብ ኣበርክቱ 🚀';
 
   @override
+  String get rateApp => 'መተግበሪ ደረጃ';
+
+  @override
   String get rateAppSubtitle => 'ጥበብ ይፈትዎ? ምዘና ሃብ! ⭐';
+
+  @override
+  String get shareApp => 'መተግበሪ ኣካፍል';
 
   @override
   String get shareAppSubtitle => 'ንጥበብ ምስ ፈተውትኻ ኣካፍል 📢';
@@ -809,10 +794,4 @@ class AppLocalizationsTi extends AppLocalizations {
 
   @override
   String get achievement_enkutatash_start_description => 'ብእንቁጣጣሽ ኣንብብ';
-
-  @override
-  String get achievement_epiphany_reader => 'ጥምቀት';
-
-  @override
-  String get achievement_epiphany_reader_description => 'ብጥምቀት ኣንብብ';
 }

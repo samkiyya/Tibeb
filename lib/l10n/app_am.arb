@@ -2,7 +2,6 @@
   "@@locale": "am",
   "appName": "ጥበብ",
   "appDescription": "ጥበብ ለሁሉም ሰው ነጻ የመጽሐፍ እና የድምጽ መጽሐፍ አንባቢ መተግበሪያ ነው።",
-
   "settings": "ቅንብሮች",
   "home": "መነሻ",
   "library": "ቤተ መጽሐፍ",
@@ -13,19 +12,16 @@
   "language": "ቋንቋ",
   "support": "ድጋፍ",
   "about": "ስለ መተግበሪያ",
-
   "level": "ደረጃ",
   "totalWP": "ጠቅላላ የጥበብ ነጥብ",
   "streak": "ተከታታይ ንባብ",
   "pages": "ገጾች",
   "minutes": "ደቂቃዎች",
-
   "theme": "የመትግበሪያ ገጽታ",
   "light": "ብርሃን",
   "dark": "ጨለማ",
   "system": "ስርዓት",
   "alerts": "ማንቂያዎች",
-
   "readingPreferences": "የንባብ ምርጫዎች",
   "fontSettings": "የፊደል ቅንብሮች",
   "customizeReadingExperience": "የንባብ ተሞክሮዎን ያብጁ",
@@ -33,7 +29,6 @@
   "pageLayoutOrientation": "የገጽ አቀማመጥ እና አቅጣጫ",
   "readingSpeed": "የንባብ ፍጥነት",
   "autoScrollPacing": "የራስ-ሰር ማሸብለል ፍጥነት",
-
   "appExperience": "የመተግበሪያ ተሞክሮ",
   "dailyReminders": "ዕለታዊ ማስታወሻዎች",
   "keepReadingStreakAlive": "የንባብ ተከታታይነትዎን ይጠብቁ",
@@ -41,21 +36,10 @@
   "dataPermissions": "ውሂብ እና ፍቃዶች",
   "storage": "ማከማቻ",
   "manageAppData": "የመተግበሪያ ውሂብን ያስተዳድሩ",
-
   "supportAbout": "ድጋፍ እና ስለ መተግበሪያ",
-  "supportDeveloper": "አዘጋጁን ይድጋፉ",
-  "helpSupportProject": "ፕሮጀክቱን ለመደገፍ ይርዱ ❤️",
-  "contribute": "አስተዋጽኦ",
-  "helpBuildGitHub": "በጊትሀብ ላይ ለመገንባት ይርዱ 🚀",
-  "rateApp": "መተግበሪያውን ይገምግሙ",
-  "leaveReview": "ግምገማ ይስጡ ⭐",
-  "shareApp": "መተግበሪያውን ያጋሩ",
-  "shareWithFriends": "ከጓደኞች ጋር ይጋሩ 📢",
-
   "reminderTime": "የማስታወሻ ጊዜ",
   "testNotification": "የሙከራ ማስታወሻ",
   "receiveTestAlert": "ማስታወሻዎች እንዴት እንደሚሰሩ ለማረጋገጥ የሙከራ ማስታወሻ ይቀበሉ።",
-
   "comingSoon": "በቅርቡ",
   "languageSupportComingSoon": "የቋንቋ ድጋፍ በቅርቡ ይመጣል! ብዙ አማራጮችን ለማምጣት እየሰራን ነው።",
   "gotIt": "ገባኝ",
@@ -143,12 +127,12 @@
   "import": "አስመጣ",
   "supportDeveloper": "አዘጋጁን ይደግፉ",
   "supportDeveloperSubtitle": "አዘጋጁን እና ፕሮጀክቱን ይደግፉ ❤️",
-  "contributeGitHub": "በጊትሀብ አስተዋጽኦ",
+  "contributeGitHub": "አስተዋጽኦ",
   "contributeGitHubSubtitle": "ለጥበብ መሻሻል በጊትሀብ ይሳተፉ 🚀",
   "rateApp": "መተግበሪያውን ይገምግሙ",
   "rateAppSubtitle": "ጥበብን ወደዱ? ግምገማ ይስጡ! ⭐",
   "shareApp": "መተግበሪያውን ያካፍሉ",
-  "shareAppSubtitle": "ጥበብን ከጓደኞች ጋር ያካፍሉ 📢",
+  "shareAppSubtitle": "ጥበብን ከጓደኞች ጋር ይጋሩ 📢",
   "pagesRead": "የተነበቡ ገጾች",
   "minutesRead": "የተነበቡ ደቂቃዎች",
   "wisdomPoints": "የጥበብ ነጥቦች (WP)",
@@ -277,7 +261,5 @@
   "achievement_timkat_reader": "ጥምቀት",
   "achievement_timkat_reader_description": "በጥምቀት ያንብቡ።",
   "achievement_enkutatash_start": "እንቁጣጣሽ",
-  "achievement_enkutatash_start_description": "በእንቁጣጣሽ ያንብቡ።",
-  "achievement_epiphany_reader": "ጥምቀት",
-  "achievement_epiphany_reader_description": "በጥምቀት ያንብቡ።"
+  "achievement_enkutatash_start_description": "በእንቁጣጣሽ ያንብቡ።"
 }

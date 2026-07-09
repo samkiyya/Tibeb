@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
 import 'package:file_picker/file_picker.dart';
 
@@ -35,7 +34,6 @@ class BookService {
     );
 
     if (result == null || result.files.isEmpty) {
-      debugPrint('BookService: no files picked');
       return [];
     }
 
@@ -57,7 +55,6 @@ class BookService {
       case '.pdf':
         return _processPdf(file);
       default:
-        debugPrint('BookService: unsupported extension "$ext"');
         return null;
     }
   }
@@ -85,7 +82,6 @@ class BookService {
         series: meta.series,
       );
     } catch (e) {
-      debugPrint('BookService: error processing EPUB: $e');
       return null;
     }
   }
@@ -127,7 +123,6 @@ class BookService {
         totalPages: render.totalPages,
       );
     } catch (e) {
-      debugPrint('BookService: error processing PDF: $e');
       return null;
     }
   }

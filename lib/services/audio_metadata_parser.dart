@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'audio_metadata.dart';
 import 'id3_parser.dart';
 import 'mpeg4_parser.dart';
@@ -26,7 +25,6 @@ class AudioMetadataParser {
   static Future<AudioMetadata?> parseFile(String filePath) async {
     final file = File(filePath);
     if (!await file.exists()) {
-      debugPrint('AudioMetadataParser: file not found — $filePath');
       return null;
     }
 
@@ -42,34 +40,26 @@ class AudioMetadataParser {
 
       // ── MP3 / ID3v2 ──────────────────────────────────────────────────────
       if (_matchesAt(header, 0, _id3Sig)) {
-        debugPrint('AudioMetadataParser: detected ID3v2 tag in $filePath');
         final meta = await Id3Parser.parseId3v2(raf, header);
         if (meta.hasContent) return meta;
-        // ID3v2 found but empty — fall through to ID3v1
-        debugPrint('AudioMetadataParser: ID3v2 empty, trying ID3v1');
       }
 
       // ── MPEG-4 (M4A / M4B / AAC) ─────────────────────────────────────────
       if (header.length >= 8 &&
           (_matchesAt(header, 4, _ftypSig) || _matchesAt(header, 4, _moovSig))) {
-        debugPrint('AudioMetadataParser: detected MPEG-4 container in $filePath');
         final meta = await Mpeg4Parser.parse(raf, fileLen);
         if (meta.hasContent) return meta;
-        debugPrint('AudioMetadataParser: MPEG-4 parsing returned no metadata');
         return null;
       }
 
       // ── ID3v1 (MP3 without ID3v2, or ID3v2 was empty) ────────────────────
       if (fileLen >= 128) {
-        debugPrint('AudioMetadataParser: trying ID3v1 fallback in $filePath');
         final meta = await Id3Parser.parseId3v1(raf, fileLen);
         if (meta.hasContent) return meta;
       }
 
-      debugPrint('AudioMetadataParser: no metadata found in $filePath');
       return null;
-    } catch (e, st) {
-      debugPrint('AudioMetadataParser: error parsing $filePath\n$e\n$st');
+    } catch (e) {
       return null;
     } finally {
       await raf?.close();

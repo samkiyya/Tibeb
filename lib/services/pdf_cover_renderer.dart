@@ -46,9 +46,7 @@ class PdfCoverRenderer {
       }
 
       await doc.dispose();
-    } catch (e) {
-      debugPrint('PdfCoverRenderer: render failed (non-fatal): $e');
-    }
+    } catch (_) { }
 
     return PdfRenderResult(coverBytes: coverBytes, totalPages: totalPages);
   }
@@ -78,7 +76,6 @@ class PdfCoverRenderer {
 
       return Uint8List.fromList(img.encodeJpg(decoded, quality: _jpegQuality));
     } catch (e) {
-      debugPrint('PdfCoverRenderer: page render failed: $e');
       return null;
     }
   }

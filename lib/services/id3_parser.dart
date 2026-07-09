@@ -25,20 +25,14 @@ class Id3Parser {
     // Synchsafe tag size (excludes 10-byte header)
     final tagSize = _synchsafeInt(header, 6);
     if (tagSize <= 0) {
-      debugPrint('Id3Parser: tagSize=0, skipping');
       return AudioMetadata.empty;
     }
 
     // Read the full tag body with a reliable read loop
     List<int> tagBytes = await _readExact(raf, tagSize);
     if (tagBytes.isEmpty) {
-      debugPrint('Id3Parser: could not read tag body');
       return AudioMetadata.empty;
     }
-
-    // Debug: show first 16 bytes of tag body as hex
-    final peek = tagBytes.take(16).map((b) => b.toRadixString(16).padLeft(2, '0')).join(' ');
-    debugPrint('Id3Parser: v2.$version tag body[0..15]: $peek');
 
     // Apply unsynchronization decoding if flag is set (v2.3 tag-level flag)
     if (hasUnsync && version != 4) {
@@ -49,11 +43,7 @@ class Id3Parser {
     int offset = 0;
     if (hasExtHeader) {
       offset = _skipExtendedHeader(tagBytes, version);
-      debugPrint('Id3Parser: skipped extended header, offset=$offset');
     }
-
-    debugPrint(
-        'Id3Parser: v2.$version tagSize=$tagSize unsync=$hasUnsync extHdr=$hasExtHeader');
 
     return version == 2
         ? _parseFramesV22(tagBytes, offset)
@@ -76,7 +66,6 @@ class Id3Parser {
 
     final title = _trimNulls(bytes.sublist(3, 33));
     final artist = _trimNulls(bytes.sublist(33, 63));
-    debugPrint('Id3Parser v1: title="$title" artist="$artist"');
 
     return AudioMetadata(
       title: title.isEmpty ? null : title,
@@ -106,7 +95,6 @@ class Id3Parser {
     String? title, author;
     Uint8List? coverBytes;
     String? coverMime;
-    int framesRead = 0;
 
     while (offset + 6 < tagBytes.length) {
       // Padding: end of frames
@@ -114,8 +102,6 @@ class Id3Parser {
 
       final frameIdBytes = tagBytes.sublist(offset, offset + 3);
       if (!_allPrintableAscii(frameIdBytes)) {
-        debugPrint(
-            'Id3Parser v2.2: non-ASCII frame ID at offset $offset, stopping');
         break;
       }
       final frameId = String.fromCharCodes(frameIdBytes);
@@ -125,44 +111,29 @@ class Id3Parser {
           ((fs[0] & 0xFF) << 16) | ((fs[1] & 0xFF) << 8) | (fs[2] & 0xFF);
 
       if (frameSize <= 0 || offset + 6 + frameSize > tagBytes.length) {
-        debugPrint(
-            'Id3Parser v2.2: bad frameSize=$frameSize at offset=$offset');
         break;
       }
 
       final body = tagBytes.sublist(offset + 6, offset + 6 + frameSize);
-      framesRead++;
-
-      debugPrint(
-          'Id3Parser v2.2: frame "$frameId" size=$frameSize');
-
       switch (frameId) {
         case 'TT2':
           title = _decodeTextFrame(body);
-          debugPrint('Id3Parser v2.2: TT2 title="$title"');
         case 'TP1':
         case 'TP2':
           author ??= _decodeTextFrame(body);
-          debugPrint('Id3Parser v2.2: $frameId author="$author"');
         case 'PIC':
           try {
             final r = _decodePicFrame(body);
             if (r != null) {
               coverBytes = r.bytes;
               coverMime = r.mime;
-              debugPrint(
-                  'Id3Parser v2.2: PIC cover mime=$coverMime bytes=${r.bytes.length}');
             }
-          } catch (e) {
-            debugPrint('Id3Parser v2.2: PIC error: $e');
-          }
+          } catch (_) {}
       }
 
       offset += 6 + frameSize;
     }
 
-    debugPrint(
-        'Id3Parser v2.2: parsed $framesRead frames → title=$title author=$author hasCover=${coverBytes != null}');
     return AudioMetadata(
         title: title, author: author, coverBytes: coverBytes, coverMime: coverMime);
   }
@@ -175,7 +146,6 @@ class Id3Parser {
     String? title, author;
     Uint8List? coverBytes;
     String? coverMime;
-    int framesRead = 0;
 
     while (offset + 10 < tagBytes.length) {
       // Padding: end of frames
@@ -183,9 +153,7 @@ class Id3Parser {
 
       final frameIdBytes = tagBytes.sublist(offset, offset + 4);
       if (!_allPrintableAscii(frameIdBytes)) {
-        debugPrint(
-            'Id3Parser v2.$version: non-ASCII frame ID at offset $offset, stopping');
-        break;
+       break;
       }
       final frameId = String.fromCharCodes(frameIdBytes);
 
@@ -201,9 +169,7 @@ class Id3Parser {
       }
 
       if (frameSize <= 0 || offset + 10 + frameSize > tagBytes.length) {
-        debugPrint(
-            'Id3Parser v2.$version: bad frameSize=$frameSize at offset=$offset');
-        break;
+       break;
       }
 
       List<int> body = tagBytes.sublist(offset + 10, offset + 10 + frameSize);
@@ -215,42 +181,29 @@ class Id3Parser {
           body = _decodeUnsync(body);
         }
       }
-
-      framesRead++;
-      debugPrint('Id3Parser v2.$version: frame "$frameId" size=$frameSize');
-
+      
       switch (frameId) {
         case 'TIT2':
           title = _decodeTextFrame(body);
-          debugPrint('Id3Parser v2.$version: TIT2 title="$title"');
         case 'TPE1':
         case 'TPE2':
           author ??= _decodeTextFrame(body);
-          debugPrint('Id3Parser v2.$version: $frameId author="$author"');
         case 'TALB':
           // Album — useful fallback if title is missing
-          debugPrint(
-              'Id3Parser v2.$version: TALB album="${_decodeTextFrame(body)}"');
         case 'APIC':
           try {
             final r = _decodeApicFrame(body);
             if (r != null) {
               coverBytes = r.bytes;
               coverMime = r.mime;
-              debugPrint(
-                  'Id3Parser v2.$version: APIC cover mime=$coverMime bytes=${r.bytes.length}');
-            }
-          } catch (e) {
-            debugPrint('Id3Parser v2.$version: APIC error: $e');
-          }
+              }
+          } catch (_) {}
       }
 
       offset += 10 + frameSize;
     }
-
-    debugPrint(
-        'Id3Parser v2.$version: parsed $framesRead frames → title=$title author=$author hasCover=${coverBytes != null}');
-    return AudioMetadata(
+ 
+  return AudioMetadata(
         title: title, author: author, coverBytes: coverBytes, coverMime: coverMime);
   }
 

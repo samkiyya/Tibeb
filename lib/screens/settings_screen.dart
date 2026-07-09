@@ -371,14 +371,6 @@ class SettingsScreen extends ConsumerWidget {
             onTap: () => _showPrivacySettingsSheet(context, t, l10n),
             t: t,
           ),
-          Divider(color: t.borderSubtle, height: 1),
-          _buildSettingsTile(
-            icon: Icons.storage_rounded,
-            title: l10n.storage,
-            subtitle: l10n.manageAppData,
-            onTap: () => _showStorageSettingsSheet(context, t, l10n),
-            t: t,
-          ),
         ],
       ),
     );
@@ -391,15 +383,15 @@ class SettingsScreen extends ConsumerWidget {
           _buildSettingsTile(
             icon: Icons.volunteer_activism_rounded,
             title: l10n.supportDeveloper,
-            subtitle: l10n.helpSupportProject,
+            subtitle: l10n.supportDeveloperSubtitle,
             onTap: () => ref.read(settingsProvider.notifier).launchUrl(AppConstants.supportUrl),
             t: t,
           ),
           Divider(color: t.borderSubtle, height: 1),
           _buildSettingsTile(
             icon: Icons.code_rounded,
-            title: l10n.contribute,
-            subtitle: l10n.helpBuildGitHub,
+            title: l10n.contributeGitHub,
+            subtitle: l10n.contributeGitHubSubtitle,
             onTap: () => ref.read(settingsProvider.notifier).launchUrl(AppConstants.githubUrl),
             t: t,
           ),
@@ -407,7 +399,7 @@ class SettingsScreen extends ConsumerWidget {
           _buildSettingsTile(
             icon: Icons.star_rate_rounded,
             title: l10n.rateApp,
-            subtitle: l10n.leaveReview,
+            subtitle: l10n.rateAppSubtitle,
             onTap: () => ref.read(settingsProvider.notifier).rateApp(),
             t: t,
           ),
@@ -415,7 +407,7 @@ class SettingsScreen extends ConsumerWidget {
           _buildSettingsTile(
             icon: Icons.share_rounded,
             title: l10n.shareApp,
-            subtitle: l10n.shareWithFriends,
+            subtitle: l10n.shareAppSubtitle,
             onTap: () => ref.read(settingsProvider.notifier).shareApp(),
             t: t,
           ),
@@ -653,25 +645,7 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  void _showStorageSettingsSheet(BuildContext context, TibebThemeExtension t, AppLocalizations l10n) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (context) => Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: GlassContainer(
-            padding: const EdgeInsets.all(20),
-            child: const StorageSettingsSheet(),
-          ),
-        ),
-      ),
-    );
-  }
+
 
   void _showReadingSpeedSheet(BuildContext context, TibebThemeExtension t, AppLocalizations l10n) {
     showModalBottomSheet(

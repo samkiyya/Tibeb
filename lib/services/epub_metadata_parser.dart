@@ -47,7 +47,6 @@ class EpubMetadataParser {
         coverBytes: await _resolveCoverBytes(book),
       );
     } catch (e) {
-      debugPrint('EpubMetadataParser: error parsing ${file.path}: $e');
       return null;
     }
   }
@@ -107,9 +106,7 @@ class EpubMetadataParser {
     if (book.CoverImage != null) {
       try {
         return Uint8List.fromList(img.encodeJpg(book.CoverImage!, quality: 85));
-      } catch (e) {
-        debugPrint('EpubMetadataParser: cover encode failed: $e');
-      }
+      } catch (_) {}
     }
     // 2. Manual manifest search — prefer files named 'cover'
     final images = book.Content?.Images;
