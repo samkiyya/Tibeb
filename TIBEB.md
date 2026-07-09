@@ -58,7 +58,7 @@
 - ⚠️ **`database_service.dart` is gone** — all sqflite / sqlite references are fully removed from the codebase. No Dart file in the project references sqflite.
 
 ### Major Strengths
-- **Gamification System:** XP with time-of-day multipliers (1.5× early/night, 2× weekend), 6 Ge'ez-themed ranks (Temari → Tibebawi), 18 achievements, 3 daily quests with weekend 2× multiplier, reading streak tracking — a genuine differentiator.
+- **Gamification System:** wisdom point (wp) with time-of-day multipliers (1.5× early/night, 2× weekend), 6 Ge'ez-themed ranks (Temari → Tibebawi), 18 achievements, 3 daily quests with weekend 2× multiplier, reading streak tracking — a genuine differentiator.
 - **EPUB Rendering:** Custom `PageView.builder` per chapter, HTML/CSS injection, 5-color highlight span injection via regex, image resolution from EPUB content map, overscroll chapter flip with haptic feedback, auto-scroll via Ticker.
 - **PDF Rendering:** `pdfrx` with `ColorFilter` matrix per theme, `PdfTextSearcher` full-text search with result highlighting, outline navigation, programmatic page jumping.
 - **Audiobook Integration:** `just_audio` with `ConcatenatingAudioSource` (multi-track), variable speed, track reordering, 10-second position auto-save, resume from last position.
@@ -85,7 +85,7 @@
 | Deep Navy | `#0d1321` | App background (dark mode base) |
 | Warm Brown | `#3b2f2f` | Surface containers, cards |
 | Bronze | `#6b4e16` | Secondary surfaces, borders |
-| Gold | `#d4af37` | **Primary accent** — XP, streaks, highlights |
+| Gold | `#d4af37` | **Primary accent** — WP, streaks, highlights |
 | Parchment | `#e7d9b5` | Sepia reader background, warm tones |
 | Cream | `#f7f3e6` | Light reader background |
 
@@ -102,7 +102,7 @@
 Yellow, Green, Blue, Pink, Orange — mapped to `reader.highlightYellow`, `reader.highlightGreen`, etc.
 
 ### Brand Color Gaps
-- `#d4af37` (Gold) is the natural XP/accent color but not yet mapped as an explicit named `goldPrimary` design token.
+- `#d4af37` (Gold) is the natural WP/accent color but not yet mapped as an explicit named `goldPrimary` design token.
 - `#3b2f2f` (Warm Brown) and `#6b4e16` (Bronze) not present as named design tokens in the color system.
 - The parchment `#e7d9b5` and cream `#f7f3e6` should align precisely with the reader cream theme `#F5F0E1`.
 
@@ -200,7 +200,7 @@ Yellow, Green, Blue, Pink, Orange — mapped to `reader.highlightYellow`, `reade
 | `books` | id, title, author, filePath, progress, audioTracks (JSON) | — | `isDeleted` soft-delete pattern |
 | `reading_sessions` | id, bookId, date (yyyy-MM-dd), pagesRead, durationMinutes | ✅ CASCADE | |
 | `bookmarks` | id, bookId, title, progress, position | ✅ CASCADE | |
-| `quests` | id (text PK), title, type (enum), targetValue, currentValue, xpReward, date | — | No FK; quests are date-scoped |
+| `quests` | id (text PK), title, type (enum), targetValue, currentValue, WPReward, date | — | No FK; quests are date-scoped |
 | `highlights` | id, bookId, chapterIndex, text, note, color, position | ✅ CASCADE | `text` column named `textValue` in Dart |
 | `dictionary_lookups` | id, bookId, word, timestamp | ✅ CASCADE | |
 
@@ -208,7 +208,7 @@ Yellow, Green, Blue, Pink, Orange — mapped to `reader.highlightYellow`, `reade
 
 | Principle | Violation | Location | Severity |
 |---|---|---|---|
-| **S** | `LibraryNotifier` handles books, XP, streaks, quests, achievements, bookmarks, goals, notifications, dictionary, filtering, sorting | `library_provider.dart` | 🔴 Critical |
+| **S** | `LibraryNotifier` handles books, WP, streaks, quests, achievements, bookmarks, goals, notifications, dictionary, filtering, sorting | `library_provider.dart` | 🔴 Critical |
 | **S** | `_ReadingScreenState` handles EPUB parsing, PDF rendering, audio, search, bookmarks, highlights, orientation, battery, tutorial, progress | `reading_screen.dart` | 🔴 Critical |
 | **O** | Format support requires modifying `processFile()` switch | `book_service.dart` | 🟡 High |
 | **D** | `BookService` directly instantiates `DatabaseRepositoryImpl` (uses provider now, but service itself is still a non-injected singleton) | `book_service.dart` | 🟡 Medium |
@@ -337,16 +337,16 @@ Yellow, Green, Blue, Pink, Orange — mapped to `reader.highlightYellow`, `reade
 | Feature | Status | Quality | Notes |
 |---|:---:|:---:|---|
 | Reading streak | ✅ | 7/10 | Calculated from `reading_sessions` table; survives today + yesterday |
-| Weekly goals | ✅ | 7/10 | Pages / minutes / XP goal types with editable target; `GoalSettingsSheet` |
-| XP system | ✅ | 8/10 | 10 XP/page + 5 XP/min × time-of-day multipliers |
-| Levels (1–99) | ✅ | 7/10 | `xp ~/ 1000 + 1`, capped at 99 |
+| Weekly goals | ✅ | 7/10 | Pages / minutes / WP goal types with editable target; `GoalSettingsSheet` |
+| wP system | ✅ | 8/10 | 10 wP/page + 5 WP/min × time-of-day multipliers |
+| Levels (1–99) | ✅ | 7/10 | `WP ~/ 1000 + 1`, capped at 99 |
 | Ge'ez Ranks (6 tiers) | ✅ | 8/10 | Temari → Anebabi → Tsehafi → Liq → Baletibeb → Tibebawi |
 | Rank-up celebration | ✅ | 8/10 | Animated `RankUpDialog` with pulsing gradient on tier change |
 | 18 Achievements | ✅ | 7/10 | `AchievementsGrid` with tap-to-detail; sorted unlocked-first |
-| 3 Daily Quests | ✅ | 7/10 | Pages/minutes/Early Bird; 2× XP on weekends; `DailyQuestsCard` |
-| Quest XP rewarded | ✅ | 7/10 | Stored in `quests` Drift table, added to total XP |
+| 3 Daily Quests | ✅ | 7/10 | Pages/minutes/Early Bird; 2× WP on weekends; `DailyQuestsCard` |
+| Quest WP rewarded | ✅ | 7/10 | Stored in `quests` Drift table, added to total WP |
 | Monthly activity heatmap | ✅ | 7/10 | GitHub-style 5-level heatmap in `ActivityGraph` |
-| Level info card | ✅ | 8/10 | `LevelInfoCard` with XP progress bar; taps open `LevelMetadataSheet` |
+| Level info card | ✅ | 8/10 | `LevelInfoCard` with WP progress bar; taps open `LevelMetadataSheet` |
 | Level metadata sheet | ✅ | 8/10 | All 6 ranks with level/achievements required + unlock status |
 | Wisdom Timeline | ❌ | — | Not implemented |
 | Monthly challenges | ❌ | — | No monthly challenge system |
@@ -414,7 +414,7 @@ Yellow, Green, Blue, Pink, Orange — mapped to `reader.highlightYellow`, `reade
 | `BooksDao` | ~35 | 8/10 | Watch (reactive) + get, insert, update, soft/hard delete. Ordered by `addedAt DESC`. |
 | `HighlightsDao` | ~35 | 8/10 | Watch + get, insert, update, delete single, delete for book. Ordered by `createdAt DESC`. |
 | `BookmarksDao` | ~25 | 8/10 | Watch + get, insert, delete. |
-| `QuestsDao` | ~30 | 7/10 | Get by date, insert, update progress, total XP sum. |
+| `QuestsDao` | ~30 | 7/10 | Get by date, insert, update progress, total WP sum. |
 | `ReadingSessionsDao` | ~25 | 7/10 | Watch all, get all (no pagination — risk). |
 | `DictionaryLookupsDao` | ~25 | 7/10 | Insert, get for book, count total. |
 
@@ -436,13 +436,13 @@ Yellow, Green, Blue, Pink, Orange — mapped to `reader.highlightYellow`, `reade
 
 | File | LOC | Score | Notes |
 |---|:---:|:---:|---|
-| `library_provider.dart` | 1,538 | 3/10 | **God class.** 54 methods. `LibraryNotifier` handles: book CRUD, XP/level/streak calc, quest generation+update, achievement unlock, bookmark CRUD, dictionary lookup, filtering/sorting, goal management, notification scheduling, deferred notifications. `LibraryState` has 40+ fields. |
+| `library_provider.dart` | 1,538 | 3/10 | **God class.** 54 methods. `LibraryNotifier` handles: book CRUD, WP/level/streak calc, quest generation+update, achievement unlock, bookmark CRUD, dictionary lookup, filtering/sorting, goal management, notification scheduling, deferred notifications. `LibraryState` has 40+ fields. |
 | `reader_settings_provider.dart` | 133 | 7/10 | Clean. 2-second debounced save to SharedPreferences. EPUB/PDF separate theme memory. |
 | `database_providers.dart` | 17 | 9/10 | Clean. `databaseProvider` + `databaseRepositoryProvider`. Proper `ref.onDispose()` to close DB. |
 
 **Recommended `LibraryNotifier` split:**
 1. `LibraryNotifier` — Book CRUD, filtering, sorting, import
-2. `GamificationNotifier` — XP, levels, streaks, achievements
+2. `GamificationNotifier` — WP, levels, streaks, achievements
 3. `QuestNotifier` — Daily quest generation + progress
 4. `AnnotationNotifier` — Highlights, bookmarks, vocabulary
 5. `GoalNotifier` — Weekly goals, reading stats
@@ -500,9 +500,9 @@ Yellow, Green, Blue, Pink, Orange — mapped to `reader.highlightYellow`, `reade
 - `book_card_helpers.dart` — utility functions
 
 **`widgets/stats/` (5 files — well-separated):**
-- `level_info_card.dart` — level + rank + XP progress bar; taps open metadata sheet
+- `level_info_card.dart` — level + rank + WP progress bar; taps open metadata sheet
 - `level_metadata_sheet.dart` — all 6 Ge'ez ranks with level/achievements requirements
-- `weekly_goal_card.dart` — pages/minutes/XP goal progress
+- `weekly_goal_card.dart` — pages/minutes/WP goal progress
 - `goal_settings_sheet.dart` — editable goal targets
 - `achievements_grid.dart` — 18 achievement badges sorted unlocked-first, with tap-to-detail dialog
 
@@ -535,12 +535,12 @@ Yellow, Green, Blue, Pink, Orange — mapped to `reader.highlightYellow`, `reade
 | Baletibeb | ባለ ትብብ | 40 | 10 |
 | Tibebawi | ትቤቡ | 50 | 12 |
 
-**XP Multipliers (real logic in `_calculateStats`):**
-- Base: 10 XP/page + 5 XP/minute
+**WP Multipliers (real logic in `_calculateStats`):**
+- Base: 10 WP/page + 5 WP/minute
 - 1.5× for sessions 6–9 AM (Early Bird)
 - 1.5× for sessions 10 PM–1 AM (Night Owl)
 - 2× for weekend sessions (Saturday/Sunday) — overrides time boosts
-- Quest XP added from Drift `quests` table total
+- Quest WP added from Drift `quests` table total
 
 **18 Achievements (real, tracked in `LibraryState.unlockedAchievements`):**
 First Page, Habit Builder, 7-Day Streak, Bookworm (1000p), Night Owl, Early Bird, Century Club (100p/session), Unstoppable (30-day streak), Marathoner (2h session), Scholar (5000p), Yomibito (10 books), Sensei (50 books), Bibliophile (10 in library), Collector (100 in library), Weekend Warrior, Word Seeker (1 lookup), Vocab Builder (20 lookups), Lexicoguru (100 lookups).
@@ -554,9 +554,9 @@ First Page, Habit Builder, 7-Day Streak, Bookworm (1000p), Night Owl, Early Bird
 | Debt Item | Location | Impact | Estimated Effort |
 |---|---|---|---|
 | **God class: `_ReadingScreenState`** | `reading_screen.dart` (~2,515 LOC, 59 methods) | Every new reader feature (sleep timer, audio sync, new format) requires editing this monolith. Zero unit-test possibility. Merge conflicts guaranteed with >1 developer. | 2 weeks (split into EpubController, PdfController, AudioController, SearchManager, BookmarkManager, ProgressTracker) |
-| **God class: `LibraryNotifier`** | `library_provider.dart` (1,538 LOC, 54 methods) | XP/streak/quest/goal/bookmark/notification logic all in one class. Impossible to test in isolation. Every change risks breaking 6 unrelated features. | 1.5 weeks (split into 5 notifiers as above) |
+| **God class: `LibraryNotifier`** | `library_provider.dart` (1,538 LOC, 54 methods) | WP/streak/quest/goal/bookmark/notification logic all in one class. Impossible to test in isolation. Every change risks breaking 6 unrelated features. | 1.5 weeks (split into 5 notifiers as above) |
 | **God widget: `navigation_sheet.dart`** | `widgets/reading/navigation_sheet.dart` (~1,597 LOC) | TOC tree + bookmarks + highlights + vocabulary + export + share + bulk actions all in one bottom sheet. Impossible to navigate or test. | 1 week (split into TocSheet, AnnotationsSheet, BookmarksList, HighlightsList, VocabularyChips) |
-| **Zero test coverage** | `test/widget_test.dart` (default Flutter counter test only) | No regression safety. Any change is a deployment risk. Onboarding new developers is risky. | 2 weeks (build initial suite for DB/DAOs, models, XP calc, streak logic, quest generation) |
+| **Zero test coverage** | `test/widget_test.dart` (default Flutter counter test only) | No regression safety. Any change is a deployment risk. Onboarding new developers is risky. | 2 weeks (build initial suite for DB/DAOs, models, WP calc, streak logic, quest generation) |
 
 ### 🟡 High Priority
 
@@ -654,7 +654,7 @@ main() →
 | Notes editor | Rich text (Quill) | Plain text | **Exceeds Kindle** — strong differentiator |
 | Audio integration | Inline in reader with sync controls | Separate Audible app | **Innovative** — combined UX is novel |
 | Knowledge review | None (vocab list only) | Readwise core feature | **Critical gap** for positioning |
-| Gamification | XP, ranks, streaks, quests, achievements | None | **Exceeds all competitors** |
+| Gamification | WP, ranks, streaks, quests, achievements | None | **Exceeds all competitors** |
 | Quote sharing | Styled image with book credit | Basic text share | **Exceeds Kindle** |
 | Onboarding | Tutorial coach marks (4–6 targets) | Contextual tips | Acceptable |
 | Error handling | None visible | Graceful recovery | Gap — corrupt file = silent crash |
@@ -702,25 +702,25 @@ main() →
 **Phase 1 — Foundation (Week 1):**
 - Unit: Drift DAOs — CRUD operations with in-memory DB (`drift/native.dart` with `NativeDatabase.memory()`)
 - Unit: `_calculateStreak()` — edge cases (no sessions, streak broken, yesterday-only)
-- Unit: `_calculateStats()` — XP multipliers, level calculation, achievement thresholds
+- Unit: `_calculateStats()` — WP multipliers, level calculation, achievement thresholds
 - Unit: `_generateDailyQuests()` — weekday vs weekend multiplier
 - Unit: `BookService.processFile()` with mock EPUB/PDF bytes
 
 **Phase 2 — State (Week 2):**
 - `LibraryNotifier` state transitions (import → loadBooks → filtered state)
 - `ReaderSettingsProvider` persistence round-trip with `SharedPreferences.setMockInitialValues()`
-- Quest completion + XP update flow with mocked `DatabaseRepository`
+- Quest completion + WP update flow with mocked `DatabaseRepository`
 
 **Phase 3 — Widget Tests (Week 3):**
 - `BookCard` with various book states (unread, reading, finished, favorite)
 - `AchievementsGrid` with mocked unlocked set
-- `LevelInfoCard` with various XP values
+- `LevelInfoCard` with various WP values
 - `DisplaySettingsSheet` interaction (theme change, font size slider)
 
 **Phase 4 — Integration (Week 4):**
 - Import → Read → Highlight → Export Markdown flow
 - Audio: pick file → play → position save → resume
-- XP accumulation → Level up → Rank tier change → Celebration dialog
+- WP accumulation → Level up → Rank tier change → Celebration dialog
 
 ---
 

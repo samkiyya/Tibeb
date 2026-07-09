@@ -36,4 +36,8 @@ class BookmarksDao extends DatabaseAccessor<AppDatabase>
   Future<int> deleteBookmark(int id) {
     return (delete(bookmarks)..where((t) => t.id.equals(id))).go();
   }
+
+  Future<int> getTotalBookmarkCount() {
+    return select(bookmarks).get().then((list) => list.length);
+  }
 }

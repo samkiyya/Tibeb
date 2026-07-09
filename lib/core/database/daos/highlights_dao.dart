@@ -44,4 +44,8 @@ class HighlightsDao extends DatabaseAccessor<AppDatabase>
   Future<int> deleteHighlightsForBook(int bookId) {
     return (delete(highlights)..where((t) => t.bookId.equals(bookId))).go();
   }
+
+  Future<int> getTotalHighlightCount() {
+    return select(highlights).get().then((list) => list.length);
+  }
 }
