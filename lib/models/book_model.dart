@@ -3,17 +3,21 @@ import 'dart:convert';
 class AudioTrack {
   final String path;
   final String title;
+  /// Optional path to a saved cover image extracted from this track's tags.
+  /// Empty string means no track-specific cover (fall back to book cover).
+  final String coverPath;
 
-  AudioTrack({required this.path, required this.title});
+  AudioTrack({required this.path, required this.title, this.coverPath = ''});
 
   Map<String, dynamic> toMap() {
-    return {'path': path, 'title': title};
+    return {'path': path, 'title': title, 'coverPath': coverPath};
   }
 
   factory AudioTrack.fromMap(Map<String, dynamic> map) {
     return AudioTrack(
       path: map['path'] ?? '',
       title: map['title'] ?? 'Unknown Track',
+      coverPath: map['coverPath'] as String? ?? '',
     );
   }
 

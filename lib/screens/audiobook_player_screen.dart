@@ -192,15 +192,37 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
 
     try {
       // Copy each track to app storage so the paths are stable.
+      // Also save the per-track cover if one was embedded in that track.
       final copiedTracks = <AudioTrack>[];
       for (var i = 0; i < _meta!.tracks.length; i++) {
         final track = _meta!.tracks[i];
         final dest = await AudiobookImportService.copyToAppStorage(track.path);
-        copiedTracks.add(AudioTrack(path: dest, title: track.title));
+
+        // Parse individual track metadata to get per-track cover
+        String trackCoverPath = '';
+        final parsed = await AudioMetadataParser.parseFile(track.path);
+        if (parsed?.coverBytes != null && parsed!.coverBytes!.isNotEmpty) {
+          final appDir = await getApplicationDocumentsDirectory();
+          final coversDir = io.Directory(p.join(appDir.path, 'covers'));
+          if (!await coversDir.exists()) await coversDir.create(recursive: true);
+          final ext = (parsed.coverMime == 'image/png') ? '.png' : '.jpg';
+          final coverFile = io.File(
+            p.join(coversDir.path, '${DateTime.now().millisecondsSinceEpoch}_$i$ext'),
+          );
+          await coverFile.writeAsBytes(parsed.coverBytes!);
+          trackCoverPath = coverFile.path;
+        }
+
+        copiedTracks.add(AudioTrack(
+          path: dest,
+          title: track.title,
+          coverPath: trackCoverPath,
+        ));
         setState(() => _importProgress = (i + 1) / _meta!.tracks.length);
       }
 
-      // Save extracted cover art to disk if we have one
+      // Save book-level cover: prefer the extracted cover from _pick(),
+      // fall back to the first track that has a cover.
       String coverPath = '';
       if (_extractedCoverBytes != null && _extractedCoverBytes!.isNotEmpty) {
         final appDir = await getApplicationDocumentsDirectory();
@@ -212,11 +234,15 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
         );
         await coverFile.writeAsBytes(_extractedCoverBytes!);
         coverPath = coverFile.path;
+      } else {
+        // Use the first track cover as the book cover
+        coverPath = copiedTracks
+            .firstWhere((t) => t.coverPath.isNotEmpty,
+                orElse: () => AudioTrack(path: '', title: ''))
+            .coverPath;
       }
 
       // Build a Book with filePath = 'audioonly://' sentinel.
-      // The reading screen knows to show the audio-only player when
-      // filePath starts with 'audioonly://'.
       final book = Book(
         title: _titleCtrl.text.trim().isEmpty ? 'Audiobook' : _titleCtrl.text.trim(),
         author: _authorCtrl.text.trim().isEmpty ? 'Unknown' : _authorCtrl.text.trim(),
@@ -400,6 +426,45 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
 
         if (_meta != null) ...[
           const SizedBox(height: 20),
+
+          // Cover art preview (shown when extracted cover is available)
+          if (_extractedCoverBytes != null && _extractedCoverBytes!.isNotEmpty) ...[
+            Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.memory(
+                    _extractedCoverBytes!,
+                    width: 72,
+                    height: 72,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Cover Found',
+                        style: TextStyle(
+                          color: t.success,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        'Extracted from audio metadata',
+                        style: TextStyle(color: t.textTertiary, fontSize: 11),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+          ],
 
           // Title field
           Text('Title', style: TextStyle(color: t.textSecondary, fontSize: 12, fontWeight: FontWeight.w600)),
@@ -741,33 +806,49 @@ class _AudioOnlyPlayerScreenState extends ConsumerState<AudioOnlyPlayerScreen>
 
           const Spacer(),
 
-          // Rotating artwork
+          // Rotating artwork — prefer current track's cover, fall back to book cover
           AnimatedBuilder(
             animation: _artAnim,
-            builder: (context, _) => Transform.rotate(
-              angle: _artAnim.value * 2 * 3.14159,
-              child: Container(
-                width: 220, height: 220,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: t.surface,
-                  border: Border.all(color: t.primary.withValues(alpha: 0.3), width: 3),
-                  boxShadow: [
-                    BoxShadow(color: t.primary.withValues(alpha: 0.2), blurRadius: 40, spreadRadius: 5),
-                    BoxShadow(color: Colors.black.withValues(alpha: 0.4), blurRadius: 20),
-                  ],
-                  image: widget.book.coverPath.isNotEmpty
-                      ? DecorationImage(
-                          image: FileImage(io.File(widget.book.coverPath)),
-                          fit: BoxFit.cover,
-                        )
+            builder: (context, _) {
+              // Determine which cover to show: current track → book → placeholder
+              final currentTrack = widget.book.audioTracks.isNotEmpty
+                  ? widget.book.audioTracks[
+                      _currentIndex.clamp(0, widget.book.audioTracks.length - 1)]
+                  : null;
+              final trackCover = (currentTrack?.coverPath.isNotEmpty ?? false)
+                  ? currentTrack!.coverPath
+                  : null;
+              final coverToShow = trackCover?.isNotEmpty == true
+                  ? trackCover
+                  : widget.book.coverPath.isNotEmpty
+                      ? widget.book.coverPath
+                      : null;
+
+              return Transform.rotate(
+                angle: _artAnim.value * 2 * 3.14159,
+                child: Container(
+                  width: 220, height: 220,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: t.surface,
+                    border: Border.all(color: t.primary.withValues(alpha: 0.3), width: 3),
+                    boxShadow: [
+                      BoxShadow(color: t.primary.withValues(alpha: 0.2), blurRadius: 40, spreadRadius: 5),
+                      BoxShadow(color: Colors.black.withValues(alpha: 0.4), blurRadius: 20),
+                    ],
+                    image: coverToShow != null
+                        ? DecorationImage(
+                            image: FileImage(io.File(coverToShow)),
+                            fit: BoxFit.cover,
+                          )
+                        : null,
+                  ),
+                  child: coverToShow == null
+                      ? Icon(Icons.headphones_rounded, size: 80, color: t.primary)
                       : null,
                 ),
-                child: widget.book.coverPath.isEmpty
-                    ? Icon(Icons.headphones_rounded, size: 80, color: t.primary)
-                    : null,
-              ),
-            ),
+              );
+            },
           ),
 
           const SizedBox(height: 48),
@@ -944,17 +1025,53 @@ class _AudioOnlyPlayerScreenState extends ConsumerState<AudioOnlyPlayerScreen>
               itemBuilder: (_, i) {
                 final track = widget.book.audioTracks[i];
                 final isActive = i == _currentIndex;
+
+                // Cover priority: per-track cover → book cover → none
+                final coverPath = track.coverPath.isNotEmpty
+                    ? track.coverPath
+                    : widget.book.coverPath.isNotEmpty
+                        ? widget.book.coverPath
+                        : null;
+
                 return ListTile(
                   leading: Container(
-                    width: 32, height: 32,
+                    width: 40, height: 40,
                     decoration: BoxDecoration(
-                      color: isActive ? t.primary : t.primary.withValues(alpha: 0.08),
                       shape: BoxShape.circle,
+                      color: isActive
+                          ? t.primary
+                          : t.primary.withValues(alpha: 0.08),
+                      image: coverPath != null
+                          ? DecorationImage(
+                              image: FileImage(io.File(coverPath)),
+                              fit: BoxFit.cover,
+                            )
+                          : null,
                     ),
-                    child: isActive
-                        ? Icon(Icons.volume_up_rounded, color: Colors.white, size: 16)
-                        : Center(child: Text('${i + 1}',
-                            style: TextStyle(color: t.primary, fontSize: 12, fontWeight: FontWeight.bold))),
+                    child: coverPath == null
+                        ? (isActive
+                            ? Icon(Icons.volume_up_rounded,
+                                color: Colors.white, size: 16)
+                            : Center(
+                                child: Text(
+                                  '${i + 1}',
+                                  style: TextStyle(
+                                    color: t.primary,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ))
+                        : isActive
+                            ? Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.black.withValues(alpha: 0.4),
+                                ),
+                                child: const Icon(Icons.volume_up_rounded,
+                                    color: Colors.white, size: 16),
+                              )
+                            : null,
                   ),
                   title: Text(track.title,
                     style: TextStyle(

@@ -34,10 +34,11 @@ class AudioMetadataParser {
     try {
       raf = await file.open(mode: FileMode.read);
       final fileLen = await raf.length();
-      if (fileLen < 12) return null;
+      if (fileLen < 10) return null;
 
-      // Read the first 12 bytes to detect the container format
-      final header = await raf.read(12);
+      // Read the first 10 bytes — enough to detect all supported formats.
+      // ID3v2 headers are exactly 10 bytes; MPEG-4 box type is at bytes 4-7.
+      final header = await raf.read(10);
 
       // ── MP3 / ID3v2 ──────────────────────────────────────────────────────
       if (_matchesAt(header, 0, _id3Sig)) {
@@ -49,7 +50,8 @@ class AudioMetadataParser {
       }
 
       // ── MPEG-4 (M4A / M4B / AAC) ─────────────────────────────────────────
-      if (_matchesAt(header, 4, _ftypSig) || _matchesAt(header, 4, _moovSig)) {
+      if (header.length >= 8 &&
+          (_matchesAt(header, 4, _ftypSig) || _matchesAt(header, 4, _moovSig))) {
         debugPrint('AudioMetadataParser: detected MPEG-4 container in $filePath');
         final meta = await Mpeg4Parser.parse(raf, fileLen);
         if (meta.hasContent) return meta;

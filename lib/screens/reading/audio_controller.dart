@@ -122,6 +122,8 @@ class AudioController {
     try {
       _loadedBookId = bookId;
       isLoading = true;
+      // Tag is just the track title string — used by the system player notification
+      // if audio_service is ever added. Per-track artwork is in AudioTrack.coverPath.
       final sources = tracks
           .map((t) => AudioSource.file(t.path, tag: t.title))
           .toList();
