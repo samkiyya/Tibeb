@@ -9,11 +9,11 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appName => 'tibeb';
+  String get appName => 'Tibeb';
 
   @override
   String get appDescription =>
-      'tibeb is a free book + audiobook reader for everyone.';
+      'Tibeb is a free book and audiobook reader for everyone.';
 
   @override
   String get settings => 'Settings';
@@ -49,7 +49,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get level => 'Level';
 
   @override
-  String get totalWP => 'TOTAL WP';
+  String get totalWP => 'Total WP';
 
   @override
   String get streak => 'Streak';
@@ -82,19 +82,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fontSettings => 'Font Settings';
 
   @override
-  String get customizeReadingExperience => 'Customize reading experience';
+  String get customizeReadingExperience => 'Customize your reading experience';
 
   @override
   String get displayMode => 'Display Mode';
 
   @override
-  String get pageLayoutOrientation => 'Page layout & orientation';
+  String get pageLayoutOrientation => 'Page layout and orientation';
 
   @override
   String get readingSpeed => 'Reading Speed';
 
   @override
-  String get autoScrollPacing => 'Auto-scroll & pacing';
+  String get autoScrollPacing => 'Auto-scroll and pacing';
 
   @override
   String get appExperience => 'App Experience';
@@ -109,7 +109,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get privacy => 'Privacy';
 
   @override
-  String get dataPermissions => 'Data & permissions';
+  String get dataPermissions => 'Data and permissions';
 
   @override
   String get storage => 'Storage';
@@ -118,7 +118,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get manageAppData => 'Manage app data';
 
   @override
-  String get supportAbout => 'Support & About';
+  String get supportAbout => 'Support and About';
 
   @override
   String get supportDeveloper => 'Support the Developer';
@@ -152,7 +152,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get receiveTestAlert =>
-      'Receive a test alert to verify reminders work.';
+      'Receive a test notification to verify that reminders work.';
 
   @override
   String get comingSoon => 'Coming Soon';
@@ -257,13 +257,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchTitlesAuthors => 'Search titles, authors...';
 
   @override
-  String get filterSort => 'Filter & Sort';
+  String get filterSort => 'Filter and Sort';
 
   @override
   String get addBooks => 'Add Books';
 
   @override
-  String get editBookInfo => 'Edit Book Info';
+  String get editBookInfo => 'Edit Book Information';
 
   @override
   String get storagePermissionRequired =>
@@ -381,7 +381,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get audiobookParts => 'Audiobook Parts';
 
   @override
-  String get items => 'items';
+  String get items => 'Items';
 
   @override
   String get noAudioPartsAttached => 'No audio parts attached.';
@@ -412,13 +412,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contributeGitHub => 'Contribute on GitHub';
 
   @override
-  String get contributeGitHubSubtitle => 'Help build the future of tibeb 🚀';
+  String get contributeGitHubSubtitle => 'Help build the future of Tibeb 🚀';
 
   @override
-  String get rateAppSubtitle => 'Love tibeb? Leave us a review! ⭐';
+  String get rateAppSubtitle => 'Love Tibeb? Leave us a review! ⭐';
 
   @override
-  String get shareAppSubtitle => 'Share tibeb with friends 📢';
+  String get shareAppSubtitle => 'Share Tibeb with friends 📢';
 
   @override
   String get pagesRead => 'Pages Read';
@@ -556,41 +556,43 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get rank_temari => 'Temari (ተማሪ)';
+  String get rank_temari => 'Student';
 
   @override
   String get rank_temari_description => 'Beginning the journey of wisdom.';
 
   @override
-  String get rank_anebabi => 'Anebabi (አንባቢ)';
+  String get rank_anebabi => 'Reader';
 
   @override
   String get rank_anebabi_description =>
-      'Building consistency through reading.';
+      'Growing through humble reading and learning.';
 
   @override
-  String get rank_tsehafi => 'Tsehafi (ጸሐፊ)';
+  String get rank_tsehafi => 'Writer';
 
   @override
-  String get rank_tsehafi_description => 'Writing and reflecting on knowledge.';
+  String get rank_tsehafi_description =>
+      'Creating books and sharing valuable knowledge.';
 
   @override
-  String get rank_liq => 'Liq (ሊቅ)';
+  String get rank_liq => 'Scholar';
 
   @override
-  String get rank_liq_description => 'Deep understanding and mastery.';
+  String get rank_liq_description =>
+      'Deep thinking and understanding of knowledge.';
 
   @override
-  String get rank_baletibeb => 'Baletibeb (ባለጥበብ)';
+  String get rank_baletibeb => 'Master of Wisdom';
 
   @override
-  String get rank_baletibeb_description => 'Applying wisdom in life.';
+  String get rank_baletibeb_description => 'Applying wisdom in everyday life.';
 
   @override
-  String get rank_tibebawi => 'Tibebawi (ጥበባዊ)';
+  String get rank_tibebawi => 'Wise One';
 
   @override
-  String get rank_tibebawi_description => 'Embodiment of wisdom.';
+  String get rank_tibebawi_description => 'Wisdom has no boundaries.';
 
   @override
   String get masteryPath => 'Mastery Path';
@@ -608,240 +610,227 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get achievement_the_first_page => 'Fidel First';
+  String get achievement_the_first_page => 'First Page';
 
   @override
   String get achievement_the_first_page_description =>
-      'Finish your first book (ፊደል መጀመሪያ)';
+      'Finish your first book.';
 
   @override
-  String get achievement_habit_builder => 'Regular Temari';
+  String get achievement_habit_builder => 'Habit Builder';
 
   @override
   String get achievement_habit_builder_description =>
-      'Read for 3 days in a row (ቋሚ ተማሪ)';
+      'Read for 3 days in a row.';
 
   @override
-  String get achievement_seven_day_streak => 'Anebabi\'s Path';
+  String get achievement_seven_day_streak => 'Seven-Day Streak';
 
   @override
   String get achievement_seven_day_streak_description =>
-      'Read for 7 days in a row (የአነባቢ መንገድ)';
+      'Read for 7 days in a row.';
 
   @override
-  String get achievement_bookworm => 'Degwa Collector';
+  String get achievement_bookworm => 'Bookworm';
 
   @override
-  String get achievement_bookworm_description =>
-      'Read 1,000 pages in total (ድጓ ሰብሳቢ)';
+  String get achievement_bookworm_description => 'Read 1,000 pages in total.';
 
   @override
-  String get achievement_night_owl => 'Moonlight Reader';
+  String get achievement_night_owl => 'Night Owl';
 
   @override
-  String get achievement_night_owl_description =>
-      'Read after 10 PM (የሌሊት አንባቢ)';
+  String get achievement_night_owl_description => 'Read after 10 PM.';
 
   @override
-  String get achievement_early_bird => 'Dawn Scholar';
+  String get achievement_early_bird => 'Early Bird';
 
   @override
-  String get achievement_early_bird_description =>
-      'Read before 9 AM (የንጋት ተማሪ)';
+  String get achievement_early_bird_description => 'Read before 9 AM.';
 
   @override
-  String get achievement_century_club => 'Endurance Reader';
+  String get achievement_century_club => 'Century Club';
 
   @override
   String get achievement_century_club_description =>
-      'Read 100 pages in one session (የረጅም ንባብ)';
+      'Read 100 pages in one session.';
 
   @override
-  String get achievement_unstoppable => 'Tsehafi\'s Devotion';
+  String get achievement_unstoppable => 'Unstoppable';
 
   @override
   String get achievement_unstoppable_description =>
-      'Read for 30 consecutive days (የፀሐፊ ጽናት)';
+      'Read for 30 consecutive days.';
 
   @override
-  String get achievement_marathoner => 'Reading Vigil';
+  String get achievement_marathoner => 'Marathoner';
 
   @override
   String get achievement_marathoner_description =>
-      'Read for 2 hours in one session (የንባብ ትጋት)';
+      'Read for 2 hours in one session.';
 
   @override
-  String get achievement_scholar => 'Liq\'s Library';
+  String get achievement_scholar => 'Scholar';
 
   @override
-  String get achievement_scholar_description =>
-      'Read 5,000 pages in total (የሊቅ መጽሐፍት)';
+  String get achievement_scholar_description => 'Read 5,000 pages in total.';
 
   @override
-  String get achievement_yomibito => 'Kibre Negest Scholar';
+  String get achievement_yomibito => 'Yomibito';
 
   @override
-  String get achievement_yomibito_description => 'Finish 10 books (ክብረ ነገሥት)';
+  String get achievement_yomibito_description => 'Finish 10 books.';
 
   @override
-  String get achievement_sensei => 'Master Liq';
+  String get achievement_sensei => 'Sensei';
 
   @override
-  String get achievement_sensei_description => 'Finish 50 books (ሊቀ ሊቃውንት)';
+  String get achievement_sensei_description => 'Finish 50 books.';
 
   @override
-  String get achievement_bibliophile => 'Metsihaf Collector';
+  String get achievement_bibliophile => 'Bibliophile';
 
   @override
   String get achievement_bibliophile_description =>
-      'Add 10 books to your library (መጽሐፍ ወዳድ)';
+      'Add 10 books to your library.';
 
   @override
-  String get achievement_collector => 'Gedam Archive';
+  String get achievement_collector => 'Collector';
 
   @override
   String get achievement_collector_description =>
-      'Add 100 books to your library (የገዳም መዛግብት)';
+      'Add 100 books to your library.';
 
   @override
-  String get achievement_weekend_warrior => 'Sabbath Scholar';
+  String get achievement_weekend_warrior => 'Weekend Warrior';
 
   @override
   String get achievement_weekend_warrior_description =>
-      'Read on both Saturday and Sunday (የሰንበት ተማሪ)';
+      'Read on both Saturday and Sunday.';
 
   @override
-  String get achievement_the_translator => 'Tergum Seeker';
+  String get achievement_the_translator => 'The Translator';
 
   @override
   String get achievement_the_translator_description =>
-      'Look up your first word (ትርጉም ፈላጊ)';
+      'Look up your first word.';
 
   @override
-  String get achievement_vocabulary_builder => 'Sewasew Student';
+  String get achievement_vocabulary_builder => 'Vocabulary Builder';
 
   @override
-  String get achievement_vocabulary_builder_description =>
-      'Look up 20 words (የሰዋስው ተማሪ)';
+  String get achievement_vocabulary_builder_description => 'Look up 20 words.';
 
   @override
-  String get achievement_polyglot => 'Liqe Tergum';
+  String get achievement_polyglot => 'Polyglot';
 
   @override
-  String get achievement_polyglot_description => 'Look up 100 words (ሊቀ ትርጉም)';
+  String get achievement_polyglot_description => 'Look up 100 words.';
 
   @override
-  String get achievement_gondar_keep => 'House of Manuscripts';
+  String get achievement_gondar_keep => 'Gondar Keep';
 
   @override
-  String get achievement_gondar_keep_description => 'Read 500 pages (የብራና ቤት)';
+  String get achievement_gondar_keep_description => 'Read 500 pages.';
 
   @override
   String get achievement_sheba_wisdom => 'Wisdom of Sheba';
 
   @override
-  String get achievement_sheba_wisdom_description =>
-      'Read 2,000 pages (የሳባ ጥበብ)';
+  String get achievement_sheba_wisdom_description => 'Read 2,000 pages.';
 
   @override
-  String get achievement_axum_legacy => 'Axum Heritage';
+  String get achievement_axum_legacy => 'Axum Legacy';
 
   @override
-  String get achievement_axum_legacy_description =>
-      'Read 10,000 pages (የአክሱም ቅርስ)';
+  String get achievement_axum_legacy_description => 'Read 10,000 pages.';
 
   @override
-  String get achievement_fasil_crown => 'Royal Reader';
+  String get achievement_fasil_crown => 'Fasil Crown';
 
   @override
-  String get achievement_fasil_crown_description => 'Finish 5 books (የንባብ ዘውድ)';
+  String get achievement_fasil_crown_description => 'Finish 5 books.';
 
   @override
-  String get achievement_yohannes_torch => 'Torch of Knowledge';
+  String get achievement_yohannes_torch => 'Yohannes Torch';
 
   @override
-  String get achievement_yohannes_torch_description =>
-      'Finish 20 books (የእውቀት ችቦ)';
+  String get achievement_yohannes_torch_description => 'Finish 20 books.';
 
   @override
-  String get achievement_menelik_library => 'Grand Library';
+  String get achievement_menelik_library => 'Menelik\'s Library';
 
   @override
-  String get achievement_menelik_library_description =>
-      'Finish 100 books (ቤተ መጻሕፍት)';
+  String get achievement_menelik_library_description => 'Finish 100 books.';
 
   @override
   String get achievement_lalibela_vigil => 'Lalibela Vigil';
 
   @override
-  String get achievement_lalibela_vigil_description =>
-      'Read for 100 hours (የላሊበላ ትጋት)';
+  String get achievement_lalibela_vigil_description => 'Read for 100 hours.';
 
   @override
-  String get achievement_selassie_endurance => 'Hundred-Day Scholar';
+  String get achievement_selassie_endurance => 'Selassie Endurance';
 
   @override
   String get achievement_selassie_endurance_description =>
-      'Read for 100 consecutive days (የ100 ቀን ተማሪ)';
+      'Read for 100 consecutive days.';
 
   @override
   String get achievement_geez_mastery => 'Ge\'ez Mastery';
 
   @override
-  String get achievement_geez_mastery_description =>
-      'Look up 500 words (የግዕዝ ዕውቀት)';
+  String get achievement_geez_mastery_description => 'Look up 500 words.';
 
   @override
   String get achievement_qene_poet => 'Qene Poet';
 
   @override
-  String get achievement_qene_poet_description => 'Look up 1,000 words (ባለቅኔ)';
+  String get achievement_qene_poet_description => 'Look up 1,000 words.';
 
   @override
   String get achievement_oral_tradition => 'Oral Tradition';
 
   @override
   String get achievement_oral_tradition_description =>
-      'Listen to your first audiobook (የቃል ትውፊት)';
+      'Listen to your first audiobook.';
 
   @override
   String get achievement_azmari_listener => 'Azmari Listener';
 
   @override
   String get achievement_azmari_listener_description =>
-      'Listen to 5 audiobooks (አዝማሪ ሰሚ)';
+      'Listen to 5 audiobooks.';
 
   @override
-  String get achievement_fast_reader => 'Swift Reader';
+  String get achievement_fast_reader => 'Fast Reader';
 
   @override
   String get achievement_fast_reader_description =>
-      'Finish a book in under 3 days (ፈጣን አንባቢ)';
+      'Finish a book in under 3 days.';
 
   @override
-  String get achievement_annotations_scholar => 'Margin Scholar';
+  String get achievement_annotations_scholar => 'Annotation Scholar';
 
   @override
   String get achievement_annotations_scholar_description =>
-      'Create 20 highlights or bookmarks (የጎን ማስታወሻ)';
+      'Create 20 highlights or bookmarks.';
 
   @override
   String get achievement_timkat_reader => 'Timkat Reader';
 
   @override
-  String get achievement_timkat_reader_description => 'Read on Timkat (ጥምቀት)';
+  String get achievement_timkat_reader_description => 'Read on Timkat.';
 
   @override
   String get achievement_enkutatash_start => 'Enkutatash Scholar';
 
   @override
-  String get achievement_enkutatash_start_description =>
-      'Read on Enkutatash (እንቁጣጣሽ)';
+  String get achievement_enkutatash_start_description => 'Read on Enkutatash.';
 
   @override
   String get achievement_epiphany_reader => 'Epiphany Reader';
 
   @override
-  String get achievement_epiphany_reader_description =>
-      'Read on Epiphany (ጥምቀት)';
+  String get achievement_epiphany_reader_description => 'Read on Epiphany.';
 }

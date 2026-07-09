@@ -105,13 +105,13 @@ abstract class AppLocalizations {
   /// No description provided for @appName.
   ///
   /// In en, this message translates to:
-  /// **'tibeb'**
+  /// **'Tibeb'**
   String get appName;
 
   /// No description provided for @appDescription.
   ///
   /// In en, this message translates to:
-  /// **'tibeb is a free book + audiobook reader for everyone.'**
+  /// **'Tibeb is a free book and audiobook reader for everyone.'**
   String get appDescription;
 
   /// No description provided for @settings.
@@ -183,7 +183,7 @@ abstract class AppLocalizations {
   /// No description provided for @totalWP.
   ///
   /// In en, this message translates to:
-  /// **'TOTAL WP'**
+  /// **'Total WP'**
   String get totalWP;
 
   /// No description provided for @streak.
@@ -249,7 +249,7 @@ abstract class AppLocalizations {
   /// No description provided for @customizeReadingExperience.
   ///
   /// In en, this message translates to:
-  /// **'Customize reading experience'**
+  /// **'Customize your reading experience'**
   String get customizeReadingExperience;
 
   /// No description provided for @displayMode.
@@ -261,7 +261,7 @@ abstract class AppLocalizations {
   /// No description provided for @pageLayoutOrientation.
   ///
   /// In en, this message translates to:
-  /// **'Page layout & orientation'**
+  /// **'Page layout and orientation'**
   String get pageLayoutOrientation;
 
   /// No description provided for @readingSpeed.
@@ -273,7 +273,7 @@ abstract class AppLocalizations {
   /// No description provided for @autoScrollPacing.
   ///
   /// In en, this message translates to:
-  /// **'Auto-scroll & pacing'**
+  /// **'Auto-scroll and pacing'**
   String get autoScrollPacing;
 
   /// No description provided for @appExperience.
@@ -303,7 +303,7 @@ abstract class AppLocalizations {
   /// No description provided for @dataPermissions.
   ///
   /// In en, this message translates to:
-  /// **'Data & permissions'**
+  /// **'Data and permissions'**
   String get dataPermissions;
 
   /// No description provided for @storage.
@@ -321,7 +321,7 @@ abstract class AppLocalizations {
   /// No description provided for @supportAbout.
   ///
   /// In en, this message translates to:
-  /// **'Support & About'**
+  /// **'Support and About'**
   String get supportAbout;
 
   /// No description provided for @supportDeveloper.
@@ -387,7 +387,7 @@ abstract class AppLocalizations {
   /// No description provided for @receiveTestAlert.
   ///
   /// In en, this message translates to:
-  /// **'Receive a test alert to verify reminders work.'**
+  /// **'Receive a test notification to verify that reminders work.'**
   String get receiveTestAlert;
 
   /// No description provided for @comingSoon.
@@ -591,7 +591,7 @@ abstract class AppLocalizations {
   /// No description provided for @filterSort.
   ///
   /// In en, this message translates to:
-  /// **'Filter & Sort'**
+  /// **'Filter and Sort'**
   String get filterSort;
 
   /// No description provided for @addBooks.
@@ -603,7 +603,7 @@ abstract class AppLocalizations {
   /// No description provided for @editBookInfo.
   ///
   /// In en, this message translates to:
-  /// **'Edit Book Info'**
+  /// **'Edit Book Information'**
   String get editBookInfo;
 
   /// No description provided for @storagePermissionRequired.
@@ -825,7 +825,7 @@ abstract class AppLocalizations {
   /// No description provided for @items.
   ///
   /// In en, this message translates to:
-  /// **'items'**
+  /// **'Items'**
   String get items;
 
   /// No description provided for @noAudioPartsAttached.
@@ -885,19 +885,19 @@ abstract class AppLocalizations {
   /// No description provided for @contributeGitHubSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Help build the future of tibeb 🚀'**
+  /// **'Help build the future of Tibeb 🚀'**
   String get contributeGitHubSubtitle;
 
   /// No description provided for @rateAppSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Love tibeb? Leave us a review! ⭐'**
+  /// **'Love Tibeb? Leave us a review! ⭐'**
   String get rateAppSubtitle;
 
   /// No description provided for @shareAppSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Share tibeb with friends 📢'**
+  /// **'Share Tibeb with friends 📢'**
   String get shareAppSubtitle;
 
   /// No description provided for @pagesRead.
@@ -1161,7 +1161,7 @@ abstract class AppLocalizations {
   /// No description provided for @rank_temari.
   ///
   /// In en, this message translates to:
-  /// **'Temari (ተማሪ)'**
+  /// **'Student'**
   String get rank_temari;
 
   /// No description provided for @rank_temari_description.
@@ -1173,61 +1173,61 @@ abstract class AppLocalizations {
   /// No description provided for @rank_anebabi.
   ///
   /// In en, this message translates to:
-  /// **'Anebabi (አንባቢ)'**
+  /// **'Reader'**
   String get rank_anebabi;
 
   /// No description provided for @rank_anebabi_description.
   ///
   /// In en, this message translates to:
-  /// **'Building consistency through reading.'**
+  /// **'Growing through humble reading and learning.'**
   String get rank_anebabi_description;
 
   /// No description provided for @rank_tsehafi.
   ///
   /// In en, this message translates to:
-  /// **'Tsehafi (ጸሐፊ)'**
+  /// **'Writer'**
   String get rank_tsehafi;
 
   /// No description provided for @rank_tsehafi_description.
   ///
   /// In en, this message translates to:
-  /// **'Writing and reflecting on knowledge.'**
+  /// **'Creating books and sharing valuable knowledge.'**
   String get rank_tsehafi_description;
 
   /// No description provided for @rank_liq.
   ///
   /// In en, this message translates to:
-  /// **'Liq (ሊቅ)'**
+  /// **'Scholar'**
   String get rank_liq;
 
   /// No description provided for @rank_liq_description.
   ///
   /// In en, this message translates to:
-  /// **'Deep understanding and mastery.'**
+  /// **'Deep thinking and understanding of knowledge.'**
   String get rank_liq_description;
 
   /// No description provided for @rank_baletibeb.
   ///
   /// In en, this message translates to:
-  /// **'Baletibeb (ባለጥበብ)'**
+  /// **'Master of Wisdom'**
   String get rank_baletibeb;
 
   /// No description provided for @rank_baletibeb_description.
   ///
   /// In en, this message translates to:
-  /// **'Applying wisdom in life.'**
+  /// **'Applying wisdom in everyday life.'**
   String get rank_baletibeb_description;
 
   /// No description provided for @rank_tibebawi.
   ///
   /// In en, this message translates to:
-  /// **'Tibebawi (ጥበባዊ)'**
+  /// **'Wise One'**
   String get rank_tibebawi;
 
   /// No description provided for @rank_tibebawi_description.
   ///
   /// In en, this message translates to:
-  /// **'Embodiment of wisdom.'**
+  /// **'Wisdom has no boundaries.'**
   String get rank_tibebawi_description;
 
   /// No description provided for @masteryPath.
@@ -1255,229 +1255,229 @@ abstract class AppLocalizations {
   /// No description provided for @achievement_the_first_page.
   ///
   /// In en, this message translates to:
-  /// **'Fidel First'**
+  /// **'First Page'**
   String get achievement_the_first_page;
 
   /// No description provided for @achievement_the_first_page_description.
   ///
   /// In en, this message translates to:
-  /// **'Finish your first book (ፊደል መጀመሪያ)'**
+  /// **'Finish your first book.'**
   String get achievement_the_first_page_description;
 
   /// No description provided for @achievement_habit_builder.
   ///
   /// In en, this message translates to:
-  /// **'Regular Temari'**
+  /// **'Habit Builder'**
   String get achievement_habit_builder;
 
   /// No description provided for @achievement_habit_builder_description.
   ///
   /// In en, this message translates to:
-  /// **'Read for 3 days in a row (ቋሚ ተማሪ)'**
+  /// **'Read for 3 days in a row.'**
   String get achievement_habit_builder_description;
 
   /// No description provided for @achievement_seven_day_streak.
   ///
   /// In en, this message translates to:
-  /// **'Anebabi\'s Path'**
+  /// **'Seven-Day Streak'**
   String get achievement_seven_day_streak;
 
   /// No description provided for @achievement_seven_day_streak_description.
   ///
   /// In en, this message translates to:
-  /// **'Read for 7 days in a row (የአነባቢ መንገድ)'**
+  /// **'Read for 7 days in a row.'**
   String get achievement_seven_day_streak_description;
 
   /// No description provided for @achievement_bookworm.
   ///
   /// In en, this message translates to:
-  /// **'Degwa Collector'**
+  /// **'Bookworm'**
   String get achievement_bookworm;
 
   /// No description provided for @achievement_bookworm_description.
   ///
   /// In en, this message translates to:
-  /// **'Read 1,000 pages in total (ድጓ ሰብሳቢ)'**
+  /// **'Read 1,000 pages in total.'**
   String get achievement_bookworm_description;
 
   /// No description provided for @achievement_night_owl.
   ///
   /// In en, this message translates to:
-  /// **'Moonlight Reader'**
+  /// **'Night Owl'**
   String get achievement_night_owl;
 
   /// No description provided for @achievement_night_owl_description.
   ///
   /// In en, this message translates to:
-  /// **'Read after 10 PM (የሌሊት አንባቢ)'**
+  /// **'Read after 10 PM.'**
   String get achievement_night_owl_description;
 
   /// No description provided for @achievement_early_bird.
   ///
   /// In en, this message translates to:
-  /// **'Dawn Scholar'**
+  /// **'Early Bird'**
   String get achievement_early_bird;
 
   /// No description provided for @achievement_early_bird_description.
   ///
   /// In en, this message translates to:
-  /// **'Read before 9 AM (የንጋት ተማሪ)'**
+  /// **'Read before 9 AM.'**
   String get achievement_early_bird_description;
 
   /// No description provided for @achievement_century_club.
   ///
   /// In en, this message translates to:
-  /// **'Endurance Reader'**
+  /// **'Century Club'**
   String get achievement_century_club;
 
   /// No description provided for @achievement_century_club_description.
   ///
   /// In en, this message translates to:
-  /// **'Read 100 pages in one session (የረጅም ንባብ)'**
+  /// **'Read 100 pages in one session.'**
   String get achievement_century_club_description;
 
   /// No description provided for @achievement_unstoppable.
   ///
   /// In en, this message translates to:
-  /// **'Tsehafi\'s Devotion'**
+  /// **'Unstoppable'**
   String get achievement_unstoppable;
 
   /// No description provided for @achievement_unstoppable_description.
   ///
   /// In en, this message translates to:
-  /// **'Read for 30 consecutive days (የፀሐፊ ጽናት)'**
+  /// **'Read for 30 consecutive days.'**
   String get achievement_unstoppable_description;
 
   /// No description provided for @achievement_marathoner.
   ///
   /// In en, this message translates to:
-  /// **'Reading Vigil'**
+  /// **'Marathoner'**
   String get achievement_marathoner;
 
   /// No description provided for @achievement_marathoner_description.
   ///
   /// In en, this message translates to:
-  /// **'Read for 2 hours in one session (የንባብ ትጋት)'**
+  /// **'Read for 2 hours in one session.'**
   String get achievement_marathoner_description;
 
   /// No description provided for @achievement_scholar.
   ///
   /// In en, this message translates to:
-  /// **'Liq\'s Library'**
+  /// **'Scholar'**
   String get achievement_scholar;
 
   /// No description provided for @achievement_scholar_description.
   ///
   /// In en, this message translates to:
-  /// **'Read 5,000 pages in total (የሊቅ መጽሐፍት)'**
+  /// **'Read 5,000 pages in total.'**
   String get achievement_scholar_description;
 
   /// No description provided for @achievement_yomibito.
   ///
   /// In en, this message translates to:
-  /// **'Kibre Negest Scholar'**
+  /// **'Yomibito'**
   String get achievement_yomibito;
 
   /// No description provided for @achievement_yomibito_description.
   ///
   /// In en, this message translates to:
-  /// **'Finish 10 books (ክብረ ነገሥት)'**
+  /// **'Finish 10 books.'**
   String get achievement_yomibito_description;
 
   /// No description provided for @achievement_sensei.
   ///
   /// In en, this message translates to:
-  /// **'Master Liq'**
+  /// **'Sensei'**
   String get achievement_sensei;
 
   /// No description provided for @achievement_sensei_description.
   ///
   /// In en, this message translates to:
-  /// **'Finish 50 books (ሊቀ ሊቃውንት)'**
+  /// **'Finish 50 books.'**
   String get achievement_sensei_description;
 
   /// No description provided for @achievement_bibliophile.
   ///
   /// In en, this message translates to:
-  /// **'Metsihaf Collector'**
+  /// **'Bibliophile'**
   String get achievement_bibliophile;
 
   /// No description provided for @achievement_bibliophile_description.
   ///
   /// In en, this message translates to:
-  /// **'Add 10 books to your library (መጽሐፍ ወዳድ)'**
+  /// **'Add 10 books to your library.'**
   String get achievement_bibliophile_description;
 
   /// No description provided for @achievement_collector.
   ///
   /// In en, this message translates to:
-  /// **'Gedam Archive'**
+  /// **'Collector'**
   String get achievement_collector;
 
   /// No description provided for @achievement_collector_description.
   ///
   /// In en, this message translates to:
-  /// **'Add 100 books to your library (የገዳም መዛግብት)'**
+  /// **'Add 100 books to your library.'**
   String get achievement_collector_description;
 
   /// No description provided for @achievement_weekend_warrior.
   ///
   /// In en, this message translates to:
-  /// **'Sabbath Scholar'**
+  /// **'Weekend Warrior'**
   String get achievement_weekend_warrior;
 
   /// No description provided for @achievement_weekend_warrior_description.
   ///
   /// In en, this message translates to:
-  /// **'Read on both Saturday and Sunday (የሰንበት ተማሪ)'**
+  /// **'Read on both Saturday and Sunday.'**
   String get achievement_weekend_warrior_description;
 
   /// No description provided for @achievement_the_translator.
   ///
   /// In en, this message translates to:
-  /// **'Tergum Seeker'**
+  /// **'The Translator'**
   String get achievement_the_translator;
 
   /// No description provided for @achievement_the_translator_description.
   ///
   /// In en, this message translates to:
-  /// **'Look up your first word (ትርጉም ፈላጊ)'**
+  /// **'Look up your first word.'**
   String get achievement_the_translator_description;
 
   /// No description provided for @achievement_vocabulary_builder.
   ///
   /// In en, this message translates to:
-  /// **'Sewasew Student'**
+  /// **'Vocabulary Builder'**
   String get achievement_vocabulary_builder;
 
   /// No description provided for @achievement_vocabulary_builder_description.
   ///
   /// In en, this message translates to:
-  /// **'Look up 20 words (የሰዋስው ተማሪ)'**
+  /// **'Look up 20 words.'**
   String get achievement_vocabulary_builder_description;
 
   /// No description provided for @achievement_polyglot.
   ///
   /// In en, this message translates to:
-  /// **'Liqe Tergum'**
+  /// **'Polyglot'**
   String get achievement_polyglot;
 
   /// No description provided for @achievement_polyglot_description.
   ///
   /// In en, this message translates to:
-  /// **'Look up 100 words (ሊቀ ትርጉም)'**
+  /// **'Look up 100 words.'**
   String get achievement_polyglot_description;
 
   /// No description provided for @achievement_gondar_keep.
   ///
   /// In en, this message translates to:
-  /// **'House of Manuscripts'**
+  /// **'Gondar Keep'**
   String get achievement_gondar_keep;
 
   /// No description provided for @achievement_gondar_keep_description.
   ///
   /// In en, this message translates to:
-  /// **'Read 500 pages (የብራና ቤት)'**
+  /// **'Read 500 pages.'**
   String get achievement_gondar_keep_description;
 
   /// No description provided for @achievement_sheba_wisdom.
@@ -1489,55 +1489,55 @@ abstract class AppLocalizations {
   /// No description provided for @achievement_sheba_wisdom_description.
   ///
   /// In en, this message translates to:
-  /// **'Read 2,000 pages (የሳባ ጥበብ)'**
+  /// **'Read 2,000 pages.'**
   String get achievement_sheba_wisdom_description;
 
   /// No description provided for @achievement_axum_legacy.
   ///
   /// In en, this message translates to:
-  /// **'Axum Heritage'**
+  /// **'Axum Legacy'**
   String get achievement_axum_legacy;
 
   /// No description provided for @achievement_axum_legacy_description.
   ///
   /// In en, this message translates to:
-  /// **'Read 10,000 pages (የአክሱም ቅርስ)'**
+  /// **'Read 10,000 pages.'**
   String get achievement_axum_legacy_description;
 
   /// No description provided for @achievement_fasil_crown.
   ///
   /// In en, this message translates to:
-  /// **'Royal Reader'**
+  /// **'Fasil Crown'**
   String get achievement_fasil_crown;
 
   /// No description provided for @achievement_fasil_crown_description.
   ///
   /// In en, this message translates to:
-  /// **'Finish 5 books (የንባብ ዘውድ)'**
+  /// **'Finish 5 books.'**
   String get achievement_fasil_crown_description;
 
   /// No description provided for @achievement_yohannes_torch.
   ///
   /// In en, this message translates to:
-  /// **'Torch of Knowledge'**
+  /// **'Yohannes Torch'**
   String get achievement_yohannes_torch;
 
   /// No description provided for @achievement_yohannes_torch_description.
   ///
   /// In en, this message translates to:
-  /// **'Finish 20 books (የእውቀት ችቦ)'**
+  /// **'Finish 20 books.'**
   String get achievement_yohannes_torch_description;
 
   /// No description provided for @achievement_menelik_library.
   ///
   /// In en, this message translates to:
-  /// **'Grand Library'**
+  /// **'Menelik\'s Library'**
   String get achievement_menelik_library;
 
   /// No description provided for @achievement_menelik_library_description.
   ///
   /// In en, this message translates to:
-  /// **'Finish 100 books (ቤተ መጻሕፍት)'**
+  /// **'Finish 100 books.'**
   String get achievement_menelik_library_description;
 
   /// No description provided for @achievement_lalibela_vigil.
@@ -1549,19 +1549,19 @@ abstract class AppLocalizations {
   /// No description provided for @achievement_lalibela_vigil_description.
   ///
   /// In en, this message translates to:
-  /// **'Read for 100 hours (የላሊበላ ትጋት)'**
+  /// **'Read for 100 hours.'**
   String get achievement_lalibela_vigil_description;
 
   /// No description provided for @achievement_selassie_endurance.
   ///
   /// In en, this message translates to:
-  /// **'Hundred-Day Scholar'**
+  /// **'Selassie Endurance'**
   String get achievement_selassie_endurance;
 
   /// No description provided for @achievement_selassie_endurance_description.
   ///
   /// In en, this message translates to:
-  /// **'Read for 100 consecutive days (የ100 ቀን ተማሪ)'**
+  /// **'Read for 100 consecutive days.'**
   String get achievement_selassie_endurance_description;
 
   /// No description provided for @achievement_geez_mastery.
@@ -1573,7 +1573,7 @@ abstract class AppLocalizations {
   /// No description provided for @achievement_geez_mastery_description.
   ///
   /// In en, this message translates to:
-  /// **'Look up 500 words (የግዕዝ ዕውቀት)'**
+  /// **'Look up 500 words.'**
   String get achievement_geez_mastery_description;
 
   /// No description provided for @achievement_qene_poet.
@@ -1585,7 +1585,7 @@ abstract class AppLocalizations {
   /// No description provided for @achievement_qene_poet_description.
   ///
   /// In en, this message translates to:
-  /// **'Look up 1,000 words (ባለቅኔ)'**
+  /// **'Look up 1,000 words.'**
   String get achievement_qene_poet_description;
 
   /// No description provided for @achievement_oral_tradition.
@@ -1597,7 +1597,7 @@ abstract class AppLocalizations {
   /// No description provided for @achievement_oral_tradition_description.
   ///
   /// In en, this message translates to:
-  /// **'Listen to your first audiobook (የቃል ትውፊት)'**
+  /// **'Listen to your first audiobook.'**
   String get achievement_oral_tradition_description;
 
   /// No description provided for @achievement_azmari_listener.
@@ -1609,31 +1609,31 @@ abstract class AppLocalizations {
   /// No description provided for @achievement_azmari_listener_description.
   ///
   /// In en, this message translates to:
-  /// **'Listen to 5 audiobooks (አዝማሪ ሰሚ)'**
+  /// **'Listen to 5 audiobooks.'**
   String get achievement_azmari_listener_description;
 
   /// No description provided for @achievement_fast_reader.
   ///
   /// In en, this message translates to:
-  /// **'Swift Reader'**
+  /// **'Fast Reader'**
   String get achievement_fast_reader;
 
   /// No description provided for @achievement_fast_reader_description.
   ///
   /// In en, this message translates to:
-  /// **'Finish a book in under 3 days (ፈጣን አንባቢ)'**
+  /// **'Finish a book in under 3 days.'**
   String get achievement_fast_reader_description;
 
   /// No description provided for @achievement_annotations_scholar.
   ///
   /// In en, this message translates to:
-  /// **'Margin Scholar'**
+  /// **'Annotation Scholar'**
   String get achievement_annotations_scholar;
 
   /// No description provided for @achievement_annotations_scholar_description.
   ///
   /// In en, this message translates to:
-  /// **'Create 20 highlights or bookmarks (የጎን ማስታወሻ)'**
+  /// **'Create 20 highlights or bookmarks.'**
   String get achievement_annotations_scholar_description;
 
   /// No description provided for @achievement_timkat_reader.
@@ -1645,7 +1645,7 @@ abstract class AppLocalizations {
   /// No description provided for @achievement_timkat_reader_description.
   ///
   /// In en, this message translates to:
-  /// **'Read on Timkat (ጥምቀት)'**
+  /// **'Read on Timkat.'**
   String get achievement_timkat_reader_description;
 
   /// No description provided for @achievement_enkutatash_start.
@@ -1657,7 +1657,7 @@ abstract class AppLocalizations {
   /// No description provided for @achievement_enkutatash_start_description.
   ///
   /// In en, this message translates to:
-  /// **'Read on Enkutatash (እንቁጣጣሽ)'**
+  /// **'Read on Enkutatash.'**
   String get achievement_enkutatash_start_description;
 
   /// No description provided for @achievement_epiphany_reader.
@@ -1669,7 +1669,7 @@ abstract class AppLocalizations {
   /// No description provided for @achievement_epiphany_reader_description.
   ///
   /// In en, this message translates to:
-  /// **'Read on Epiphany (ጥምቀት)'**
+  /// **'Read on Epiphany.'**
   String get achievement_epiphany_reader_description;
 }
 

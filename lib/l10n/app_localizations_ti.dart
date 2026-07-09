@@ -12,13 +12,14 @@ class AppLocalizationsTi extends AppLocalizations {
   String get appName => 'ጥበብ';
 
   @override
-  String get appDescription => 'ጥበብ ናይ ኩሉ ሰብ ነፃ መጽሓፍ ከምኡእ ድምጺ መጽሓፍ ኣንባቢ እዩ።';
+  String get appDescription =>
+      'ጥበብ ናይ ኩሉ ሰብ ነጻ መጽሓፍ ኣንባቢ ከምኡውን ድምጻዊ መጽሓፍ ኣንባቢ እዩ።';
 
   @override
-  String get settings => 'ቅዲሚ';
+  String get settings => 'ቅንብራት';
 
   @override
-  String get home => 'መንበር';
+  String get home => 'መጀመርያ';
 
   @override
   String get library => 'ቤተ መጽሓፍ';
@@ -27,13 +28,13 @@ class AppLocalizationsTi extends AppLocalizations {
   String get stats => 'ስታቲስቲክስ';
 
   @override
-  String get engagement => 'ስራሕ';
+  String get engagement => 'ተሳትፎ';
 
   @override
   String get appearance => 'መልክዕ';
 
   @override
-  String get notifications => 'ማስታወሲ';
+  String get notifications => 'ማስታወሻታት';
 
   @override
   String get language => 'ቋንቋ';
@@ -42,19 +43,19 @@ class AppLocalizationsTi extends AppLocalizations {
   String get support => 'ድጋፍ';
 
   @override
-  String get about => 'ስለ';
+  String get about => 'ብዛዕባ';
 
   @override
   String get level => 'ደረጃ';
 
   @override
-  String get totalWP => 'ጠቅላሊ ወርቂ ነጥብ';
+  String get totalWP => 'ጠቅላላ ነጥብ ጥበብ';
 
   @override
-  String get streak => 'ቀጠሮ';
+  String get streak => 'ተከታታይ ንባብ';
 
   @override
-  String get pages => 'ገጾት';
+  String get pages => 'ገጻት';
 
   @override
   String get minutes => 'ደቂቃታት';
@@ -63,211 +64,212 @@ class AppLocalizationsTi extends AppLocalizations {
   String get theme => 'ቀለም';
 
   @override
-  String get light => 'ብርሃት';
+  String get light => 'ብሩህ';
 
   @override
-  String get dark => 'ጸሊም';
+  String get dark => 'ጸልማት';
 
   @override
   String get system => 'ስርዓት';
 
   @override
-  String get alerts => 'ማስታወሲ';
+  String get alerts => 'ማንቂያታት';
 
   @override
   String get readingPreferences => 'ምርጫታት ንባብ';
 
   @override
-  String get fontSettings => 'ቅዲሚ ፊደል';
+  String get fontSettings => 'ቅንብራት ፊደል';
 
   @override
-  String get customizeReadingExperience => 'ፍሉያት ንባብ ኣቐምጥ';
+  String get customizeReadingExperience => 'ተሞክሮ ንባብ ኣብግህ';
 
   @override
-  String get displayMode => 'ኣካል ምርኣይ';
+  String get displayMode => 'ኣገባብ ምርኣይ';
 
   @override
-  String get pageLayoutOrientation => 'ኣቀማመጥ ገጽ ከምኡእ ኣቅጣጫ';
+  String get pageLayoutOrientation => 'ኣቀማምጣ ገጽን ኣቅጣጣን';
 
   @override
   String get readingSpeed => 'ፍጥነት ንባብ';
 
   @override
-  String get autoScrollPacing => 'ራስ-ሰል ከምኡእ ፍጥነት';
+  String get autoScrollPacing => 'ራስ-ሰር ምልልስን ፍጥነትን';
 
   @override
-  String get appExperience => 'ፍሉያት መተግበሪ';
+  String get appExperience => 'ተሞክሮ መተግበሪ';
 
   @override
-  String get dailyReminders => 'ዕለታዊ ማስታወሲ';
+  String get dailyReminders => 'ዕለታዊ ኣዘኻኽሪ';
 
   @override
-  String get keepReadingStreakAlive => 'ቀጠሮ ንባብ ኣቐጥል';
+  String get keepReadingStreakAlive => 'ተከታታይ ንባብ ኣቅጽል';
 
   @override
-  String get privacy => 'ናይ ፍርቲ ምስኢት';
+  String get privacy => 'ምስጢራዊነት';
 
   @override
-  String get dataPermissions => 'ዳታ ከምኡእ ፍቃድ';
+  String get dataPermissions => 'ዳታን ፍቓድን';
 
   @override
-  String get storage => 'ኣካል ማካንን';
+  String get storage => 'ማከማቻ';
 
   @override
-  String get manageAppData => 'ዳታ መተግበሪ ኣስተዳደር';
+  String get manageAppData => 'ዳታ መተግበሪ ኣስተዳድር';
 
   @override
-  String get supportAbout => 'ድጋፍ ከምኡእ ስለ';
+  String get supportAbout => 'ድጋፍን ብዛዕባን';
 
   @override
-  String get supportDeveloper => 'ኣዘጋጁን ድጋፍ';
+  String get supportDeveloper => 'ኣዘጋጂ ድጋፍ';
 
   @override
-  String get helpSupportProject => 'ፕሮጀክት ድጋፍ ሓግዝ ❤️';
+  String get helpSupportProject => 'ንፕሮጀክት ድጋፍ ሓግዝ ❤️';
 
   @override
-  String get contribute => 'ኣስተዋጽኦ';
+  String get contribute => 'ኣበርክቶ';
 
   @override
-  String get helpBuildGitHub => 'በጊትሀብ ላይ ሓግዝ 🚀';
+  String get helpBuildGitHub => 'ኣብ ጊትሀብ ሓግዝ 🚀';
 
   @override
-  String get rateApp => 'መተግበሪ ኣመዓዛይ';
+  String get rateApp => 'መተግበሪ ደረጃ';
 
   @override
-  String get leaveReview => 'ግምገማ ስግኣ ⭐';
+  String get leaveReview => 'ምዘና ሃብ ⭐';
 
   @override
-  String get shareApp => 'መተግበሪ ኣካብይ';
+  String get shareApp => 'መተግበሪ ኣካፍል';
 
   @override
-  String get shareWithFriends => 'ከዓማንኽዮት ኣካብይ 📢';
+  String get shareWithFriends => 'ምስ ፈተውትኻ ኣካፍል 📢';
 
   @override
-  String get reminderTime => 'ጊዜ ማስታወሲ';
+  String get reminderTime => 'ሰዓት ኣዘኻኽሪ';
 
   @override
-  String get testNotification => 'ፈተና ማስታወሲ';
+  String get testNotification => 'ፈተና ማስታወሻ';
 
   @override
-  String get receiveTestAlert => 'ማስታወሲ እንዴት እንደሚሰርም ለማረጋገጥ ፈተና ማስታወሲ ይቀበሉ።';
+  String get receiveTestAlert =>
+      'ከመይ ከምዚ ማስታወሻ ከምዚ ከምዚ ከምዚ ከምዚ ንምርዳእ ፈተና ማስታወሻ ተቐበል።';
 
   @override
-  String get comingSoon => 'በቅርብ ጊዜ';
+  String get comingSoon => 'ብቐርቡ';
 
   @override
   String get languageSupportComingSoon =>
-      'ድጋፍ ቋንቋ በቅርብ ጊዜ ይመጣል! ብዙ ቋንቋ ኣማራጮች ለማምጣት እያሰራን እዩ።';
+      'ድጋፍ ቋንቋ ብቐርቡ ይመጽእ! ብዙሕ ኣማራጽታት ቋንቋ ንምምጻእ እንሰርሕ ኣለና።';
 
   @override
-  String get gotIt => 'ገበነ';
+  String get gotIt => 'ተረዳእኩ';
 
   @override
-  String get maybeLater => 'በኋላ';
+  String get maybeLater => 'ሓሊፈ';
 
   @override
-  String get openSettings => 'ቅዲሚ ይክፈቱ';
+  String get openSettings => 'ቅንብራት ክፈት';
 
   @override
-  String get notificationsBlocked => 'ማስታወሲ ተከልክለዋል';
+  String get notificationsBlocked => 'ማስታወሻታት ተዓጽዩ';
 
   @override
   String get notificationsBlockedMessage =>
-      'ማስታወሲ ንባብ ብስርዓት ቅዲሚ ተከልክለዋል። ንምቀጠር እባክዎ ያንቁት!';
+      'ማስታወሻታት ንባብ ብስርዓት ተዓጽዩ። ንምቕጻል እባኻ ኣንቅዖ!';
 
   @override
-  String get notificationPermissionsRequired => 'ንማስታወሲ ፍቃድ ይግባእ።';
+  String get notificationPermissionsRequired => 'ንማስታወሻታት ፍቓድ ኣድላዪ እዩ።';
 
   @override
-  String get madeWithLove => 'ብፍቅር ብሰሙኤል ዝተሰራ ❤️';
+  String get madeWithLove => 'ብፍቅሪ ብሳሙኤል ተሰሪሑ ❤️';
 
   @override
-  String get version => 'እትም';
+  String get version => 'ስሪት';
 
   @override
-  String get continueReading => 'ንባት ቀጠል';
+  String get continueReading => 'ንባብ ቀጽል';
 
   @override
-  String get recentBooks => 'የቅርብ መጽሓፍት';
+  String get recentBooks => 'ነገር ዘይንርሳዕ መጻሕፍቲ';
 
   @override
-  String get quickStats => 'ፈጣጫ ስታቲስቲክስ';
+  String get quickStats => 'ፈጣን ስታቲስቲክስ';
 
   @override
-  String get weeklyActivity => 'ሳምንት እንቅስት';
+  String get weeklyActivity => 'ሰሙናዊ ንጥፈታት';
 
   @override
-  String get myShelf => 'የእኔ መጽሓፍ';
+  String get myShelf => 'መደርደሪያይ';
 
   @override
-  String get searchBooks => 'መጽሐፍት ፈልግ...';
+  String get searchBooks => 'መጻሕፍቲ ድለይ...';
 
   @override
-  String get filter => 'አቃሚ';
+  String get filter => 'ምድብ';
 
   @override
-  String get sort => 'አደራማም';
+  String get sort => 'ምድራም';
 
   @override
-  String get addBook => 'መጽሐፍ ጨምር';
+  String get addBook => 'መጽሓፍ ወስኽ';
 
   @override
-  String get importBooks => 'መጽሐፍት አስመጣ';
+  String get importBooks => 'መጻሕፍቲ ኣስመጽ';
 
   @override
-  String get emptyLibrary => 'የእኔ ቤተ መጽሐፍ ባዶ እዩ';
+  String get emptyLibrary => 'ቤተ መጽሓፈይ ባዶ እያ';
 
   @override
-  String get emptyLibraryMessage => 'ለመጀመር የመጀመርዎን መጽሐፍ አስመጣ';
+  String get emptyLibraryMessage => 'ንምጅማር ቀዳማይ መጽሓፍካ ኣስመጽ';
 
   @override
-  String get importNow => 'አሁን አስመጣ';
+  String get importNow => 'ሕጂ ኣስመጽ';
 
   @override
-  String get today => 'ሎሮ';
+  String get today => 'ሎሚ';
 
   @override
-  String get yesterday => 'ዓለት ትናት';
+  String get yesterday => 'ትማሊ';
 
   @override
-  String get thisWeek => 'ሳምንት ኣሎ';
+  String get thisWeek => 'እዚ ሰሙን';
 
   @override
-  String get thisMonth => 'ወር ኣሎ';
+  String get thisMonth => 'እዚ ወርሒ';
 
   @override
-  String get thisYear => 'ኣመት ኣሎ';
+  String get thisYear => 'እዚ ዓመት';
 
   @override
-  String get goodMorning => 'ኣማን ዋለ';
+  String get goodMorning => 'ከመይ ሓዲርኩም';
 
   @override
-  String get goodAfternoon => 'ኣማን አለም';
+  String get goodAfternoon => 'ከመይ ውዒልኩም';
 
   @override
-  String get goodEvening => 'ኣማን ምሽት';
+  String get goodEvening => 'ከመይ ኣምሽይኩም';
 
   @override
-  String get seeMore => 'ተጨማሪ ይመልከቱ';
+  String get seeMore => 'ተወሳኺ ርኣይ';
 
   @override
-  String get searchTitlesAuthors => 'ርዕሶችን፣ ደራሲዎችን ፈልግ...';
+  String get searchTitlesAuthors => 'ርእስታት፣ ደራስትታት ድለይ...';
 
   @override
-  String get filterSort => 'አቃሚ እና ደራማም';
+  String get filterSort => 'ምድብን ምድራምን';
 
   @override
-  String get addBooks => 'መጽሐፍት ጨምር';
+  String get addBooks => 'መጻሕፍቲ ወስኽ';
 
   @override
-  String get editBookInfo => 'ዳህሳው መጽሓፍ ኣርትዕ';
+  String get editBookInfo => 'ሓበሬታ መጽሓፍ ኣርትዕ';
 
   @override
-  String get storagePermissionRequired => 'መጽሓፍትን ንምኣስመጣ ዳህሳው ማካንን ይግባእ።';
+  String get storagePermissionRequired => 'ንምእሳም መጻሕፍቲ ፍቓድ ማከማቻ ኣድላዪ እዩ።';
 
   @override
   String successfullyImported(Object count) {
-    return '$count መጽሓፍት ብተሳካ ሁኔታ ተሰብትዋል።';
+    return '$count መጻሕፍቲ ብትክክል ተእትወን።';
   }
 
   @override
@@ -277,13 +279,13 @@ class AppLocalizationsTi extends AppLocalizations {
   String get all => 'ኩሉ';
 
   @override
-  String get favorites => 'ተወዳጆች';
+  String get favorites => 'ተመራጾች';
 
   @override
   String get author => 'ደራሲ';
 
   @override
-  String get title => 'ርዕስ';
+  String get title => 'ርእሲ';
 
   @override
   String get folder => 'ፎልደር';
@@ -295,13 +297,13 @@ class AppLocalizationsTi extends AppLocalizations {
   String get category => 'ምድብ';
 
   @override
-  String get selectAll => 'ኩሉ ይምረጡ';
+  String get selectAll => 'ኩሉ ምረጽ';
 
   @override
-  String get cancel => 'ተው';
+  String get cancel => 'ሰርዝ';
 
   @override
-  String get delete => 'ሰርዝ';
+  String get delete => 'መሰርዚ';
 
   @override
   String get edit => 'ኣርትዕ';
@@ -310,287 +312,287 @@ class AppLocalizationsTi extends AppLocalizations {
   String get readingStats => 'ስታቲስቲክስ ንባብ';
 
   @override
-  String get readingActivity => 'ኣክቲቪቲ ንባብ';
+  String get readingActivity => 'ንጥፈታት ንባብ';
 
   @override
-  String get selectMonth => 'ወር ይምረጡ';
+  String get selectMonth => 'ወርሒ ምረጽ';
 
   @override
-  String get achievements => 'ስኬቶች';
+  String get achievements => 'ስክነታት';
 
   @override
-  String get dailyQuests => 'ተልዕሎች ዕለታዊ';
+  String get dailyQuests => 'ዕለታዊ ግብርታት';
 
   @override
-  String get doubleWP => '2X WP';
+  String get doubleWP => '2X ነጥብ ጥበብ';
 
   @override
-  String get done => 'ተጨረሰ';
+  String get done => 'ተወድአ';
 
   @override
   String rewardWP(Object count) {
-    return 'ሽልማት: $count WP';
+    return 'ሽልማት፦ $count ነጥብ ጥበብ';
   }
 
   @override
-  String get weeklyGoals => 'ግቦች ሳምንታዊ';
+  String get weeklyGoals => 'ሰሙናዊ ዕላማታት';
 
   @override
-  String get noGoalsSet => 'ንዚህ ሳምንት ምንም ግብ ኣልተደረገም';
+  String get noGoalsSet => 'ንዚህ ሰሙን ምንም ዕላማ ኣይተቐመጠን';
 
   @override
-  String get currentLevel => 'ደረጃ ኣሎ';
+  String get currentLevel => 'ሕሉፍ ደረጃ';
 
   @override
   String wpToLevelUp(Object count) {
-    return '$count WP ንወደ ደረጃ ላይ ንምሄድ';
+    return '$count ነጥብ ጥበብ ናብ ደረጃ ላዕሊ ንምድያም';
   }
 
   @override
-  String get searchBook => 'መጽሓፍ ፈልግ...';
+  String get searchBook => 'መጽሓፍ ድለይ...';
 
   @override
-  String get unknown => 'ያልታወቀ';
+  String get unknown => 'ዘይተላለጸ';
 
   @override
-  String get importAudiobook => 'ድምጺ መጽሓፍ ኣስመጣ';
+  String get importAudiobook => 'ድምጻዊ መጽሓፍ ኣስመጽ';
 
   @override
-  String get cover => 'ኮቨር';
+  String get cover => 'ሽፋን';
 
   @override
-  String get importing => 'ብምኣስመጣ ላይ...';
+  String get importing => 'እናኣስመጸ...';
 
   @override
-  String get error => 'ስህተት';
+  String get error => 'ጌጋ';
 
   @override
-  String get bookUpdated => 'መጽሓፉ ተዘምቷል';
+  String get bookUpdated => 'መጽሓፍ ተመዝጊቡ';
 
   @override
-  String get series => 'ተከታታይ';
+  String get series => 'ተኸታታሊ';
 
   @override
-  String get tagsCommaSeparated => 'ትያጎች (ብንዑስ ስርዓት ዝተለዩ)';
+  String get tagsCommaSeparated => 'መለለዪታት (ብኮማ ተፈላለዩ)';
 
   @override
-  String get audiobookParts => 'ክፍሎች ድምጺ መጽሓፍ';
+  String get audiobookParts => 'ክፋላት ድምጻዊ መጽሓፍ';
 
   @override
-  String get items => 'እቃዎች';
+  String get items => 'ንብረታት';
 
   @override
-  String get noAudioPartsAttached => 'ምንም ክፍሎች ድምጺ ኣልተያዩም።';
+  String get noAudioPartsAttached => 'ምንም ክፋላት ድምጺ ኣይተያዩን።';
 
   @override
-  String get addParts => 'ክፍሎች ጨምር';
+  String get addParts => 'ክፋላት ወስኽ';
 
   @override
-  String get bookCover => 'ኮቨር መጽሓፍ';
+  String get bookCover => 'ሽፋን መጽሓፍ';
 
   @override
-  String get changeCover => 'ኮቨር ቀይር';
+  String get changeCover => 'ሽፋን ቀይር';
 
   @override
-  String get searchOnline => 'ብመስመር ፈልግ';
+  String get searchOnline => 'ብመስመር ድለይ';
 
   @override
-  String get selectFiles => 'ፋይሎችን ይምረጡ';
+  String get selectFiles => 'ፋይላት ምረጽ';
 
   @override
-  String get import => 'ኣስመጣ';
+  String get import => 'ኣስመጽ';
 
   @override
-  String get supportDeveloperSubtitle => 'ኣዘጋጁን ከምኡእ ፕሮጀክቱን ድጋፍ ❤️';
+  String get supportDeveloperSubtitle => 'ኣዘጋጂን ፕሮጀክቱን ድጋፍ ❤️';
 
   @override
-  String get contributeGitHub => 'ኣስተዋጽኦ ብጊትሀብ';
+  String get contributeGitHub => 'ብጊትሀብ ኣበርክቶ';
 
   @override
-  String get contributeGitHubSubtitle => 'ጥበብ ዝትወድጉ ከጊትሀብ ይርዱ 🚀';
+  String get contributeGitHubSubtitle => 'ንጥበብ ኣብ ጊትሀብ ኣበርክቱ 🚀';
 
   @override
-  String get rateAppSubtitle => 'ጥበብ ዝትወድጉ? ግምገማ ስግኣ! ⭐';
+  String get rateAppSubtitle => 'ጥበብ ይፈትዎ? ምዘና ሃብ! ⭐';
 
   @override
-  String get shareAppSubtitle => 'ጥበብ ከዓማንኽዮት ጋር ኣካብይ 📢';
+  String get shareAppSubtitle => 'ንጥበብ ምስ ፈተውትኻ ኣካፍል 📢';
 
   @override
-  String get pagesRead => 'ገጾት ዝተነበቡ';
+  String get pagesRead => 'ገጻት ዝተነበቡ';
 
   @override
   String get minutesRead => 'ደቂቃታት ዝተነበቡ';
 
   @override
-  String get wisdomPoints => 'ነጥቦች ጥበብ (WP)';
+  String get wisdomPoints => 'ነጥብ ጥበብ';
 
   @override
-  String get noBookSelected => 'ምንም መጽሓፍ ኣልተመረጠም';
+  String get noBookSelected => 'ምንም መጽሓፍ ኣይተመረጸን';
 
   @override
-  String get tapToSelectBook => 'መጽሓፍ ንምምረጥ ዳሕባ ይጥዙ';
+  String get tapToSelectBook => 'መጽሓፍ ንምምራጽ ንክእ';
 
   @override
   String get readingTime => 'ጊዜ ንባብ';
 
   @override
-  String get progress => 'ትርፍ';
+  String get progress => 'ምዕባለ';
 
   @override
   String get chapter => 'ምዕራፍ';
 
   @override
-  String get chapters => 'ምዕራፎች';
+  String get chapters => 'ምዕራፋት';
 
   @override
   String get page => 'ገጽ';
 
   @override
-  String get ofLabel => 'ከ';
+  String get ofLabel => 'ካብ';
 
   @override
-  String get bookmarkAdded => 'እልባት ተጨምሯል';
+  String get bookmarkAdded => 'ዕምረት ተወሰኸ';
 
   @override
-  String get bookmarkRemoved => 'እልባት ተወርዷል';
+  String get bookmarkRemoved => 'ዕምረት ተወገደ';
 
   @override
-  String get highlightAdded => 'ዝርዝር ተጨምሯል';
+  String get highlightAdded => 'ድምቀት ተወሰኸ';
 
   @override
-  String get noteAdded => 'ማስታወሻ ተጨምሯል';
+  String get noteAdded => 'ማስታወሻ ተወሰኸ';
 
   @override
-  String get noBookmarks => 'ምንም እልባቶች የሉም';
+  String get noBookmarks => 'ምንም ዕምረት የለን';
 
   @override
-  String get noHighlights => 'ምንም ዝርዝሮች የሉም';
+  String get noHighlights => 'ምንም ድምቀት የለን';
 
   @override
-  String get noNotes => 'ምንም ማስታወሻዎች የሉም';
+  String get noNotes => 'ምንም ማስታወሻ የለን';
 
   @override
-  String get addBookmark => 'እልባት ጨምር';
+  String get addBookmark => 'ዕምረት ወስኽ';
 
   @override
-  String get addHighlight => 'ዝርዝር ጨምር';
+  String get addHighlight => 'ድምቀት ወስኽ';
 
   @override
-  String get addNote => 'ማስታወሻ ጨምር';
+  String get addNote => 'ማስታወሻ ወስኽ';
 
   @override
-  String get search => 'ፈልግ';
+  String get search => 'ድለይ';
 
   @override
-  String get searchInBook => 'ብውስጥ መጽሓፍ ፈልግ';
+  String get searchInBook => 'ኣብ ውሽጢ መጽሓፍ ድለይ';
 
   @override
-  String get noResults => 'ምንም ውጤቶች ኣልተገኙም';
+  String get noResults => 'ምንም ውጽኢታት ኣይተረኽቡን';
 
   @override
   String resultsFound(Object count) {
-    return '$count ውጤቶች ተገኙ';
+    return '$count ውጽኢታት ተረኺቦም';
   }
 
   @override
-  String get settingsSaved => 'ቅዲሚ ተቀምጠዋል';
+  String get settingsSaved => 'ቅንብራት ተቐመጡ';
 
   @override
-  String get themeChanged => 'ቀለም ተቀይሯል';
+  String get themeChanged => 'ቀለም ተቐየረ';
 
   @override
-  String get languageChanged => 'ቋንቋ ተቀይሯል';
+  String get languageChanged => 'ቋንቋ ተቐየረ';
 
   @override
-  String get fontChanged => 'ፊደል ተቀይሯል';
+  String get fontChanged => 'ፊደል ተቐየረ';
 
   @override
-  String get backupCreated => 'ባክአፕ ተፈጥሯል';
+  String get backupCreated => 'ምትእታት ተፈጠረ';
 
   @override
-  String get backupRestored => 'ባክአፕ ተመልሷል';
+  String get backupRestored => 'ምትእታት ተመልሰ';
 
   @override
-  String get errorOccurred => 'ስህተት ተፈጥሯል';
+  String get errorOccurred => 'ጌጋ ተፈጠረ';
 
   @override
-  String get tryAgain => 'እንደገና ይሞክሩ';
+  String get tryAgain => 'ደጊምካ ፈትን';
 
   @override
-  String get close => 'ዝጋ';
+  String get close => 'ዕጸው';
 
   @override
-  String get save => 'ኣስቀምጥ';
+  String get save => 'ኣቐምጥ';
 
   @override
-  String get discard => 'ኣስወግድ';
+  String get discard => 'ጥፍእ';
 
   @override
-  String get confirm => 'ኣረጋግጥ';
+  String get confirm => 'ኣረጋግጽ';
 
   @override
   String get deleteBook => 'መጽሓፍ ሰርዝ';
 
   @override
-  String get deleteBookConfirm => 'እርስዎ ይህንን መጽሓፍ ንምሰርድ እርግጠኛ እዩ?';
+  String get deleteBookConfirm => 'ነዚ መጽሓፍ ንምምስራት ርግጸኛ ዲኻ?';
 
   @override
-  String get deleteBooks => 'መጽሓፍት ሰርዝ';
+  String get deleteBooks => 'መጻሕፍቲ ሰርዝ';
 
   @override
   String deleteBooksConfirm(Object count) {
-    return 'እርስዎ $count መጽሓፍትን ንምሰርድ እርግጠኛ እዩ?';
+    return 'ነዞም $count መጻሕፍቲ ንምምስራት ርግጸኛ ዲኻ?';
   }
 
   @override
-  String get bookDeleted => 'መጽሓፉ ተሰርዟል';
+  String get bookDeleted => 'መጽሓፍ ተሰርዘ';
 
   @override
   String booksDeleted(Object count) {
-    return '$count መጽሓፍት ተሰርዟል';
+    return '$count መጻሕፍቲ ተሰርዘን';
   }
 
   @override
-  String get rank_temari => 'Temari (ተማሪ)';
+  String get rank_temari => 'ተማሃራይ';
 
   @override
-  String get rank_temari_description => 'ጉዟ ጥበብ መጀመር።';
+  String get rank_temari_description => 'ጉዕዞ ጥበብ ምጅማር።';
 
   @override
-  String get rank_anebabi => 'Anebabi (አንባቢ)';
+  String get rank_anebabi => 'ኣንባቢ';
 
   @override
-  String get rank_anebabi_description => 'ትሕትና ንባብ ምህርት።';
+  String get rank_anebabi_description => 'ብትሕትና ንባብን ትምህርትን ምዕባለ ምግባር።';
 
   @override
-  String get rank_tsehafi => 'Tsehafi (ጸሐፊ)';
+  String get rank_tsehafi => 'ጸሓፊ';
 
   @override
-  String get rank_tsehafi_description => 'መጻሕፍት እና ምርጥ እውቀት።';
+  String get rank_tsehafi_description => 'መጻሕፍቲ ምፍጣርን ክቡር ፍልጠት ምክፋልን።';
 
   @override
-  String get rank_liq => 'Liq (ሊቅ)';
+  String get rank_liq => 'ሊቅ';
 
   @override
-  String get rank_liq_description => 'ስለ እውቀት ጥልቅ ማሰብ።';
+  String get rank_liq_description => 'ብዛዕባ ፍልጠት ዓሚቕ ሓሳብን ምርዳእን።';
 
   @override
-  String get rank_baletibeb => 'Baletibeb (ባለጥበብ)';
+  String get rank_baletibeb => 'ባለጥበብ';
 
   @override
-  String get rank_baletibeb_description => 'ጥበብ ኣብ ህይወት ምትግባር።';
+  String get rank_baletibeb_description => 'ጥበብ ኣብ መዓልታዊ ህይወት ምትግባር።';
 
   @override
-  String get rank_tibebawi => 'Tibebawi (ጥበባዊ)';
+  String get rank_tibebawi => 'ጥበባዊ';
 
   @override
-  String get rank_tibebawi_description => 'ጥበብ ክልል እዩ።';
+  String get rank_tibebawi_description => 'ጥበብ ደረት የብሉን።';
 
   @override
-  String get masteryPath => 'መንገድ እልብና';
+  String get masteryPath => 'መንገዲ እልብና';
 
   @override
-  String get currentRank => 'ደረጃ ኣሁን';
+  String get currentRank => 'ሕሉፍ ደረጃ';
 
   @override
   String levelAchievementsDescription(
@@ -598,239 +600,219 @@ class AppLocalizationsTi extends AppLocalizations {
     Object description,
     Object level,
   ) {
-    return 'ደረጃ $level+ • $achievements ስኬቶች • $description';
+    return 'ደረጃ $level+ • $achievements ስክነታት • $description';
   }
 
   @override
-  String get achievement_the_first_page => 'ፊደል መጀመሪያ';
+  String get achievement_the_first_page => 'ፊደል መጀመርያ';
 
   @override
-  String get achievement_the_first_page_description =>
-      'መጀመርዎ መጽሓፍ ኣጠናቕቕ (ፊደል መጀመሪያ)';
+  String get achievement_the_first_page_description => 'ቀዳማይ መጽሓፍካ ኣጠናቕቕ';
 
   @override
-  String get achievement_habit_builder => 'ቋሚ ተማሪ';
+  String get achievement_habit_builder => 'ቋሚ ተማሃራይ';
 
   @override
-  String get achievement_habit_builder_description =>
-      '3 ዕለታት ብተዘዋዋር ኣንብብ (ቋሚ ተማሪ)';
+  String get achievement_habit_builder_description => '3 መዓልትታት ብተኸታታሊ ኣንብብ';
 
   @override
-  String get achievement_seven_day_streak => 'የአነባቢ መንገድ';
+  String get achievement_seven_day_streak => 'መንገዲ ኣንባቢ';
 
   @override
-  String get achievement_seven_day_streak_description =>
-      '7 ዕለታት ብተዘዋዋር ኣንብብ (የአነባቢ መንገድ)';
+  String get achievement_seven_day_streak_description => '7 መዓልትታት ብተኸታታሊ ኣንብብ';
 
   @override
   String get achievement_bookworm => 'ድጓ ሰብሳቢ';
 
   @override
-  String get achievement_bookworm_description => '1,000 ገጾት ብዙሕ ኣንብብ (ድጓ ሰብሳቢ)';
+  String get achievement_bookworm_description => '1,000 ገጻት ኣንብብ';
 
   @override
-  String get achievement_night_owl => 'የሌሊት አንባቢ';
+  String get achievement_night_owl => 'ለሊታዊ ኣንባቢ';
 
   @override
-  String get achievement_night_owl_description =>
-      'ከ10 ሰዓት ባዕሊ ኣንብብ (የሌሊት አንባቢ)';
+  String get achievement_night_owl_description => 'ድሕሪ 10 ሰዓት ኣንብብ';
 
   @override
-  String get achievement_early_bird => 'የንጋት ተማሪ';
+  String get achievement_early_bird => 'ንግሆ ተማሃራይ';
 
   @override
-  String get achievement_early_bird_description => 'ከ9 ሰዓት ባፊት ኣንብብ (የንጋት ተማሪ)';
+  String get achievement_early_bird_description => 'ቅድሚ 9 ሰዓት ኣንብብ';
 
   @override
-  String get achievement_century_club => 'የረጅም ንባብ';
+  String get achievement_century_club => 'ነዊሕ ንባብ';
 
   @override
-  String get achievement_century_club_description =>
-      'ኣንድ ክፍለ ጊዜ 100 ገጾት ኣንብብ (የረጅም ንባብ)';
+  String get achievement_century_club_description => 'ኣብ ሓደ ግዜ 100 ገጻት ኣንብብ';
 
   @override
-  String get achievement_unstoppable => 'የፀሐፊ ጽናት';
+  String get achievement_unstoppable => 'ዘይተደናቐፍ';
 
   @override
-  String get achievement_unstoppable_description =>
-      '30 ዕለታት ብተዘዋዋር ኣንብብ (የፀሐፊ ጽናት)';
+  String get achievement_unstoppable_description => '30 መዓልትታት ብተኸታታሊ ኣንብብ';
 
   @override
-  String get achievement_marathoner => 'የንባብ ትጋት';
+  String get achievement_marathoner => 'ተጋህዶ ንባብ';
 
   @override
-  String get achievement_marathoner_description =>
-      'ኣንድ ክፍለ ጊዜ 2 ሰዓታት ኣንብብ (የንባብ ትጋት)';
+  String get achievement_marathoner_description => 'ኣብ ሓደ ግዜ 2 ሰዓታት ኣንብብ';
 
   @override
-  String get achievement_scholar => 'የሊቅ መጽሓፍት';
+  String get achievement_scholar => 'ሊቅ መጻሕፍቲ';
 
   @override
-  String get achievement_scholar_description =>
-      '5,000 ገጾት ብዙሕ ኣንብብ (የሊቅ መጽሓፍት)';
+  String get achievement_scholar_description => '5,000 ገጻት ኣንብብ';
 
   @override
-  String get achievement_yomibito => 'ክብረ ነገሥት';
+  String get achievement_yomibito => 'ክብረ ነገስታት';
 
   @override
-  String get achievement_yomibito_description => '10 መጽሓፍት ኣጠናቕቕ (ክብረ ነገሥት)';
+  String get achievement_yomibito_description => '10 መጻሕፍቲ ኣጠናቕቕ';
 
   @override
-  String get achievement_sensei => 'ሊቀ ሊቃውንት';
+  String get achievement_sensei => 'ሊቀ ሊቃውንቲ';
 
   @override
-  String get achievement_sensei_description => '50 መጽሓፍት ኣጠናቕቕ (ሊቀ ሊቃውንት)';
+  String get achievement_sensei_description => '50 መጻሕፍቲ ኣጠናቕቕ';
 
   @override
   String get achievement_bibliophile => 'መጽሓፍ ወዳድ';
 
   @override
-  String get achievement_bibliophile_description =>
-      'ቤተ መጽሓፍካ 10 መጽሓፍት ኣክል (መጽሓፍ ወዳድ)';
+  String get achievement_bibliophile_description => 'ኣብ ቤተ መጽሓፍካ 10 መጻሕፍቲ ወስኽ';
 
   @override
-  String get achievement_collector => 'የገዳም መዛግብት';
+  String get achievement_collector => 'ሓባራዊ መዛግብቲ';
 
   @override
-  String get achievement_collector_description =>
-      'ቤተ መጽሓፍካ 100 መጽሓፍት ኣክል (የገዳም መዛግብት)';
+  String get achievement_collector_description => 'ኣብ ቤተ መጽሓፍካ 100 መጻሕፍቲ ወስኽ';
 
   @override
-  String get achievement_weekend_warrior => 'የሰንበት ተማሪ';
+  String get achievement_weekend_warrior => 'ሰንበታዊ ተማሃራይ';
 
   @override
-  String get achievement_weekend_warrior_description =>
-      'በሰንበት ቀን እና እሁድ ኣንብብ (የሰንበት ተማሪ)';
+  String get achievement_weekend_warrior_description => 'ብሰንበትን ሰሉስን ኣንብብ';
 
   @override
-  String get achievement_the_translator => 'ትርጉም ፈላጊ';
+  String get achievement_the_translator => 'ተርጓሚ';
 
   @override
-  String get achievement_the_translator_description =>
-      'መጀመርዎ ቃል ፈልግ (ትርጉም ፈላጊ)';
+  String get achievement_the_translator_description => 'ቀዳማይ ቃልካ ድለይ';
 
   @override
-  String get achievement_vocabulary_builder => 'የሰዋስው ተማሪ';
+  String get achievement_vocabulary_builder => 'ተማሃራይ ቃላት';
 
   @override
-  String get achievement_vocabulary_builder_description =>
-      '20 ቃላት ፈልግ (የሰዋስው ተማሪ)';
+  String get achievement_vocabulary_builder_description => '20 ቃላት ድለይ';
 
   @override
-  String get achievement_polyglot => 'ሊቀ ትርጉም';
+  String get achievement_polyglot => 'ብዙሕ ቋንቋ ተናጋሪ';
 
   @override
-  String get achievement_polyglot_description => '100 ቃላት ፈልግ (ሊቀ ትርጉም)';
+  String get achievement_polyglot_description => '100 ቃላት ድለይ';
 
   @override
-  String get achievement_gondar_keep => 'የብራና ቤት';
+  String get achievement_gondar_keep => 'ቤተ ብራና';
 
   @override
-  String get achievement_gondar_keep_description => '500 ገጾት ኣንብብ (የብራና ቤት)';
+  String get achievement_gondar_keep_description => '500 ገጻት ኣንብብ';
 
   @override
-  String get achievement_sheba_wisdom => 'የሳባ ጥበብ';
+  String get achievement_sheba_wisdom => 'ጥበብ ሳባ';
 
   @override
-  String get achievement_sheba_wisdom_description => '2,000 ገጾት ኣንብብ (የሳባ ጥበብ)';
+  String get achievement_sheba_wisdom_description => '2,000 ገጻት ኣንብብ';
 
   @override
-  String get achievement_axum_legacy => 'የአክሱም ቅርስ';
+  String get achievement_axum_legacy => 'ቅርሲ ኣኽሱም';
 
   @override
-  String get achievement_axum_legacy_description =>
-      '10,000 ገጾት ኣንብብ (የአክሱም ቅርስ)';
+  String get achievement_axum_legacy_description => '10,000 ገጻት ኣንብብ';
 
   @override
-  String get achievement_fasil_crown => 'የንባብ ዘውድ';
+  String get achievement_fasil_crown => 'ዘውድ ንባብ';
 
   @override
-  String get achievement_fasil_crown_description => '5 መጽሓፍት ኣጠናቕቕ (የንባብ ዘውድ)';
+  String get achievement_fasil_crown_description => '5 መጻሕፍቲ ኣጠናቕቕ';
 
   @override
-  String get achievement_yohannes_torch => 'የእውቀት ችቦ';
+  String get achievement_yohannes_torch => 'በርሃ ፍልጠት';
 
   @override
-  String get achievement_yohannes_torch_description =>
-      '20 መጽሓፍት ኣጠናቕቕ (የእውቀት ችቦ)';
+  String get achievement_yohannes_torch_description => '20 መጻሕፍቲ ኣጠናቕቕ';
 
   @override
-  String get achievement_menelik_library => 'ቤተ መጻሕፍት';
+  String get achievement_menelik_library => 'ቤተ መጻሕፍቲ';
 
   @override
-  String get achievement_menelik_library_description =>
-      '100 መጽሓፍት ኣጠናቕቕ (ቤተ መጻሕፍት)';
+  String get achievement_menelik_library_description => '100 መጻሕፍቲ ኣጠናቕቕ';
 
   @override
-  String get achievement_lalibela_vigil => 'የላሊበላ ትጋት';
+  String get achievement_lalibela_vigil => 'ትጋት ላሊበላ';
 
   @override
-  String get achievement_lalibela_vigil_description =>
-      '100 ሰዓታት ኣንብብ (የላሊበላ ትጋት)';
+  String get achievement_lalibela_vigil_description => '100 ሰዓታት ኣንብብ';
 
   @override
-  String get achievement_selassie_endurance => 'የ100 ቀን ተማሪ';
+  String get achievement_selassie_endurance => 'ተኸታታሊ 100 መዓልቲ';
 
   @override
   String get achievement_selassie_endurance_description =>
-      '100 ዕለታት ብተዘዋዋር ኣንብብ (የ100 ቀን ተማሪ)';
+      '100 መዓልትታት ብተኸታታሊ ኣንብብ';
 
   @override
-  String get achievement_geez_mastery => 'የግዕዝ ዕውቀት';
+  String get achievement_geez_mastery => 'ዕውቀት ግዕዝ';
 
   @override
-  String get achievement_geez_mastery_description => '500 ቃላት ፈልግ (የግዕዝ ዕውቀት)';
+  String get achievement_geez_mastery_description => '500 ቃላት ድለይ';
 
   @override
   String get achievement_qene_poet => 'ባለቅኔ';
 
   @override
-  String get achievement_qene_poet_description => '1,000 ቃላት ፈልግ (ባለቅኔ)';
+  String get achievement_qene_poet_description => '1,000 ቃላት ድለይ';
 
   @override
-  String get achievement_oral_tradition => 'የቃል ትውፊት';
+  String get achievement_oral_tradition => 'ኣፈ ታሪኽ';
 
   @override
-  String get achievement_oral_tradition_description =>
-      'መጀመርዎ ድምጺ መጽሓፍ ኣድምጥ (የቃል ትውፊት)';
+  String get achievement_oral_tradition_description => 'ቀዳማይ ድምጻዊ መጽሓፍካ ኣድምጽ';
 
   @override
-  String get achievement_azmari_listener => 'አዝማሪ ሰሚ';
+  String get achievement_azmari_listener => 'ሰማዕቲ ኣዝማሪ';
 
   @override
-  String get achievement_azmari_listener_description =>
-      '5 ድምጺ መጽሓፍት ኣድምጥ (አዝማሪ ሰሚ)';
+  String get achievement_azmari_listener_description => '5 ድምጻዊ መጻሕፍቲ ኣድምጽ';
 
   @override
-  String get achievement_fast_reader => 'ፈጣን አንባቢ';
+  String get achievement_fast_reader => 'ፈጣን ኣንባቢ';
 
   @override
   String get achievement_fast_reader_description =>
-      'ከ3 ዕለታት ባትን መጽሓፍ ኣጠናቕቕ (ፈጣን አንባቢ)';
+      'ኣብ ውሽጢ 3 መዓልትታት መጽሓፍ ኣጠናቕቕ';
 
   @override
-  String get achievement_annotations_scholar => 'የጎን ማስታወሻ';
+  String get achievement_annotations_scholar => 'ሊቅ ማስታወሻ';
 
   @override
   String get achievement_annotations_scholar_description =>
-      '20 ዝርዝሮች ወይም እልባቶት ፍጠር (የጎን ማስታወሻ)';
+      '20 ድምቀት ወይ ዕምረት ፍጠር';
 
   @override
   String get achievement_timkat_reader => 'ጥምቀት';
 
   @override
-  String get achievement_timkat_reader_description => 'በጥምቀት ኣንብብ (ጥምቀት)';
+  String get achievement_timkat_reader_description => 'ብጥምቀት ኣንብብ';
 
   @override
   String get achievement_enkutatash_start => 'እንቁጣጣሽ';
 
   @override
-  String get achievement_enkutatash_start_description =>
-      'በእንቁጣጣሽ ኣንብብ (እንቁጣጣሽ)';
+  String get achievement_enkutatash_start_description => 'ብእንቁጣጣሽ ኣንብብ';
 
   @override
   String get achievement_epiphany_reader => 'ጥምቀት';
 
   @override
-  String get achievement_epiphany_reader_description => 'በጥምቀት ኣንብብ (ጥምቀት)';
+  String get achievement_epiphany_reader_description => 'ብጥምቀት ኣንብብ';
 }

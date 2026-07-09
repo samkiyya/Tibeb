@@ -13,7 +13,7 @@ class AppLocalizationsOm extends AppLocalizations {
 
   @override
   String get appDescription =>
-      'Tibeb bukii fi sagalee buukuu ilmaan namaa kanaafii baramtuudha.';
+      'Tibeb kitaaba fi sagalee kitaaba dubbisuu kan nama hundaaf bilisa ta\'eedha.';
 
   @override
   String get settings => 'Qindaa\'ina';
@@ -22,19 +22,19 @@ class AppLocalizationsOm extends AppLocalizations {
   String get home => 'Mana';
 
   @override
-  String get library => 'Kutaa';
+  String get library => 'Kutaa kitaabaa';
 
   @override
-  String get stats => 'Tuqaa';
+  String get stats => 'Tuqaalee';
 
   @override
-  String get engagement => 'Hojiirra oolchuu';
+  String get engagement => 'Hirmaanna';
 
   @override
   String get appearance => 'Mul\'ata';
 
   @override
-  String get notifications => 'Yaadannoo';
+  String get notifications => 'Yaadachiisa';
 
   @override
   String get language => 'Afaan';
@@ -46,260 +46,262 @@ class AppLocalizationsOm extends AppLocalizations {
   String get about => 'Waa\'ee';
 
   @override
-  String get level => 'Mataa';
+  String get level => 'Sadarkaa';
 
   @override
-  String get totalWP => 'Jalqaba Kadhoo Guutuu';
+  String get totalWP => 'Qabxii Ogummaa Waligala';
 
   @override
-  String get streak => 'Dhumaa';
+  String get streak => 'Walitti fufinsa dubbisuu';
 
   @override
-  String get pages => 'Buu\'uraa';
+  String get pages => 'Fuulota';
 
   @override
-  String get minutes => 'daqiiqaa';
+  String get minutes => 'Daqiiqaa';
 
   @override
-  String get theme => 'Mul\'ata';
+  String get theme => 'Meeqa';
 
   @override
   String get light => 'Ifa';
 
   @override
-  String get dark => 'Gurraacha';
+  String get dark => 'Dukkana';
 
   @override
-  String get system => 'Seerii';
+  String get system => 'Sistimii';
 
   @override
-  String get alerts => 'Yaadannoo';
+  String get alerts => 'Yaadachiisa';
 
   @override
-  String get readingPreferences => 'Qindaa\'ina Barbaachisuu';
+  String get readingPreferences => 'Filannoo Dubbisuu';
 
   @override
   String get fontSettings => 'Qindaa\'ina Qubee';
 
   @override
-  String get customizeReadingExperience => 'Barbaaduu barreessuu sirrii taasuu';
+  String get customizeReadingExperience =>
+      'Muuxannoo dubbisuu keessan mijessaa';
 
   @override
-  String get displayMode => 'Afaan Mul\'achuu';
+  String get displayMode => 'Akkasni agarsiisaa';
 
   @override
-  String get pageLayoutOrientation => 'Qubee bukuu fi jajjaboo';
+  String get pageLayoutOrientation => 'Akkasni fuulaa fi kallatti';
 
   @override
-  String get readingSpeed => 'Speeda Barreessuu';
+  String get readingSpeed => 'Saffisa dubbisuu';
 
   @override
-  String get autoScrollPacing => 'Dirqama dirree sirrii';
+  String get autoScrollPacing => 'Saffisa ofiituu geengoo';
 
   @override
-  String get appExperience => 'Dandeettii App';
+  String get appExperience => 'Muuxannoo App';
 
   @override
-  String get dailyReminders => 'Yaadannoo Guyyaa';
+  String get dailyReminders => 'Yaadachiisa Guyyaa';
 
   @override
-  String get keepReadingStreakAlive => 'Yaadannoo barreessuu jabuu';
+  String get keepReadingStreakAlive => 'Walitti fufinsa dubbisuu keessan fufaa';
 
   @override
-  String get privacy => 'Sirrii namoota';
+  String get privacy => 'Icimii';
 
   @override
-  String get dataPermissions => 'Daata fi yaada';
+  String get dataPermissions => 'Kaffalaa fi hayyama';
 
   @override
-  String get storage => 'Kayyoo';
+  String get storage => 'Kuusa';
 
   @override
-  String get manageAppData => 'Daata app sirrii taasuu';
+  String get manageAppData => 'Kaffala app qindeessaa';
 
   @override
   String get supportAbout => 'Gargaarsa fi Waa\'ee';
 
   @override
-  String get supportDeveloper => 'Gargaarsa Develuper';
+  String get supportDeveloper => 'Gargaarsa Keessattuu';
 
   @override
-  String get helpSupportProject => 'Gargaarsa proojeektiif deemuu ❤️';
+  String get helpSupportProject => 'Projeektii gargaaruu ❤️';
 
   @override
-  String get contribute => 'Galgala';
+  String get contribute => 'Hirmaadhaa';
 
   @override
-  String get helpBuildGitHub => 'GitHub irratti gaaffii deebisuu 🚀';
+  String get helpBuildGitHub => 'GitHub irratti hirmaadhaa 🚀';
 
   @override
-  String get rateApp => 'App Lakkoofsi';
+  String get rateApp => 'App Madaaluu';
 
   @override
-  String get leaveReview => 'Gaaffii deebisi ⭐';
+  String get leaveReview => 'Madaalsa kenni ⭐';
 
   @override
-  String get shareApp => 'App Qooda';
+  String get shareApp => 'App Qooduu';
 
   @override
-  String get shareWithFriends => 'Soddaa waliin qooda 📢';
+  String get shareWithFriends => 'Firoota waliin qooduu 📢';
 
   @override
-  String get reminderTime => 'Yaada Time';
+  String get reminderTime => 'Yeroo yaadachiisa';
 
   @override
-  String get testNotification => 'Yaadannoo Qabxii';
+  String get testNotification => 'Yaadachiisa Qormaata';
 
   @override
   String get receiveTestAlert =>
-      'Yaadannoo sirrii taasuuuf qabxii yaadaa barbaaduu.';
+      'Yaadachiisa qormaata akkamitti akka hojjetu mirkanessuuf fudhadhaa.';
 
   @override
-  String get comingSoon => 'Gara dhihaa';
+  String get comingSoon => 'Dhihootti';
 
   @override
   String get languageSupportComingSoon =>
-      'Gargaarsa afaan gara dhihaa! Afaan hedduu qabannee beekama jirra.';
+      'Gargaarsa afaanii dhihootti ni dhufa! Filannoo afaanii baayyee fiduuf jirra.';
 
   @override
-  String get gotIt => 'Eeyyee';
+  String get gotIt => 'Hubadhe';
 
   @override
   String get maybeLater => 'Booda';
 
   @override
-  String get openSettings => 'Qindaa\'ina Ulii';
+  String get openSettings => 'Qindaa\'ina Banaa';
 
   @override
-  String get notificationsBlocked => 'Yaadannoo Cufame';
+  String get notificationsBlocked => 'Yaadachiisa Cufameera';
 
   @override
   String get notificationsBlockedMessage =>
-      'Yaadannoo barreessuu seerii keessanii cufameera. Sirrii taasisuu!';
+      'Yaadachiisa dubbisuu qindaa\'ina sistimii keessan cufameera. Yeroo fufuuf akka haala ta\'utti haa banamu!';
 
   @override
   String get notificationPermissionsRequired =>
-      'Yaadannoo bu\'uura si barbaachisa.';
+      'Hayyama yaadachiisa barbaachisa.';
 
   @override
-  String get madeWithLove => 'Samuel waliin hojii eegale ❤️';
+  String get madeWithLove => 'Jaalalaan Samuel hojjete ❤️';
 
   @override
-  String get version => 'Versiyooni';
+  String get version => 'Fooyya\'ii';
 
   @override
-  String get continueReading => 'Barreessuu itti fufi';
+  String get continueReading => 'Dubbisuu fufuu';
 
   @override
-  String get recentBooks => 'Barreessaa wagii';
+  String get recentBooks => 'Kitaabota dhiyoo';
 
   @override
-  String get quickStats => 'Tuqaa gahummaa';
+  String get quickStats => 'Tuqaalee Afaan';
 
   @override
-  String get weeklyActivity => 'Jalqaba torban kanaa';
+  String get weeklyActivity => 'Sochii Torban';
 
   @override
-  String get myShelf => 'Kutaa koo';
+  String get myShelf => 'Dulduuyyuu koo';
 
   @override
-  String get searchBooks => 'Barreessaa barbaaduu...';
+  String get searchBooks => 'Kitaabota barbaadaa...';
 
   @override
-  String get filter => 'Filateefi';
+  String get filter => 'Calalchuu';
 
   @override
-  String get sort => 'Saayilii';
+  String get sort => 'Adeemsisuu';
 
   @override
-  String get addBook => 'Barreessaa addaasi';
+  String get addBook => 'Kitaaba dabaluu';
 
   @override
-  String get importBooks => 'Barreessaa galmeessuu';
+  String get importBooks => 'Kitaabota galchu';
 
   @override
-  String get emptyLibrary => 'Kutaa keessan ha\'i malee';
+  String get emptyLibrary => 'Kutaan kitaabaa koo duwwa';
 
   @override
-  String get emptyLibraryMessage => 'Barreessaa jalqabaa galmeessi';
+  String get emptyLibraryMessage => 'Kitaaba jalqabaatiin eegalchuuf galchi';
 
   @override
-  String get importNow => 'Galmeessi';
+  String get importNow => 'Amma galchi';
 
   @override
   String get today => 'Har\'a';
 
   @override
-  String get yesterday => 'Dubra';
+  String get yesterday => 'Kaleessa';
 
   @override
-  String get thisWeek => 'Jalqaba torban kanaa';
+  String get thisWeek => 'Torban kanaa';
 
   @override
-  String get thisMonth => 'Jalqaba ji\'a kanaa';
+  String get thisMonth => 'Baati kanaa';
 
   @override
-  String get thisYear => 'Jalqaba waggaa kanaa';
+  String get thisYear => 'Waggaa kanaa';
 
   @override
-  String get goodMorning => 'Galgalaa gaarii';
+  String get goodMorning => 'Barii gaarii';
 
   @override
-  String get goodAfternoon => 'Gadaana gaarii';
+  String get goodAfternoon => 'Biyyeessaa gaarii';
 
   @override
-  String get goodEvening => 'galgalaa guyyaa';
+  String get goodEvening => 'Galgaloo gaarii';
 
   @override
-  String get seeMore => 'Mira cinaa';
+  String get seeMore => 'Dabalata argi';
 
   @override
-  String get searchTitlesAuthors => 'Maqaa siraa qindeessuu...';
+  String get searchTitlesAuthors =>
+      'Matadureewwanii fi barreessitoota barbaadaa...';
 
   @override
-  String get filterSort => 'Filateefi Saayilii';
+  String get filterSort => 'Calalchuu fi Adeemsisuu';
 
   @override
-  String get addBooks => 'Barreessaa addaasi';
+  String get addBooks => 'Kitaabota dabaluu';
 
   @override
-  String get editBookInfo => 'Gargaarsi maqaa siraa';
+  String get editBookInfo => 'Odeeffannoo kitaabaa gulaali';
 
   @override
   String get storagePermissionRequired =>
-      'Barreessaa galmeessuuf galma karo bu\'a.';
+      'Kitaabota galchuuf hayyama kuusaa barbaachisa.';
 
   @override
   String successfullyImported(Object count) {
-    return '$count barreessaa galmeessameera.';
+    return 'Kitaabonni $count milkaa\'inaan galche.';
   }
 
   @override
-  String get ok => 'Eeyyee';
+  String get ok => 'Tole';
 
   @override
-  String get all => 'Hunda';
+  String get all => 'Hunduu';
 
   @override
-  String get favorites => 'Jaallattoota';
+  String get favorites => 'Jaalattamaa';
 
   @override
   String get author => 'Barreessaa';
 
   @override
-  String get title => 'Maqaa';
+  String get title => 'Mataduree';
 
   @override
-  String get folder => 'Qabxii';
+  String get folder => 'Baafata';
 
   @override
-  String get fileType => 'Ilaali faayilii';
+  String get fileType => 'Gosa faayilii';
 
   @override
-  String get category => 'Qabxii';
+  String get category => 'Ramaddii';
 
   @override
-  String get selectAll => 'Hunda filaa';
+  String get selectAll => 'Hunduu fili';
 
   @override
   String get cancel => 'Haqi';
@@ -308,293 +310,299 @@ class AppLocalizationsOm extends AppLocalizations {
   String get delete => 'Haqi';
 
   @override
-  String get edit => 'Gargaarsi';
+  String get edit => 'Gulaali';
 
   @override
-  String get readingStats => 'Tuqaa barreessuu';
+  String get readingStats => 'Tuqaalee dubbisuu';
 
   @override
-  String get readingActivity => 'Jalqaba barreessuu';
+  String get readingActivity => 'Sochii dubbisuu';
 
   @override
-  String get selectMonth => 'Ji\'a filaa';
+  String get selectMonth => 'Baati fili';
 
   @override
-  String get achievements => 'Uffata';
+  String get achievements => 'Milkoowwan';
 
   @override
-  String get dailyQuests => 'Hojii guyyaa';
+  String get dailyQuests => 'Ajaja Guyyaa';
 
   @override
-  String get doubleWP => '2X WP';
+  String get doubleWP => '2X Qabxii Ogummaa';
 
   @override
-  String get done => 'Xumurameera';
+  String get done => 'Xumurame';
 
   @override
   String rewardWP(Object count) {
-    return 'Gargaarsa: $count WP';
+    return 'Badhaasa: $count Qabxii Ogummaa';
   }
 
   @override
-  String get weeklyGoals => 'Gala torban kanaa';
+  String get weeklyGoals => 'Galma Torban';
 
   @override
-  String get noGoalsSet => 'Gala torban kanaa hin jiru';
+  String get noGoalsSet => 'Torban kanaaf galma kamuu hin qabu';
 
   @override
-  String get currentLevel => 'Mataa ammaa';
+  String get currentLevel => 'Sadarkaa ammaa';
 
   @override
   String wpToLevelUp(Object count) {
-    return '$count WP gara ol kaayyamuu';
+    return 'Qabxii Ogummaa $count sadarkaa olitti ka\'uuf';
   }
 
   @override
-  String get searchBook => 'Barreessaa barbaaduu...';
+  String get searchBook => 'Kitaaba barbaadaa...';
 
   @override
-  String get unknown => 'Beekama hin jiru';
+  String get unknown => 'Beekamaa hin taane';
 
   @override
-  String get importAudiobook => 'Sagalee galmeessuu';
+  String get importAudiobook => 'Sagalee kitaabaa galchi';
 
   @override
-  String get cover => 'Faayilii';
+  String get cover => 'Qarqaba';
 
   @override
-  String get importing => 'Galmeessuu...';
+  String get importing => 'Galgalee...';
 
   @override
   String get error => 'Dogoggora';
 
   @override
-  String get bookUpdated => 'Barreessaa gargaasameera';
+  String get bookUpdated => 'Kitaabni fooyya\'eera';
 
   @override
-  String get series => 'Sagalee';
+  String get series => 'Adeemsa';
 
   @override
-  String get tagsCommaSeparated => 'Dalaga (comma keessatti walitti hidhamu)';
+  String get tagsCommaSeparated => 'Tuqaalee (kommaan addaan qoodaman)';
 
   @override
-  String get audiobookParts => 'Qabxii sagalee';
+  String get audiobookParts => 'Curaa sagalee kitaabaa';
 
   @override
-  String get items => 'Yaada';
+  String get items => 'Curaa';
 
   @override
-  String get noAudioPartsAttached => 'Qabxii sagalee hin jiru';
+  String get noAudioPartsAttached => 'Curaan sagalee kamuu hin maxxanne.';
 
   @override
-  String get addParts => 'Qabxii addaasi';
+  String get addParts => 'Curaa dabali';
 
   @override
-  String get bookCover => 'Faayilii barreessaa';
+  String get bookCover => 'Qarqaba kitaabaa';
 
   @override
-  String get changeCover => 'Faayilii jijjiiraa';
+  String get changeCover => 'Qarqaba jijjiiri';
 
   @override
-  String get searchOnline => 'Internet irratti barbaaduu';
+  String get searchOnline => 'Intarneetitti barbaadi';
 
   @override
-  String get selectFiles => 'Faayilota filaa';
+  String get selectFiles => 'Faayilota fili';
 
   @override
-  String get import => 'Galmeessuu';
+  String get import => 'Galchi';
 
   @override
-  String get supportDeveloperSubtitle => 'Gargaarsa proojeektiif deemuu ❤️';
+  String get supportDeveloperSubtitle =>
+      'Keessattuufi projeektii isaatti gargaaruu ❤️';
 
   @override
-  String get contributeGitHub => 'GitHub irratti gaaffii deebisuu';
+  String get contributeGitHub => 'GitHub irratti hirmaadhaa';
 
   @override
-  String get contributeGitHubSubtitle => 'Tibeb irratti barreessuu 🚀';
+  String get contributeGitHubSubtitle =>
+      'Tibeb fooyyessuuf GitHub irratti hirmaadhaa 🚀';
 
   @override
-  String get rateAppSubtitle => 'Tibeb ifa ta\'a? Gaaffii deebisi ⭐';
+  String get rateAppSubtitle => 'Tibeb jaalatta? Madaalsa kenni! ⭐';
 
   @override
-  String get shareAppSubtitle => 'Tibeb soddaa waliin qooda 📢';
+  String get shareAppSubtitle => 'Tibeb firoota waliin qooduu 📢';
 
   @override
-  String get pagesRead => 'Buu\'uraa barreessame';
+  String get pagesRead => 'Fuulota dubbataman';
 
   @override
-  String get minutesRead => 'Daqiiqaa barreessame';
+  String get minutesRead => 'Daqiiqaa dubbataman';
 
   @override
-  String get wisdomPoints => 'Uffata Gara (WP)';
+  String get wisdomPoints => 'Qabxii Ogummaa (WP)';
 
   @override
-  String get noBookSelected => 'Barreessaa filatama hin jiru';
+  String get noBookSelected => 'Kitaabi kamuu hin filatamne';
 
   @override
-  String get tapToSelectBook => 'Barreessaa filachuuf dhiibaa';
+  String get tapToSelectBook => 'Kitaaba filachuuf cuun';
 
   @override
-  String get readingTime => 'Sa\'a barreessuu';
+  String get readingTime => 'Yeroo dubbisuu';
 
   @override
-  String get progress => 'Dhumaa';
+  String get progress => 'Adeemsa';
 
   @override
-  String get chapter => 'Qabxii';
+  String get chapter => 'Boqonnaa';
 
   @override
-  String get chapters => 'Qabxii';
+  String get chapters => 'Boqonnaalee';
 
   @override
-  String get page => 'Buu\'uraa';
+  String get page => 'Fuula';
 
   @override
-  String get ofLabel => 'irraa';
+  String get ofLabel => 'keessaa';
 
   @override
-  String get bookmarkAdded => 'Buu\'uraa addaasameera';
+  String get bookmarkAdded => 'Mallattoon dabale';
 
   @override
-  String get bookmarkRemoved => 'Buu\'uraa haqameera';
+  String get bookmarkRemoved => 'Mallattoon haqe';
 
   @override
-  String get highlightAdded => 'Dabalama addaasameera';
+  String get highlightAdded => 'Ibsa dabale';
 
   @override
-  String get noteAdded => 'Yaada addaasameera';
+  String get noteAdded => 'Yaaddanno dabale';
 
   @override
-  String get noBookmarks => 'Buu\'uraa hin jiru';
+  String get noBookmarks => 'Mallattoon hin jiru';
 
   @override
-  String get noHighlights => 'Dabalama hin jiru';
+  String get noHighlights => 'Ibsi hin jiru';
 
   @override
-  String get noNotes => 'Yaada hin jiru';
+  String get noNotes => 'Yaaddannoon hin jiru';
 
   @override
-  String get addBookmark => 'Buu\'uraa addaasi';
+  String get addBookmark => 'Mallattoo dabali';
 
   @override
-  String get addHighlight => 'Dabalama addaasi';
+  String get addHighlight => 'Ibsa dabali';
 
   @override
-  String get addNote => 'Yaada addaasi';
+  String get addNote => 'Yaaddanno dabali';
 
   @override
-  String get search => 'Barbaaduu';
+  String get search => 'Barbaadi';
 
   @override
-  String get searchInBook => 'Barreessaa keessaa barbaaduu';
+  String get searchInBook => 'Kitaaba keessatti barbaadi';
 
   @override
-  String get noResults => 'Dogoggora hin jiru';
+  String get noResults => 'Bu\'aan kamuu hin argamne';
 
   @override
   String resultsFound(Object count) {
-    return '$count dogoggora argameera';
+    return 'Bu\'aalee $count argaman';
   }
 
   @override
-  String get settingsSaved => 'Qindaa\'ina atumameera';
+  String get settingsSaved => 'Qindaa\'inni oomisha\'e';
 
   @override
-  String get themeChanged => 'Mul\'ata jijjiirameera';
+  String get themeChanged => 'Meeqa jijjiirame';
 
   @override
-  String get languageChanged => 'Afaan jijjiirameera';
+  String get languageChanged => 'Afaan jijjiirame';
 
   @override
-  String get fontChanged => 'Qubee jijjiirameera';
+  String get fontChanged => 'Qubeen jijjiirame';
 
   @override
-  String get backupCreated => 'Bacuppii uumameera';
+  String get backupCreated => 'Kuusaa duwwaa uumame';
 
   @override
-  String get backupRestored => 'Bacuppii deebi\'ameera';
+  String get backupRestored => 'Kuusaa duwwaa deebifame';
 
   @override
-  String get errorOccurred => 'Dogoggora uumameera';
+  String get errorOccurred => 'Dogoggori uumame';
 
   @override
-  String get tryAgain => 'Haqana mirkaneessuu';
+  String get tryAgain => 'Yali';
 
   @override
   String get close => 'Cufi';
 
   @override
-  String get save => 'Itti dbi';
+  String get save => 'Oomishi';
 
   @override
   String get discard => 'Haqi';
 
   @override
-  String get confirm => 'Mirkanneessuu';
+  String get confirm => 'Mirkaneessi';
 
   @override
-  String get deleteBook => 'Barreessaa haqi';
+  String get deleteBook => 'Kitaaba haqi';
 
   @override
-  String get deleteBookConfirm => 'Barreessaa haquuf mirkaneessaa?';
+  String get deleteBookConfirm => 'Kitaaba kana haquun mirkanessa?';
 
   @override
-  String get deleteBooks => 'Barreessaa haqi';
+  String get deleteBooks => 'Kitaabota haqi';
 
   @override
   String deleteBooksConfirm(Object count) {
-    return '$count barreessaa haquuf mirkaneessaa?';
+    return 'Kitaabota $count haquun mirkanessa?';
   }
 
   @override
-  String get bookDeleted => 'Barreessaa haqameera';
+  String get bookDeleted => 'Kitaabni haqame';
 
   @override
   String booksDeleted(Object count) {
-    return '$count barreessaa haqameera';
+    return 'Kitaabonni $count haqaman';
   }
 
   @override
-  String get rank_temari => 'Temari (ተማሪ)';
+  String get rank_temari => 'Barataa';
 
   @override
-  String get rank_temari_description => 'Gara ofiin jalqabuu.';
+  String get rank_temari_description => 'Imala ogummaa jalqabuu.';
 
   @override
-  String get rank_anebabi => 'Anebabi (አንባቢ)';
+  String get rank_anebabi => 'Dubbisaa';
 
   @override
-  String get rank_anebabi_description => 'Barreessuu sirrii taasuu.';
+  String get rank_anebabi_description =>
+      'Gadi of qabuun dubbisuufi barachuun guddachuu.';
 
   @override
-  String get rank_tsehafi => 'Tsehafi (ጸሐፊ)';
+  String get rank_tsehafi => 'Barreessaa';
 
   @override
-  String get rank_tsehafi_description => 'Barreessuu fi beekumsa mirkaneessuu.';
+  String get rank_tsehafi_description =>
+      'Kitaabota uumuu fi beekumsa gatii qabu qooduu.';
 
   @override
-  String get rank_liq => 'Liq (ሊቅ)';
+  String get rank_liq => 'Hayyuu';
 
   @override
-  String get rank_liq_description => 'Beekumsa gara dhihaa.';
+  String get rank_liq_description =>
+      'Beekumsa irratti yaada gadi fagoo fi hubannoo qabaachuu.';
 
   @override
-  String get rank_baletibeb => 'Baletibeb (ባለጥበብ)';
+  String get rank_baletibeb => 'Abbaa Ogummaa';
 
   @override
-  String get rank_baletibeb_description => 'Jireenya keessatti fayyadamuu.';
+  String get rank_baletibeb_description =>
+      'Ogummaa jireenya guyyaa keessatti hojii irra oolchuu.';
 
   @override
-  String get rank_tibebawi => 'Tibebawi (ጥበባዊ)';
+  String get rank_tibebawi => 'Ogeessa';
 
   @override
-  String get rank_tibebawi_description => 'Gara ofiin ta\'u.';
+  String get rank_tibebawi_description => 'Ogummaan daangaa hin qabu.';
 
   @override
-  String get masteryPath => 'Daawwii Gara';
+  String get masteryPath => 'Karaa Dandeettii';
 
   @override
-  String get currentRank => 'Mataa ammaa';
+  String get currentRank => 'Sadarkaa ammaa';
 
   @override
   String levelAchievementsDescription(
@@ -602,244 +610,239 @@ class AppLocalizationsOm extends AppLocalizations {
     Object description,
     Object level,
   ) {
-    return 'Mataa $level+ • $achievements Uffata • $description';
+    return 'Sadarkaa $level+ • Milkoowwan $achievements • $description';
   }
 
   @override
-  String get achievement_the_first_page => 'Fidel First';
+  String get achievement_the_first_page => 'Fuula Jalqabaa';
 
   @override
   String get achievement_the_first_page_description =>
-      'Finish your first book (ፊደል መጀመሪያ)';
+      'Kitaaba jalqabaa isaanii xumuruu.';
 
   @override
-  String get achievement_habit_builder => 'Regular Temari';
+  String get achievement_habit_builder => 'Barataa Walitti Fufinsa';
 
   @override
   String get achievement_habit_builder_description =>
-      'Read for 3 days in a row (ቋሚ ተማሪ)';
+      'Guyyaa 3 walitti fufiinsaan dubbisuu.';
 
   @override
-  String get achievement_seven_day_streak => 'Anebabi\'s Path';
+  String get achievement_seven_day_streak => 'Karaa Dubbisaa';
 
   @override
   String get achievement_seven_day_streak_description =>
-      'Read for 7 days in a row (የአነባቢ መንገድ)';
+      'Guyyaa 7 walitti fufiinsaan dubbisuu.';
 
   @override
-  String get achievement_bookworm => 'Degwa Collector';
+  String get achievement_bookworm => 'Kitaaba Jaalataa';
 
   @override
   String get achievement_bookworm_description =>
-      'Read 1,000 pages in total (ድጓ ሰብሳቢ)';
+      'Fuulota 1,000 waligalaatti dubbisuu.';
 
   @override
-  String get achievement_night_owl => 'Moonlight Reader';
+  String get achievement_night_owl => 'Dubbisaa Halkan';
 
   @override
-  String get achievement_night_owl_description =>
-      'Read after 10 PM (የሌሊት አንባቢ)';
+  String get achievement_night_owl_description => 'Sa\'aa 10 booda dubbisuu.';
 
   @override
-  String get achievement_early_bird => 'Dawn Scholar';
+  String get achievement_early_bird => 'Barataa Ganamaa';
 
   @override
-  String get achievement_early_bird_description =>
-      'Read before 9 AM (የንጋት ተማሪ)';
+  String get achievement_early_bird_description => 'Sa\'aa 9 dura dubbisuu.';
 
   @override
-  String get achievement_century_club => 'Endurance Reader';
+  String get achievement_century_club => 'Dubbisaa Dhirii';
 
   @override
   String get achievement_century_club_description =>
-      'Read 100 pages in one session (የረጅም ንባብ)';
+      'Yeroo tokkoo keessatti fuulota 100 dubbisuu.';
 
   @override
-  String get achievement_unstoppable => 'Tsehafi\'s Devotion';
+  String get achievement_unstoppable => 'Jabaansa Barreessaa';
 
   @override
   String get achievement_unstoppable_description =>
-      'Read for 30 consecutive days (የፀሐፊ ጽናት)';
+      'Guyyaa 30 walitti fufiinsaan dubbisuu.';
 
   @override
-  String get achievement_marathoner => 'Reading Vigil';
+  String get achievement_marathoner => 'Tutuu Dubbisuu';
 
   @override
   String get achievement_marathoner_description =>
-      'Read for 2 hours in one session (የንባብ ትጋት)';
+      'Yeroo tokkoo keessatti sa\'aatii 2 dubbisuu.';
 
   @override
-  String get achievement_scholar => 'Liq\'s Library';
+  String get achievement_scholar => 'Kutaan Hayyuu';
 
   @override
   String get achievement_scholar_description =>
-      'Read 5,000 pages in total (የሊቅ መጽሐፍት)';
+      'Fuulota 5,000 waligalaatti dubbisuu.';
 
   @override
-  String get achievement_yomibito => 'Kibre Negest Scholar';
+  String get achievement_yomibito => 'Hayyuu Kabajaa';
 
   @override
-  String get achievement_yomibito_description => 'Finish 10 books (ክብረ ነገሥት)';
+  String get achievement_yomibito_description => 'Kitaabota 10 xumuruu.';
 
   @override
-  String get achievement_sensei => 'Master Liq';
+  String get achievement_sensei => 'Abbaa Hayyuumsaa';
 
   @override
-  String get achievement_sensei_description => 'Finish 50 books (ሊቀ ሊቃውንት)';
+  String get achievement_sensei_description => 'Kitaabota 50 xumuruu.';
 
   @override
-  String get achievement_bibliophile => 'Metsihaf Collector';
+  String get achievement_bibliophile => 'Walitti Qabaa Kitaabaa';
 
   @override
   String get achievement_bibliophile_description =>
-      'Add 10 books to your library (መጽሐፍ ወዳድ)';
+      'Kutaa kitaabaa keessanitti kitaabota 10 dabaluu.';
 
   @override
-  String get achievement_collector => 'Gedam Archive';
+  String get achievement_collector => 'Kuusaa Gadaamii';
 
   @override
   String get achievement_collector_description =>
-      'Add 100 books to your library (የገዳም መዛግብት)';
+      'Kutaa kitaabaa keessanitti kitaabota 100 dabaluu.';
 
   @override
-  String get achievement_weekend_warrior => 'Sabbath Scholar';
+  String get achievement_weekend_warrior => 'Barataa Sanbataa';
 
   @override
   String get achievement_weekend_warrior_description =>
-      'Read on both Saturday and Sunday (የሰንበት ተማሪ)';
+      'Sanbata fi Dilbata dubbisuu.';
 
   @override
-  String get achievement_the_translator => 'Tergum Seeker';
+  String get achievement_the_translator => 'Barbaadaa Hiikaa';
 
   @override
   String get achievement_the_translator_description =>
-      'Look up your first word (ትርጉም ፈላጊ)';
+      'Jecha jalqabaa isaanii barbaaduu.';
 
   @override
-  String get achievement_vocabulary_builder => 'Sewasew Student';
+  String get achievement_vocabulary_builder => 'Barataa Jechootaa';
 
   @override
   String get achievement_vocabulary_builder_description =>
-      'Look up 20 words (የሰዋስው ተማሪ)';
+      'Jechoota 20 barbaaduu.';
 
   @override
-  String get achievement_polyglot => 'Liqe Tergum';
+  String get achievement_polyglot => 'Hayyuu Hiikaa';
 
   @override
-  String get achievement_polyglot_description => 'Look up 100 words (ሊቀ ትርጉም)';
+  String get achievement_polyglot_description => 'Jechoota 100 barbaaduu.';
 
   @override
-  String get achievement_gondar_keep => 'House of Manuscripts';
+  String get achievement_gondar_keep => 'Mana Barreeffamaa';
 
   @override
-  String get achievement_gondar_keep_description => 'Read 500 pages (የብራና ቤት)';
+  String get achievement_gondar_keep_description => 'Fuulota 500 dubbisuu.';
 
   @override
-  String get achievement_sheba_wisdom => 'Wisdom of Sheba';
+  String get achievement_sheba_wisdom => 'Ogummaa Saba';
 
   @override
-  String get achievement_sheba_wisdom_description =>
-      'Read 2,000 pages (የሳባ ጥበብ)';
+  String get achievement_sheba_wisdom_description => 'Fuulota 2,000 dubbisuu.';
 
   @override
-  String get achievement_axum_legacy => 'Axum Heritage';
+  String get achievement_axum_legacy => 'Dhala Axiim';
 
   @override
-  String get achievement_axum_legacy_description =>
-      'Read 10,000 pages (የአክሱም ቅርስ)';
+  String get achievement_axum_legacy_description => 'Fuulota 10,000 dubbisuu.';
 
   @override
-  String get achievement_fasil_crown => 'Royal Reader';
+  String get achievement_fasil_crown => 'Dubbisaa Laafessa';
 
   @override
-  String get achievement_fasil_crown_description => 'Finish 5 books (የንባብ ዘውድ)';
+  String get achievement_fasil_crown_description => 'Kitaabota 5 xumuruu.';
 
   @override
-  String get achievement_yohannes_torch => 'Torch of Knowledge';
+  String get achievement_yohannes_torch => 'Abidda Beekumsaa';
 
   @override
-  String get achievement_yohannes_torch_description =>
-      'Finish 20 books (የእውቀት ችቦ)';
+  String get achievement_yohannes_torch_description => 'Kitaabota 20 xumuruu.';
 
   @override
-  String get achievement_menelik_library => 'Grand Library';
+  String get achievement_menelik_library => 'Mankitaabaa Guddaa';
 
   @override
   String get achievement_menelik_library_description =>
-      'Finish 100 books (ቤተ መጻሕፍት)';
+      'Kitaabota 100 xumuruu.';
 
   @override
-  String get achievement_lalibela_vigil => 'Lalibela Vigil';
+  String get achievement_lalibela_vigil => 'Hundee Lalibelaa';
 
   @override
   String get achievement_lalibela_vigil_description =>
-      'Read for 100 hours (የላሊበላ ትጋት)';
+      'Sa\'aatii 100 dubbisuu.';
 
   @override
-  String get achievement_selassie_endurance => 'Hundred-Day Scholar';
+  String get achievement_selassie_endurance => 'Barataa Guyyaa 100';
 
   @override
   String get achievement_selassie_endurance_description =>
-      'Read for 100 consecutive days (የ100 ቀን ተማሪ)';
+      'Guyyaa 100 walitti fufiinsaan dubbisuu.';
 
   @override
-  String get achievement_geez_mastery => 'Ge\'ez Mastery';
+  String get achievement_geez_mastery => 'Dandeettii Giiz';
 
   @override
-  String get achievement_geez_mastery_description =>
-      'Look up 500 words (የግዕዝ ዕውቀት)';
+  String get achievement_geez_mastery_description => 'Jechoota 500 barbaaduu.';
 
   @override
-  String get achievement_qene_poet => 'Qene Poet';
+  String get achievement_qene_poet => 'Tunbaa Qene';
 
   @override
-  String get achievement_qene_poet_description => 'Look up 1,000 words (ባለቅኔ)';
+  String get achievement_qene_poet_description => 'Jechoota 1,000 barbaaduu.';
 
   @override
-  String get achievement_oral_tradition => 'Oral Tradition';
+  String get achievement_oral_tradition => 'Aadaa Afaanii';
 
   @override
   String get achievement_oral_tradition_description =>
-      'Listen to your first audiobook (የቃል ትውፊት)';
+      'Sagalee kitaabaa jalqabaa isaanii dhaggeeffachuu.';
 
   @override
-  String get achievement_azmari_listener => 'Azmari Listener';
+  String get achievement_azmari_listener => 'Dhaggeeffataa Azmarii';
 
   @override
   String get achievement_azmari_listener_description =>
-      'Listen to 5 audiobooks (አዝማሪ ሰሚ)';
+      'Sagalee kitaabota 5 dhaggeeffachuu.';
 
   @override
-  String get achievement_fast_reader => 'Swift Reader';
+  String get achievement_fast_reader => 'Dubbisaa Saffisaa';
 
   @override
   String get achievement_fast_reader_description =>
-      'Finish a book in under 3 days (ፈጣን አንባቢ)';
+      'Guyyaa 3 keessatti kitaaba xumuruu.';
 
   @override
-  String get achievement_annotations_scholar => 'Margin Scholar';
+  String get achievement_annotations_scholar => 'Barataa Malarreessuu';
 
   @override
   String get achievement_annotations_scholar_description =>
-      'Create 20 highlights or bookmarks (የጎን ማስታወሻ)';
+      'Ibsa ykn mallattoo 20 uumuu.';
 
   @override
-  String get achievement_timkat_reader => 'Timkat Reader';
+  String get achievement_timkat_reader => 'Dubbisaa Timkaat';
 
   @override
-  String get achievement_timkat_reader_description => 'Read on Timkat (ጥምቀት)';
+  String get achievement_timkat_reader_description =>
+      'Guyyaa Timkaat dubbisuu.';
 
   @override
-  String get achievement_enkutatash_start => 'Enkutatash Scholar';
+  String get achievement_enkutatash_start => 'Barataa Enkutataash';
 
   @override
   String get achievement_enkutatash_start_description =>
-      'Read on Enkutatash (እንቁጣጣሽ)';
+      'Guyyaa Enkutataash dubbisuu.';
 
   @override
-  String get achievement_epiphany_reader => 'Epiphany Reader';
+  String get achievement_epiphany_reader => 'Dubbisaa Ayyaana';
 
   @override
   String get achievement_epiphany_reader_description =>
-      'Read on Epiphany (ጥምቀት)';
+      'Guyyaa Ayyaana dubbisuu.';
 }
