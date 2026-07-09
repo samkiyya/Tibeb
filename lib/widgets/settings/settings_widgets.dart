@@ -10,5 +10,4 @@ export 'about_section.dart';
 export 'font_settings_sheet.dart';
 export 'display_settings_sheet.dart';
 export 'privacy_settings_sheet.dart';
-export 'storage_settings_sheet.dart';
 export 'reading_speed_sheet.dart';
