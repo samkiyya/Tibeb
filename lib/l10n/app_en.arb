@@ -62,6 +62,7 @@
   "version": "Version",
 
   "continueReading": "Continue Reading",
+  "recent":"Recent",
   "recentBooks": "Recent Books",
   "quickStats": "Quick Stats",
   "weeklyActivity": "Weekly Activity",

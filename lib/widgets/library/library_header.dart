@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/theme/theme.dart';
+import 'package:tibeb/core/theme/theme.dart';
 
-import '../../../providers/library_provider.dart';
-import '../../../l10n/app_localizations.dart';
+import 'package:tibeb/providers/library_provider.dart';
+import 'package:tibeb/l10n/app_localizations.dart';
 
 class LibraryHeader extends ConsumerStatefulWidget {
   final TextEditingController searchController;
