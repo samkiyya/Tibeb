@@ -19,6 +19,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings => 'Settings';
 
   @override
+  String get home => 'Home';
+
+  @override
+  String get library => 'Library';
+
+  @override
+  String get stats => 'Statistics';
+
+  @override
   String get engagement => 'Engagement';
 
   @override
@@ -177,4 +186,58 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get version => 'Version';
+
+  @override
+  String get continueReading => 'Continue Reading';
+
+  @override
+  String get recentBooks => 'Recent Books';
+
+  @override
+  String get quickStats => 'Quick Stats';
+
+  @override
+  String get weeklyActivity => 'Weekly Activity';
+
+  @override
+  String get myShelf => 'My Shelf';
+
+  @override
+  String get searchBooks => 'Search books...';
+
+  @override
+  String get filter => 'Filter';
+
+  @override
+  String get sort => 'Sort';
+
+  @override
+  String get addBook => 'Add Book';
+
+  @override
+  String get importBooks => 'Import Books';
+
+  @override
+  String get emptyLibrary => 'Your library is empty';
+
+  @override
+  String get emptyLibraryMessage => 'Import your first book to get started';
+
+  @override
+  String get importNow => 'Import Now';
+
+  @override
+  String get today => 'Today';
+
+  @override
+  String get yesterday => 'Yesterday';
+
+  @override
+  String get thisWeek => 'This Week';
+
+  @override
+  String get thisMonth => 'This Month';
+
+  @override
+  String get thisYear => 'This Year';
 }

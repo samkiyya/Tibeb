@@ -18,6 +18,15 @@ class AppLocalizationsAm extends AppLocalizations {
   String get settings => 'ቅንብሮች';
 
   @override
+  String get home => 'መነሻ';
+
+  @override
+  String get library => 'ቤተ መጽሐፍ';
+
+  @override
+  String get stats => 'ስታቲስቲክስ';
+
+  @override
   String get engagement => 'ስራ';
 
   @override
@@ -174,4 +183,58 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get version => 'እትም';
+
+  @override
+  String get continueReading => 'ንባት ቀጠል';
+
+  @override
+  String get recentBooks => 'የቅርብ መጽሐፍት';
+
+  @override
+  String get quickStats => 'ፈጣጫ ስታቲስቲክስ';
+
+  @override
+  String get weeklyActivity => 'ሳምንት እንቅስት';
+
+  @override
+  String get myShelf => 'የእኔ መጽሓፍ';
+
+  @override
+  String get searchBooks => 'መጽሐፍት ፈልግ...';
+
+  @override
+  String get filter => 'አቃሚ';
+
+  @override
+  String get sort => 'አደራማም';
+
+  @override
+  String get addBook => 'መጽሐፍ ጨምር';
+
+  @override
+  String get importBooks => 'መጽሐፍት አስመጣ';
+
+  @override
+  String get emptyLibrary => 'የእኔ ቤተ መጽሐፍ ባዶ ነው';
+
+  @override
+  String get emptyLibraryMessage => 'ለመጀመር የመጀመርዎን መጽሐፍ አስመጣ';
+
+  @override
+  String get importNow => 'አሁን አስመጣ';
+
+  @override
+  String get today => 'ዛሬ';
+
+  @override
+  String get yesterday => 'ትናት';
+
+  @override
+  String get thisWeek => 'ዛሬ ሳምንት';
+
+  @override
+  String get thisMonth => 'ዛሬ ወር';
+
+  @override
+  String get thisYear => 'ዛሬ አመት';
 }

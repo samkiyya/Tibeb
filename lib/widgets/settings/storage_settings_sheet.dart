@@ -70,40 +70,6 @@ class _StorageSettingsSheetState extends ConsumerState<StorageSettingsSheet> {
     return '${(bytes / (1024 * 1024 * 1024)).toStringAsFixed(1)} GB';
   }
 
-  Future<void> _clearCache() async {
-    try {
-      final cacheDir = await getTemporaryDirectory();
-      if (await cacheDir.exists()) {
-        cacheDir.deleteSync(recursive: true);
-      }
-      await _loadStorageInfo();
-      
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Cache cleared successfully',
-              style: TextStyle(color: context.tibpiColors.textPrimary),
-            ),
-            backgroundColor: context.tibpiColors.success,
-          ),
-        );
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Failed to clear cache',
-              style: TextStyle(color: context.tibpiColors.textPrimary),
-            ),
-            backgroundColor: context.tibpiColors.error,
-          ),
-        );
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final t = context.tibpiColors;
@@ -154,31 +120,6 @@ class _StorageSettingsSheetState extends ConsumerState<StorageSettingsSheet> {
                   isTotal: true,
                 ),
               ],
-            ),
-          
-          const SizedBox(height: 24),
-          
-          if (!isLoading)
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _clearCache,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: t.primary,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: Text(
-                  'Clear Cache',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
             ),
           
           const SizedBox(height: 24),

@@ -120,6 +120,24 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get settings;
 
+  /// No description provided for @home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home;
+
+  /// No description provided for @library.
+  ///
+  /// In en, this message translates to:
+  /// **'Library'**
+  String get library;
+
+  /// No description provided for @stats.
+  ///
+  /// In en, this message translates to:
+  /// **'Statistics'**
+  String get stats;
+
   /// No description provided for @engagement.
   ///
   /// In en, this message translates to:
@@ -431,6 +449,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Version'**
   String get version;
+
+  /// No description provided for @continueReading.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue Reading'**
+  String get continueReading;
+
+  /// No description provided for @recentBooks.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Books'**
+  String get recentBooks;
+
+  /// No description provided for @quickStats.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Stats'**
+  String get quickStats;
+
+  /// No description provided for @weeklyActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly Activity'**
+  String get weeklyActivity;
+
+  /// No description provided for @myShelf.
+  ///
+  /// In en, this message translates to:
+  /// **'My Shelf'**
+  String get myShelf;
+
+  /// No description provided for @searchBooks.
+  ///
+  /// In en, this message translates to:
+  /// **'Search books...'**
+  String get searchBooks;
+
+  /// No description provided for @filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter'**
+  String get filter;
+
+  /// No description provided for @sort.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort'**
+  String get sort;
+
+  /// No description provided for @addBook.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Book'**
+  String get addBook;
+
+  /// No description provided for @importBooks.
+  ///
+  /// In en, this message translates to:
+  /// **'Import Books'**
+  String get importBooks;
+
+  /// No description provided for @emptyLibrary.
+  ///
+  /// In en, this message translates to:
+  /// **'Your library is empty'**
+  String get emptyLibrary;
+
+  /// No description provided for @emptyLibraryMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Import your first book to get started'**
+  String get emptyLibraryMessage;
+
+  /// No description provided for @importNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Import Now'**
+  String get importNow;
+
+  /// No description provided for @today.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get today;
+
+  /// No description provided for @yesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get yesterday;
+
+  /// No description provided for @thisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'This Week'**
+  String get thisWeek;
+
+  /// No description provided for @thisMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'This Month'**
+  String get thisMonth;
+
+  /// No description provided for @thisYear.
+  ///
+  /// In en, this message translates to:
+  /// **'This Year'**
+  String get thisYear;
 }
 
 class _AppLocalizationsDelegate

@@ -340,7 +340,7 @@ class SettingsScreen extends ConsumerWidget {
             icon: Icons.speed_rounded,
             title: l10n.readingSpeed,
             subtitle: l10n.autoScrollPacing,
-            onTap: () {}, // TODO: Implement reading speed settings
+            onTap: () => _showReadingSpeedSheet(context, t, l10n),
             t: t,
           ),
         ],
@@ -667,6 +667,26 @@ class SettingsScreen extends ConsumerWidget {
           child: GlassContainer(
             padding: const EdgeInsets.all(20),
             child: const StorageSettingsSheet(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showReadingSpeedSheet(BuildContext context, TibebThemeExtension t, AppLocalizations l10n) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: GlassContainer(
+            padding: const EdgeInsets.all(20),
+            child: const ReadingSpeedSheet(),
           ),
         ),
       ),

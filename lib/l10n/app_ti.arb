@@ -4,6 +4,9 @@
   "appDescription": "ጥበብ ናይ ኩሉ ሰብ ነፃ መጽሓፍ ከምኡእ ድምጺ መጽሓፍ ኣንባቢ እዩ።",
   
   "settings": "ቅዲሚ",
+  "home": "መንበር",
+  "library": "ቤተ መጽሓፍ",
+  "stats": "ስታቲስቲክስ",
   "engagement": "ስራሕ",
   "appearance": "መልክዕ",
   "notifications": "ማስታወሲ",
@@ -64,5 +67,25 @@
   "notificationPermissionsRequired": "ለማስታወሲ ፍቃድ ያስፈልጋል።",
   
   "madeWithLove": "በፍቅር በሰሙኤል የተሰራ ❤️",
-  "version": "እትም"
+  "version": "እትም",
+  
+  "continueReading": "ንባት ቀጠል",
+  "recentBooks": "የቅርብ መጽሓፍት",
+  "quickStats": "ፈጣጫ ስታቲስቲክስ",
+  "weeklyActivity": "ሳምንት እንቅስት",
+  "myShelf": "የእኔ መጽሓፍ",
+  "searchBooks": "መጽሐፍት ፈልግ...",
+  "filter": "አቃሚ",
+  "sort": "አደራማም",
+  "addBook": "መጽሐፍ ጨምር",
+  "importBooks": "መጽሐፍት አስመጣ",
+  "emptyLibrary": "የእኔ ቤተ መጽሐፍ ባዶ እዩ",
+  "emptyLibraryMessage": "ለመጀመር የመጀመርዎን መጽሐፍ አስመጣ",
+  "importNow": "አሁን አስመጣ",
+  
+  "today": "ዛሬ",
+  "yesterday": "ትናት",
+  "thisWeek": "ዛሬ ሳምንት",
+  "thisMonth": "ዛሬ ወር",
+  "thisYear": "ዛሬ አመት"
 }

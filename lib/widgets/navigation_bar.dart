@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tibeb/core/theme/theme.dart';
 import 'package:tibeb/providers/navigation_provider.dart';
+import 'package:tibeb/l10n/app_localizations.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CustomBottomNavigationBar (TibebNavBar)
@@ -28,6 +29,7 @@ class CustomBottomNavigationBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedIndex = ref.watch(navigationStateProvider).current;
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
 
     Widget buildNavItem(int index, IconData activeIcon, IconData inactiveIcon, String label, GlobalKey? key) {
       final isSelected = selectedIndex == index;
@@ -95,11 +97,11 @@ class CustomBottomNavigationBar extends ConsumerWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            buildNavItem(0, Icons.dashboard_rounded, Icons.dashboard_outlined, 'Home', itemKeys.isNotEmpty ? itemKeys[0] : null),
-            buildNavItem(1, Icons.menu_book_rounded, Icons.menu_book_outlined, 'Library', itemKeys.length > 1 ? itemKeys[1] : null),
+            buildNavItem(0, Icons.dashboard_rounded, Icons.dashboard_outlined, l10n.home, itemKeys.isNotEmpty ? itemKeys[0] : null),
+            buildNavItem(1, Icons.menu_book_rounded, Icons.menu_book_outlined, l10n.library, itemKeys.length > 1 ? itemKeys[1] : null),
             const SizedBox(width: 60), // Center spacing for the notched FAB
-            buildNavItem(2, Icons.bar_chart_rounded, Icons.bar_chart_rounded, 'Stats', itemKeys.length > 2 ? itemKeys[2] : null),
-            buildNavItem(3, Icons.settings_rounded, Icons.settings_outlined, 'Settings', itemKeys.length > 3 ? itemKeys[3] : null),
+            buildNavItem(2, Icons.bar_chart_rounded, Icons.bar_chart_rounded, l10n.stats, itemKeys.length > 2 ? itemKeys[2] : null),
+            buildNavItem(3, Icons.settings_rounded, Icons.settings_outlined, l10n.settings, itemKeys.length > 3 ? itemKeys[3] : null),
           ],
         ),
       ),

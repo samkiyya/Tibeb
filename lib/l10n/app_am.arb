@@ -4,6 +4,9 @@
   "appDescription": "ጥበብ ለሁሉም ሰው ነፃ መጽሐፍ እና የድምጽ መጽሐፍ አንባቢ ነው።",
   
   "settings": "ቅንብሮች",
+  "home": "መነሻ",
+  "library": "ቤተ መጽሐፍ",
+  "stats": "ስታቲስቲክስ",
   "engagement": "ስራ",
   "appearance": "አርሳይ",
   "notifications": "ማስታወሻዎች",
@@ -64,5 +67,25 @@
   "notificationPermissionsRequired": "ለማስታወሻዎች ፍቃድ ያስፈልጋል።",
   
   "madeWithLove": "በፍቅር በሰሙኤል የተሰራ ❤️",
-  "version": "እትም"
+  "version": "እትም",
+  
+  "continueReading": "ንባት ቀጠል",
+  "recentBooks": "የቅርብ መጽሐፍት",
+  "quickStats": "ፈጣጫ ስታቲስቲክስ",
+  "weeklyActivity": "ሳምንት እንቅስት",
+  "myShelf": "የእኔ መጽሓፍ",
+  "searchBooks": "መጽሐፍት ፈልግ...",
+  "filter": "አቃሚ",
+  "sort": "አደራማም",
+  "addBook": "መጽሐፍ ጨምር",
+  "importBooks": "መጽሐፍት አስመጣ",
+  "emptyLibrary": "የእኔ ቤተ መጽሐፍ ባዶ ነው",
+  "emptyLibraryMessage": "ለመጀመር የመጀመርዎን መጽሐፍ አስመጣ",
+  "importNow": "አሁን አስመጣ",
+  
+  "today": "ዛሬ",
+  "yesterday": "ትናት",
+  "thisWeek": "ዛሬ ሳምንት",
+  "thisMonth": "ዛሬ ወር",
+  "thisYear": "ዛሬ አመት"
 }

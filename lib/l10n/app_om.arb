@@ -4,6 +4,9 @@
   "appDescription": "Tibeb bukii fi sagalee buukuu ilmaan namaa kanaafii baramtuudha.",
   
   "settings": "Qindaa'ina",
+  "home": "Mana",
+  "library": "Kutaa",
+  "stats": "Tuqaa",
   "engagement": "Hojiirra oolchuu",
   "appearance": "Mul'ata",
   "notifications": "Yaadannoo",
@@ -64,5 +67,25 @@
   "notificationPermissionsRequired": "Yaadannoo bu'uura si barbaachisa.",
   
   "madeWithLove": "Samuel waliin hojii eegale ❤️",
-  "version": "Versiyooni"
+  "version": "Versiyooni",
+  
+  "continueReading": "Barreessuu itti fufi",
+  "recentBooks": "Barreessaa wagii",
+  "quickStats": "Tuqaa gahummaa",
+  "weeklyActivity": "Jalqaba torban kanaa",
+  "myShelf": "Kutaa koo",
+  "searchBooks": "Barreessaa barbaaduu...",
+  "filter": "Filateefi",
+  "sort": "Saayilii",
+  "addBook": "Barreessaa addaasi",
+  "importBooks": "Barreessaa galmeessuu",
+  "emptyLibrary": "Kutaa keessan ha'i malee",
+  "emptyLibraryMessage": "Barreessaa jalqabaa galmeessi",
+  "importNow": "Galmeessi",
+  
+  "today": "Har'a",
+  "yesterday": "Dubra",
+  "thisWeek": "Jalqaba torban kanaa",
+  "thisMonth": "Jalqaba ji'a kanaa",
+  "thisYear": "Jalqaba waggaa kanaa"
 }

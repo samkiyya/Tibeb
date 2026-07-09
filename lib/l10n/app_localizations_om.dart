@@ -19,6 +19,15 @@ class AppLocalizationsOm extends AppLocalizations {
   String get settings => 'Qindaa\'ina';
 
   @override
+  String get home => 'Mana';
+
+  @override
+  String get library => 'Kutaa';
+
+  @override
+  String get stats => 'Tuqaa';
+
+  @override
   String get engagement => 'Hojiirra oolchuu';
 
   @override
@@ -177,4 +186,58 @@ class AppLocalizationsOm extends AppLocalizations {
 
   @override
   String get version => 'Versiyooni';
+
+  @override
+  String get continueReading => 'Barreessuu itti fufi';
+
+  @override
+  String get recentBooks => 'Barreessaa wagii';
+
+  @override
+  String get quickStats => 'Tuqaa gahummaa';
+
+  @override
+  String get weeklyActivity => 'Jalqaba torban kanaa';
+
+  @override
+  String get myShelf => 'Kutaa koo';
+
+  @override
+  String get searchBooks => 'Barreessaa barbaaduu...';
+
+  @override
+  String get filter => 'Filateefi';
+
+  @override
+  String get sort => 'Saayilii';
+
+  @override
+  String get addBook => 'Barreessaa addaasi';
+
+  @override
+  String get importBooks => 'Barreessaa galmeessuu';
+
+  @override
+  String get emptyLibrary => 'Kutaa keessan ha\'i malee';
+
+  @override
+  String get emptyLibraryMessage => 'Barreessaa jalqabaa galmeessi';
+
+  @override
+  String get importNow => 'Galmeessi';
+
+  @override
+  String get today => 'Har\'a';
+
+  @override
+  String get yesterday => 'Dubra';
+
+  @override
+  String get thisWeek => 'Jalqaba torban kanaa';
+
+  @override
+  String get thisMonth => 'Jalqaba ji\'a kanaa';
+
+  @override
+  String get thisYear => 'Jalqaba waggaa kanaa';
 }

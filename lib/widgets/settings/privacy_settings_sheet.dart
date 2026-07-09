@@ -51,14 +51,6 @@ class PrivacySettingsSheet extends ConsumerWidget {
             onTap: () => _showDataCollectionDialog(context, t, l10n),
             t: t,
           ),
-          const SizedBox(height: 8),
-          _buildPrivacyTile(
-            icon: Icons.delete_rounded,
-            title: 'Delete Account',
-            subtitle: 'Permanently delete your account',
-            onTap: () => _showDeleteAccountDialog(context, t, l10n),
-            t: t,
-          ),
           
           const SizedBox(height: 24),
         ],
@@ -131,11 +123,16 @@ class PrivacySettingsSheet extends ConsumerWidget {
         ),
         content: SingleChildScrollView(
           child: Text(
-            'tibeb collects the following data:\n\n'
+            'tibeb does not collect any personal data or tracking information.\n\n'
+            'Data stored locally on your device:\n'
             '• Reading progress and statistics\n'
             '• App settings and preferences\n'
-            '• Device information for compatibility\n\n'
-            'All data is stored locally on your device. We do not collect personal information or share your data with third parties.',
+            '• Book metadata and covers\n\n'
+            'We do not:\n'
+            '• Collect personal information\n'
+            '• Share data with third parties\n'
+            '• Use tracking or advertising SDKs\n'
+            '• Upload reading content to external servers',
             style: TextStyle(color: t.textSecondary),
           ),
         ),
@@ -145,60 +142,6 @@ class PrivacySettingsSheet extends ConsumerWidget {
             child: Text(
               l10n.gotIt,
               style: TextStyle(color: t.primary),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showDeleteAccountDialog(BuildContext context, TibebThemeExtension t, AppLocalizations l10n) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: t.surface,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        title: Text(
-          'Delete Account',
-          style: TextStyle(
-            color: t.error,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        content: Text(
-          'This will permanently delete all your data including reading progress, settings, and statistics. This action cannot be undone.',
-          style: TextStyle(color: t.textSecondary),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(
-              l10n.maybeLater,
-              style: TextStyle(color: t.textTertiary),
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              // TODO: Implement account deletion
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    'Account deletion will be implemented soon',
-                    style: TextStyle(color: t.textPrimary),
-                  ),
-                  backgroundColor: t.surface,
-                ),
-              );
-            },
-            child: Text(
-              'Delete',
-              style: TextStyle(
-                color: t.error,
-                fontWeight: FontWeight.bold,
-              ),
             ),
           ),
         ],

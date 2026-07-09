@@ -4,6 +4,9 @@
   "appDescription": "tibeb is a free book + audiobook reader for everyone.",
   
   "settings": "Settings",
+  "home": "Home",
+  "library": "Library",
+  "stats": "Statistics",
   "engagement": "Engagement",
   "appearance": "Appearance",
   "notifications": "Notifications",
@@ -64,5 +67,25 @@
   "notificationPermissionsRequired": "Notification permissions are required for reminders.",
   
   "madeWithLove": "Made with ❤️ by Samuel",
-  "version": "Version"
+  "version": "Version",
+  
+  "continueReading": "Continue Reading",
+  "recentBooks": "Recent Books",
+  "quickStats": "Quick Stats",
+  "weeklyActivity": "Weekly Activity",
+  "myShelf": "My Shelf",
+  "searchBooks": "Search books...",
+  "filter": "Filter",
+  "sort": "Sort",
+  "addBook": "Add Book",
+  "importBooks": "Import Books",
+  "emptyLibrary": "Your library is empty",
+  "emptyLibraryMessage": "Import your first book to get started",
+  "importNow": "Import Now",
+  
+  "today": "Today",
+  "yesterday": "Yesterday",
+  "thisWeek": "This Week",
+  "thisMonth": "This Month",
+  "thisYear": "This Year"
 }
