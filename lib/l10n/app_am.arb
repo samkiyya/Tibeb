@@ -486,5 +486,10 @@
   "mdDiagrams": "ሐረጎች",
   "mdDiagramsHint": "የMermaid ሥዕሎች በቅድ-ዕይታ ሁነታ ቀጥለው ይቀርቡ።",
   "textDocumentTitle": "የጽሑፍ ሰነድ",
-  "markdownDocumentTitle": "MarkDown ሰነድ"
+  "markdownDocumentTitle": "MarkDown ሰነድ",
+  "noOutlineAvailable": "ርዕሶች አልተገኙም። '# ርዕስ' ምልክቶችን ጨምር።",
+  "wordCount": "ቃላት",
+  "readingTimeMinutes": "ደቂቃ ንባብ",
+  "copyToClipboard": "ወደ ቅንጥብ ሰሌዳ ቅዳ",
+  "mdJumpToHeading": "ወደ ርዕስ ዝለል"
 }

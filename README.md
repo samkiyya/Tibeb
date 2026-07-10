@@ -44,9 +44,25 @@ Tibeb combines the reading experience of Kindle, the knowledge capture of Readwi
 |--------|:------:|-------|
 | EPUB | ✅ | CSS injection, chapter navigation, internal links, image rendering |
 | PDF | ✅ | Theme-aware ColorFilter, full-text search, outline navigation, page jump |
+| Markdown / TXT | ✅ | Dual-mode (Preview/Edit), Mermaid diagram zoom, IntersectionObserver active heading sync, save/editing |
 | Audiobook (MP3) | ✅ | Multi-track, variable speed, position resume, skip ±30s |
 | CBZ / CBR | 🗓 Planned | Comic reader — v1.1 |
 | MOBI / AZW3 | 🗓 Planned | Kindle format conversion pipeline |
+
+### 📝 Plain Text & Markdown Reader
+
+A professional-grade, interactive reader and editor for Markdown (`.md`) and TXT (`.txt`) documents, designed with complete decoupling:
+- **Full Architecture Isolation** — The TXT and Markdown editors are completely isolated. Selection highlights, cursor colors, and backgrounds dynamically adapt to White, Sepia/Cream, Dark Blue, and Black themes without cross-editor overlap.
+- **Custom offline Markdown compiler** — High-performance GFM rendering directly in Dart (supporting strikethrough, autolinks, custom tables, task lists, and footnotes) with local caching.
+- **Offline KaTeX Math parser** — Real-time rendering of inline and block LaTeX mathematical equations without remote HTTP requests.
+- **GitHub Alert Admonitions** — Support for styled alerts: note, tip, warning, important, and caution blocks.
+- **Dual-mode preview and source editing** — Real-time hot swapping between visual preview and multiline plain-text edit zones with an interactive formatting toolbar.
+- **Bi-directional scroll synchronization** — Scroll-percentage mapping keeps preview and edit scrolls in perfect alignment.
+- **Hierarchical Table of Contents (TOC)** — In-sidebar tree TOC navigation with smooth JS-based `scrollIntoView` jumps.
+- **Active heading tracking** — Local WebView `IntersectionObserver` keeps progress footer synchronized as you read.
+- **In-document Search & Navigation** — Integrated search engine highlighting regex and literal string matches.
+- **Offline Mermaid rendering** — Fully renders Mermaid diagrams with tap-to-zoom gestures and pinch/pan interactive modal overlays.
+- **Direct file saving & copy-actions** — In-header save operations write changes back to local storage offline.
 
 ---
 
@@ -200,6 +216,16 @@ All quests reset daily and are stored in the Drift database with completion hist
 - Streak tracking with live display and historical view
 - Level card with circular WP progress bar and rank metadata detail sheet
 - Tap the level card to view all 6 Ge'ez ranks with unlock criteria
+
+---
+
+### 🌍 Internationalization & Localization
+
+Tibeb is fully internationalized and localized supporting 4 languages natively across the interface, onboarding systems, and screen modules (including Audiobook Player, Google Image Search, File Picker, and Tutorial systems):
+- **English** (en)
+- **Amharic** (am — አማርኛ)
+- **Tigrinya** (ti — ትግርኛ)
+- **Afaan Oromo** (om — Oromoo)
 
 ---
 
@@ -412,7 +438,7 @@ Well-scoped, self-contained improvements to get started:
 - [ ] Tag highlights — schema migration, editor input, filter by tag
 - [ ] Font weight, horizontal margin, and letter spacing controls
 - [ ] Encrypted local backup and restore (JSON + AES)
-- [ ] Amharic localization — extract all strings to `.arb` files
+- [x] Amharic, Tigrinya, Afaan Oromo localizations — extract all strings to `.arb` files
 
 ### Phase 3 — Differentiation
 - [ ] Cloud sync — Supabase / Firebase with offline-first conflict resolution

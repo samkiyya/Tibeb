@@ -146,17 +146,93 @@ class BookService {
   Future<Book?> _processTxtMd(File file) async {
     try {
       final name = p.basenameWithoutExtension(file.path);
+      final content = await file.readAsString();
+
+      String title = name;
+      String author = 'Unknown';
+      String genre = p.extension(file.path).toLowerCase() == '.md'
+          ? 'Markdown'
+          : 'Plain Text';
+      String coverPath = '';
+
+      final lines = content.split('\n');
+
+      // 1. Try parsing YAML frontmatter
+      if (lines.isNotEmpty && lines.first.trim() == '---') {
+        int endFrontmatterIdx = -1;
+        for (int i = 1; i < lines.length; i++) {
+          if (lines[i].trim() == '---') {
+            endFrontmatterIdx = i;
+            break;
+          }
+        }
+        if (endFrontmatterIdx != -1) {
+          for (int i = 1; i < endFrontmatterIdx; i++) {
+            final line = lines[i];
+            final colonIdx = line.indexOf(':');
+            if (colonIdx != -1) {
+              final key = line.substring(0, colonIdx).trim().toLowerCase();
+              final val = line.substring(colonIdx + 1).trim();
+              final cleanVal = val.replaceAll(
+                RegExp("^[\"']|[\"']\$"),
+                '',
+              ); // strip quotes
+              if (key == 'title') {
+                title = cleanVal;
+              } else if (key == 'author') {
+                author = cleanVal;
+              } else if (key == 'genre' || key == 'subject') {
+                genre = cleanVal;
+              } else if (key == 'cover') {
+                coverPath = cleanVal;
+              }
+            }
+          }
+        }
+      }
+
+      // 2. Fall back to H1 heading (# Title or % Title)
+      if (title == name || title.isEmpty) {
+        for (final line in lines) {
+          final trimmed = line.trim();
+          if (trimmed.startsWith('# ')) {
+            title = trimmed.substring(2).trim();
+            break;
+          } else if (trimmed.startsWith('% ')) {
+            title = trimmed.substring(2).trim();
+            break;
+          }
+        }
+      }
+
+      // 3. Fall back to first markdown image as cover
+      if (coverPath.isEmpty) {
+        final imgRegex = RegExp(r'!\[.*?\]\((.*?)\)');
+        final match = imgRegex.firstMatch(content);
+        if (match != null) {
+          coverPath = match.group(1) ?? '';
+        }
+      }
+
+      // 4. Resolve local relative cover paths relative to the file directory
+      if (coverPath.isNotEmpty &&
+          !coverPath.startsWith('http') &&
+          !p.isAbsolute(coverPath)) {
+        final absPath = p.normalize(p.join(p.dirname(file.path), coverPath));
+        if (File(absPath).existsSync()) {
+          coverPath = absPath;
+        }
+      }
+
       return Book(
-        title: name,
-        author: 'Unknown',
-        coverPath: '',
+        title: title,
+        author: author,
+        coverPath: coverPath,
         filePath: file.path,
         addedAt: DateTime.now(),
         folderPath: p.dirname(file.path),
         contentHash: await BookCoverStorage.md5Hash(file),
-        genre: p.extension(file.path).toLowerCase() == '.md'
-            ? 'Markdown'
-            : 'Plain Text',
+        genre: genre,
         totalPages: 0,
       );
     } catch (e) {

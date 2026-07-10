@@ -236,7 +236,8 @@ Yellow, Green, Blue, Pink, Orange — mapped to `reader.highlightYellow`, `reade
 | PDF | ✅ | 7/10 | ColorFilter themes, text search, outline nav, programmatic page jump |
 | CBZ/CBR | ❌ | — | No comic parser implemented |
 | MOBI/AZW3 | ❌ | — | No Kindle format support |
-| Markdown viewer | ❌ | — | `markdown` pkg in deps but unused for reading |
+| Markdown (+Mermaid) | ✅ | 9/10 | Dual-mode (Preview/Edit), offline Mermaid zoom/pan, dynamic TOC scroll sync |
+| TXT support | ✅ | 8/10 | Sidebar navigation integration and real-time offline text editing/saving |
 | HTML articles | ❌ | — | `webview_flutter` in deps but no article capture |
 
 ### B. Reading Experience

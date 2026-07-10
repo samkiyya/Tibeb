@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/book_model.dart';
 import '../../models/reader_settings_model.dart';
 import '../../models/search_result_model.dart';
+import '../../models/markdown_outline_node.dart';
 import '../../widgets/reading/epub_reader_layer.dart';
 import 'audio_controller.dart';
 import 'audio_sync_controller.dart';
@@ -47,6 +48,9 @@ class ReadingControlsCoordinator {
     required this.jumpToPdfPage,
     required this.jumpToPercent,
     required this.syncFinalProgress,
+    required this.mdOutline,
+    required this.currentMdNode,
+    required this.onMdOutlineTap,
   });
 
   final BuildContext context;
@@ -81,12 +85,19 @@ class ReadingControlsCoordinator {
   final void Function(double percent, Book book) jumpToPercent;
   final void Function(Book book) syncFinalProgress;
 
+  // Markdown outline state (owned by ReadingScreen, passed here for NavigationSheet)
+  final List<MarkdownOutlineNode> mdOutline;
+  final MarkdownOutlineNode? currentMdNode;
+  final void Function(MarkdownOutlineNode) onMdOutlineTap;
+
   // ── Search ────────────────────────────────────────────────────────────────
 
   void onToggleSearch() {
     ui.isSearching = true;
     ReadingActions.setControlsVisibility(
-        visible: true, showControlsNotifier: showControlsNotifier);
+      visible: true,
+      showControlsNotifier: showControlsNotifier,
+    );
     onStateChanged();
     search.focusNode.requestFocus();
   }
@@ -149,7 +160,8 @@ class ReadingControlsCoordinator {
 
   void onToggleOrientation() {
     ui.isOrientationLandscape = ReadingActions.toggleOrientation(
-        isCurrentlyLandscape: ui.isOrientationLandscape);
+      isCurrentlyLandscape: ui.isOrientationLandscape,
+    );
     onStateChanged();
   }
 
@@ -181,7 +193,11 @@ class ReadingControlsCoordinator {
   void onShowDisplaySettings() => ReadingActions.showDisplaySettings(context);
 
   void onShowTrackList() => ReadingActions.showTrackList(
-      context: context, settings: settings, audio: audio, ref: ref);
+    context: context,
+    settings: settings,
+    audio: audio,
+    ref: ref,
+  );
 
   // ── Back ──────────────────────────────────────────────────────────────────
 
@@ -208,6 +224,9 @@ class ReadingControlsCoordinator {
       pdfCurrentPage: pdf.pdfCurrentPage,
       bookmarks: bookmarks,
       scrollProgressNotifier: scrollProgressNotifier,
+      mdOutline: mdOutline,
+      currentMdNode: currentMdNode,
+      onMdOutlineTap: onMdOutlineTap,
       onOpenSheet: () {
         ui.isNavigationSheetOpen = true;
         onStateChanged();
@@ -233,10 +252,10 @@ class ReadingControlsCoordinator {
         final target = nav.onJumpToPage(page);
         if (target != null) jumpToPdfPage(target);
       },
-      onJumpToPercent: (percent) => Future.delayed(
-        const Duration(milliseconds: 300),
-        () { if (context.mounted) jumpToPercent(percent, book); },
-      ),
+      onJumpToPercent: (percent) =>
+          Future.delayed(const Duration(milliseconds: 300), () {
+            if (context.mounted) jumpToPercent(percent, book);
+          }),
       onHighlightTap: (h) {
         if (book.filePath.toLowerCase().endsWith('.epub')) {
           final t = nav.onEpubHighlightTap(h, epub.chapters);

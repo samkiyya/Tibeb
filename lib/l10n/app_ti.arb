@@ -493,5 +493,10 @@
   "mdDiagrams": "ሰዓሊ",
   "mdDiagramsHint": "ናይ Mermaid ሰዓሊ ቅድም ምርኣይ ኣብ ካልኣዊ ሓደ ዕቤት ይቐርቡ።",
   "textDocumentTitle": "ናይ ጽሑፍ ሰነድ",
-  "markdownDocumentTitle": "ናይ MarkDown ሰነድ"
+  "markdownDocumentTitle": "ናይ MarkDown ሰነድ",
+  "noOutlineAvailable": "ኣርእስቲ ኣይተረኽቡን። '# ኣርእስቲ' ምልክታት ወስኽ።",
+  "wordCount": "ቃላት",
+  "readingTimeMinutes": "ደቒቒ ምንባብ",
+  "copyToClipboard": "ናብ ቅሊፕቦርድ ቅዳሕ",
+  "mdJumpToHeading": "ናብ ኣርእስቲ ምቁጻር"
 }

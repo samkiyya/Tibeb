@@ -7,6 +7,7 @@ import '../../models/book_model.dart';
 import '../../models/reader_settings_model.dart';
 import '../../models/bookmark_model.dart';
 import '../../models/highlight_model.dart';
+import '../../models/markdown_outline_node.dart';
 import '../../providers/library_provider.dart';
 import '../../providers/database_providers.dart';
 import '../../widgets/reading/navigation_sheet.dart';
@@ -39,6 +40,9 @@ class NavigationSheetHelper {
     required Function(Highlight) onHighlightTap,
     required Function(Bookmark) onBookmarkTap,
     required Function(String) onLookup,
+    List<MarkdownOutlineNode> mdOutline = const [],
+    MarkdownOutlineNode? currentMdNode,
+    void Function(MarkdownOutlineNode)? onMdOutlineTap,
   }) {
     if (!context.mounted) return;
     onOpenSheet();
@@ -59,6 +63,9 @@ class NavigationSheetHelper {
           currentPdfNode: currentPdfNode,
           totalPages: pdfPages,
           focusJump: false,
+          mdOutline: mdOutline,
+          currentMdNode: currentMdNode,
+          onMdOutlineTap: onMdOutlineTap,
           onExport: () => ExportHelper.exportToMarkdown(
             context,
             book,

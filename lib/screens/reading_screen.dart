@@ -4,8 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/library_provider.dart';
 import '../providers/reader_settings_provider.dart';
 import '../models/book_model.dart';
+import '../models/markdown_outline_node.dart';
+import 'package:path/path.dart' as p;
 
 import 'package:tibeb/widgets/reading/reading.dart';
+import 'package:tibeb/widgets/reading/text_md_reader_layer.dart';
 import 'package:tibeb/screens/reading/reading.dart';
 
 class ReadingScreen extends ConsumerStatefulWidget {
@@ -44,6 +47,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
   // ── Layer keys ────────────────────────────────────────────────────────────
   final GlobalKey<EpubReaderLayerState> _epubLayerKey = GlobalKey();
   final GlobalKey<PdfReaderLayerState> _pdfLayerKey = GlobalKey();
+  final GlobalKey<TextMdReaderLayerState> _txtMdLayerKey = GlobalKey();
 
   // ── Tutorial keys ─────────────────────────────────────────────────────────
   late final TutorialKeys _tutorialKeys = TutorialKeys(
@@ -60,6 +64,10 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
 
   // ── Misc ──────────────────────────────────────────────────────────────────
   int? _lastBookId;
+
+  // ── Markdown outline state ────────────────────────────────────────────────
+  List<MarkdownOutlineNode> _mdTocOutline = [];
+  MarkdownOutlineNode? _currentMdNode;
 
   // ── Lifecycle ─────────────────────────────────────────────────────────────
 
@@ -332,6 +340,12 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
       jumpToPdfPage: _jumpToPdfPage,
       jumpToPercent: _jumpToPercent,
       syncFinalProgress: _syncFinalProgress,
+      mdOutline: _mdTocOutline,
+      currentMdNode: _currentMdNode,
+      onMdOutlineTap: (node) {
+        setState(() => _currentMdNode = node);
+        _txtMdLayerKey.currentState?.jumpToHeading(node.elementId);
+      },
     );
 
     return Scaffold(
@@ -357,6 +371,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
                         isEpub: isEpub,
                         epubLayerKey: _epubLayerKey,
                         pdfLayerKey: _pdfLayerKey,
+                        txtMdLayerKey: _txtMdLayerKey,
                         highlights: _bookmarks.highlights,
                         pullDistanceNotifier: _pullDistanceNotifier,
                         isPullingDownNotifier: _isPullingDownNotifier,
@@ -384,6 +399,20 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
                             setState(() => _epub.shouldJumpToBottom = false),
                         onJumpedToPosition: () =>
                             setState(() => _epub.initialScrollProgress = 0.0),
+                        onTxtMdLoaded: (flat, tree) {
+                          setState(() {
+                            _mdTocOutline = tree;
+                            // Auto-select first node as current
+                            _currentMdNode = flat.isNotEmpty
+                                ? flat.first
+                                : null;
+                          });
+                        },
+                        onActiveHeadingChanged: (node) {
+                          setState(() {
+                            _currentMdNode = node;
+                          });
+                        },
                       ),
                       _buildControlsOverlay(book, settings, controlsCoord),
                     ],
@@ -398,7 +427,11 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
                   currentTime: time,
                   currentChapter: isEpub
                       ? _epub.currentChapter
-                      : _pdf.currentChapter,
+                      : (book.filePath.toLowerCase().endsWith('.md') ||
+                                book.filePath.toLowerCase().endsWith('.txt')
+                            ? (_currentMdNode?.title ??
+                                  p.basename(book.filePath))
+                            : _pdf.currentChapter),
                   batteryLevel: _battery.batteryLevel,
                   scrollProgressNotifier: _scrollProgressNotifier,
                   totalChapters: _epub.chapters.length,

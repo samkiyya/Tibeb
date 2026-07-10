@@ -1455,4 +1455,19 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get markdownDocumentTitle => 'MarkDown ሰነድ';
+
+  @override
+  String get noOutlineAvailable => 'ርዕሶች አልተገኙም። \'# ርዕስ\' ምልክቶችን ጨምር።';
+
+  @override
+  String get wordCount => 'ቃላት';
+
+  @override
+  String get readingTimeMinutes => 'ደቂቃ ንባብ';
+
+  @override
+  String get copyToClipboard => 'ወደ ቅንጥብ ሰሌዳ ቅዳ';
+
+  @override
+  String get mdJumpToHeading => 'ወደ ርዕስ ዝለል';
 }

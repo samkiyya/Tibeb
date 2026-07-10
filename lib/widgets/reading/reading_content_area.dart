@@ -5,6 +5,7 @@ import 'package:pdfrx/pdfrx.dart';
 import '../../models/book_model.dart';
 import '../../models/highlight_model.dart';
 import '../../models/reader_settings_model.dart';
+import '../../models/markdown_outline_node.dart';
 import '../../screens/reading/epub_reading_manager.dart';
 import '../../screens/reading/pdf_reading_manager.dart';
 import 'epub_reader_layer.dart';
@@ -21,6 +22,7 @@ class ReadingContentArea extends StatelessWidget {
     required this.isEpub,
     required this.epubLayerKey,
     required this.pdfLayerKey,
+    required this.txtMdLayerKey,
     required this.highlights,
     required this.pullDistanceNotifier,
     required this.isPullingDownNotifier,
@@ -41,6 +43,8 @@ class ReadingContentArea extends StatelessWidget {
     required this.onPdfPageChanged,
     required this.onJumpedToBottom,
     required this.onJumpedToPosition,
+    this.onTxtMdLoaded,
+    this.onActiveHeadingChanged,
   });
 
   final Book book;
@@ -48,6 +52,7 @@ class ReadingContentArea extends StatelessWidget {
   final bool isEpub;
   final GlobalKey<EpubReaderLayerState> epubLayerKey;
   final GlobalKey<PdfReaderLayerState> pdfLayerKey;
+  final GlobalKey<TextMdReaderLayerState> txtMdLayerKey;
   final List<Highlight> highlights;
 
   final ValueNotifier<double> pullDistanceNotifier;
@@ -81,17 +86,27 @@ class ReadingContentArea extends StatelessWidget {
 
   final VoidCallback onJumpedToBottom;
   final VoidCallback onJumpedToPosition;
+  final Function(
+    List<MarkdownOutlineNode> flat,
+    List<MarkdownOutlineNode> tree,
+  )?
+  onTxtMdLoaded;
+  final Function(MarkdownOutlineNode node)? onActiveHeadingChanged;
 
   @override
   Widget build(BuildContext context) {
     final lowerPath = book.filePath.toLowerCase();
     if (lowerPath.endsWith('.txt') || lowerPath.endsWith('.md')) {
       return TextMdReaderLayer(
+        key: txtMdLayerKey,
         book: book,
         settings: settings,
         scrollProgressNotifier: scrollProgressNotifier,
+        autoScrollSpeedNotifier: autoScrollSpeedNotifier,
         onToggleControls: onToggleControls,
         onInteraction: onInteraction,
+        onLoaded: onTxtMdLoaded,
+        onActiveHeadingChanged: onActiveHeadingChanged,
       );
     }
 

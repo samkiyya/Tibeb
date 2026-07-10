@@ -561,5 +561,10 @@
   "mdDiagrams": "Diagrams",
   "mdDiagramsHint": "Mermaid diagrams render automatically in preview mode.",
   "textDocumentTitle": "Text Document",
-  "markdownDocumentTitle": "Markdown Document"
+  "markdownDocumentTitle": "Markdown Document",
+  "noOutlineAvailable": "No headings found. Add `# Heading` markers to create an outline.",
+  "wordCount": "words",
+  "readingTimeMinutes": "min read",
+  "copyToClipboard": "Copy to clipboard",
+  "mdJumpToHeading": "Jump to heading"
 }

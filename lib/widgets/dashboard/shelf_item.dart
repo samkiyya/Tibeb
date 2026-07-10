@@ -59,6 +59,8 @@ class _ShelfItemState extends ConsumerState<ShelfItem> {
                       path: widget.book.coverPath,
                       placeholderColor: t.surfaceOverlay,
                       fit: BoxFit.contain,
+                      title: widget.book.title,
+                      author: widget.book.author,
                     ),
                   ),
                   if (widget.onMenuPressed != null)

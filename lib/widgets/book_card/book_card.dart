@@ -10,12 +10,9 @@ import 'package:tibeb/core/theme/theme.dart';
 import 'package:tibeb/widgets/glass_container.dart';
 import 'package:tibeb/models/book_model.dart';
 
-
 typedef PositionCallback = void Function(Offset position);
 
 class BookCard extends StatefulWidget {
-
-  
   final Book book;
   final VoidCallback? onTap;
   final PositionCallback? onLongPress;
@@ -39,9 +36,7 @@ class BookCard extends StatefulWidget {
   State<BookCard> createState() => _BookCardState();
 }
 
-class _BookCardState extends State<BookCard>
-    with BookCardGestureMixin {
-
+class _BookCardState extends State<BookCard> with BookCardGestureMixin {
   @override
   Widget build(BuildContext context) {
     final t = context.tibpiColors;
@@ -49,8 +44,7 @@ class _BookCardState extends State<BookCard>
     return GestureDetector(
       onTapDown: updateTapPosition,
       onTap: widget.onTap,
-      onLongPress: () =>
-          widget.onLongPress?.call(tapPosition),
+      onLongPress: () => widget.onLongPress?.call(tapPosition),
 
       child: GlassContainer(
         padding: const EdgeInsets.all(8),
@@ -61,8 +55,7 @@ class _BookCardState extends State<BookCard>
               child: AspectRatio(
                 aspectRatio: 2 / 3,
                 child: ClipRRect(
-                  borderRadius:
-                      BorderRadius.circular(TibebRadius.sm),
+                  borderRadius: BorderRadius.circular(TibebRadius.sm),
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
@@ -70,6 +63,8 @@ class _BookCardState extends State<BookCard>
                         path: widget.book.coverPath,
                         placeholderColor: t.surfaceOverlay,
                         fit: BoxFit.contain,
+                        title: widget.book.title,
+                        author: widget.book.author,
                       ),
 
                       BookBadges(book: widget.book),
@@ -77,9 +72,7 @@ class _BookCardState extends State<BookCard>
                       BookProgressOverlay(book: widget.book),
 
                       if (widget.selectionMode)
-                        BookSelectionOverlay(
-                          isSelected: widget.isSelected,
-                        ),
+                        BookSelectionOverlay(isSelected: widget.isSelected),
                     ],
                   ),
                 ),
@@ -90,12 +83,9 @@ class _BookCardState extends State<BookCard>
 
             Row(
               children: [
-                Expanded(
-                  child: BookInfo(book: widget.book),
-                ),
+                Expanded(child: BookInfo(book: widget.book)),
 
-                if (widget.onMenuPressed != null &&
-                    !widget.selectionMode)
+                if (widget.onMenuPressed != null && !widget.selectionMode)
                   InkWell(
                     onTapDown: updateTapPosition,
                     onTap: () => widget.onMenuPressed?.call(tapPosition),

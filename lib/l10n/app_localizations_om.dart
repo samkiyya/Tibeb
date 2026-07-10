@@ -1498,4 +1498,20 @@ class AppLocalizationsOm extends AppLocalizations {
 
   @override
   String get markdownDocumentTitle => 'Dokumenti Markdown';
+
+  @override
+  String get noOutlineAvailable =>
+      'Mata duree hin argamne. \'# Mata duree\' mallattoo dabaluu.';
+
+  @override
+  String get wordCount => 'jechota';
+
+  @override
+  String get readingTimeMinutes => 'daqiiqaa dubbisuu';
+
+  @override
+  String get copyToClipboard => 'Gara clipboard geeddari';
+
+  @override
+  String get mdJumpToHeading => 'Gara mata dureeitti deemuuf';
 }

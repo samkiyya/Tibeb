@@ -1453,4 +1453,19 @@ class AppLocalizationsTi extends AppLocalizations {
 
   @override
   String get markdownDocumentTitle => 'ናይ MarkDown ሰነድ';
+
+  @override
+  String get noOutlineAvailable => 'ኣርእስቲ ኣይተረኽቡን። \'# ኣርእስቲ\' ምልክታት ወስኽ።';
+
+  @override
+  String get wordCount => 'ቃላት';
+
+  @override
+  String get readingTimeMinutes => 'ደቒቒ ምንባብ';
+
+  @override
+  String get copyToClipboard => 'ናብ ቅሊፕቦርድ ቅዳሕ';
+
+  @override
+  String get mdJumpToHeading => 'ናብ ኣርእስቲ ምቁጻር';
 }

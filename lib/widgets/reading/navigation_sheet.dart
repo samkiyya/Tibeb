@@ -7,6 +7,7 @@ import '../../../models/bookmark_model.dart';
 import '../../../models/highlight_model.dart';
 import '../../../models/vocabulary_model.dart';
 import '../../../models/reader_settings_model.dart';
+import '../../../models/markdown_outline_node.dart';
 import '../../../core/theme/theme.dart';
 import '../../../l10n/app_localizations.dart';
 
@@ -43,6 +44,11 @@ class NavigationSheet extends StatelessWidget {
   final int totalPages;
   final ReaderSettings readerSettings;
 
+  // Markdown outline
+  final List<MarkdownOutlineNode> mdOutline;
+  final MarkdownOutlineNode? currentMdNode;
+  final void Function(MarkdownOutlineNode)? onMdOutlineTap;
+
   const NavigationSheet({
     super.key,
     required this.book,
@@ -73,6 +79,9 @@ class NavigationSheet extends StatelessWidget {
     this.focusJump = false,
     this.totalPages = 0,
     required this.readerSettings,
+    this.mdOutline = const [],
+    this.currentMdNode,
+    this.onMdOutlineTap,
   });
 
   @override
@@ -126,6 +135,9 @@ class NavigationSheet extends StatelessWidget {
                     onJumpToPercent: onJumpToPercent,
                     totalPages: totalPages,
                     focusJump: focusJump,
+                    mdOutline: mdOutline,
+                    currentMdNode: currentMdNode,
+                    onMdOutlineTap: onMdOutlineTap,
                   ),
                   AnnotationsTab(
                     book: book,

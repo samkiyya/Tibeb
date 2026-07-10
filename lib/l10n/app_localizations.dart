@@ -2847,6 +2847,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Markdown Document'**
   String get markdownDocumentTitle;
+
+  /// No description provided for @noOutlineAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No headings found. Add `# Heading` markers to create an outline.'**
+  String get noOutlineAvailable;
+
+  /// No description provided for @wordCount.
+  ///
+  /// In en, this message translates to:
+  /// **'words'**
+  String get wordCount;
+
+  /// No description provided for @readingTimeMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'min read'**
+  String get readingTimeMinutes;
+
+  /// No description provided for @copyToClipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy to clipboard'**
+  String get copyToClipboard;
+
+  /// No description provided for @mdJumpToHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Jump to heading'**
+  String get mdJumpToHeading;
 }
 
 class _AppLocalizationsDelegate

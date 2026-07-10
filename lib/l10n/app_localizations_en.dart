@@ -1487,4 +1487,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get markdownDocumentTitle => 'Markdown Document';
+
+  @override
+  String get noOutlineAvailable =>
+      'No headings found. Add `# Heading` markers to create an outline.';
+
+  @override
+  String get wordCount => 'words';
+
+  @override
+  String get readingTimeMinutes => 'min read';
+
+  @override
+  String get copyToClipboard => 'Copy to clipboard';
+
+  @override
+  String get mdJumpToHeading => 'Jump to heading';
 }

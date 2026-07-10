@@ -494,5 +494,10 @@
   "mdDiagrams": "Suuraa-Sagantaa",
   "mdDiagramsHint": "Waliigalti Mermaid dursa ilaaluu keessatti of danda'uun mul'atu.",
   "textDocumentTitle": "Dokumenti Barreeffamaa",
-  "markdownDocumentTitle": "Dokumenti Markdown"
+  "markdownDocumentTitle": "Dokumenti Markdown",
+  "noOutlineAvailable": "Mata duree hin argamne. '# Mata duree' mallattoo dabaluu.",
+  "wordCount": "jechota",
+  "readingTimeMinutes": "daqiiqaa dubbisuu",
+  "copyToClipboard": "Gara clipboard geeddari",
+  "mdJumpToHeading": "Gara mata dureeitti deemuuf"
 }
