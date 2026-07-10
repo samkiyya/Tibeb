@@ -408,6 +408,12 @@ abstract class AppLocalizations {
   /// **'Continue Reading'**
   String get continueReading;
 
+  /// No description provided for @recent.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent'**
+  String get recent;
+
   /// No description provided for @recentBooks.
   ///
   /// In en, this message translates to:
@@ -449,6 +455,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sort'**
   String get sort;
+
+  /// No description provided for @add.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get add;
 
   /// No description provided for @addBook.
   ///
@@ -1127,6 +1139,198 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} books deleted'**
   String booksDeleted(Object count);
+
+  /// No description provided for @removeBook.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove Book'**
+  String get removeBook;
+
+  /// No description provided for @removeReadingHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove reading history'**
+  String get removeReadingHistory;
+
+  /// No description provided for @addToCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to Category'**
+  String get addToCategory;
+
+  /// No description provided for @enterCategoryName.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter category name'**
+  String get enterCategoryName;
+
+  /// No description provided for @goalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading Goal'**
+  String get goalTitle;
+
+  /// No description provided for @goalDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Set your weekly reading goal'**
+  String get goalDescription;
+
+  /// No description provided for @pagesPerWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Pages per week'**
+  String get pagesPerWeek;
+
+  /// No description provided for @minutesPerWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Minutes per week'**
+  String get minutesPerWeek;
+
+  /// No description provided for @pagesGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Pages goal'**
+  String get pagesGoal;
+
+  /// No description provided for @minutesGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Minutes goal'**
+  String get minutesGoal;
+
+  /// No description provided for @setGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Set Goal'**
+  String get setGoal;
+
+  /// No description provided for @noGoalSet.
+  ///
+  /// In en, this message translates to:
+  /// **'No goal set'**
+  String get noGoalSet;
+
+  /// No description provided for @weeklyGoalProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly goal progress'**
+  String get weeklyGoalProgress;
+
+  /// No description provided for @searchOnlineForImages.
+  ///
+  /// In en, this message translates to:
+  /// **'Search online for book covers'**
+  String get searchOnlineForImages;
+
+  /// No description provided for @selectImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Image'**
+  String get selectImage;
+
+  /// No description provided for @downloadImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Download Image'**
+  String get downloadImage;
+
+  /// No description provided for @selectedFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected files'**
+  String get selectedFiles;
+
+  /// No description provided for @noFilesSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'No files selected'**
+  String get noFilesSelected;
+
+  /// No description provided for @selectAudioFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Select audio files'**
+  String get selectAudioFiles;
+
+  /// No description provided for @noAudioFilesSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'No audio files selected'**
+  String get noAudioFilesSelected;
+
+  /// No description provided for @back.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get back;
+
+  /// No description provided for @next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get next;
+
+  /// No description provided for @finish.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish'**
+  String get finish;
+
+  /// No description provided for @skip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get skip;
+
+  /// No description provided for @exportAnnotations.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Annotations'**
+  String get exportAnnotations;
+
+  /// No description provided for @exportAsMarkdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Export as Markdown'**
+  String get exportAsMarkdown;
+
+  /// No description provided for @exportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Export successful'**
+  String get exportSuccess;
+
+  /// No description provided for @exportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Export failed'**
+  String get exportFailed;
+
+  /// No description provided for @bookmarkCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmark created'**
+  String get bookmarkCreated;
+
+  /// No description provided for @bookmarkDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmark deleted'**
+  String get bookmarkDeleted;
+
+  /// No description provided for @selected.
+  ///
+  /// In en, this message translates to:
+  /// **'selected'**
+  String get selected;
+
+  /// No description provided for @categoryAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Category added to selected books'**
+  String get categoryAdded;
 
   /// No description provided for @rank_temari.
   ///

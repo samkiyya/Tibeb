@@ -165,6 +165,9 @@ class AppLocalizationsAm extends AppLocalizations {
   String get continueReading => 'ንባብ ቀጥል';
 
   @override
+  String get recent => 'የቅርብ';
+
+  @override
   String get recentBooks => 'የቅርብ መጽሐፍት';
 
   @override
@@ -184,6 +187,9 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get sort => 'ማደራጀት';
+
+  @override
+  String get add => 'ጨምር';
 
   @override
   String get addBook => 'መጽሐፍ ጨምር';
@@ -535,6 +541,102 @@ class AppLocalizationsAm extends AppLocalizations {
   String booksDeleted(Object count) {
     return '$count መጽሐፍት ተሰርዟል';
   }
+
+  @override
+  String get removeBook => 'መጽሐፍ አስወግድ';
+
+  @override
+  String get removeReadingHistory => 'የንባብ ታሪክ አስወግድ';
+
+  @override
+  String get addToCategory => 'ወደ ምድብ ጨምር';
+
+  @override
+  String get enterCategoryName => 'የምድብ ስም ያስገቡ';
+
+  @override
+  String get goalTitle => 'የንባብ ግብ';
+
+  @override
+  String get goalDescription => 'የሳምንታዊ ንባብ ግብዎን ያዘጋጡ';
+
+  @override
+  String get pagesPerWeek => 'ገጾች በሳምንት';
+
+  @override
+  String get minutesPerWeek => 'ደቂቃዎች በሳምንት';
+
+  @override
+  String get pagesGoal => 'የገጾች ግብ';
+
+  @override
+  String get minutesGoal => 'የደቂቃዎች ግብ';
+
+  @override
+  String get setGoal => 'ግብ ያዘጋጡ';
+
+  @override
+  String get noGoalSet => 'ምንም ግብ አልተደረገም';
+
+  @override
+  String get weeklyGoalProgress => 'የሳምንታዊ ግብ አሻራረ';
+
+  @override
+  String get searchOnlineForImages => 'የመጽሐፍ ኮቨሮችን በመስመር ፈልግ';
+
+  @override
+  String get selectImage => 'ምስል ይምረጡ';
+
+  @override
+  String get downloadImage => 'ምስል ያውርዱ';
+
+  @override
+  String get selectedFiles => 'የተመረጡ ፋይሎች';
+
+  @override
+  String get noFilesSelected => 'ምንም ፋይሎች አልተመረጡ';
+
+  @override
+  String get selectAudioFiles => 'የድምጽ ፋይሎችን ይምረጡ';
+
+  @override
+  String get noAudioFilesSelected => 'ምንም የድምጽ ፋይሎች አልተመረጡ';
+
+  @override
+  String get back => 'ተመለለ';
+
+  @override
+  String get next => 'ቀጣሪ';
+
+  @override
+  String get finish => '��ርር';
+
+  @override
+  String get skip => 'ዝለ';
+
+  @override
+  String get exportAnnotations => 'ማስታወሻዎችን አውርድ';
+
+  @override
+  String get exportAsMarkdown => 'እንደ Markdown አውርድ';
+
+  @override
+  String get exportSuccess => 'ማውርድ ተሳካ';
+
+  @override
+  String get exportFailed => 'ማውርድ አልተሳካ';
+
+  @override
+  String get bookmarkCreated => 'እልባት ተፈጠረ';
+
+  @override
+  String get bookmarkDeleted => 'እልባት ተሰርዟል';
+
+  @override
+  String get selected => 'ተመረጡ';
+
+  @override
+  String get categoryAdded => 'ምድብ ወደ ተመረጡ መጽሐፍት ተጨምረ';
 
   @override
   String get rank_temari => 'ተማሪ';

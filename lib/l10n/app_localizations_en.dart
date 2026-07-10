@@ -167,6 +167,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get continueReading => 'Continue Reading';
 
   @override
+  String get recent => 'Recent';
+
+  @override
   String get recentBooks => 'Recent Books';
 
   @override
@@ -186,6 +189,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sort => 'Sort';
+
+  @override
+  String get add => 'Add';
 
   @override
   String get addBook => 'Add Book';
@@ -539,6 +545,102 @@ class AppLocalizationsEn extends AppLocalizations {
   String booksDeleted(Object count) {
     return '$count books deleted';
   }
+
+  @override
+  String get removeBook => 'Remove Book';
+
+  @override
+  String get removeReadingHistory => 'Remove reading history';
+
+  @override
+  String get addToCategory => 'Add to Category';
+
+  @override
+  String get enterCategoryName => 'Enter category name';
+
+  @override
+  String get goalTitle => 'Reading Goal';
+
+  @override
+  String get goalDescription => 'Set your weekly reading goal';
+
+  @override
+  String get pagesPerWeek => 'Pages per week';
+
+  @override
+  String get minutesPerWeek => 'Minutes per week';
+
+  @override
+  String get pagesGoal => 'Pages goal';
+
+  @override
+  String get minutesGoal => 'Minutes goal';
+
+  @override
+  String get setGoal => 'Set Goal';
+
+  @override
+  String get noGoalSet => 'No goal set';
+
+  @override
+  String get weeklyGoalProgress => 'Weekly goal progress';
+
+  @override
+  String get searchOnlineForImages => 'Search online for book covers';
+
+  @override
+  String get selectImage => 'Select Image';
+
+  @override
+  String get downloadImage => 'Download Image';
+
+  @override
+  String get selectedFiles => 'Selected files';
+
+  @override
+  String get noFilesSelected => 'No files selected';
+
+  @override
+  String get selectAudioFiles => 'Select audio files';
+
+  @override
+  String get noAudioFilesSelected => 'No audio files selected';
+
+  @override
+  String get back => 'Back';
+
+  @override
+  String get next => 'Next';
+
+  @override
+  String get finish => 'Finish';
+
+  @override
+  String get skip => 'Skip';
+
+  @override
+  String get exportAnnotations => 'Export Annotations';
+
+  @override
+  String get exportAsMarkdown => 'Export as Markdown';
+
+  @override
+  String get exportSuccess => 'Export successful';
+
+  @override
+  String get exportFailed => 'Export failed';
+
+  @override
+  String get bookmarkCreated => 'Bookmark created';
+
+  @override
+  String get bookmarkDeleted => 'Bookmark deleted';
+
+  @override
+  String get selected => 'selected';
+
+  @override
+  String get categoryAdded => 'Category added to selected books';
 
   @override
   String get rank_temari => 'Student';

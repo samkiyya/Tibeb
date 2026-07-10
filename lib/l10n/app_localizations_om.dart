@@ -168,6 +168,9 @@ class AppLocalizationsOm extends AppLocalizations {
   String get continueReading => 'Dubbisuu fufuu';
 
   @override
+  String get recent => 'Kitaabota';
+
+  @override
   String get recentBooks => 'Kitaabota dhiyoo';
 
   @override
@@ -187,6 +190,9 @@ class AppLocalizationsOm extends AppLocalizations {
 
   @override
   String get sort => 'Adeemsisuu';
+
+  @override
+  String get add => 'Dabalata';
 
   @override
   String get addBook => 'Kitaaba dabaluu';
@@ -542,6 +548,102 @@ class AppLocalizationsOm extends AppLocalizations {
   String booksDeleted(Object count) {
     return 'Kitaabonni $count haqaman';
   }
+
+  @override
+  String get removeBook => 'Kitaaba haqi';
+
+  @override
+  String get removeReadingHistory => 'Seenaa dubbisuu haqi';
+
+  @override
+  String get addToCategory => 'Kuusaa gaarii';
+
+  @override
+  String get enterCategoryName => 'Maqaa gaarii barreessuu';
+
+  @override
+  String get goalTitle => 'Gala barreessuu';
+
+  @override
+  String get goalDescription => 'Gala torban barreessuu';
+
+  @override
+  String get pagesPerWeek => 'Bu\'uraa torban';
+
+  @override
+  String get minutesPerWeek => 'Daqiiqaa torban';
+
+  @override
+  String get pagesGoal => 'Gala bu\'uraa';
+
+  @override
+  String get minutesGoal => 'Gala daqiiqaa';
+
+  @override
+  String get setGoal => 'Gala';
+
+  @override
+  String get noGoalSet => 'Gala hin jiru';
+
+  @override
+  String get weeklyGoalProgress => 'Gala torban';
+
+  @override
+  String get searchOnlineForImages => 'Suura barreessaa intanetti barreessuu';
+
+  @override
+  String get selectImage => 'Suura filaa';
+
+  @override
+  String get downloadImage => 'Suura';
+
+  @override
+  String get selectedFiles => 'Faayilota filameera';
+
+  @override
+  String get noFilesSelected => 'Faayilota hin filamneera';
+
+  @override
+  String get selectAudioFiles => 'Faayilota sagalee filaa';
+
+  @override
+  String get noAudioFilesSelected => 'Faayilota sagalee hin filamneera';
+
+  @override
+  String get back => 'Duubatti';
+
+  @override
+  String get next => 'Fuulduraa';
+
+  @override
+  String get finish => 'Xumur';
+
+  @override
+  String get skip => 'Dhiif';
+
+  @override
+  String get exportAnnotations => 'Yaadannoo';
+
+  @override
+  String get exportAsMarkdown => 'Markdown';
+
+  @override
+  String get exportSuccess => 'Ha\'i ta\'eera';
+
+  @override
+  String get exportFailed => 'Dogoggora ta\'eera';
+
+  @override
+  String get bookmarkCreated => 'Buu\'uraa addedeera';
+
+  @override
+  String get bookmarkDeleted => 'Buu\'uraa haqameera';
+
+  @override
+  String get selected => 'Filameera';
+
+  @override
+  String get categoryAdded => 'Gaarii kuusameera kitaabota filameera';
 
   @override
   String get rank_temari => 'Barataa';

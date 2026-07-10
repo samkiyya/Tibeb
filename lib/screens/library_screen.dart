@@ -331,7 +331,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
             ),
             const SizedBox(width: 8),
             Text(
-              '${_selectedBookIds.length} selected',
+              '${_selectedBookIds.length} ${l10n.selected}',
               style: TextStyle(
                 color: t.textPrimary,
                 fontSize: 18,
@@ -353,7 +353,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
               },
             ),
             IconButton(
-              tooltip: 'Add to Category',
+              tooltip: l10n.addToCategory,
               icon: Icon(Icons.label_outline, color: t.textSecondary),
               onPressed: _showBatchTagDialog,
             ),
@@ -371,17 +371,18 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
   void _showBatchTagDialog() async {
     if (_selectedBookIds.isEmpty) return;
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
     final textController = TextEditingController();
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: t.surface,
-        title: Text('Add to Category', style: TextStyle(color: t.textPrimary)),
+        title: Text(l10n.addToCategory, style: TextStyle(color: t.textPrimary)),
         content: TextField(
           controller: textController,
           style: TextStyle(color: t.textPrimary),
           decoration: InputDecoration(
-            hintText: 'Enter category name',
+            hintText: l10n.enterCategoryName,
             hintStyle: TextStyle(color: t.textTertiary),
             filled: true,
             fillColor: t.surfaceOverlay,
@@ -395,11 +396,11 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: Text('Cancel', style: TextStyle(color: t.textSecondary)),
+            child: Text(l10n.cancel, style: TextStyle(color: t.textSecondary)),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            child: Text('Add', style: TextStyle(color: t.primary)),
+            child: Text(l10n.add, style: TextStyle(color: t.primary)),
           ),
         ],
       ),
@@ -419,7 +420,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
             SnackBar(
               backgroundColor: t.surface,
               content: Text(
-                'Category added to selected books',
+                l10n.categoryAdded,
                 style: TextStyle(color: t.textPrimary),
               ),
             ),

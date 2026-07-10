@@ -5,6 +5,7 @@ import 'package:tibeb/models/book_model.dart';
 import 'package:tibeb/providers/library_provider.dart';
 import 'package:tibeb/screens/edit_book_screen.dart';
 import 'package:tibeb/widgets/book_overlay_menu.dart';
+import 'package:tibeb/l10n/app_localizations.dart';
 
 class BookActionService {
   static void show(
@@ -51,6 +52,7 @@ class BookActionService {
     Book book,
   ) async {
     bool deleteHistory = false;
+    final l10n = AppLocalizations.of(context)!;
 
     final result = await showDialog<bool>(
       context: context,
@@ -59,10 +61,10 @@ class BookActionService {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: const Text('Remove Book'),
+              title: Text(l10n.removeBook),
 
               content: CheckboxListTile(
-                title: const Text('Remove reading history'),
+                title: Text(l10n.removeReadingHistory),
 
                 value: deleteHistory,
 
@@ -79,7 +81,7 @@ class BookActionService {
                     Navigator.pop(context, false);
                   },
 
-                  child: const Text('Cancel'),
+                  child: Text(l10n.cancel),
                 ),
 
                 TextButton(
@@ -87,7 +89,7 @@ class BookActionService {
                     Navigator.pop(context, true);
                   },
 
-                  child: const Text('Remove'),
+                  child: Text(l10n.delete),
                 ),
               ],
             );
