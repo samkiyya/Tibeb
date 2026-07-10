@@ -8,6 +8,7 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 import '../core/theme/theme.dart';
+import '../l10n/app_localizations.dart';
 import '../models/book_model.dart';
 import '../providers/library_provider.dart';
 import '../providers/navigation_provider.dart';
@@ -65,7 +66,8 @@ class AudiobookImportService {
     //    timestamp, not a system cache segment, not purely numeric).
     // 2. Otherwise use the cleaned filename of the first track.
     final folderRaw = p.basenameWithoutExtension(p.dirname(files.first.path!));
-    final folderIsUsable = folderRaw.isNotEmpty &&
+    final folderIsUsable =
+        folderRaw.isNotEmpty &&
         !RegExp(r'^\d+$').hasMatch(folderRaw) && // pure numbers = timestamp
         !RegExp(r'^file_picker$', caseSensitive: false).hasMatch(folderRaw) &&
         !RegExp(r'^cache$', caseSensitive: false).hasMatch(folderRaw) &&
@@ -107,14 +109,19 @@ class AudiobookImportService {
     name = name.replaceAll(RegExp(r' {2,}'), ' ');
     // Remove leading track numbers: "01 ", "1. ", "Track 1 ", etc.
     name = name.replaceFirst(
-        RegExp(r'^(track\s*)?[\d]+[\s\.\-]+', caseSensitive: false), '');
+      RegExp(r'^(track\s*)?[\d]+[\s\.\-]+', caseSensitive: false),
+      '',
+    );
     // Remove trailing noise like "(Official Video)", "[HD]", "(Non Stop)", etc.
     name = name.replaceAll(RegExp(r'\s*[\(\[][^\)\]]*[\)\]]'), '');
     // Remove common suffix words that aren't real titles
     name = name.replaceFirst(
-        RegExp(r'\s*(NONSTOP|NON\s*STOP|MASHUP|MIX|New Ethiopian|Non Stop)\s*$',
-            caseSensitive: false),
-        '');
+      RegExp(
+        r'\s*(NONSTOP|NON\s*STOP|MASHUP|MIX|New Ethiopian|Non Stop)\s*$',
+        caseSensitive: false,
+      ),
+      '',
+    );
     final cleaned = name.trim();
     // If nothing meaningful remains, use the original filename without extension
     if (cleaned.isEmpty || cleaned.length < 3) {
@@ -260,20 +267,23 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
         if (parsed?.coverBytes != null && parsed!.coverBytes!.isNotEmpty) {
           final appDir = await getApplicationDocumentsDirectory();
           final coversDir = io.Directory(p.join(appDir.path, 'covers'));
-          if (!await coversDir.exists()) await coversDir.create(recursive: true);
+          if (!await coversDir.exists()) {
+            await coversDir.create(recursive: true);
+          }
           final ext = (parsed.coverMime == 'image/png') ? '.png' : '.jpg';
           final coverFile = io.File(
-            p.join(coversDir.path, '${DateTime.now().millisecondsSinceEpoch}_$i$ext'),
+            p.join(
+              coversDir.path,
+              '${DateTime.now().millisecondsSinceEpoch}_$i$ext',
+            ),
           );
           await coverFile.writeAsBytes(parsed.coverBytes!);
           trackCoverPath = coverFile.path;
         }
 
-        copiedTracks.add(AudioTrack(
-          path: dest,
-          title: track.title,
-          coverPath: trackCoverPath,
-        ));
+        copiedTracks.add(
+          AudioTrack(path: dest, title: track.title, coverPath: trackCoverPath),
+        );
         setState(() => _importProgress = (i + 1) / _meta!.tracks.length);
       }
 
@@ -286,22 +296,31 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
         if (!await coversDir.exists()) await coversDir.create(recursive: true);
         final ext = (_extractedCoverMime == 'image/png') ? '.png' : '.jpg';
         final coverFile = io.File(
-          p.join(coversDir.path, '${DateTime.now().millisecondsSinceEpoch}$ext'),
+          p.join(
+            coversDir.path,
+            '${DateTime.now().millisecondsSinceEpoch}$ext',
+          ),
         );
         await coverFile.writeAsBytes(_extractedCoverBytes!);
         coverPath = coverFile.path;
       } else {
         // Use the first track cover as the book cover
         coverPath = copiedTracks
-            .firstWhere((t) => t.coverPath.isNotEmpty,
-                orElse: () => AudioTrack(path: '', title: ''))
+            .firstWhere(
+              (t) => t.coverPath.isNotEmpty,
+              orElse: () => AudioTrack(path: '', title: ''),
+            )
             .coverPath;
       }
 
       // Build a Book with filePath = 'audioonly://' sentinel.
       final book = Book(
-        title: _titleCtrl.text.trim().isEmpty ? 'Audiobook' : _titleCtrl.text.trim(),
-        author: _authorCtrl.text.trim().isEmpty ? 'Unknown' : _authorCtrl.text.trim(),
+        title: _titleCtrl.text.trim().isEmpty
+            ? 'Audiobook'
+            : _titleCtrl.text.trim(),
+        author: _authorCtrl.text.trim().isEmpty
+            ? 'Unknown'
+            : _authorCtrl.text.trim(),
         coverPath: coverPath,
         filePath: 'audioonly://${copiedTracks.first.path}',
         addedAt: DateTime.now(),
@@ -321,6 +340,7 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
   @override
   Widget build(BuildContext context) {
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       decoration: BoxDecoration(
@@ -331,9 +351,12 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
       child: SafeArea(
         child: Padding(
           padding: EdgeInsets.fromLTRB(
-            24, 16, 24, MediaQuery.of(context).viewInsets.bottom + 24,
+            24,
+            16,
+            24,
+            MediaQuery.of(context).viewInsets.bottom + 24,
           ),
-          child: _isDone ? _buildDone(t) : _buildForm(t),
+          child: _isDone ? _buildDone(t, l10n) : _buildForm(t, l10n),
         ),
       ),
     );
@@ -341,7 +364,8 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
 
   Widget _buildHandle(TibebThemeExtension t) => Center(
     child: Container(
-      width: 40, height: 4,
+      width: 40,
+      height: 4,
       decoration: BoxDecoration(
         color: t.borderSubtle,
         borderRadius: BorderRadius.circular(2),
@@ -349,7 +373,7 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
     ),
   );
 
-  Widget _buildDone(TibebThemeExtension t) => Column(
+  Widget _buildDone(TibebThemeExtension t, AppLocalizations l10n) => Column(
     mainAxisSize: MainAxisSize.min,
     children: [
       _buildHandle(t),
@@ -364,14 +388,16 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
       ),
       const SizedBox(height: 16),
       Text(
-        'Audiobook Added!',
+        l10n.audiobookAdded,
         style: TextStyle(
-          color: t.textPrimary, fontSize: 20, fontWeight: FontWeight.bold,
+          color: t.textPrimary,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
         ),
       ),
       const SizedBox(height: 8),
       Text(
-        '"${_titleCtrl.text}" has been added to your library.',
+        l10n.audiobookAddedMessage(_titleCtrl.text),
         textAlign: TextAlign.center,
         style: TextStyle(color: t.textSecondary, fontSize: 14),
       ),
@@ -388,15 +414,23 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
             backgroundColor: t.primary,
             foregroundColor: Colors.white,
             padding: const EdgeInsets.symmetric(vertical: 14),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(14),
+            ),
           ),
-          child: const Text('Go to Library', style: TextStyle(fontWeight: FontWeight.bold)),
+          child: Text(
+            l10n.goToLibrary,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
         ),
       ),
     ],
   );
 
-  Widget _buildForm(TibebThemeExtension t) => SingleChildScrollView(
+  Widget _buildForm(
+    TibebThemeExtension t,
+    AppLocalizations l10n,
+  ) => SingleChildScrollView(
     child: Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -405,25 +439,36 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
         const SizedBox(height: 20),
 
         // Header
-        Row(children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: t.primary.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(12),
+        Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: t.primary.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(Icons.headphones_rounded, color: t.primary, size: 24),
             ),
-            child: Icon(Icons.headphones_rounded, color: t.primary, size: 24),
-          ),
-          const SizedBox(width: 12),
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('Import Audiobook',
-              style: TextStyle(color: t.textPrimary, fontSize: 18, fontWeight: FontWeight.bold),
+            const SizedBox(width: 12),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l10n.importAudiobookTitle,
+                  style: TextStyle(
+                    color: t.textPrimary,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  l10n.importAudiobookFormats,
+                  style: TextStyle(color: t.textSecondary, fontSize: 11),
+                ),
+              ],
             ),
-            Text('MP3 · M4A · M4B · FLAC · OGG · WAV',
-              style: TextStyle(color: t.textSecondary, fontSize: 11),
-            ),
-          ]),
-        ]),
+          ],
+        ),
 
         const SizedBox(height: 24),
 
@@ -445,38 +490,74 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
               ),
             ),
             child: _meta == null
-                ? Column(children: [
-                    Icon(Icons.audio_file_rounded, size: 40, color: t.textTertiary),
-                    const SizedBox(height: 8),
-                    Text('Tap to select audio files',
-                      style: TextStyle(color: t.textSecondary, fontSize: 14),
-                    ),
-                    const SizedBox(height: 4),
-                    Text('Select multiple files for a multi-part audiobook',
-                      style: TextStyle(color: t.textTertiary, fontSize: 11),
-                      textAlign: TextAlign.center,
-                    ),
-                  ])
-                : Row(children: [
-                    Icon(Icons.check_circle_rounded, color: t.success, size: 24),
-                    const SizedBox(width: 12),
-                    Expanded(child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('${_meta!.tracks.length} track${_meta!.tracks.length > 1 ? 's' : ''} selected',
-                          style: TextStyle(color: t.textPrimary, fontWeight: FontWeight.w600, fontSize: 14),
+                ? Column(
+                    children: [
+                      Icon(
+                        Icons.audio_file_rounded,
+                        size: 40,
+                        color: t.textTertiary,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        l10n.tapToSelectAudioFiles,
+                        style: TextStyle(color: t.textSecondary, fontSize: 14),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        l10n.selectMultipleFiles,
+                        style: TextStyle(color: t.textTertiary, fontSize: 11),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  )
+                : Row(
+                    children: [
+                      Icon(
+                        Icons.check_circle_rounded,
+                        color: t.success,
+                        size: 24,
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _meta!.tracks.length == 1
+                                  ? l10n.tracksSelected(1)
+                                  : l10n.tracksSelectedPlural(
+                                      _meta!.tracks.length,
+                                    ),
+                              style: TextStyle(
+                                color: t.textPrimary,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              _meta!.tracks
+                                      .map((t) => t.title)
+                                      .take(3)
+                                      .join(', ') +
+                                  (_meta!.tracks.length > 3 ? '…' : ''),
+                              style: TextStyle(
+                                color: t.textSecondary,
+                                fontSize: 11,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 2),
-                        Text(_meta!.tracks.map((t) => t.title).take(3).join(', ') +
-                          (_meta!.tracks.length > 3 ? '…' : ''),
-                          style: TextStyle(color: t.textSecondary, fontSize: 11),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    )),
-                    Icon(Icons.swap_horiz_rounded, color: t.textTertiary, size: 18),
-                  ]),
+                      ),
+                      Icon(
+                        Icons.swap_horiz_rounded,
+                        color: t.textTertiary,
+                        size: 18,
+                      ),
+                    ],
+                  ),
           ),
         ),
 
@@ -484,7 +565,8 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
           const SizedBox(height: 20),
 
           // Cover art preview (shown when extracted cover is available)
-          if (_extractedCoverBytes != null && _extractedCoverBytes!.isNotEmpty) ...[
+          if (_extractedCoverBytes != null &&
+              _extractedCoverBytes!.isNotEmpty) ...[
             Row(
               children: [
                 ClipRRect(
@@ -502,7 +584,7 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Cover Found',
+                        l10n.coverFound,
                         style: TextStyle(
                           color: t.success,
                           fontSize: 12,
@@ -511,7 +593,7 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        'Extracted from audio metadata',
+                        l10n.coverExtractedFromMetadata,
                         style: TextStyle(color: t.textTertiary, fontSize: 11),
                       ),
                     ],
@@ -523,13 +605,20 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
           ],
 
           // Title field
-          Text('Title', style: TextStyle(color: t.textSecondary, fontSize: 12, fontWeight: FontWeight.w600)),
+          Text(
+            l10n.title,
+            style: TextStyle(
+              color: t.textSecondary,
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
           const SizedBox(height: 6),
           TextField(
             controller: _titleCtrl,
             style: TextStyle(color: t.textPrimary),
             decoration: InputDecoration(
-              hintText: 'Audiobook title',
+              hintText: l10n.audiobookTitleHint,
               hintStyle: TextStyle(color: t.textTertiary),
               filled: true,
               fillColor: t.surface,
@@ -551,13 +640,20 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
           const SizedBox(height: 12),
 
           // Author field
-          Text('Author / Narrator', style: TextStyle(color: t.textSecondary, fontSize: 12, fontWeight: FontWeight.w600)),
+          Text(
+            l10n.authorNarratorLabel,
+            style: TextStyle(
+              color: t.textSecondary,
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
           const SizedBox(height: 6),
           TextField(
             controller: _authorCtrl,
             style: TextStyle(color: t.textPrimary),
             decoration: InputDecoration(
-              hintText: 'Author or narrator name',
+              hintText: l10n.authorNarratorHint,
               hintStyle: TextStyle(color: t.textTertiary),
               filled: true,
               fillColor: t.surface,
@@ -579,7 +675,14 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
           // Track list preview
           if (_meta!.tracks.isNotEmpty) ...[
             const SizedBox(height: 16),
-            Text('Tracks', style: TextStyle(color: t.textSecondary, fontSize: 12, fontWeight: FontWeight.w600)),
+            Text(
+              l10n.tracksLabel,
+              style: TextStyle(
+                color: t.textSecondary,
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
             const SizedBox(height: 8),
             Container(
               decoration: BoxDecoration(
@@ -588,50 +691,84 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
                 border: Border.all(color: t.borderSubtle),
               ),
               child: Column(
-                children: List.generate(
-                  _meta!.tracks.length.clamp(0, 5),
-                  (i) {
-                    final track = _meta!.tracks[i];
-                    final isLast = i == (_meta!.tracks.length.clamp(0, 5) - 1);
-                    return Column(children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                        child: Row(children: [
-                          Container(
-                            width: 24, height: 24,
-                            decoration: BoxDecoration(
-                              color: t.primary.withValues(alpha: 0.12),
-                              shape: BoxShape.circle,
+                children:
+                    List.generate(_meta!.tracks.length.clamp(0, 5), (i) {
+                      final track = _meta!.tracks[i];
+                      final isLast =
+                          i == (_meta!.tracks.length.clamp(0, 5) - 1);
+                      return Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 10,
                             ),
-                            child: Center(
-                              child: Text('${i + 1}',
-                                style: TextStyle(color: t.primary, fontSize: 10, fontWeight: FontWeight.bold),
-                              ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 24,
+                                  height: 24,
+                                  decoration: BoxDecoration(
+                                    color: t.primary.withValues(alpha: 0.12),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      '${i + 1}',
+                                      style: TextStyle(
+                                        color: t.primary,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Text(
+                                    track.title,
+                                    style: TextStyle(
+                                      color: t.textPrimary,
+                                      fontSize: 13,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.music_note_rounded,
+                                  size: 14,
+                                  color: t.textTertiary,
+                                ),
+                              ],
                             ),
                           ),
-                          const SizedBox(width: 10),
-                          Expanded(child: Text(track.title,
-                            style: TextStyle(color: t.textPrimary, fontSize: 13),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          )),
-                          Icon(Icons.music_note_rounded, size: 14, color: t.textTertiary),
-                        ]),
-                      ),
-                      if (!isLast)
-                        Divider(height: 1, color: t.borderSubtle),
-                    ]);
-                  },
-                )..addAll(
-                  _meta!.tracks.length > 5 ? [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                      child: Text('+${_meta!.tracks.length - 5} more tracks',
-                        style: TextStyle(color: t.textTertiary, fontSize: 12, fontStyle: FontStyle.italic),
-                      ),
+                          if (!isLast)
+                            Divider(height: 1, color: t.borderSubtle),
+                        ],
+                      );
+                    })..addAll(
+                      _meta!.tracks.length > 5
+                          ? [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 10,
+                                ),
+                                child: Text(
+                                  l10n.moreTracksLabel(
+                                    _meta!.tracks.length - 5,
+                                  ),
+                                  style: TextStyle(
+                                    color: t.textTertiary,
+                                    fontSize: 12,
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                ),
+                              ),
+                            ]
+                          : [],
                     ),
-                  ] : [],
-                ),
               ),
             ),
           ],
@@ -646,11 +783,18 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
               borderRadius: BorderRadius.circular(10),
               border: Border.all(color: t.error.withValues(alpha: 0.2)),
             ),
-            child: Row(children: [
-              Icon(Icons.error_outline_rounded, color: t.error, size: 18),
-              const SizedBox(width: 8),
-              Expanded(child: Text(_error!, style: TextStyle(color: t.error, fontSize: 12))),
-            ]),
+            child: Row(
+              children: [
+                Icon(Icons.error_outline_rounded, color: t.error, size: 18),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    _error!,
+                    style: TextStyle(color: t.error, fontSize: 12),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
 
@@ -667,7 +811,7 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Copying tracks to library… ${(_importProgress * 100).toInt()}%',
+            l10n.copyingTracks((_importProgress * 100).toInt()),
             style: TextStyle(color: t.textTertiary, fontSize: 12),
             textAlign: TextAlign.center,
           ),
@@ -682,13 +826,21 @@ class _AudiobookImportSheetState extends ConsumerState<AudiobookImportSheet> {
             child: ElevatedButton.icon(
               onPressed: _meta != null ? _import : null,
               icon: const Icon(Icons.library_music_rounded),
-              label: const Text('Add to Library', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+              label: Text(
+                l10n.addToLibrary,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
+              ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: t.primary,
                 foregroundColor: Colors.white,
                 disabledBackgroundColor: t.borderSubtle,
                 padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
                 elevation: 0,
               ),
             ),
@@ -708,7 +860,8 @@ class AudioOnlyPlayerScreen extends ConsumerStatefulWidget {
   const AudioOnlyPlayerScreen({super.key, required this.book});
 
   @override
-  ConsumerState<AudioOnlyPlayerScreen> createState() => _AudioOnlyPlayerScreenState();
+  ConsumerState<AudioOnlyPlayerScreen> createState() =>
+      _AudioOnlyPlayerScreenState();
 }
 
 class _AudioOnlyPlayerScreenState extends ConsumerState<AudioOnlyPlayerScreen>
@@ -725,8 +878,10 @@ class _AudioOnlyPlayerScreenState extends ConsumerState<AudioOnlyPlayerScreen>
   @override
   void initState() {
     super.initState();
-    _artAnim = AnimationController(vsync: this, duration: const Duration(seconds: 20))
-      ..repeat();
+    _artAnim = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 20),
+    )..repeat();
 
     _initPlayer();
 
@@ -801,7 +956,9 @@ class _AudioOnlyPlayerScreenState extends ConsumerState<AudioOnlyPlayerScreen>
     final lastIdx = widget.book.audioLastIndex ?? 0;
     final lastMs = widget.book.audioLastPosition ?? 0;
 
-    final sources = tracks.map((t) => AudioSource.file(t.path, tag: t.title)).toList();
+    final sources = tracks
+        .map((t) => AudioSource.file(t.path, tag: t.title))
+        .toList();
     await _player.setAudioSources(
       sources,
       initialIndex: lastIdx < tracks.length ? lastIdx : 0,
@@ -822,7 +979,6 @@ class _AudioOnlyPlayerScreenState extends ConsumerState<AudioOnlyPlayerScreen>
     super.dispose();
   }
 
-
   String _fmt(Duration d) {
     final h = d.inHours;
     final m = d.inMinutes.remainder(60).toString().padLeft(2, '0');
@@ -834,213 +990,322 @@ class _AudioOnlyPlayerScreenState extends ConsumerState<AudioOnlyPlayerScreen>
   Widget build(BuildContext context) {
     final t = context.tibpiColors;
     final track = widget.book.audioTracks.isNotEmpty
-        ? widget.book.audioTracks[_currentIndex.clamp(0, widget.book.audioTracks.length - 1)]
+        ? widget.book.audioTracks[_currentIndex.clamp(
+            0,
+            widget.book.audioTracks.length - 1,
+          )]
         : null;
 
     return Scaffold(
       backgroundColor: t.background,
       body: SafeArea(
-        child: Column(children: [
-          // Top bar
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: Row(children: [
-              IconButton(
-                onPressed: () => Navigator.pop(context),
-                icon: Icon(Icons.keyboard_arrow_down_rounded, color: t.textPrimary, size: 28),
+        child: Column(
+          children: [
+            // Top bar
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: Row(
+                children: [
+                  IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: Icon(
+                      Icons.keyboard_arrow_down_rounded,
+                      color: t.textPrimary,
+                      size: 28,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      AppLocalizations.of(context)!.nowPlaying,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: t.textSecondary,
+                        fontSize: 13,
+                        letterSpacing: 1.2,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () => _showTrackList(context, t),
+                    icon: Icon(
+                      Icons.queue_music_rounded,
+                      color: t.textPrimary,
+                      size: 24,
+                    ),
+                  ),
+                ],
               ),
-              Expanded(child: Text('Now Playing',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: t.textSecondary, fontSize: 13, letterSpacing: 1.2, fontWeight: FontWeight.w600),
-              )),
-              IconButton(
-                onPressed: () => _showTrackList(context, t),
-                icon: Icon(Icons.queue_music_rounded, color: t.textPrimary, size: 24),
-              ),
-            ]),
-          ),
+            ),
 
-          const Spacer(),
+            const Spacer(),
 
-          // Rotating artwork — prefer current track's cover, fall back to book cover
-          AnimatedBuilder(
-            animation: _artAnim,
-            builder: (context, _) {
-              // Determine which cover to show: current track → book → placeholder
-              final currentTrack = widget.book.audioTracks.isNotEmpty
-                  ? widget.book.audioTracks[
-                      _currentIndex.clamp(0, widget.book.audioTracks.length - 1)]
-                  : null;
-              final trackCover = (currentTrack?.coverPath.isNotEmpty ?? false)
-                  ? currentTrack!.coverPath
-                  : null;
-              final coverToShow = trackCover?.isNotEmpty == true
-                  ? trackCover
-                  : widget.book.coverPath.isNotEmpty
-                      ? widget.book.coverPath
-                      : null;
+            // Rotating artwork — prefer current track's cover, fall back to book cover
+            AnimatedBuilder(
+              animation: _artAnim,
+              builder: (context, _) {
+                // Determine which cover to show: current track → book → placeholder
+                final currentTrack = widget.book.audioTracks.isNotEmpty
+                    ? widget.book.audioTracks[_currentIndex.clamp(
+                        0,
+                        widget.book.audioTracks.length - 1,
+                      )]
+                    : null;
+                final trackCover = (currentTrack?.coverPath.isNotEmpty ?? false)
+                    ? currentTrack!.coverPath
+                    : null;
+                final coverToShow = trackCover?.isNotEmpty == true
+                    ? trackCover
+                    : widget.book.coverPath.isNotEmpty
+                    ? widget.book.coverPath
+                    : null;
 
-              return Transform.rotate(
-                angle: _artAnim.value * 2 * 3.14159,
-                child: Container(
-                  width: 220, height: 220,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: t.surface,
-                    border: Border.all(color: t.primary.withValues(alpha: 0.3), width: 3),
-                    boxShadow: [
-                      BoxShadow(color: t.primary.withValues(alpha: 0.2), blurRadius: 40, spreadRadius: 5),
-                      BoxShadow(color: Colors.black.withValues(alpha: 0.4), blurRadius: 20),
-                    ],
-                    image: coverToShow != null
-                        ? DecorationImage(
-                            image: FileImage(io.File(coverToShow)),
-                            fit: BoxFit.cover,
+                return Transform.rotate(
+                  angle: _artAnim.value * 2 * 3.14159,
+                  child: Container(
+                    width: 220,
+                    height: 220,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: t.surface,
+                      border: Border.all(
+                        color: t.primary.withValues(alpha: 0.3),
+                        width: 3,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: t.primary.withValues(alpha: 0.2),
+                          blurRadius: 40,
+                          spreadRadius: 5,
+                        ),
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.4),
+                          blurRadius: 20,
+                        ),
+                      ],
+                      image: coverToShow != null
+                          ? DecorationImage(
+                              image: FileImage(io.File(coverToShow)),
+                              fit: BoxFit.cover,
+                            )
+                          : null,
+                    ),
+                    child: coverToShow == null
+                        ? Icon(
+                            Icons.headphones_rounded,
+                            size: 80,
+                            color: t.primary,
                           )
                         : null,
                   ),
-                  child: coverToShow == null
-                      ? Icon(Icons.headphones_rounded, size: 80, color: t.primary)
-                      : null,
-                ),
-              );
-            },
-          ),
+                );
+              },
+            ),
 
-          const SizedBox(height: 48),
+            const SizedBox(height: 48),
 
-          // Title + track info
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32),
-            child: Column(children: [
-              Text(widget.book.title,
-                style: TextStyle(color: t.textPrimary, fontSize: 22, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(height: 4),
-              Text(widget.book.author,
-                style: TextStyle(color: t.primary, fontSize: 14, fontWeight: FontWeight.w500),
-              ),
-              if (track != null) ...[
-                const SizedBox(height: 4),
-                Text('Track ${_currentIndex + 1}/${widget.book.audioTracks.length}: ${track.title}',
-                  style: TextStyle(color: t.textTertiary, fontSize: 12),
-                  textAlign: TextAlign.center,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ]),
-          ),
-
-          const SizedBox(height: 32),
-
-          // Progress slider
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(children: [
-              SliderTheme(
-                data: SliderTheme.of(context).copyWith(
-                  activeTrackColor: t.primary,
-                  inactiveTrackColor: t.borderSubtle,
-                  thumbColor: t.primary,
-                  overlayColor: t.primary.withValues(alpha: 0.15),
-                  trackHeight: 3,
-                  thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
-                ),
-                child: Slider(
-                  value: _duration.inSeconds > 0
-                      ? _position.inSeconds.clamp(0, _duration.inSeconds).toDouble()
-                      : 0,
-                  min: 0,
-                  max: _duration.inSeconds > 0 ? _duration.inSeconds.toDouble() : 1,
-                  onChanged: (v) => _player.seek(Duration(seconds: v.toInt())),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                  Text(_fmt(_position), style: TextStyle(color: t.textTertiary, fontSize: 12)),
-                  Text(_fmt(_duration), style: TextStyle(color: t.textTertiary, fontSize: 12)),
-                ]),
-              ),
-            ]),
-          ),
-
-          const SizedBox(height: 24),
-
-          // Controls
-          if (_isLoading)
-            CircularProgressIndicator(color: t.primary)
-          else
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              // Speed
-              GestureDetector(
-                onTap: _cycleSpeed,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: t.primary.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(8),
+            // Title + track info
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: Column(
+                children: [
+                  Text(
+                    widget.book.title,
+                    style: TextStyle(
+                      color: t.textPrimary,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  child: Text('${_speed}x',
-                    style: TextStyle(color: t.primary, fontWeight: FontWeight.bold, fontSize: 13),
+                  const SizedBox(height: 4),
+                  Text(
+                    widget.book.author,
+                    style: TextStyle(
+                      color: t.primary,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
+                  if (track != null) ...[
+                    const SizedBox(height: 4),
+                    Text(
+                      AppLocalizations.of(context)!.trackNofTotal(
+                        _currentIndex + 1,
+                        widget.book.audioTracks.length,
+                        track.title,
+                      ),
+                      style: TextStyle(color: t.textTertiary, fontSize: 12),
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ],
               ),
-              const SizedBox(width: 20),
+            ),
 
-              // Prev track
-              IconButton(
-                onPressed: () => _player.seekToPrevious(),
-                icon: Icon(Icons.skip_previous_rounded, color: t.textPrimary, size: 36),
-              ),
+            const SizedBox(height: 32),
 
-              // Skip -10s
-              IconButton(
-                onPressed: () => _player.seek(_position - const Duration(seconds: 10)),
-                icon: Icon(Icons.replay_10, color: t.textPrimary, size: 30),
-              ),
-
-              // Play/Pause
-              GestureDetector(
-                onTap: _isPlaying ? _player.pause : _player.play,
-                child: Container(
-                  width: 64, height: 64,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: t.primary,
-                    boxShadow: [
-                      BoxShadow(color: t.primary.withValues(alpha: 0.4), blurRadius: 20, spreadRadius: 2),
-                    ],
+            // Progress slider
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                children: [
+                  SliderTheme(
+                    data: SliderTheme.of(context).copyWith(
+                      activeTrackColor: t.primary,
+                      inactiveTrackColor: t.borderSubtle,
+                      thumbColor: t.primary,
+                      overlayColor: t.primary.withValues(alpha: 0.15),
+                      trackHeight: 3,
+                      thumbShape: const RoundSliderThumbShape(
+                        enabledThumbRadius: 6,
+                      ),
+                    ),
+                    child: Slider(
+                      value: _duration.inSeconds > 0
+                          ? _position.inSeconds
+                                .clamp(0, _duration.inSeconds)
+                                .toDouble()
+                          : 0,
+                      min: 0,
+                      max: _duration.inSeconds > 0
+                          ? _duration.inSeconds.toDouble()
+                          : 1,
+                      onChanged: (v) =>
+                          _player.seek(Duration(seconds: v.toInt())),
+                    ),
                   ),
-                  child: Icon(_isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
-                    color: Colors.white, size: 36,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          _fmt(_position),
+                          style: TextStyle(color: t.textTertiary, fontSize: 12),
+                        ),
+                        Text(
+                          _fmt(_duration),
+                          style: TextStyle(color: t.textTertiary, fontSize: 12),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 24),
+
+            // Controls
+            if (_isLoading)
+              CircularProgressIndicator(color: t.primary)
+            else
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Speed
+                  GestureDetector(
+                    onTap: _cycleSpeed,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: t.primary.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        '${_speed}x',
+                        style: TextStyle(
+                          color: t.primary,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+
+                  // Prev track
+                  IconButton(
+                    onPressed: () => _player.seekToPrevious(),
+                    icon: Icon(
+                      Icons.skip_previous_rounded,
+                      color: t.textPrimary,
+                      size: 36,
+                    ),
+                  ),
+
+                  // Skip -10s
+                  IconButton(
+                    onPressed: () =>
+                        _player.seek(_position - const Duration(seconds: 10)),
+                    icon: Icon(Icons.replay_10, color: t.textPrimary, size: 30),
+                  ),
+
+                  // Play/Pause
+                  GestureDetector(
+                    onTap: _isPlaying ? _player.pause : _player.play,
+                    child: Container(
+                      width: 64,
+                      height: 64,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: t.primary,
+                        boxShadow: [
+                          BoxShadow(
+                            color: t.primary.withValues(alpha: 0.4),
+                            blurRadius: 20,
+                            spreadRadius: 2,
+                          ),
+                        ],
+                      ),
+                      child: Icon(
+                        _isPlaying
+                            ? Icons.pause_rounded
+                            : Icons.play_arrow_rounded,
+                        color: Colors.white,
+                        size: 36,
+                      ),
+                    ),
+                  ),
+
+                  // Skip +30s
+                  IconButton(
+                    onPressed: () =>
+                        _player.seek(_position + const Duration(seconds: 30)),
+                    icon: Icon(
+                      Icons.forward_30_rounded,
+                      color: t.textPrimary,
+                      size: 30,
+                    ),
+                  ),
+
+                  // Next track
+                  IconButton(
+                    onPressed: () => _player.seekToNext(),
+                    icon: Icon(
+                      Icons.skip_next_rounded,
+                      color: t.textPrimary,
+                      size: 36,
+                    ),
+                  ),
+
+                  const SizedBox(width: 20),
+                  // Placeholder to mirror speed button width
+                  const SizedBox(width: 46),
+                ],
               ),
 
-              // Skip +30s
-              IconButton(
-                onPressed: () => _player.seek(_position + const Duration(seconds: 30)),
-                icon: Icon(Icons.forward_30_rounded, color: t.textPrimary, size: 30),
-              ),
-
-              // Next track
-              IconButton(
-                onPressed: () => _player.seekToNext(),
-                icon: Icon(Icons.skip_next_rounded, color: t.textPrimary, size: 36),
-              ),
-
-              const SizedBox(width: 20),
-              // Placeholder to mirror speed button width
-              const SizedBox(width: 46),
-            ]),
-
-          const Spacer(),
-        ]),
+            const Spacer(),
+          ],
+        ),
       ),
     );
   }
@@ -1064,14 +1329,27 @@ class _AudioOnlyPlayerScreenState extends ConsumerState<AudioOnlyPlayerScreen>
         mainAxisSize: MainAxisSize.min,
         children: [
           const SizedBox(height: 8),
-          Center(child: Container(
-            width: 36, height: 4,
-            decoration: BoxDecoration(color: t.borderSubtle, borderRadius: BorderRadius.circular(2)),
-          )),
+          Center(
+            child: Container(
+              width: 36,
+              height: 4,
+              decoration: BoxDecoration(
+                color: t.borderSubtle,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: Text('Track List',
-              style: TextStyle(color: t.textPrimary, fontWeight: FontWeight.bold, fontSize: 16),
+            child: Builder(
+              builder: (ctx) => Text(
+                AppLocalizations.of(ctx)!.trackList,
+                style: TextStyle(
+                  color: t.textPrimary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
             ),
           ),
           Flexible(
@@ -1086,12 +1364,13 @@ class _AudioOnlyPlayerScreenState extends ConsumerState<AudioOnlyPlayerScreen>
                 final coverPath = track.coverPath.isNotEmpty
                     ? track.coverPath
                     : widget.book.coverPath.isNotEmpty
-                        ? widget.book.coverPath
-                        : null;
+                    ? widget.book.coverPath
+                    : null;
 
                 return ListTile(
                   leading: Container(
-                    width: 40, height: 40,
+                    width: 40,
+                    height: 40,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: isActive
@@ -1106,33 +1385,42 @@ class _AudioOnlyPlayerScreenState extends ConsumerState<AudioOnlyPlayerScreen>
                     ),
                     child: coverPath == null
                         ? (isActive
-                            ? Icon(Icons.volume_up_rounded,
-                                color: Colors.white, size: 16)
-                            : Center(
-                                child: Text(
-                                  '${i + 1}',
-                                  style: TextStyle(
-                                    color: t.primary,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
+                              ? Icon(
+                                  Icons.volume_up_rounded,
+                                  color: Colors.white,
+                                  size: 16,
+                                )
+                              : Center(
+                                  child: Text(
+                                    '${i + 1}',
+                                    style: TextStyle(
+                                      color: t.primary,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                              ))
+                                ))
                         : isActive
-                            ? Container(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.black.withValues(alpha: 0.4),
-                                ),
-                                child: const Icon(Icons.volume_up_rounded,
-                                    color: Colors.white, size: 16),
-                              )
-                            : null,
+                        ? Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.black.withValues(alpha: 0.4),
+                            ),
+                            child: const Icon(
+                              Icons.volume_up_rounded,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                          )
+                        : null,
                   ),
-                  title: Text(track.title,
+                  title: Text(
+                    track.title,
                     style: TextStyle(
                       color: isActive ? t.primary : t.textPrimary,
-                      fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
+                      fontWeight: isActive
+                          ? FontWeight.w600
+                          : FontWeight.normal,
                       fontSize: 13,
                     ),
                   ),

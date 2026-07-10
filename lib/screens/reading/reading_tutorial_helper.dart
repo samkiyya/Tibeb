@@ -2,11 +2,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+import '../../l10n/app_localizations.dart';
 import '../../widgets/tutorial_coach.dart';
 
-/// Helper to handle first-launch tutorial coach marks configuration and display.
+/// Helper to handle first-launch tutorial coach marks for the reading screen.
 class ReadingTutorialHelper {
-  /// Checks if this is the first launch of the reading screen and shows the tutorial if so.
   static Future<void> checkAndShow({
     required BuildContext context,
     required bool isPdf,
@@ -60,22 +60,22 @@ class ReadingTutorialHelper {
     required GlobalKey displaySettingsKey,
     required VoidCallback onComplete,
   }) {
+    final l10n = AppLocalizations.of(context)!;
     final targets = <TargetFocus>[
       TutorialHelper.createTarget(
         identify: "toc_target",
         keyTarget: tocKey,
         alignSkip: Alignment.topRight,
-        title: "Navigation",
-        description:
-            "Access the Table of Contents, outlines, and your bookmarks.",
+        title: l10n.tutNavTitle,
+        description: l10n.tutNavDesc,
         contentAlign: ContentAlign.top,
       ),
       TutorialHelper.createTarget(
         identify: "search_target",
         keyTarget: searchKey,
         alignSkip: Alignment.bottomLeft,
-        title: "Search",
-        description: "Find specific phrases or words quickly within the book.",
+        title: l10n.tutSearchTitle,
+        description: l10n.tutSearchDesc,
         contentAlign: ContentAlign.bottom,
         crossAxisAlignment: CrossAxisAlignment.end,
         textAlign: TextAlign.right,
@@ -85,27 +85,24 @@ class ReadingTutorialHelper {
           identify: "lock_target",
           keyTarget: lockKey,
           alignSkip: Alignment.bottomRight,
-          title: "Scroll Lock",
-          description:
-              "Lock the PDF to horizontal scrolling, vertical scrolling, or lock the zoom level.",
+          title: l10n.tutScrollLockTitle,
+          description: l10n.tutScrollLockDesc,
           contentAlign: ContentAlign.bottom,
         ),
       TutorialHelper.createTarget(
         identify: "audio_target",
         keyTarget: audioKey,
         alignSkip: Alignment.topRight,
-        title: "Immersive Audio",
-        description:
-            "Tap the + icon to attach an audiobook file. If one is attached, tap here to open the audio controls.",
+        title: l10n.tutAudioTitle,
+        description: l10n.tutAudioDesc,
         contentAlign: ContentAlign.top,
       ),
       TutorialHelper.createTarget(
         identify: "autoscroll_target",
         keyTarget: autoScrollKey,
         alignSkip: Alignment.topLeft,
-        title: "Auto-Scroll",
-        description:
-            "Sit back and let the app scroll for you. Adjust the speed in the settings.",
+        title: l10n.tutAutoScrollTitle,
+        description: l10n.tutAutoScrollDesc,
         contentAlign: ContentAlign.top,
         crossAxisAlignment: CrossAxisAlignment.end,
         textAlign: TextAlign.right,
@@ -114,9 +111,8 @@ class ReadingTutorialHelper {
         identify: "display_target",
         keyTarget: displaySettingsKey,
         alignSkip: Alignment.topLeft,
-        title: "Display Settings",
-        description:
-            "Customize fonts, themes, margins, and more to suit your reading style.",
+        title: l10n.tutDisplayTitle,
+        description: l10n.tutDisplayDesc,
         contentAlign: ContentAlign.top,
         crossAxisAlignment: CrossAxisAlignment.end,
         textAlign: TextAlign.right,

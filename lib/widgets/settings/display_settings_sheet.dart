@@ -28,10 +28,10 @@ class DisplaySettingsSheet extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 20),
-          
+
           // Reading Theme
           Text(
-            'Reading Theme',
+            l10n.readingTheme,
             style: TextStyle(
               color: t.textSecondary,
               fontSize: 14,
@@ -43,38 +43,44 @@ class DisplaySettingsSheet extends ConsumerWidget {
             children: [
               Expanded(
                 child: _buildThemeChip(
-                  'Light',
+                  l10n.themeLight,
                   readerSettings.theme == ReaderTheme.white,
                   t,
-                  () => ref.read(readerSettingsProvider.notifier).setTheme(ReaderTheme.white),
+                  () => ref
+                      .read(readerSettingsProvider.notifier)
+                      .setTheme(ReaderTheme.white),
                 ),
               ),
               const SizedBox(width: 8),
               Expanded(
                 child: _buildThemeChip(
-                  'Sepia',
+                  l10n.themeSepia,
                   readerSettings.theme == ReaderTheme.cream,
                   t,
-                  () => ref.read(readerSettingsProvider.notifier).setTheme(ReaderTheme.cream),
+                  () => ref
+                      .read(readerSettingsProvider.notifier)
+                      .setTheme(ReaderTheme.cream),
                 ),
               ),
               const SizedBox(width: 8),
               Expanded(
                 child: _buildThemeChip(
-                  'Dark',
+                  l10n.themeDark,
                   readerSettings.theme == ReaderTheme.black,
                   t,
-                  () => ref.read(readerSettingsProvider.notifier).setTheme(ReaderTheme.black),
+                  () => ref
+                      .read(readerSettingsProvider.notifier)
+                      .setTheme(ReaderTheme.black),
                 ),
               ),
             ],
           ),
-          
+
           const SizedBox(height: 24),
-          
+
           // Text Alignment
           Text(
-            'Text Alignment',
+            l10n.textAlignment,
             style: TextStyle(
               color: t.textSecondary,
               fontSize: 14,
@@ -86,46 +92,59 @@ class DisplaySettingsSheet extends ConsumerWidget {
             children: [
               Expanded(
                 child: _buildAlignmentChip(
-                  'Left',
+                  l10n.alignLeft,
                   readerSettings.alignment == ReaderAlignment.left,
                   t,
-                  () => ref.read(readerSettingsProvider.notifier).setAlignment(ReaderAlignment.left),
+                  () => ref
+                      .read(readerSettingsProvider.notifier)
+                      .setAlignment(ReaderAlignment.left),
                 ),
               ),
               const SizedBox(width: 8),
               Expanded(
                 child: _buildAlignmentChip(
-                  'Center',
+                  l10n.alignCenter,
                   readerSettings.alignment == ReaderAlignment.center,
                   t,
-                  () => ref.read(readerSettingsProvider.notifier).setAlignment(ReaderAlignment.center),
+                  () => ref
+                      .read(readerSettingsProvider.notifier)
+                      .setAlignment(ReaderAlignment.center),
                 ),
               ),
               const SizedBox(width: 8),
               Expanded(
                 child: _buildAlignmentChip(
-                  'Justified',
+                  l10n.alignJustified,
                   readerSettings.alignment == ReaderAlignment.justified,
                   t,
-                  () => ref.read(readerSettingsProvider.notifier).setAlignment(ReaderAlignment.justified),
+                  () => ref
+                      .read(readerSettingsProvider.notifier)
+                      .setAlignment(ReaderAlignment.justified),
                 ),
               ),
             ],
           ),
-          
+
           const SizedBox(height: 24),
         ],
       ),
     );
   }
 
-  Widget _buildThemeChip(String label, bool isSelected, TibebThemeExtension t, VoidCallback onTap) {
+  Widget _buildThemeChip(
+    String label,
+    bool isSelected,
+    TibebThemeExtension t,
+    VoidCallback onTap,
+  ) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         decoration: BoxDecoration(
-          color: isSelected ? t.primary.withValues(alpha: 0.1) : t.surface.withValues(alpha: 0.35),
+          color: isSelected
+              ? t.primary.withValues(alpha: 0.1)
+              : t.surface.withValues(alpha: 0.35),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isSelected ? t.primary : t.borderSubtle,
@@ -145,13 +164,20 @@ class DisplaySettingsSheet extends ConsumerWidget {
     );
   }
 
-  Widget _buildAlignmentChip(String label, bool isSelected, TibebThemeExtension t, VoidCallback onTap) {
+  Widget _buildAlignmentChip(
+    String label,
+    bool isSelected,
+    TibebThemeExtension t,
+    VoidCallback onTap,
+  ) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
         decoration: BoxDecoration(
-          color: isSelected ? t.primary.withValues(alpha: 0.1) : t.surface.withValues(alpha: 0.35),
+          color: isSelected
+              ? t.primary.withValues(alpha: 0.1)
+              : t.surface.withValues(alpha: 0.35),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isSelected ? t.primary : t.borderSubtle,

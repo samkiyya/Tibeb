@@ -283,7 +283,7 @@ class AppLocalizationsOm extends AppLocalizations {
   String get category => 'Ramaddii';
 
   @override
-  String get selectAll => 'Hunduu fili';
+  String get selectAll => 'Hunda Fili';
 
   @override
   String get cancel => 'Haqi';
@@ -1184,4 +1184,318 @@ class AppLocalizationsOm extends AppLocalizations {
   @override
   String get earnWPHint =>
       'WP argadhu: PDF (10/fuula), EPUB (40/boqonnaa) + 5 WP/daqiiqaa. WP 1000 = Sadarkaa 1!';
+
+  @override
+  String get achievement_adwa_spirit => 'Hafura Adwaa';
+
+  @override
+  String get achievement_adwa_spirit_description =>
+      'Torban 7 walitti aansee dubbisi.';
+
+  @override
+  String get achievement_meskel_flame => 'Ibiddabsaa Masqalaa';
+
+  @override
+  String get achievement_meskel_flame_description =>
+      'Ji\'a tokko keessatti maxxansa 3 xumuri.';
+
+  @override
+  String get questTitlePages => 'Dubbisaa Guyyaa';
+
+  @override
+  String questDescPages(num count) {
+    return 'Guyyaa har\'aa fuula $count dubbisi.';
+  }
+
+  @override
+  String get questTitleMinutes => 'Xiyyeeffannoo Gadaa';
+
+  @override
+  String questDescMinutes(num count) {
+    return 'Daqiiqaa $count dubbisi.';
+  }
+
+  @override
+  String get questTitleEarlyBird => 'Barreessaa Ganamaa';
+
+  @override
+  String get questDescEarlyBird => 'Ganama 9:00 AM dura dubbisi.';
+
+  @override
+  String get readingTheme => 'Bifa Dubbisaa';
+
+  @override
+  String get textAlignment => 'Hiriira Barreeffamaa';
+
+  @override
+  String get themeLight => 'Ifa';
+
+  @override
+  String get themeSepia => 'Siipiyaa';
+
+  @override
+  String get themeDark => 'Dukkana';
+
+  @override
+  String get alignLeft => 'Bitaa';
+
+  @override
+  String get alignCenter => 'Gidduu';
+
+  @override
+  String get alignJustified => 'Hiriira Gutuu';
+
+  @override
+  String get fileTypeAudio => 'Sagalee';
+
+  @override
+  String get fileTypeMarkdown => 'Markdown';
+
+  @override
+  String get fileTypePlainText => 'Barreeffama Salphaa';
+
+  @override
+  String get importAudiobookTitle => 'Kitaaba Sagalee Galchi';
+
+  @override
+  String get importAudiobookFormats => 'MP3 · M4A · M4B · FLAC · OGG · WAV';
+
+  @override
+  String get tapToSelectAudioFiles => 'Faayiloota sagalee filuuf asitti tuqi';
+
+  @override
+  String get selectMultipleFiles =>
+      'Kitaaba sagalee kutaalee baay\'ee qabu filuuf faayiloota baay\'ee fili';
+
+  @override
+  String tracksSelected(num count) {
+    return 'Tarree $count filamee';
+  }
+
+  @override
+  String tracksSelectedPlural(num count) {
+    return 'Tarreeduwwan $count filamaniiru';
+  }
+
+  @override
+  String get audiobookTitleHint => 'Mata-duree kitaaba sagalee';
+
+  @override
+  String get authorNarratorLabel => 'Barreessaa / Dubbisaa';
+
+  @override
+  String get authorNarratorHint => 'Maqaa barreessaa ykn dubbisaa';
+
+  @override
+  String get tracksLabel => 'Tarreeduwwan';
+
+  @override
+  String moreTracksLabel(num count) {
+    return '+$count tarreeduwwan dabalataa';
+  }
+
+  @override
+  String copyingTracks(num percent) {
+    return 'Tarreeduwwan gara maktabatti geessaa jira… $percent%';
+  }
+
+  @override
+  String get addToLibrary => 'Gara Maktabaa Dabaluu';
+
+  @override
+  String get audiobookAdded => 'Kitaabni Sagalee Dabalame!';
+
+  @override
+  String audiobookAddedMessage(String title) {
+    return '\"$title\" maktabatti dabalame.';
+  }
+
+  @override
+  String get goToLibrary => 'Gara Maktabaatti Deemi';
+
+  @override
+  String get coverFound => 'Gubbaan Argame';
+
+  @override
+  String get coverExtractedFromMetadata => 'Metadata sagalee irraa baafame';
+
+  @override
+  String get importFab => 'Kitaaba Sagalee Galchi';
+
+  @override
+  String get nowPlaying => 'Amma Taphataa Jira';
+
+  @override
+  String get trackList => 'Tarree Tarreeduwwanii';
+
+  @override
+  String trackNofTotal(num current, num total, String title) {
+    return 'Tarree $current/$total: $title';
+  }
+
+  @override
+  String get selectFilesTitle => 'Faayiloota Fili';
+
+  @override
+  String importCount(num count) {
+    return 'Galchi ($count)';
+  }
+
+  @override
+  String webSearch(String query) {
+    return 'Barbaaduu Weebii: $query';
+  }
+
+  @override
+  String get useThisImage => 'Suuraa kana fayyadamuu?';
+
+  @override
+  String get useThisImageMessage =>
+      'Suuraa kana akka gubbaa kitaabaa fayyadamuuf barbaaddaa?';
+
+  @override
+  String get selectImage2 => 'Fili';
+
+  @override
+  String get tutNavTitle => 'Kallattii';
+
+  @override
+  String get tutNavDesc =>
+      'Gabatee Qabiyyee, tarreeffama fi mallattoodha ilaali.';
+
+  @override
+  String get tutSearchTitle => 'Barbaaduu';
+
+  @override
+  String get tutSearchDesc =>
+      'Jechota ykn himoota kitaaba keessatti dafee barbaaduu.';
+
+  @override
+  String get tutScrollLockTitle => 'Gulaaloo Cufuu';
+
+  @override
+  String get tutScrollLockDesc => 'PDF gara guddinaa ykn cufuuf barbaacha.';
+
+  @override
+  String get tutAudioTitle => 'Sagalee Oguumaa';
+
+  @override
+  String get tutAudioDesc =>
+      'Faayiilii attach gochuuf + tuqi. Yoo jiraate sagalee to\'annoo banuuf asitti tuqi.';
+
+  @override
+  String get tutAutoScrollTitle => 'Ofumaan Gulaala';
+
+  @override
+  String get tutAutoScrollDesc =>
+      'Booda hirkadhu appiin si gulaaleessaa. Saffisa ija gochuuf qindaa\'ina keessatti sirreessi.';
+
+  @override
+  String get tutDisplayTitle => 'Qindaa\'ina Agarsiisuus';
+
+  @override
+  String get tutDisplayDesc =>
+      'Bocquu, mata gareedhaa fi bal\'ina kee haalawwan barbaaddu irratti sirreessi.';
+
+  @override
+  String get tutHomeDashTitle => 'Daashboordii Mana';
+
+  @override
+  String get tutHomeDashDesc =>
+      'Baga Tibeb dhufte! Kitaaba yeroo ammaa dubbisaa jirtu itti fufuu fi aktiviitii dhiyeenyaafi muldhi haa.';
+
+  @override
+  String get tutLibraryTitle => 'Maktabaa Kee';
+
+  @override
+  String get tutLibraryDesc =>
+      'Kitaabota galchite hundi asitti argamu. EPUB, PDF, TXT ykn MD dabaluuf + tuqi.';
+
+  @override
+  String get tutAudiobookFabTitle => 'Kitaaba Sagalee Galchi';
+
+  @override
+  String get tutAudiobookFabDesc =>
+      'Kitaaba sagalee galchuuf tuqi (MP3, M4A, M4B, FLAC…). Mata-duree, barreessaa fi gubbaan ofumaan baafamu.';
+
+  @override
+  String get mainTutLibraryTitle => 'Maktaba';
+
+  @override
+  String get mainTutLibraryDesc =>
+      'Kitaabota fi kitaabota sagalee kakatame hunda bulchi.';
+
+  @override
+  String get mainTutStatsTitle => 'Isxaatistiksi';
+
+  @override
+  String get mainTutStatsDesc =>
+      'Adeemsa dubbisuu, aantummaa fi milkaa\'inoota hordofi.';
+
+  @override
+  String get mainTutSettingsTitle => 'Qindaa\'ina';
+
+  @override
+  String get mainTutSettingsDesc =>
+      'Bifa, afaan, beeksisota fi filannoo dubbisuu qindi.';
+
+  @override
+  String get notifQuestCompleted => 'Gaaffichi Xumurameera! 🎯';
+
+  @override
+  String notifQuestCompletedBody(String title, num wp) {
+    return 'Gaffii xumurteetta: $title. +$wp WP argatte!';
+  }
+
+  @override
+  String get notifLevelUp => 'Sadarkaa Guddateera! 🎉';
+
+  @override
+  String notifLevelUpBody(num level) {
+    return 'Sadarkaa $level geessee jirta!';
+  }
+
+  @override
+  String get notifRankUp => 'Mallattoon Guddateera! ⭐';
+
+  @override
+  String get notifRankUpBody => 'Baga gammadde! Sadarkaa haaraa geesseerta!';
+
+  @override
+  String get notifWeekendBoostTitle => 'Bonasii Dubbisaa Torban Dhumaa! 📚';
+
+  @override
+  String get notifWeekendBoostBody =>
+      'Sanbataa fi Dilbataan dubbisaaf mijachoodha. Kitaaba kee baniti WP 2× argadhu!';
+
+  @override
+  String get editSource => 'Madda Gulaali';
+
+  @override
+  String get preview => 'Dursa Ilaali';
+
+  @override
+  String get saveChanges => 'Jijjiiramoota Olkaa\'i';
+
+  @override
+  String get mdEditorHint => 'Markdown asiitti barreessi...';
+
+  @override
+  String get savedSuccessfully => 'Milkiin olkaa\'ame';
+
+  @override
+  String get saveFailed => 'Faayilii olkaa\'uuf hin dandeenye';
+
+  @override
+  String get mdDiagrams => 'Suuraa-Sagantaa';
+
+  @override
+  String get mdDiagramsHint =>
+      'Waliigalti Mermaid dursa ilaaluu keessatti of danda\'uun mul\'atu.';
+
+  @override
+  String get textDocumentTitle => 'Dokumenti Barreeffamaa';
+
+  @override
+  String get markdownDocumentTitle => 'Dokumenti Markdown';
 }

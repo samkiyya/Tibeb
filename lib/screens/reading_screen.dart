@@ -8,7 +8,6 @@ import '../models/book_model.dart';
 import 'package:tibeb/widgets/reading/reading.dart';
 import 'package:tibeb/screens/reading/reading.dart';
 
-
 class ReadingScreen extends ConsumerStatefulWidget {
   const ReadingScreen({super.key});
 
@@ -80,9 +79,15 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
       isPullingDownNotifier: _isPullingDownNotifier,
       scrollProgressNotifier: _scrollProgressNotifier,
       showControlsNotifier: _showControlsNotifier,
-      onBatteryChanged: () { if (mounted) setState(() {}); },
-      onIndexChanged: () { if (mounted) setState(() {}); },
-      onBookmarkStateChanged: () { if (mounted) setState(() {}); },
+      onBatteryChanged: () {
+        if (mounted) setState(() {});
+      },
+      onIndexChanged: () {
+        if (mounted) setState(() {});
+      },
+      onBookmarkStateChanged: () {
+        if (mounted) setState(() {});
+      },
       onTimeTick: _updateTime,
       tutorialKeys: _tutorialKeys,
       getPdfController: () => _pdfLayerKey.currentState?.pdfController,
@@ -101,15 +106,18 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
     // Sync audio precisely once on route initialization to avoid build-cycle race conditions
     final book = ref.read(currentlyReadingProvider);
     if (book != null) {
-      _audioSync.syncForBook(book, onError: (msg) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (mounted) {
-            ScaffoldMessenger.of(context)
-              ..clearSnackBars()
-              ..showSnackBar(SnackBar(content: Text(msg)));
-          }
-        });
-      });
+      _audioSync.syncForBook(
+        book,
+        onError: (msg) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) {
+              ScaffoldMessenger.of(context)
+                ..clearSnackBars()
+                ..showSnackBar(SnackBar(content: Text(msg)));
+            }
+          });
+        },
+      );
     }
   }
 
@@ -129,7 +137,8 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
 
   void _updateTime() {
     final now = DateTime.now();
-    final t = '${now.hour.toString().padLeft(2, '0')}:'
+    final t =
+        '${now.hour.toString().padLeft(2, '0')}:'
         '${now.minute.toString().padLeft(2, '0')}';
     if (_currentTimeNotifier.value != t) _currentTimeNotifier.value = t;
   }
@@ -140,6 +149,10 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
   }
 
   double _currentProgress(Book book) {
+    final path = book.filePath.toLowerCase();
+    if (path.endsWith('.txt') || path.endsWith('.md')) {
+      return _scrollProgressNotifier.value;
+    }
     return ProgressController.calculateCurrentProgress(
       book: book,
       epubChapterLengths: _epub.chapterLengths,
@@ -155,27 +168,34 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
   void _syncFinalProgress(Book book) {
     _audioSync.flushOnExit();
     if (!_progress.initialized) return;
+    final path = book.filePath.toLowerCase();
+    final isTxtMd = path.endsWith('.txt') || path.endsWith('.md');
     _progress.syncFinalProgress(
       book: book,
       ref: ref,
       progress: _currentProgress(book),
-      currentPage: book.filePath.toLowerCase().endsWith('.epub')
-          ? _epub.currentChapterIndex
-          : _pdf.pdfCurrentPage,
-      totalPages: book.filePath.toLowerCase().endsWith('.epub')
-          ? _epub.chapters.length
-          : _pdf.pdfPages,
-      chapters: _epub.chapters,
-      epubChapterLengths: _epub.chapterLengths,
-      currentChapterIndex: _epub.currentChapterIndex,
-      pdfCurrentPage: _pdf.pdfCurrentPage,
-      pdfPages: _pdf.pdfPages,
+      currentPage: isTxtMd
+          ? 0
+          : (path.endsWith('.epub')
+                ? _epub.currentChapterIndex
+                : _pdf.pdfCurrentPage),
+      totalPages: isTxtMd
+          ? 0
+          : (path.endsWith('.epub') ? _epub.chapters.length : _pdf.pdfPages),
+      chapters: isTxtMd ? [] : _epub.chapters,
+      epubChapterLengths: isTxtMd ? [] : _epub.chapterLengths,
+      currentChapterIndex: isTxtMd ? 0 : _epub.currentChapterIndex,
+      pdfCurrentPage: isTxtMd ? 0 : _pdf.pdfCurrentPage,
+      pdfPages: isTxtMd ? 0 : _pdf.pdfPages,
     );
   }
 
   void _resetReadingViewState(Book book) {
     ReadingActions.resetThemeForBook(
-        book: book, ref: ref, settings: ref.read(readerSettingsProvider));
+      book: book,
+      ref: ref,
+      settings: ref.read(readerSettingsProvider),
+    );
     _epub.reset();
     _pdf.reset();
     _ui.reset();
@@ -200,7 +220,13 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
   }
 
   void _jumpToPercent(double percent, Book book) {
-    if (book.filePath.toLowerCase().endsWith('.epub')) {
+    final path = book.filePath.toLowerCase();
+    if (path.endsWith('.txt') || path.endsWith('.md')) {
+      _scrollProgressNotifier.value = percent;
+      _progress.recordInteraction();
+      return;
+    }
+    if (path.endsWith('.epub')) {
       if (_epub.chapters.isEmpty || _epub.totalLength == 0) return;
       final t = _nav.onJumpToPercentEpub(percent);
       if (t == null) return;
@@ -231,8 +257,9 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
 
     if (_autoScroll.isScrolling &&
         _autoScroll.speedNotifier.value != settings.autoScrollSpeed) {
-      WidgetsBinding.instance.addPostFrameCallback(
-          (_) { if (mounted) _autoScroll.syncSpeed(settings.autoScrollSpeed); });
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _autoScroll.syncSpeed(settings.autoScrollSpeed);
+      });
     }
 
     if (book == null) {
@@ -242,11 +269,16 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.menu_book_rounded, size: 64,
-                  color: settings.textColor.withValues(alpha: 0.1)),
+              Icon(
+                Icons.menu_book_rounded,
+                size: 64,
+                color: settings.textColor.withValues(alpha: 0.1),
+              ),
               const SizedBox(height: 16),
-              Text('Select a book from your library to start reading',
-                  style: TextStyle(color: settings.secondaryTextColor)),
+              Text(
+                'Select a book from your library to start reading',
+                style: TextStyle(color: settings.secondaryTextColor),
+              ),
             ],
           ),
         ),
@@ -257,21 +289,41 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
 
     // Build per-frame coordinators (cheap — no allocation of controllers)
     final contentCoord = ReadingContentCoordinator(
-      epub: _epub, pdf: _pdf, progress: _progress,
-      ui: _ui, scrollProgressNotifier: _scrollProgressNotifier,
-      ref: ref, book: book, onStateChanged: () => setState(() {}),
+      epub: _epub,
+      pdf: _pdf,
+      progress: _progress,
+      ui: _ui,
+      scrollProgressNotifier: _scrollProgressNotifier,
+      ref: ref,
+      book: book,
+      onStateChanged: () => setState(() {}),
     );
 
     final controlsCoord = ReadingControlsCoordinator(
-      context: context, ref: ref, book: book, settings: settings,
-      audio: _audio, audioSync: _audioSync, autoScroll: _autoScroll,
-      bookmarks: _bookmarks, progress: _progress,
+      context: context,
+      ref: ref,
+      book: book,
+      settings: settings,
+      audio: _audio,
+      audioSync: _audioSync,
+      autoScroll: _autoScroll,
+      bookmarks: _bookmarks,
+      progress: _progress,
       searchManager: ReadingSearchManager(
-        search: _search, nav: _nav, epub: _epub, pdf: _pdf, ui: _ui,
-        epubLayerKey: _epubLayerKey, pdfLayerKey: _pdfLayerKey,
+        search: _search,
+        nav: _nav,
+        epub: _epub,
+        pdf: _pdf,
+        ui: _ui,
+        epubLayerKey: _epubLayerKey,
+        pdfLayerKey: _pdfLayerKey,
         scrollProgressNotifier: _scrollProgressNotifier,
       ),
-      nav: _nav, epub: _epub, pdf: _pdf, ui: _ui, search: _search,
+      nav: _nav,
+      epub: _epub,
+      pdf: _pdf,
+      ui: _ui,
+      search: _search,
       showControlsNotifier: _showControlsNotifier,
       scrollProgressNotifier: _scrollProgressNotifier,
       epubLayerKey: _epubLayerKey,
@@ -300,7 +352,9 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
                   child: Stack(
                     children: [
                       ReadingContentArea(
-                        book: book, settings: settings, isEpub: isEpub,
+                        book: book,
+                        settings: settings,
+                        isEpub: isEpub,
                         epubLayerKey: _epubLayerKey,
                         pdfLayerKey: _pdfLayerKey,
                         highlights: _bookmarks.highlights,
@@ -310,7 +364,8 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
                         autoScrollSpeedNotifier: _autoScroll.speedNotifier,
                         showControlsNotifier: _showControlsNotifier,
                         activeSearchQuery: _ui.activeSearchQuery,
-                        epub: _epub, pdf: _pdf,
+                        epub: _epub,
+                        pdf: _pdf,
                         onToggleControls: () => ReadingActions.toggleControls(
                           showControlsNotifier: _showControlsNotifier,
                           progress: _progress,
@@ -338,7 +393,9 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
               ValueListenableBuilder<String>(
                 valueListenable: _currentTimeNotifier,
                 builder: (context, time, _) => ReadingFooter(
-                  book: book, settings: settings, currentTime: time,
+                  book: book,
+                  settings: settings,
+                  currentTime: time,
                   currentChapter: isEpub
                       ? _epub.currentChapter
                       : _pdf.currentChapter,
@@ -363,8 +420,11 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen>
   ) {
     final isEpub = book.filePath.toLowerCase().endsWith('.epub');
     return ReadingControlsOverlay(
-      book: book, settings: settings,
-      audio: _audio, bookmarks: _bookmarks, search: _search,
+      book: book,
+      settings: settings,
+      audio: _audio,
+      bookmarks: _bookmarks,
+      search: _search,
       showControlsNotifier: _showControlsNotifier,
       currentTimeNotifier: _currentTimeNotifier,
       scrollProgressNotifier: _scrollProgressNotifier,

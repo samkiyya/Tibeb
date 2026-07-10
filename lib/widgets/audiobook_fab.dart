@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tibeb/core/theme/system/color_scheme.dart';
+import 'package:tibeb/l10n/app_localizations.dart';
 import 'package:tibeb/screens/audiobook_player_screen.dart';
 
 class AudiobookFab extends ConsumerStatefulWidget {
   final GlobalKey? tutorialKey;
   final VoidCallback? onPressed;
 
-  const AudiobookFab({
-    super.key,
-    this.tutorialKey,
-    this.onPressed,
-  });
+  const AudiobookFab({super.key, this.tutorialKey, this.onPressed});
 
   @override
   ConsumerState<AudiobookFab> createState() => _AudiobookFabState();
@@ -29,10 +26,11 @@ class _AudiobookFabState extends ConsumerState<AudiobookFab>
       vsync: this,
       duration: const Duration(milliseconds: 1800),
     )..repeat(reverse: true);
-    
-    _scale = Tween<double>(begin: 1.0, end: 1.06).animate(
-      CurvedAnimation(parent: _pulse, curve: Curves.easeInOut),
-    );
+
+    _scale = Tween<double>(
+      begin: 1.0,
+      end: 1.06,
+    ).animate(CurvedAnimation(parent: _pulse, curve: Curves.easeInOut));
   }
 
   @override
@@ -53,7 +51,7 @@ class _AudiobookFabState extends ConsumerState<AudiobookFab>
         onPressed: widget.onPressed ?? () => AudiobookImportSheet.show(context),
         backgroundColor: t.primary,
         elevation: 8,
-        tooltip: 'Import Audiobook',
+        tooltip: AppLocalizations.of(context)!.importFab,
         shape: const CircleBorder(),
         child: Container(
           width: 56,
@@ -61,10 +59,7 @@ class _AudiobookFabState extends ConsumerState<AudiobookFab>
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             gradient: LinearGradient(
-              colors: [
-                t.primary,
-                t.primary.withValues(alpha: 0.8),
-              ],
+              colors: [t.primary, t.primary.withValues(alpha: 0.8)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),

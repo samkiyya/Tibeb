@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/theme.dart';
+import 'package:tibeb/core/theme/theme.dart';
 
-
-import '../../models/quest_model.dart';
-import '../glass_container.dart';
-import '../../l10n/app_localizations.dart';
+import 'package:tibeb/models/quest_model.dart';
+import 'package:tibeb/widgets/glass_container.dart';
+import 'package:tibeb/l10n/app_localizations.dart';
 
 class DailyQuestsCard extends StatelessWidget {
   final List<DailyQuest> quests;
@@ -115,7 +114,7 @@ class _QuestItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    quest.title,
+                    quest.getLocalizedTitle(context),
                     style: TextStyle(
                       color: isCompleted ? t.textDisabled : t.textPrimary,
                       fontSize: 12,
@@ -127,11 +126,8 @@ class _QuestItem extends StatelessWidget {
                   ),
                   if (!isCompleted)
                     Text(
-                      quest.description,
-                      style: TextStyle(
-                        color: t.textSecondary,
-                        fontSize: 11,
-                      ),
+                      quest.getLocalizedDescription(context),
+                      style: TextStyle(color: t.textSecondary, fontSize: 11),
                     ),
                 ],
               ),
@@ -179,11 +175,7 @@ class _QuestItem extends StatelessWidget {
               ],
             ),
             if (isCompleted)
-              Icon(
-                Icons.check_circle,
-                color: t.success,
-                size: 14,
-              ),
+              Icon(Icons.check_circle, color: t.success, size: 14),
           ],
         ),
       ],

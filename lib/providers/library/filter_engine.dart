@@ -87,6 +87,12 @@ List<Book> applyBookFilters(List<Book> books, LibraryState currentState) {
         return b.filePath.toLowerCase().endsWith('.epub');
       } else if (currentState.selectedFileType == 'PDF') {
         return b.filePath.toLowerCase().endsWith('.pdf');
+      } else if (currentState.selectedFileType == 'AUDIO') {
+        return b.filePath.toLowerCase().startsWith('audioonly://');
+      } else if (currentState.selectedFileType == 'TXT') {
+        return b.filePath.toLowerCase().endsWith('.txt');
+      } else if (currentState.selectedFileType == 'MD') {
+        return b.filePath.toLowerCase().endsWith('.md');
       }
       return true;
     }).toList();

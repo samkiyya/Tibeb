@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../core/theme/theme.dart';
+import '../l10n/app_localizations.dart';
 
 class GoogleImageSearchScreen extends StatefulWidget {
   final String query;
@@ -64,9 +65,6 @@ class _GoogleImageSearchScreenState extends State<GoogleImageSearchScreen> {
   }
 
   void _injectSelectionScript() {
-    // This script uses a capture-phase listener on the document level.
-    // It traverses up from the click target to find an <img> element.
-    // This handles cases where clicks target overlaying divs or detail panels.
     const String script = """
       (function() {
         if (window.tibebInjected) return;
@@ -75,15 +73,12 @@ class _GoogleImageSearchScreenState extends State<GoogleImageSearchScreen> {
         document.addEventListener('click', function(e) {
           var target = e.target;
 
-          // Traverse up to find an IMG tag if we didn't click it directly
           while (target && target.tagName !== 'IMG' && target !== document.body) {
             target = target.parentElement;
           }
 
           if (target && target.tagName === 'IMG') {
             var src = target.src;
-            // On Google Images, sometimes the src is a data URI or a low-res thumb.
-            // We prioritze the 'src' but we can also check properties like 'data-src'.
             if (src && src.startsWith('http')) {
                ImageSelectionChannel.postMessage(src);
                e.preventDefault();
@@ -97,10 +92,13 @@ class _GoogleImageSearchScreenState extends State<GoogleImageSearchScreen> {
   }
 
   void _showConfirmationDialog(String url) {
+    final l10n = AppLocalizations.of(context)!;
+    final t = context.tibpiColors;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Use this image?'),
+        backgroundColor: t.surface,
+        title: Text(l10n.useThisImage, style: TextStyle(color: t.textPrimary)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -115,13 +113,16 @@ class _GoogleImageSearchScreenState extends State<GoogleImageSearchScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            const Text('Would you like to use this as the book cover?'),
+            Text(
+              l10n.useThisImageMessage,
+              style: TextStyle(color: t.textSecondary),
+            ),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel, style: TextStyle(color: t.textTertiary)),
           ),
           ElevatedButton(
             onPressed: () {
@@ -132,7 +133,7 @@ class _GoogleImageSearchScreenState extends State<GoogleImageSearchScreen> {
               backgroundColor: context.tibpiColors.accent,
               foregroundColor: Colors.white,
             ),
-            child: const Text('Select'),
+            child: Text(l10n.selectImage2),
           ),
         ],
       ),
@@ -141,9 +142,10 @@ class _GoogleImageSearchScreenState extends State<GoogleImageSearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Web Search: ${widget.query}'),
+        title: Text(l10n.webSearch(widget.query)),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),

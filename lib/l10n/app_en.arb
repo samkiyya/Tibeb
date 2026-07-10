@@ -393,5 +393,173 @@
   "activeGoalLabel": "Active",
   "showOnGraph": "Show on Graph",
   "saveGoals": "Save Goals",
-  "earnWPHint": "Earn WP: PDF (10/page), EPUB (40/chapter) + 5 WP/min. Every 1000 WP = 1 Level!"
+  "earnWPHint": "Earn WP: PDF (10/page), EPUB (40/chapter) + 5 WP/min. Every 1000 WP = 1 Level!",
+  "achievement_adwa_spirit": "Spirit of Adwa",
+  "achievement_adwa_spirit_description": "Read for 7 consecutive weeks.",
+  "achievement_meskel_flame": "Meskel Flame",
+  "achievement_meskel_flame_description": "Finish 3 books in one month.",
+  "questTitlePages": "Daily Reader",
+  "questDescPages": "Read {count} pages today.",
+  "@questDescPages": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "questTitleMinutes": "Deep Focus",
+  "questDescMinutes": "Read for {count} minutes.",
+  "@questDescMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "questTitleEarlyBird": "Early Bird",
+  "questDescEarlyBird": "Read before 9:00 AM.",
+  "readingTheme": "Reading Theme",
+  "textAlignment": "Text Alignment",
+  "themeLight": "Light",
+  "themeSepia": "Sepia",
+  "themeDark": "Dark",
+  "alignLeft": "Left",
+  "alignCenter": "Center",
+  "alignJustified": "Justified",
+  "fileTypeAudio": "Audio",
+  "fileTypeMarkdown": "Markdown",
+  "fileTypePlainText": "Plain Text",
+
+  "importAudiobookTitle": "Import Audiobook",
+  "importAudiobookFormats": "MP3 · M4A · M4B · FLAC · OGG · WAV",
+  "tapToSelectAudioFiles": "Tap to select audio files",
+  "selectMultipleFiles": "Select multiple files for a multi-part audiobook",
+  "tracksSelected": "{count} track selected",
+  "@tracksSelected": {
+    "placeholders": {
+      "count": { "type": "num" }
+    }
+  },
+  "tracksSelectedPlural": "{count} tracks selected",
+  "@tracksSelectedPlural": {
+    "placeholders": {
+      "count": { "type": "num" }
+    }
+  },
+  "audiobookTitleHint": "Audiobook title",
+  "authorNarratorLabel": "Author / Narrator",
+  "authorNarratorHint": "Author or narrator name",
+  "tracksLabel": "Tracks",
+  "moreTracksLabel": "+{count} more tracks",
+  "@moreTracksLabel": {
+    "placeholders": {
+      "count": { "type": "num" }
+    }
+  },
+  "copyingTracks": "Copying tracks to library… {percent}%",
+  "@copyingTracks": {
+    "placeholders": {
+      "percent": { "type": "num" }
+    }
+  },
+  "addToLibrary": "Add to Library",
+  "audiobookAdded": "Audiobook Added!",
+  "audiobookAddedMessage": "\"{title}\" has been added to your library.",
+  "@audiobookAddedMessage": {
+    "placeholders": {
+      "title": { "type": "String" }
+    }
+  },
+  "goToLibrary": "Go to Library",
+  "coverFound": "Cover Found",
+  "coverExtractedFromMetadata": "Extracted from audio metadata",
+  "importFab": "Import Audiobook",
+
+  "nowPlaying": "Now Playing",
+  "trackList": "Track List",
+  "trackNofTotal": "Track {current}/{total}: {title}",
+  "@trackNofTotal": {
+    "placeholders": {
+      "current": { "type": "num" },
+      "total": { "type": "num" },
+      "title": { "type": "String" }
+    }
+  },
+
+  "selectFilesTitle": "Select Files",
+  "importCount": "Import ({count})",
+  "@importCount": {
+    "placeholders": {
+      "count": { "type": "num" }
+    }
+  },
+  "selectAll": "Select All",
+
+  "webSearch": "Web Search: {query}",
+  "@webSearch": {
+    "placeholders": {
+      "query": { "type": "String" }
+    }
+  },
+  "useThisImage": "Use this image?",
+  "useThisImageMessage": "Would you like to use this as the book cover?",
+  "selectImage2": "Select",
+
+  "tutNavTitle": "Navigation",
+  "tutNavDesc": "Access the Table of Contents, outlines, and your bookmarks.",
+  "tutSearchTitle": "Search",
+  "tutSearchDesc": "Find specific phrases or words quickly within the book.",
+  "tutScrollLockTitle": "Scroll Lock",
+  "tutScrollLockDesc": "Lock the PDF to horizontal scrolling, vertical scrolling, or lock the zoom level.",
+  "tutAudioTitle": "Immersive Audio",
+  "tutAudioDesc": "Tap the + icon to attach an audiobook file. If one is attached, tap here to open the audio controls.",
+  "tutAutoScrollTitle": "Auto-Scroll",
+  "tutAutoScrollDesc": "Sit back and let the app scroll for you. Adjust the speed in the settings.",
+  "tutDisplayTitle": "Display Settings",
+  "tutDisplayDesc": "Customize fonts, themes, margins, and more to suit your reading style.",
+
+  "tutHomeDashTitle": "Home Dashboard",
+  "tutHomeDashDesc": "Welcome to Tibeb! Resume your current book and see your recent activity here.",
+  "tutLibraryTitle": "Your Library",
+  "tutLibraryDesc": "All your imported books live here. Tap the + button to add EPUB, PDF, TXT or MD files.",
+  "tutAudiobookFabTitle": "Import Audiobooks",
+  "tutAudiobookFabDesc": "Tap this button to import standalone audiobooks (MP3, M4A, M4B, FLAC…). Title, author, and cover art are extracted automatically.",
+
+  "mainTutLibraryTitle": "Library",
+  "mainTutLibraryDesc": "Browse and manage all your imported books and audiobooks.",
+  "mainTutStatsTitle": "Statistics",
+  "mainTutStatsDesc": "Track your reading progress, streaks, and achievements.",
+  "mainTutSettingsTitle": "Settings",
+  "mainTutSettingsDesc": "Customize the app theme, language, notifications, and reading preferences.",
+
+  "notifQuestCompleted": "Quest Completed! 🎯",
+  "notifQuestCompletedBody": "You completed: {title}. +{wp} WP earned!",
+  "@notifQuestCompletedBody": {
+    "placeholders": {
+      "title": { "type": "String" },
+      "wp": { "type": "num" }
+    }
+  },
+  "notifLevelUp": "Level Up! 🎉",
+  "notifLevelUpBody": "You reached Level {level}!",
+  "@notifLevelUpBody": {
+    "placeholders": {
+      "level": { "type": "num" }
+    }
+  },
+  "notifRankUp": "Rank Up! ⭐",
+  "notifRankUpBody": "Congratulations! You reached a new rank!",
+  "notifWeekendBoostTitle": "Weekend Reading Boost! 📚",
+  "notifWeekendBoostBody": "Weekends are perfect for reading. Open your book and earn 2× WP today!",
+
+  "editSource": "Edit Source",
+  "preview": "Preview",
+  "saveChanges": "Save Changes",
+  "mdEditorHint": "Write Markdown here...",
+  "savedSuccessfully": "Saved successfully",
+  "saveFailed": "Failed to save file",
+  "mdDiagrams": "Diagrams",
+  "mdDiagramsHint": "Mermaid diagrams render automatically in preview mode.",
+  "textDocumentTitle": "Text Document",
+  "markdownDocumentTitle": "Markdown Document"
 }

@@ -9,8 +9,9 @@ import '../../screens/reading/epub_reading_manager.dart';
 import '../../screens/reading/pdf_reading_manager.dart';
 import 'epub_reader_layer.dart';
 import 'pdf_reader_layer.dart';
+import 'text_md_reader_layer.dart';
 
-/// Encapsulates the EPUB and PDF content-area layers, keeping
+/// Encapsulates the EPUB, PDF, and TXT/Markdown content-area layers, keeping
 /// reading_screen.dart free from verbose onLoaded/onPageChanged wiring.
 class ReadingContentArea extends StatelessWidget {
   const ReadingContentArea({
@@ -70,14 +71,12 @@ class ReadingContentArea extends StatelessWidget {
     EpubBook epubBook,
     double initialScrollProgress,
     int initialChapterIndex,
-  ) onEpubLoaded;
+  )
+  onEpubLoaded;
   final Function(int index) onEpubPageChanged;
 
-  final Function(
-    List<PdfOutlineNode> outline,
-    int totalPages,
-    int initialPage,
-  ) onPdfLoaded;
+  final Function(List<PdfOutlineNode> outline, int totalPages, int initialPage)
+  onPdfLoaded;
   final Function(int page, int total) onPdfPageChanged;
 
   final VoidCallback onJumpedToBottom;
@@ -85,6 +84,17 @@ class ReadingContentArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final lowerPath = book.filePath.toLowerCase();
+    if (lowerPath.endsWith('.txt') || lowerPath.endsWith('.md')) {
+      return TextMdReaderLayer(
+        book: book,
+        settings: settings,
+        scrollProgressNotifier: scrollProgressNotifier,
+        onToggleControls: onToggleControls,
+        onInteraction: onInteraction,
+      );
+    }
+
     if (isEpub) {
       return EpubReaderLayer(
         key: epubLayerKey,

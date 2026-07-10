@@ -2301,6 +2301,552 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Earn WP: PDF (10/page), EPUB (40/chapter) + 5 WP/min. Every 1000 WP = 1 Level!'**
   String get earnWPHint;
+
+  /// No description provided for @achievement_adwa_spirit.
+  ///
+  /// In en, this message translates to:
+  /// **'Spirit of Adwa'**
+  String get achievement_adwa_spirit;
+
+  /// No description provided for @achievement_adwa_spirit_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Read for 7 consecutive weeks.'**
+  String get achievement_adwa_spirit_description;
+
+  /// No description provided for @achievement_meskel_flame.
+  ///
+  /// In en, this message translates to:
+  /// **'Meskel Flame'**
+  String get achievement_meskel_flame;
+
+  /// No description provided for @achievement_meskel_flame_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish 3 books in one month.'**
+  String get achievement_meskel_flame_description;
+
+  /// No description provided for @questTitlePages.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Reader'**
+  String get questTitlePages;
+
+  /// No description provided for @questDescPages.
+  ///
+  /// In en, this message translates to:
+  /// **'Read {count} pages today.'**
+  String questDescPages(num count);
+
+  /// No description provided for @questTitleMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Deep Focus'**
+  String get questTitleMinutes;
+
+  /// No description provided for @questDescMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Read for {count} minutes.'**
+  String questDescMinutes(num count);
+
+  /// No description provided for @questTitleEarlyBird.
+  ///
+  /// In en, this message translates to:
+  /// **'Early Bird'**
+  String get questTitleEarlyBird;
+
+  /// No description provided for @questDescEarlyBird.
+  ///
+  /// In en, this message translates to:
+  /// **'Read before 9:00 AM.'**
+  String get questDescEarlyBird;
+
+  /// No description provided for @readingTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading Theme'**
+  String get readingTheme;
+
+  /// No description provided for @textAlignment.
+  ///
+  /// In en, this message translates to:
+  /// **'Text Alignment'**
+  String get textAlignment;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeLight;
+
+  /// No description provided for @themeSepia.
+  ///
+  /// In en, this message translates to:
+  /// **'Sepia'**
+  String get themeSepia;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeDark;
+
+  /// No description provided for @alignLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'Left'**
+  String get alignLeft;
+
+  /// No description provided for @alignCenter.
+  ///
+  /// In en, this message translates to:
+  /// **'Center'**
+  String get alignCenter;
+
+  /// No description provided for @alignJustified.
+  ///
+  /// In en, this message translates to:
+  /// **'Justified'**
+  String get alignJustified;
+
+  /// No description provided for @fileTypeAudio.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio'**
+  String get fileTypeAudio;
+
+  /// No description provided for @fileTypeMarkdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Markdown'**
+  String get fileTypeMarkdown;
+
+  /// No description provided for @fileTypePlainText.
+  ///
+  /// In en, this message translates to:
+  /// **'Plain Text'**
+  String get fileTypePlainText;
+
+  /// No description provided for @importAudiobookTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import Audiobook'**
+  String get importAudiobookTitle;
+
+  /// No description provided for @importAudiobookFormats.
+  ///
+  /// In en, this message translates to:
+  /// **'MP3 · M4A · M4B · FLAC · OGG · WAV'**
+  String get importAudiobookFormats;
+
+  /// No description provided for @tapToSelectAudioFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to select audio files'**
+  String get tapToSelectAudioFiles;
+
+  /// No description provided for @selectMultipleFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Select multiple files for a multi-part audiobook'**
+  String get selectMultipleFiles;
+
+  /// No description provided for @tracksSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} track selected'**
+  String tracksSelected(num count);
+
+  /// No description provided for @tracksSelectedPlural.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} tracks selected'**
+  String tracksSelectedPlural(num count);
+
+  /// No description provided for @audiobookTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Audiobook title'**
+  String get audiobookTitleHint;
+
+  /// No description provided for @authorNarratorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Author / Narrator'**
+  String get authorNarratorLabel;
+
+  /// No description provided for @authorNarratorHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Author or narrator name'**
+  String get authorNarratorHint;
+
+  /// No description provided for @tracksLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Tracks'**
+  String get tracksLabel;
+
+  /// No description provided for @moreTracksLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'+{count} more tracks'**
+  String moreTracksLabel(num count);
+
+  /// No description provided for @copyingTracks.
+  ///
+  /// In en, this message translates to:
+  /// **'Copying tracks to library… {percent}%'**
+  String copyingTracks(num percent);
+
+  /// No description provided for @addToLibrary.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to Library'**
+  String get addToLibrary;
+
+  /// No description provided for @audiobookAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Audiobook Added!'**
+  String get audiobookAdded;
+
+  /// No description provided for @audiobookAddedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'\"{title}\" has been added to your library.'**
+  String audiobookAddedMessage(String title);
+
+  /// No description provided for @goToLibrary.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Library'**
+  String get goToLibrary;
+
+  /// No description provided for @coverFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Cover Found'**
+  String get coverFound;
+
+  /// No description provided for @coverExtractedFromMetadata.
+  ///
+  /// In en, this message translates to:
+  /// **'Extracted from audio metadata'**
+  String get coverExtractedFromMetadata;
+
+  /// No description provided for @importFab.
+  ///
+  /// In en, this message translates to:
+  /// **'Import Audiobook'**
+  String get importFab;
+
+  /// No description provided for @nowPlaying.
+  ///
+  /// In en, this message translates to:
+  /// **'Now Playing'**
+  String get nowPlaying;
+
+  /// No description provided for @trackList.
+  ///
+  /// In en, this message translates to:
+  /// **'Track List'**
+  String get trackList;
+
+  /// No description provided for @trackNofTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Track {current}/{total}: {title}'**
+  String trackNofTotal(num current, num total, String title);
+
+  /// No description provided for @selectFilesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Files'**
+  String get selectFilesTitle;
+
+  /// No description provided for @importCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Import ({count})'**
+  String importCount(num count);
+
+  /// No description provided for @webSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Web Search: {query}'**
+  String webSearch(String query);
+
+  /// No description provided for @useThisImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Use this image?'**
+  String get useThisImage;
+
+  /// No description provided for @useThisImageMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Would you like to use this as the book cover?'**
+  String get useThisImageMessage;
+
+  /// No description provided for @selectImage2.
+  ///
+  /// In en, this message translates to:
+  /// **'Select'**
+  String get selectImage2;
+
+  /// No description provided for @tutNavTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Navigation'**
+  String get tutNavTitle;
+
+  /// No description provided for @tutNavDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Access the Table of Contents, outlines, and your bookmarks.'**
+  String get tutNavDesc;
+
+  /// No description provided for @tutSearchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get tutSearchTitle;
+
+  /// No description provided for @tutSearchDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Find specific phrases or words quickly within the book.'**
+  String get tutSearchDesc;
+
+  /// No description provided for @tutScrollLockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Scroll Lock'**
+  String get tutScrollLockTitle;
+
+  /// No description provided for @tutScrollLockDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock the PDF to horizontal scrolling, vertical scrolling, or lock the zoom level.'**
+  String get tutScrollLockDesc;
+
+  /// No description provided for @tutAudioTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Immersive Audio'**
+  String get tutAudioTitle;
+
+  /// No description provided for @tutAudioDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the + icon to attach an audiobook file. If one is attached, tap here to open the audio controls.'**
+  String get tutAudioDesc;
+
+  /// No description provided for @tutAutoScrollTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-Scroll'**
+  String get tutAutoScrollTitle;
+
+  /// No description provided for @tutAutoScrollDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Sit back and let the app scroll for you. Adjust the speed in the settings.'**
+  String get tutAutoScrollDesc;
+
+  /// No description provided for @tutDisplayTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Display Settings'**
+  String get tutDisplayTitle;
+
+  /// No description provided for @tutDisplayDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Customize fonts, themes, margins, and more to suit your reading style.'**
+  String get tutDisplayDesc;
+
+  /// No description provided for @tutHomeDashTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Dashboard'**
+  String get tutHomeDashTitle;
+
+  /// No description provided for @tutHomeDashDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Tibeb! Resume your current book and see your recent activity here.'**
+  String get tutHomeDashDesc;
+
+  /// No description provided for @tutLibraryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Library'**
+  String get tutLibraryTitle;
+
+  /// No description provided for @tutLibraryDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'All your imported books live here. Tap the + button to add EPUB, PDF, TXT or MD files.'**
+  String get tutLibraryDesc;
+
+  /// No description provided for @tutAudiobookFabTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import Audiobooks'**
+  String get tutAudiobookFabTitle;
+
+  /// No description provided for @tutAudiobookFabDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap this button to import standalone audiobooks (MP3, M4A, M4B, FLAC…). Title, author, and cover art are extracted automatically.'**
+  String get tutAudiobookFabDesc;
+
+  /// No description provided for @mainTutLibraryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Library'**
+  String get mainTutLibraryTitle;
+
+  /// No description provided for @mainTutLibraryDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse and manage all your imported books and audiobooks.'**
+  String get mainTutLibraryDesc;
+
+  /// No description provided for @mainTutStatsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Statistics'**
+  String get mainTutStatsTitle;
+
+  /// No description provided for @mainTutStatsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Track your reading progress, streaks, and achievements.'**
+  String get mainTutStatsDesc;
+
+  /// No description provided for @mainTutSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get mainTutSettingsTitle;
+
+  /// No description provided for @mainTutSettingsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Customize the app theme, language, notifications, and reading preferences.'**
+  String get mainTutSettingsDesc;
+
+  /// No description provided for @notifQuestCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Quest Completed! 🎯'**
+  String get notifQuestCompleted;
+
+  /// No description provided for @notifQuestCompletedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You completed: {title}. +{wp} WP earned!'**
+  String notifQuestCompletedBody(String title, num wp);
+
+  /// No description provided for @notifLevelUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Level Up! 🎉'**
+  String get notifLevelUp;
+
+  /// No description provided for @notifLevelUpBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You reached Level {level}!'**
+  String notifLevelUpBody(num level);
+
+  /// No description provided for @notifRankUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Rank Up! ⭐'**
+  String get notifRankUp;
+
+  /// No description provided for @notifRankUpBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Congratulations! You reached a new rank!'**
+  String get notifRankUpBody;
+
+  /// No description provided for @notifWeekendBoostTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekend Reading Boost! 📚'**
+  String get notifWeekendBoostTitle;
+
+  /// No description provided for @notifWeekendBoostBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekends are perfect for reading. Open your book and earn 2× WP today!'**
+  String get notifWeekendBoostBody;
+
+  /// No description provided for @editSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Source'**
+  String get editSource;
+
+  /// No description provided for @preview.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get preview;
+
+  /// No description provided for @saveChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Changes'**
+  String get saveChanges;
+
+  /// No description provided for @mdEditorHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Write Markdown here...'**
+  String get mdEditorHint;
+
+  /// No description provided for @savedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved successfully'**
+  String get savedSuccessfully;
+
+  /// No description provided for @saveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save file'**
+  String get saveFailed;
+
+  /// No description provided for @mdDiagrams.
+  ///
+  /// In en, this message translates to:
+  /// **'Diagrams'**
+  String get mdDiagrams;
+
+  /// No description provided for @mdDiagramsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Mermaid diagrams render automatically in preview mode.'**
+  String get mdDiagramsHint;
+
+  /// No description provided for @textDocumentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Text Document'**
+  String get textDocumentTitle;
+
+  /// No description provided for @markdownDocumentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Markdown Document'**
+  String get markdownDocumentTitle;
 }
 
 class _AppLocalizationsDelegate

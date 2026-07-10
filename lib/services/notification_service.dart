@@ -2,6 +2,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../l10n/app_localizations.dart';
 
 class NotificationService {
   static final NotificationService _instance = NotificationService._internal();
@@ -53,7 +56,7 @@ class NotificationService {
   Future<bool> requestPermissions() async {
     // Request notification permission
     final status = await Permission.notification.request();
-    
+
     // Request exact alarm permission if needed (Android 12+)
     if (await Permission.scheduleExactAlarm.isDenied) {
       await Permission.scheduleExactAlarm.request();
@@ -120,12 +123,15 @@ class NotificationService {
   }
 
   Future<void> scheduleWeekendBoostNotifications() async {
+    final prefs = await SharedPreferences.getInstance();
+    final lang = prefs.getString('tibeb_language') ?? 'en';
+    final l10n = lookupAppLocalizations(Locale(lang));
+
     // Saturday 10:00 AM
     await _notifications.zonedSchedule(
       id: 1000,
-      title: '2x WP Weekend!',
-      body:
-          "It's the weekend! Earn double WP for all reading activities and quests.",
+      title: l10n.notifWeekendBoostTitle,
+      body: l10n.notifWeekendBoostBody,
       scheduledDate: _nextInstanceOfDayAndTime(DateTime.saturday, 10, 0),
       notificationDetails: const NotificationDetails(
         android: AndroidNotificationDetails(
@@ -145,9 +151,8 @@ class NotificationService {
     // Sunday 10:00 AM
     await _notifications.zonedSchedule(
       id: 1001,
-      title: "Don't miss out on 2x WP!",
-      body:
-          "Last day of the weekend boost! Get your reading in and level up faster.",
+      title: l10n.notifWeekendBoostTitle,
+      body: l10n.notifWeekendBoostBody,
       scheduledDate: _nextInstanceOfDayAndTime(DateTime.sunday, 10, 0),
       notificationDetails: const NotificationDetails(
         android: AndroidNotificationDetails(

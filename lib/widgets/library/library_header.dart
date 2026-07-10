@@ -22,6 +22,21 @@ class LibraryHeader extends ConsumerStatefulWidget {
 class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
   bool _isExpanded = false;
 
+  String _getFileTypeName(AppLocalizations l10n, String type) {
+    switch (type.toUpperCase()) {
+      case 'ALL':
+        return l10n.all;
+      case 'AUDIO':
+        return l10n.fileTypeAudio;
+      case 'TXT':
+        return l10n.fileTypePlainText;
+      case 'MD':
+        return l10n.fileTypeMarkdown;
+      default:
+        return type;
+    }
+  }
+
   String _getShortPath(String path) {
     if (path == 'All') return 'All';
     final parts = path.split(RegExp(r'[/\\]'));
@@ -154,10 +169,18 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
                           t: t,
                           label: state.selectedFileType == 'All'
                               ? l10n.fileType
-                              : state.selectedFileType,
+                              : _getFileTypeName(l10n, state.selectedFileType),
                           isSelected: state.selectedFileType != 'All',
                           hasDropdown: true,
-                          dropdownOptions: const ['All', 'EPUB', 'PDF'],
+                          dropdownOptions: const [
+                            'All',
+                            'EPUB',
+                            'PDF',
+                            'AUDIO',
+                            'TXT',
+                            'MD',
+                          ],
+                          labelMapper: (val) => _getFileTypeName(l10n, val),
                           onSelected: (val) => notifier.setFileTypeFilter(val),
                           onTap: () {},
                         ),

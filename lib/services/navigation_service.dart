@@ -10,8 +10,6 @@ import 'package:tibeb/screens/audiobook_player_screen.dart';
 import 'package:tibeb/providers/library_provider.dart';
 import 'package:tibeb/providers/navigation_provider.dart';
 
-
-
 /// Handles external file share intents.
 ///
 /// Responsibilities:
@@ -21,134 +19,50 @@ import 'package:tibeb/providers/navigation_provider.dart';
 ///
 /// It does NOT handle UI navigation.
 class NavigationService {
-
   StreamSubscription? _intentDataStreamSubscription;
 
+  void initialize({required WidgetRef ref}) {
+    _intentDataStreamSubscription = ReceiveSharingIntent.instance
+        .getMediaStream()
+        .listen((files) {
+          _handleSharedFiles(files: files, ref: ref);
+        }, onError: (error) {});
 
-
-  void initialize({
-    required WidgetRef ref,
-  }) {
-
-    _intentDataStreamSubscription =
-        ReceiveSharingIntent.instance
-            .getMediaStream()
-            .listen(
-      (files) {
-
-        _handleSharedFiles(
-          files: files,
-          ref: ref,
-        );
-
-      },
-      onError: (error) {
-      },
-    );
-
-
-
-    ReceiveSharingIntent.instance
-        .getInitialMedia()
-        .then(
-      (files) {
-
-        _handleSharedFiles(
-          files: files,
-          ref: ref,
-        );
-
-      },
-      onError: (error) {
-
-      },
-    );
+    ReceiveSharingIntent.instance.getInitialMedia().then((files) {
+      _handleSharedFiles(files: files, ref: ref);
+    }, onError: (error) {});
   }
-
-
-
-
 
   Future<void> _handleSharedFiles({
     required List<SharedMediaFile> files,
     required WidgetRef ref,
   }) async {
-
-
     if (files.isEmpty) {
       return;
     }
 
+    final paths = files.map((file) => file.path).toList();
 
-
-    final paths =
-        files
-            .map(
-              (file) => file.path,
-            )
-            .toList();
-
-
-
-    final books =
-        await ref
-            .read(
-              libraryProvider.notifier,
-            )
-            .importFiles(
-              paths,
-            );
-
-
+    final books = await ref.read(libraryProvider.notifier).importFiles(paths);
 
     if (books.isEmpty) {
       return;
     }
 
-
-
     final book = books.first;
 
+    ref.read(currentlyReadingProvider.notifier).state = book;
 
-
-    ref
-        .read(
-          currentlyReadingProvider.notifier,
-        )
-        .state = book;
-
-
-
-    ref
-        .read(
-          libraryProvider.notifier,
-        )
-        .markBookAsOpened(
-          book,
-        );
-
-
+    ref.read(libraryProvider.notifier).markBookAsOpened(book);
 
     // Notify UI layer
     ref
-        .read(
-          navigationEventProvider.notifier,
-        )
-        .send(
-      const NavigationEvent(
-        type: NavigationEventType.openReader,
-      ),
-    );
+        .read(navigationEventProvider.notifier)
+        .send(const NavigationEvent(type: NavigationEventType.openReader));
   }
 
-
-
-
-
   void dispose() {
-
     _intentDataStreamSubscription?.cancel();
-
   }
 }
 
@@ -156,7 +70,7 @@ class BookRouter {
   static void openBook(BuildContext context, WidgetRef ref, Book book) {
     ref.read(currentlyReadingProvider.notifier).state = book;
     ref.read(libraryProvider.notifier).markBookAsOpened(book);
-    
+
     if (book.isAudioOnly) {
       Navigator.push(
         context,
@@ -167,9 +81,7 @@ class BookRouter {
     } else {
       Navigator.push(
         context,
-        MaterialPageRoute(
-          builder: (context) => const ReadingScreen(),
-        ),
+        MaterialPageRoute(builder: (context) => const ReadingScreen()),
       );
     }
   }

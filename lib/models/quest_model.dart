@@ -1,4 +1,14 @@
-enum QuestType { pages, minutes, earlyBird, nightOwl, bookFinished, dictionaryLookup }
+import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
+enum QuestType {
+  pages,
+  minutes,
+  earlyBird,
+  nightOwl,
+  bookFinished,
+  dictionaryLookup,
+}
 
 class DailyQuest {
   final String id;
@@ -22,6 +32,34 @@ class DailyQuest {
     this.isCompleted = false,
     required this.date,
   });
+
+  String getLocalizedTitle(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (type) {
+      case QuestType.pages:
+        return l10n.questTitlePages;
+      case QuestType.minutes:
+        return l10n.questTitleMinutes;
+      case QuestType.earlyBird:
+        return l10n.questTitleEarlyBird;
+      default:
+        return title;
+    }
+  }
+
+  String getLocalizedDescription(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (type) {
+      case QuestType.pages:
+        return l10n.questDescPages(targetValue);
+      case QuestType.minutes:
+        return l10n.questDescMinutes(targetValue);
+      case QuestType.earlyBird:
+        return l10n.questDescEarlyBird;
+      default:
+        return description;
+    }
+  }
 
   double get progress => (currentValue / targetValue).clamp(0.0, 1.0);
 

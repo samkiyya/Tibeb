@@ -24,12 +24,12 @@ class BookService {
   /// Always returns true — permission is handled by the OS picker on Android.
   Future<bool> requestPermissions() async => true;
 
-  /// Opens the system file picker filtered to EPUB and PDF files.
+  /// Opens the system file picker filtered to EPUB, PDF, TXT, and Markdown files.
   /// Returns an empty list if the user cancels or picks nothing.
   Future<List<File>> pickBookFiles() async {
     final result = await FilePicker.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['epub', 'pdf'],
+      allowedExtensions: ['epub', 'pdf', 'txt', 'md'],
       allowMultiple: true,
     );
 
@@ -54,6 +54,9 @@ class BookService {
         return _processEpub(file);
       case '.pdf':
         return _processPdf(file);
+      case '.txt':
+      case '.md':
+        return _processTxtMd(file);
       default:
         return null;
     }
@@ -102,10 +105,9 @@ class BookService {
       final title =
           meta.effectiveTitle ?? p.basenameWithoutExtension(file.path);
       final author = meta.effectiveAuthor ?? 'Unknown';
-      final genre =
-          (meta.effectiveSubject?.isNotEmpty ?? false)
-              ? meta.effectiveSubject!
-              : 'Unknown';
+      final genre = (meta.effectiveSubject?.isNotEmpty ?? false)
+          ? meta.effectiveSubject!
+          : 'Unknown';
 
       final coverPath = render.coverBytes != null
           ? await BookCoverStorage.saveBytes(render.coverBytes!)
@@ -138,4 +140,27 @@ class BookService {
   /// Returns the new path, or empty string on failure.
   Future<String> saveLocalCover(File file) =>
       BookCoverStorage.saveLocalFile(file);
+
+  // ── TXT & Markdown ────────────────----------------────────────────────────
+
+  Future<Book?> _processTxtMd(File file) async {
+    try {
+      final name = p.basenameWithoutExtension(file.path);
+      return Book(
+        title: name,
+        author: 'Unknown',
+        coverPath: '',
+        filePath: file.path,
+        addedAt: DateTime.now(),
+        folderPath: p.dirname(file.path),
+        contentHash: await BookCoverStorage.md5Hash(file),
+        genre: p.extension(file.path).toLowerCase() == '.md'
+            ? 'Markdown'
+            : 'Plain Text',
+        totalPages: 0,
+      );
+    } catch (e) {
+      return null;
+    }
+  }
 }

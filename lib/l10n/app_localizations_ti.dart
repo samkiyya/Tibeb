@@ -279,7 +279,7 @@ class AppLocalizationsTi extends AppLocalizations {
   String get category => 'ምድብ';
 
   @override
-  String get selectAll => 'ኩሉ ምረጽ';
+  String get selectAll => 'ኩሎም ምምራጽ';
 
   @override
   String get cancel => 'ሰርዝ';
@@ -1151,4 +1151,306 @@ class AppLocalizationsTi extends AppLocalizations {
   @override
   String get earnWPHint =>
       'WP ኣግኝ: PDF (10/ገጽ), EPUB (40/ምዕራፍ) + 5 WP/ደቓይቕ. ን1000 WP = 1 ደርጃ!';
+
+  @override
+  String get achievement_adwa_spirit => 'መንፈስ ዓድዋ';
+
+  @override
+  String get achievement_adwa_spirit_description => 'ን7 ተኸታተልቲ ሰሙናት የንብቡ።';
+
+  @override
+  String get achievement_meskel_flame => 'ነበልባል መስቀል';
+
+  @override
+  String get achievement_meskel_flame_description => 'ኣብ ሓደ ወርሒ 3 መጻሕፍቲ ይወድኡ።';
+
+  @override
+  String get questTitlePages => 'ዕለታዊ ወሃቢ ንባብ';
+
+  @override
+  String questDescPages(num count) {
+    return 'ሎሚ $count ገጻት የንብቡ።';
+  }
+
+  @override
+  String get questTitleMinutes => 'ዕምቆት ቆላሕታ';
+
+  @override
+  String questDescMinutes(num count) {
+    return 'ን$count ደቓይቕ የንብቡ።';
+  }
+
+  @override
+  String get questTitleEarlyBird => 'በጊሐ ሰንበት';
+
+  @override
+  String get questDescEarlyBird => 'ቅድሚ ንጉሆ 3:00 (9:00 AM) የንብቡ።';
+
+  @override
+  String get readingTheme => 'ገጽታ ንባብ';
+
+  @override
+  String get textAlignment => 'ኣሰላልፋ ጽሑፍ';
+
+  @override
+  String get themeLight => 'ብርሃን';
+
+  @override
+  String get themeSepia => 'ሴፒያ';
+
+  @override
+  String get themeDark => 'ጸሊም';
+
+  @override
+  String get alignLeft => 'ብጸጋም';
+
+  @override
+  String get alignCenter => 'ብማእከል';
+
+  @override
+  String get alignJustified => 'ምሉእ ኣሰላልፋ';
+
+  @override
+  String get fileTypeAudio => 'ድምጺ';
+
+  @override
+  String get fileTypeMarkdown => 'ማርክዳውን';
+
+  @override
+  String get fileTypePlainText => 'ቀሊል ጽሑፍ';
+
+  @override
+  String get importAudiobookTitle => 'ኦዲዮ ናይ ምምጻእ';
+
+  @override
+  String get importAudiobookFormats => 'MP3 · M4A · M4B · FLAC · OGG · WAV';
+
+  @override
+  String get tapToSelectAudioFiles => 'ናይ ድምጺ ፋይላት ንምምራጽ ኣብዚ ጠውቕ';
+
+  @override
+  String get selectMultipleFiles => 'ብዙሕ ዝኾኑ ክፋላት ዘለዎ ኦዲዮ ናይ ምምጻእ ብዙሕ ፋይላት ምረጽ';
+
+  @override
+  String tracksSelected(num count) {
+    return '$count ትራክ ተሸይጦ';
+  }
+
+  @override
+  String tracksSelectedPlural(num count) {
+    return '$count ትራካት ተሸይጦም';
+  }
+
+  @override
+  String get audiobookTitleHint => 'ርእሲ ኦዲዮ';
+
+  @override
+  String get authorNarratorLabel => 'ደራሲ / ዘንባቢ';
+
+  @override
+  String get authorNarratorHint => 'ስም ደራሲ ወይ ዘንባቢ';
+
+  @override
+  String get tracksLabel => 'ትራካት';
+
+  @override
+  String moreTracksLabel(num count) {
+    return '+$count ናይ ተወሳኺ ትራካት';
+  }
+
+  @override
+  String copyingTracks(num percent) {
+    return 'ትራካት ናብ ቤተ-መጻሕፍቲ ይምልስ… $percent%';
+  }
+
+  @override
+  String get addToLibrary => 'ናብ ቤተ-መጻሕፍቲ ወስኽ';
+
+  @override
+  String get audiobookAdded => 'ኦዲዮ ተወሲኹ!';
+
+  @override
+  String audiobookAddedMessage(String title) {
+    return '\"$title\" ናብ ቤተ-መጻሕፍቲ ተወሲኹ።';
+  }
+
+  @override
+  String get goToLibrary => 'ናብ ቤተ-መጻሕፍቲ ኬድ';
+
+  @override
+  String get coverFound => 'ዝናጭ ተረኺቡ';
+
+  @override
+  String get coverExtractedFromMetadata => 'ካብ ናይ ድምጺ ሜታዳታ ተቐቲሉ';
+
+  @override
+  String get importFab => 'ኦዲዮ ምምጻእ';
+
+  @override
+  String get nowPlaying => 'ሕጂ ይጻወት';
+
+  @override
+  String get trackList => 'ዝርዝር ትራካት';
+
+  @override
+  String trackNofTotal(num current, num total, String title) {
+    return 'ትራክ $current/$total: $title';
+  }
+
+  @override
+  String get selectFilesTitle => 'ፋይላት ምምራጽ';
+
+  @override
+  String importCount(num count) {
+    return 'ምምጻእ ($count)';
+  }
+
+  @override
+  String webSearch(String query) {
+    return 'ናይ ወብ ድለያ: $query';
+  }
+
+  @override
+  String get useThisImage => 'ነዚ ስዕሊ ተጠቐም?';
+
+  @override
+  String get useThisImageMessage => 'ነዚ ስዕሊ ከም ዝናጭ መጽሓፍ ክጥቀሙ ይደልዩ?';
+
+  @override
+  String get selectImage2 => 'ምረጽ';
+
+  @override
+  String get tutNavTitle => 'ምልላይ';
+
+  @override
+  String get tutNavDesc => 'ሰሌዳ ትሕዝቶ፣ ንጸሎ ዝርዝርን ምልክታትካን ዳህሲስ።';
+
+  @override
+  String get tutSearchTitle => 'ምድላይ';
+
+  @override
+  String get tutSearchDesc => 'ሃሎ ቃላት ወይ ሓሳባት ቀልጢፍካ ድለ።';
+
+  @override
+  String get tutScrollLockTitle => 'ናይ ሸብለላ መቕፈሪ';
+
+  @override
+  String get tutScrollLockDesc => 'PDF ናብ ኣቀባብላ፣ ኣግዳሚ ሸብለላ ወይ ምፍጣን ዝእዘዝ ቁልፊ።';
+
+  @override
+  String get tutAudioTitle => 'ናይ ድምጺ ንባብ';
+
+  @override
+  String get tutAudioDesc =>
+      'ፋይሊ ንምትእስሳር + ጠቐ። ምስ ተኣሳሰረ ናይ ድምጺ ምቑጽጻሪ ክኸፍትዎ እዩ።';
+
+  @override
+  String get tutAutoScrollTitle => 'ብዘይ ሓርነት ምሸብላ';
+
+  @override
+  String get tutAutoScrollDesc => 'ናብ ድሕሪ ሕጽ ኣቲብካ ምቑጽጻሪ ሸፈቶ ወ ሓፍ።';
+
+  @override
+  String get tutDisplayTitle => 'ናይ ምርኣይ ቅንብራት';
+
+  @override
+  String get tutDisplayDesc => 'ቅርጸ-ጽሑፍ፣ ምልክት፣ ዳር ኣዚምካ ስምዒትካ ኣሰምር።';
+
+  @override
+  String get tutHomeDashTitle => 'መቐበሊ ዳሽቦርድ';
+
+  @override
+  String get tutHomeDashDesc =>
+      'ናብ Tibeb እንቋዕ ሓጎሰካ! ዝነበብካዮ መጽሓፍ ቀጽሎ ናይ ቀረብ ተግባራቱ ርኣ።';
+
+  @override
+  String get tutLibraryTitle => 'ቤተ-መጻሕፍቲካ';
+
+  @override
+  String get tutLibraryDesc =>
+      'ዝሓዝካዮ ኩሎም መጻሕፍቲ ኣብዚ ኣለዉ። EPUB፣ PDF፣ TXT ወይ MD ንምውሳኽ + ጠቐ።';
+
+  @override
+  String get tutAudiobookFabTitle => 'ድምጺ ምምጻእ';
+
+  @override
+  String get tutAudiobookFabDesc =>
+      'ናይ ድምጺ መጻሕፍቲ ንምምጻእ ምጠቐ (MP3, M4A, M4B, FLAC…). ርእሲ፣ ደራሲ እቱ ዝናጭ ብኹሉ ይወጽጡ።';
+
+  @override
+  String get mainTutLibraryTitle => 'ቤተ-መጻሕፍቲ';
+
+  @override
+  String get mainTutLibraryDesc => 'ምልልስ ዝሓዝናዮም መጻሕፍቲ ቀፅሊ ።';
+
+  @override
+  String get mainTutStatsTitle => 'ስታቲስቲካ';
+
+  @override
+  String get mainTutStatsDesc => 'ናይ ንባብ ሂደት፣ ተኸታተልቲ ምድቂ ዓመታትን ዝናጭን ሰጥ።';
+
+  @override
+  String get mainTutSettingsTitle => 'ቅንብራት';
+
+  @override
+  String get mainTutSettingsDesc => 'ምልክት፣ ቋንቋ፣ ምልክታትን ናይ ንባብ ምርጫን ቅደም።';
+
+  @override
+  String get notifQuestCompleted => 'መጸዋዒ ተወዲኡ! 🎯';
+
+  @override
+  String notifQuestCompletedBody(String title, num wp) {
+    return 'መጸዋዒ ወዲእካ: $title. +$wp WP ሓዲናሉ!';
+  }
+
+  @override
+  String get notifLevelUp => 'ደርጃ ወጠ! 🎉';
+
+  @override
+  String notifLevelUpBody(num level) {
+    return 'ናብ ደርጃ $level ደሪኡ!';
+  }
+
+  @override
+  String get notifRankUp => 'ማዕርግ ወጠ! ⭐';
+
+  @override
+  String get notifRankUpBody => 'እንቋዕ ሓጎሰካ! ናብ ሓድሽ ማዕርግ ደሪኣ!';
+
+  @override
+  String get notifWeekendBoostTitle => 'ናይ ሰሙን መዕረፍቲ ቦናስ! 📚';
+
+  @override
+  String get notifWeekendBoostBody =>
+      'ቀዳም ሰንበት ንንባብ ሓጋዙ ናይ ግዜ ። መጽሓፍካ ክፈቶ 2× WP ሰብሰብ!';
+
+  @override
+  String get editSource => 'ምንጪ ምስርሓ';
+
+  @override
+  String get preview => 'ቅድም ምርኣይ';
+
+  @override
+  String get saveChanges => 'ለውጥታት ኣቐምጥ';
+
+  @override
+  String get mdEditorHint => 'ማርክዳውን ኣብዚ ጸሓፍ...';
+
+  @override
+  String get savedSuccessfully => 'ብሓጎስ ተቐሚጡ';
+
+  @override
+  String get saveFailed => 'ፋይሊ ምዕቃብ ኣይተኻእለን';
+
+  @override
+  String get mdDiagrams => 'ሰዓሊ';
+
+  @override
+  String get mdDiagramsHint => 'ናይ Mermaid ሰዓሊ ቅድም ምርኣይ ኣብ ካልኣዊ ሓደ ዕቤት ይቐርቡ።';
+
+  @override
+  String get textDocumentTitle => 'ናይ ጽሑፍ ሰነድ';
+
+  @override
+  String get markdownDocumentTitle => 'ናይ MarkDown ሰነድ';
 }

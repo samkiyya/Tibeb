@@ -98,6 +98,10 @@ class Achievement {
         return l10n.achievement_timkat_reader;
       case 'enkutatash_start':
         return l10n.achievement_enkutatash_start;
+      case 'adwa_spirit':
+        return l10n.achievement_adwa_spirit;
+      case 'meskel_flame':
+        return l10n.achievement_meskel_flame;
       default:
         return title;
     }
@@ -174,6 +178,10 @@ class Achievement {
         return l10n.achievement_timkat_reader_description;
       case 'enkutatash_start':
         return l10n.achievement_enkutatash_start_description;
+      case 'adwa_spirit':
+        return l10n.achievement_adwa_spirit_description;
+      case 'meskel_flame':
+        return l10n.achievement_meskel_flame_description;
       default:
         return description;
     }

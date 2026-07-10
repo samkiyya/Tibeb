@@ -1,5 +1,4 @@
 import 'dart:io' as io;
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:path/path.dart' as p;
@@ -11,6 +10,8 @@ import '../core/constants/app_constants.dart';
 import '../models/models.dart';
 import '../services/book_service.dart';
 import '../services/notification_service.dart';
+import 'package:flutter/widgets.dart';
+import '../l10n/app_localizations.dart';
 import 'database_providers.dart';
 
 // Extracted Modules
@@ -67,7 +68,9 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
       state.deferredNotifications,
     );
     state = state.copyWith(deferredNotifications: []);
-    await ReadingNotificationManager.processDeferredNotifications(notifications);
+    await ReadingNotificationManager.processDeferredNotifications(
+      notifications,
+    );
   }
 
   Future<void> _init() async {
@@ -98,12 +101,19 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
     final minuteGoal = prefs.getDouble(AppConstants.weeklyMinuteGoalKey) ?? 0.0;
     final wpGoal = prefs.getDouble(AppConstants.weeklyWPGoalKey) ?? 0.0;
 
-    final notificationsEnabled = prefs.getBool(AppConstants.notificationsEnabledKey) ?? true;
-    final reminderHour = prefs.getInt(AppConstants.reminderHourKey) ?? AppConstants.defaultReminderHour;
-    final reminderMinute = prefs.getInt(AppConstants.reminderMinuteKey) ?? AppConstants.defaultReminderMinute;
+    final notificationsEnabled =
+        prefs.getBool(AppConstants.notificationsEnabledKey) ?? true;
+    final reminderHour =
+        prefs.getInt(AppConstants.reminderHourKey) ??
+        AppConstants.defaultReminderHour;
+    final reminderMinute =
+        prefs.getInt(AppConstants.reminderMinuteKey) ??
+        AppConstants.defaultReminderMinute;
 
     double finalPageGoal = pageGoal ?? AppConstants.defaultWeeklyPageGoal;
-    String finalType = prefs.getString(AppConstants.weeklyGoalTypeKey) ?? AppConstants.defaultGoalType;
+    String finalType =
+        prefs.getString(AppConstants.weeklyGoalTypeKey) ??
+        AppConstants.defaultGoalType;
 
     if (pageGoal == null) {
       final oldVal = prefs.getDouble('weeklyGoalValue');
@@ -163,9 +173,15 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
       );
       await NotificationService().scheduleWeekendBoostNotifications();
     } else {
-      await NotificationService().cancel(id: AppConstants.dailyReminderNotificationId);
-      await NotificationService().cancel(id: AppConstants.weekendBoostNotificationId);
-      await NotificationService().cancel(id: AppConstants.weekendBoostNotificationId2);
+      await NotificationService().cancel(
+        id: AppConstants.dailyReminderNotificationId,
+      );
+      await NotificationService().cancel(
+        id: AppConstants.weekendBoostNotificationId,
+      );
+      await NotificationService().cancel(
+        id: AppConstants.weekendBoostNotificationId2,
+      );
     }
   }
 
@@ -185,7 +201,10 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
       final annotationCount = await _db.getTotalAnnotationCount();
 
       final streak = StatsCalculator.calculateStreak(sessions);
-      final activity = StatsCalculator.calculateDetailedActivity(sessions, books);
+      final activity = StatsCalculator.calculateDetailedActivity(
+        sessions,
+        books,
+      );
       final stats = StatsCalculator.calculate(
         sessions: sessions,
         books: books,
@@ -364,7 +383,10 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
     final lookupCount = await _db.getDictionaryLookupCount();
     final annotationCount = await _db.getTotalAnnotationCount();
 
-    final activity = StatsCalculator.calculateDetailedActivity(sessions, state.allBooks);
+    final activity = StatsCalculator.calculateDetailedActivity(
+      sessions,
+      state.allBooks,
+    );
     final stats = StatsCalculator.calculate(
       sessions: sessions,
       books: state.allBooks,
@@ -422,18 +444,24 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
 
       for (var q in result.updatedQuests) {
         final oldQ = oldQuests.firstWhereOrNull((oq) => oq.id == q.id);
-        if (oldQ == null || oldQ.currentValue != q.currentValue || oldQ.isCompleted != q.isCompleted) {
+        if (oldQ == null ||
+            oldQ.currentValue != q.currentValue ||
+            oldQ.isCompleted != q.isCompleted) {
           await _db.updateQuestProgress(q.id, q.currentValue, q.isCompleted);
         }
       }
 
       for (var q in result.newlyCompletedQuests) {
+        final prefs = await SharedPreferences.getInstance();
+        final lang = prefs.getString('tibeb_language') ?? 'en';
+        final l10n = lookupAppLocalizations(Locale(lang));
+
         final newDeferred = ReadingNotificationManager.showOrDefer(
           isReading: state.isReading,
           existing: state.deferredNotifications,
           id: q.id.hashCode,
-          title: 'Quest Completed!',
-          body: 'You completed: ${q.title}. +${q.wpReward} WP earned!',
+          title: l10n.notifQuestCompleted,
+          body: l10n.notifQuestCompletedBody(q.title, q.wpReward),
         );
         state = state.copyWith(deferredNotifications: newDeferred);
       }
@@ -460,13 +488,17 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
           state.unlockedAchievements.length,
         );
 
+        final prefs = await SharedPreferences.getInstance();
+        final lang = prefs.getString('tibeb_language') ?? 'en';
+        final l10n = lookupAppLocalizations(Locale(lang));
+
         if (newRank.id != oldRank.id) {
           final newDeferred = ReadingNotificationManager.showOrDefer(
             isReading: state.isReading,
             existing: state.deferredNotifications,
             id: 1001,
-            title: 'Rank Up!',
-            body: 'Congratulations! You reached a new rank!',
+            title: l10n.notifRankUp,
+            body: l10n.notifRankUpBody,
           );
           state = state.copyWith(deferredNotifications: newDeferred);
         } else {
@@ -474,8 +506,8 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
             isReading: state.isReading,
             existing: state.deferredNotifications,
             id: 1002,
-            title: 'Level Up!',
-            body: 'You reached Level ${stats.level}!',
+            title: l10n.notifLevelUp,
+            body: l10n.notifLevelUpBody(stats.level),
           );
           state = state.copyWith(deferredNotifications: newDeferred);
         }
@@ -545,7 +577,10 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
     );
 
     final sessions = await _db.getReadingSessions();
-    final activity = StatsCalculator.calculateDetailedActivity(sessions, state.allBooks);
+    final activity = StatsCalculator.calculateDetailedActivity(
+      sessions,
+      state.allBooks,
+    );
 
     state = state.copyWith(
       dailyPages: activity.pages,
@@ -583,7 +618,9 @@ class LibraryNotifier extends StateNotifier<LibraryState> {
       sortBy: BookSortBy.recent,
       sortAscending: false,
     );
-    state = state.copyWith(filteredBooks: applyBookFilters(state.allBooks, state));
+    state = state.copyWith(
+      filteredBooks: applyBookFilters(state.allBooks, state),
+    );
   }
 
   Future<void> batchAddTag(List<int> bookIds, String newTag) async {

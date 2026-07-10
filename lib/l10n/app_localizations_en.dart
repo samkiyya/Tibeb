@@ -1172,4 +1172,319 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get earnWPHint =>
       'Earn WP: PDF (10/page), EPUB (40/chapter) + 5 WP/min. Every 1000 WP = 1 Level!';
+
+  @override
+  String get achievement_adwa_spirit => 'Spirit of Adwa';
+
+  @override
+  String get achievement_adwa_spirit_description =>
+      'Read for 7 consecutive weeks.';
+
+  @override
+  String get achievement_meskel_flame => 'Meskel Flame';
+
+  @override
+  String get achievement_meskel_flame_description =>
+      'Finish 3 books in one month.';
+
+  @override
+  String get questTitlePages => 'Daily Reader';
+
+  @override
+  String questDescPages(num count) {
+    return 'Read $count pages today.';
+  }
+
+  @override
+  String get questTitleMinutes => 'Deep Focus';
+
+  @override
+  String questDescMinutes(num count) {
+    return 'Read for $count minutes.';
+  }
+
+  @override
+  String get questTitleEarlyBird => 'Early Bird';
+
+  @override
+  String get questDescEarlyBird => 'Read before 9:00 AM.';
+
+  @override
+  String get readingTheme => 'Reading Theme';
+
+  @override
+  String get textAlignment => 'Text Alignment';
+
+  @override
+  String get themeLight => 'Light';
+
+  @override
+  String get themeSepia => 'Sepia';
+
+  @override
+  String get themeDark => 'Dark';
+
+  @override
+  String get alignLeft => 'Left';
+
+  @override
+  String get alignCenter => 'Center';
+
+  @override
+  String get alignJustified => 'Justified';
+
+  @override
+  String get fileTypeAudio => 'Audio';
+
+  @override
+  String get fileTypeMarkdown => 'Markdown';
+
+  @override
+  String get fileTypePlainText => 'Plain Text';
+
+  @override
+  String get importAudiobookTitle => 'Import Audiobook';
+
+  @override
+  String get importAudiobookFormats => 'MP3 · M4A · M4B · FLAC · OGG · WAV';
+
+  @override
+  String get tapToSelectAudioFiles => 'Tap to select audio files';
+
+  @override
+  String get selectMultipleFiles =>
+      'Select multiple files for a multi-part audiobook';
+
+  @override
+  String tracksSelected(num count) {
+    return '$count track selected';
+  }
+
+  @override
+  String tracksSelectedPlural(num count) {
+    return '$count tracks selected';
+  }
+
+  @override
+  String get audiobookTitleHint => 'Audiobook title';
+
+  @override
+  String get authorNarratorLabel => 'Author / Narrator';
+
+  @override
+  String get authorNarratorHint => 'Author or narrator name';
+
+  @override
+  String get tracksLabel => 'Tracks';
+
+  @override
+  String moreTracksLabel(num count) {
+    return '+$count more tracks';
+  }
+
+  @override
+  String copyingTracks(num percent) {
+    return 'Copying tracks to library… $percent%';
+  }
+
+  @override
+  String get addToLibrary => 'Add to Library';
+
+  @override
+  String get audiobookAdded => 'Audiobook Added!';
+
+  @override
+  String audiobookAddedMessage(String title) {
+    return '\"$title\" has been added to your library.';
+  }
+
+  @override
+  String get goToLibrary => 'Go to Library';
+
+  @override
+  String get coverFound => 'Cover Found';
+
+  @override
+  String get coverExtractedFromMetadata => 'Extracted from audio metadata';
+
+  @override
+  String get importFab => 'Import Audiobook';
+
+  @override
+  String get nowPlaying => 'Now Playing';
+
+  @override
+  String get trackList => 'Track List';
+
+  @override
+  String trackNofTotal(num current, num total, String title) {
+    return 'Track $current/$total: $title';
+  }
+
+  @override
+  String get selectFilesTitle => 'Select Files';
+
+  @override
+  String importCount(num count) {
+    return 'Import ($count)';
+  }
+
+  @override
+  String webSearch(String query) {
+    return 'Web Search: $query';
+  }
+
+  @override
+  String get useThisImage => 'Use this image?';
+
+  @override
+  String get useThisImageMessage =>
+      'Would you like to use this as the book cover?';
+
+  @override
+  String get selectImage2 => 'Select';
+
+  @override
+  String get tutNavTitle => 'Navigation';
+
+  @override
+  String get tutNavDesc =>
+      'Access the Table of Contents, outlines, and your bookmarks.';
+
+  @override
+  String get tutSearchTitle => 'Search';
+
+  @override
+  String get tutSearchDesc =>
+      'Find specific phrases or words quickly within the book.';
+
+  @override
+  String get tutScrollLockTitle => 'Scroll Lock';
+
+  @override
+  String get tutScrollLockDesc =>
+      'Lock the PDF to horizontal scrolling, vertical scrolling, or lock the zoom level.';
+
+  @override
+  String get tutAudioTitle => 'Immersive Audio';
+
+  @override
+  String get tutAudioDesc =>
+      'Tap the + icon to attach an audiobook file. If one is attached, tap here to open the audio controls.';
+
+  @override
+  String get tutAutoScrollTitle => 'Auto-Scroll';
+
+  @override
+  String get tutAutoScrollDesc =>
+      'Sit back and let the app scroll for you. Adjust the speed in the settings.';
+
+  @override
+  String get tutDisplayTitle => 'Display Settings';
+
+  @override
+  String get tutDisplayDesc =>
+      'Customize fonts, themes, margins, and more to suit your reading style.';
+
+  @override
+  String get tutHomeDashTitle => 'Home Dashboard';
+
+  @override
+  String get tutHomeDashDesc =>
+      'Welcome to Tibeb! Resume your current book and see your recent activity here.';
+
+  @override
+  String get tutLibraryTitle => 'Your Library';
+
+  @override
+  String get tutLibraryDesc =>
+      'All your imported books live here. Tap the + button to add EPUB, PDF, TXT or MD files.';
+
+  @override
+  String get tutAudiobookFabTitle => 'Import Audiobooks';
+
+  @override
+  String get tutAudiobookFabDesc =>
+      'Tap this button to import standalone audiobooks (MP3, M4A, M4B, FLAC…). Title, author, and cover art are extracted automatically.';
+
+  @override
+  String get mainTutLibraryTitle => 'Library';
+
+  @override
+  String get mainTutLibraryDesc =>
+      'Browse and manage all your imported books and audiobooks.';
+
+  @override
+  String get mainTutStatsTitle => 'Statistics';
+
+  @override
+  String get mainTutStatsDesc =>
+      'Track your reading progress, streaks, and achievements.';
+
+  @override
+  String get mainTutSettingsTitle => 'Settings';
+
+  @override
+  String get mainTutSettingsDesc =>
+      'Customize the app theme, language, notifications, and reading preferences.';
+
+  @override
+  String get notifQuestCompleted => 'Quest Completed! 🎯';
+
+  @override
+  String notifQuestCompletedBody(String title, num wp) {
+    return 'You completed: $title. +$wp WP earned!';
+  }
+
+  @override
+  String get notifLevelUp => 'Level Up! 🎉';
+
+  @override
+  String notifLevelUpBody(num level) {
+    return 'You reached Level $level!';
+  }
+
+  @override
+  String get notifRankUp => 'Rank Up! ⭐';
+
+  @override
+  String get notifRankUpBody => 'Congratulations! You reached a new rank!';
+
+  @override
+  String get notifWeekendBoostTitle => 'Weekend Reading Boost! 📚';
+
+  @override
+  String get notifWeekendBoostBody =>
+      'Weekends are perfect for reading. Open your book and earn 2× WP today!';
+
+  @override
+  String get editSource => 'Edit Source';
+
+  @override
+  String get preview => 'Preview';
+
+  @override
+  String get saveChanges => 'Save Changes';
+
+  @override
+  String get mdEditorHint => 'Write Markdown here...';
+
+  @override
+  String get savedSuccessfully => 'Saved successfully';
+
+  @override
+  String get saveFailed => 'Failed to save file';
+
+  @override
+  String get mdDiagrams => 'Diagrams';
+
+  @override
+  String get mdDiagramsHint =>
+      'Mermaid diagrams render automatically in preview mode.';
+
+  @override
+  String get textDocumentTitle => 'Text Document';
+
+  @override
+  String get markdownDocumentTitle => 'Markdown Document';
 }

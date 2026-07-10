@@ -58,7 +58,7 @@ class _MainNavigationState extends ConsumerState<MainNavigation> {
 
     TutorialHelper.showTutorial(
       context: context,
-      targets: _tutorialService.buildTargets(),
+      targets: _tutorialService.buildTargets(context),
       onClickTarget: (target) {
         const map = {
           'library_target': 1,

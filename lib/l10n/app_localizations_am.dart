@@ -278,7 +278,7 @@ class AppLocalizationsAm extends AppLocalizations {
   String get category => 'ምድብ';
 
   @override
-  String get selectAll => 'ሁሉም ይምረጡ';
+  String get selectAll => 'ሁሉንም ምረጥ';
 
   @override
   String get cancel => 'ተው';
@@ -1151,4 +1151,308 @@ class AppLocalizationsAm extends AppLocalizations {
   @override
   String get earnWPHint =>
       'WP አግኝ፦ PDF (10/ገጽ)፣ EPUB (40/ምዕራፍ) + 5 WP/ደቂቃ። ለ1000 WP = 1 ደረጃ!';
+
+  @override
+  String get achievement_adwa_spirit => 'የዓድዋ መንፈስ';
+
+  @override
+  String get achievement_adwa_spirit_description => 'ለ7 ተከታታይ ሳምንታት ያንብቡ።';
+
+  @override
+  String get achievement_meskel_flame => 'የመስቀል ነበልባል';
+
+  @override
+  String get achievement_meskel_flame_description =>
+      'በአንድ ወር ውስጥ 3 መጻሕፍትን ያጠናቅቁ።';
+
+  @override
+  String get questTitlePages => 'ዕለታዊ አንባቢ';
+
+  @override
+  String questDescPages(num count) {
+    return 'ዛሬ $count ገጾችን ያንብቡ።';
+  }
+
+  @override
+  String get questTitleMinutes => 'ጥልቅ ትኩረት';
+
+  @override
+  String questDescMinutes(num count) {
+    return 'ለ$count ደቂቃዎች ያንብቡ።';
+  }
+
+  @override
+  String get questTitleEarlyBird => 'የማለዳ ወፍ';
+
+  @override
+  String get questDescEarlyBird => 'ከጠዋቱ 3:00 (9:00 AM) በፊት ያንብቡ።';
+
+  @override
+  String get readingTheme => 'የንባብ ገጽታ';
+
+  @override
+  String get textAlignment => 'የጽሑፍ አሰላለፍ';
+
+  @override
+  String get themeLight => 'ብርሃን';
+
+  @override
+  String get themeSepia => 'ሴፒያ';
+
+  @override
+  String get themeDark => 'ጨለማ';
+
+  @override
+  String get alignLeft => 'በግራ';
+
+  @override
+  String get alignCenter => 'በመሀል';
+
+  @override
+  String get alignJustified => 'ሙሉ አሰላለፍ';
+
+  @override
+  String get fileTypeAudio => 'ድምፅ';
+
+  @override
+  String get fileTypeMarkdown => 'ማርክዳውን';
+
+  @override
+  String get fileTypePlainText => 'ቀላል ጽሑፍ';
+
+  @override
+  String get importAudiobookTitle => 'የድምፅ መጽሐፍ አምጣ';
+
+  @override
+  String get importAudiobookFormats => 'MP3 · M4A · M4B · FLAC · OGG · WAV';
+
+  @override
+  String get tapToSelectAudioFiles => 'የድምፅ ፋይሎችን ለመምረጥ ጠቅ ያድርጉ';
+
+  @override
+  String get selectMultipleFiles => 'ለብዙ ክፍል ድምፅ መጽሐፍ ብዛት ፋይሎችን ይምረጡ';
+
+  @override
+  String tracksSelected(num count) {
+    return '$count ትራክ ተመርጧል';
+  }
+
+  @override
+  String tracksSelectedPlural(num count) {
+    return '$count ትራኮች ተመርጠዋል';
+  }
+
+  @override
+  String get audiobookTitleHint => 'የድምፅ መጽሐፍ ርዕስ';
+
+  @override
+  String get authorNarratorLabel => 'ደራሲ / አቅራቢ';
+
+  @override
+  String get authorNarratorHint => 'የደራሲ ወይም አቅራቢ ስም';
+
+  @override
+  String get tracksLabel => 'ትራኮች';
+
+  @override
+  String moreTracksLabel(num count) {
+    return '+$count ተጨማሪ ትራኮች';
+  }
+
+  @override
+  String copyingTracks(num percent) {
+    return 'ትራኮችን ወደ ቤተ-መፃሕፍቱ እየቀዳ ነው… $percent%';
+  }
+
+  @override
+  String get addToLibrary => 'ወደ ቤተ-መፃሕፍት ጨምር';
+
+  @override
+  String get audiobookAdded => 'ድምፅ መጽሐፍ ታከለ!';
+
+  @override
+  String audiobookAddedMessage(String title) {
+    return '\"$title\" ቤተ-መፃሕፍቱ ላይ ታክሏል።';
+  }
+
+  @override
+  String get goToLibrary => 'ቤተ-መፃሕፍቱ ሂድ';
+
+  @override
+  String get coverFound => 'ሽፋን ተገኝቷል';
+
+  @override
+  String get coverExtractedFromMetadata => 'ከድምፅ ዉሂብ ተወስዷል';
+
+  @override
+  String get importFab => 'ድምፅ መጽሐፍ አምጣ';
+
+  @override
+  String get nowPlaying => 'እየተጫወተ ነው';
+
+  @override
+  String get trackList => 'ዝርዝር ትራኮች';
+
+  @override
+  String trackNofTotal(num current, num total, String title) {
+    return 'ትራክ $current/$total: $title';
+  }
+
+  @override
+  String get selectFilesTitle => 'ፋይሎችን ምረጥ';
+
+  @override
+  String importCount(num count) {
+    return 'አምጣ ($count)';
+  }
+
+  @override
+  String webSearch(String query) {
+    return 'የድር ፍለጋ፦ $query';
+  }
+
+  @override
+  String get useThisImage => 'ይህን ምስል ይጠቀሙ?';
+
+  @override
+  String get useThisImageMessage => 'ይህን ምስል እንደ መጽሐፍ ሽፋን ይጠቀሙ?';
+
+  @override
+  String get selectImage2 => 'ምረጥ';
+
+  @override
+  String get tutNavTitle => 'ዳሰሳ';
+
+  @override
+  String get tutNavDesc => 'የይዘቱን ዝርዝር፣ ዝርዝሮቻችሁን እና ምልክቶቻችሁን ይጎብኙ።';
+
+  @override
+  String get tutSearchTitle => 'ፍለጋ';
+
+  @override
+  String get tutSearchDesc => 'በፍጥነት ሀረጎችን ወይም ቃሎችን ፈልጉ።';
+
+  @override
+  String get tutScrollLockTitle => 'ሸብለል ቁልፍ';
+
+  @override
+  String get tutScrollLockDesc => 'PDF ወደ አቀባዊ፣ አግዳሚ ሸብለላ ወይም ዜሮ ፍጥነት ቁልፍ።';
+
+  @override
+  String get tutAudioTitle => 'ድምፅ ንባብ';
+
+  @override
+  String get tutAudioDesc =>
+      'ፋይሉን ለማያያዝ + ን ጠቅ ያድርጉ። ካለ ደዞ ቁጥጥሩን ለመክፈት ጠቅ ያድርጉ።';
+
+  @override
+  String get tutAutoScrollTitle => 'ራስ-ሸብለላ';
+
+  @override
+  String get tutAutoScrollDesc =>
+      'ወደ ኋላ ደጋፉ እና መተግበሪያው ይሸበለለዎታል። ፍጥነቱን ካዘጋጀናቸው ዳሰሳ ያስተካክሉ።';
+
+  @override
+  String get tutDisplayTitle => 'የማሳያ ቅንብሮች';
+
+  @override
+  String get tutDisplayDesc => 'ቅርጸ-ፊደሉን፣ ገጽታውን፣ ዳሰሳ ዳር ጫፉን እና ሌሎችን ያስተካክሉ።';
+
+  @override
+  String get tutHomeDashTitle => 'ዋናው ዳሽቦርድ';
+
+  @override
+  String get tutHomeDashDesc =>
+      'ወደ Tibeb እንኳን ደህና መጡ! ያነበቧቸውን መጻሕፍቶች ቀጥሉ እና አዛምዷቸውን ይመልከቱ።';
+
+  @override
+  String get tutLibraryTitle => 'ቤተ-መፃሕፍቶቻቸው';
+
+  @override
+  String get tutLibraryDesc =>
+      'ሁሉም አምጡቻቸው መጻሕፍቶቻቸው እዚህ ናቸው። EPUB፣ PDF፣ TXT ወይም MD ፋይሎችን ለማከል + ን ጠቅ ያድርጉ።';
+
+  @override
+  String get tutAudiobookFabTitle => 'ድምፅ መጽሐፍ አምጣ';
+
+  @override
+  String get tutAudiobookFabDesc =>
+      'ድምፅ መጻሕፍቶችን ለማምጣት ይህን ቁልፍ ጠቅ ያድርጉ (MP3, M4A, M4B, FLAC…)። ርዕስ፣ ደራሲ እና ሽፋን ዉሂብ ይወሰዳሉ።';
+
+  @override
+  String get mainTutLibraryTitle => 'ቤተ-መፃሕፍት';
+
+  @override
+  String get mainTutLibraryDesc => 'ሁሉንም አምጡቻቸው መጻሕፍት እና ድምፅ መጻሕፍቶቻቸው ያስተዳድሩ።';
+
+  @override
+  String get mainTutStatsTitle => 'ስታቲስቲክስ';
+
+  @override
+  String get mainTutStatsDesc => 'የንባብ ሂደቱን፣ ተከታታይ ቀናትን እና ስኬቶቹን ይከታተሉ።';
+
+  @override
+  String get mainTutSettingsTitle => 'ቅንብሮች';
+
+  @override
+  String get mainTutSettingsDesc => 'ገጽታ፣ ቋንቋ፣ ማሳወቄዎች እና የንባብ ምርጫዎቹን ያስተካክሉ።';
+
+  @override
+  String get notifQuestCompleted => 'ጥያቄ ተጠናቋል! 🎯';
+
+  @override
+  String notifQuestCompletedBody(String title, num wp) {
+    return 'ጥያቄ ጨርሰሃል፦ $title። +$wp WP ሰብስበሃል!';
+  }
+
+  @override
+  String get notifLevelUp => 'ደረጃ ወጣ! 🎉';
+
+  @override
+  String notifLevelUpBody(num level) {
+    return 'ወደ ደረጃ $level ደርሰሃል!';
+  }
+
+  @override
+  String get notifRankUp => 'ማዕረግ ወጣ! ⭐';
+
+  @override
+  String get notifRankUpBody => 'እንኳን ደስ አለህ! አዲስ ማዕረግ ደርሰሃል!';
+
+  @override
+  String get notifWeekendBoostTitle => 'የሳምንት መጨረሻ ቦናስ! 📚';
+
+  @override
+  String get notifWeekendBoostBody =>
+      'ቅዳሜና እሁድ ለንባብ ተስማሚ ናቸው። መጽሐፍዎን ከፍቱ እና ዛሬ 2× WP ያዓቅቡ!';
+
+  @override
+  String get editSource => 'ምንጭ አርትዕ';
+
+  @override
+  String get preview => 'ቅድ-ዕይታ';
+
+  @override
+  String get saveChanges => 'ለውጦች አስቀምጥ';
+
+  @override
+  String get mdEditorHint => 'ማርክዳውን እዚህ ይፃፉ...';
+
+  @override
+  String get savedSuccessfully => 'ስኬታማ ተቀምጧል';
+
+  @override
+  String get saveFailed => 'ፋይሉን ማስቀመጥ አልተሳካም';
+
+  @override
+  String get mdDiagrams => 'ሐረጎች';
+
+  @override
+  String get mdDiagramsHint => 'የMermaid ሥዕሎች በቅድ-ዕይታ ሁነታ ቀጥለው ይቀርቡ።';
+
+  @override
+  String get textDocumentTitle => 'የጽሑፍ ሰነድ';
+
+  @override
+  String get markdownDocumentTitle => 'MarkDown ሰነድ';
 }
