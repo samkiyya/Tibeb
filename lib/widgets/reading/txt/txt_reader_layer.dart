@@ -289,6 +289,7 @@ class TxtReaderLayerState extends State<TxtReaderLayer>
                         ),
                         selectionHandleColor: widget.settings.textColor,
                       ),
+                      scaffoldBackgroundColor: widget.settings.backgroundColor,
                     ),
                     child: TextField(
                       controller: _editCtrl,
@@ -301,9 +302,11 @@ class TxtReaderLayerState extends State<TxtReaderLayer>
                         fontFamily: 'Courier',
                         height: widget.settings.lineHeight,
                       ),
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         border: InputBorder.none,
                         isDense: true,
+                        fillColor: widget.settings.backgroundColor,
+                        filled: true,
                       ),
                       onChanged: (val) {
                         widget.onInteraction();

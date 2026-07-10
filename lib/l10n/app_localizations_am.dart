@@ -603,7 +603,7 @@ class AppLocalizationsAm extends AppLocalizations {
   String get next => 'ቀጣሪ';
 
   @override
-  String get finish => '��ርር';
+  String get finish => 'ጨርስ';
 
   @override
   String get skip => 'ዝለ';

@@ -247,7 +247,7 @@ String _escapeHtml(String text) {
 // ── Math InlineSyntax ─────────────────────────────────────────────────────
 
 class _InlineMathSyntax extends md.InlineSyntax {
-  _InlineMathSyntax() : super(r'\$([^\$\n]+?)\$');
+  _InlineMathSyntax() : super(r'\$([^$\n]+?)\$');
 
   @override
   bool onMatch(md.InlineParser parser, Match match) {
@@ -424,6 +424,7 @@ class MarkdownRenderer {
         md.InlineHtmlSyntax(),
         md.AutolinkExtensionSyntax(),
       ],
+      inlineOnly: false,
     );
 
     // Post-process: task lists

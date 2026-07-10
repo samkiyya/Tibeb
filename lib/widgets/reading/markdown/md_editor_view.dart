@@ -107,6 +107,7 @@ class _MdEditorViewState extends State<MdEditorView> {
                     ),
                     selectionHandleColor: widget.settings.textColor,
                   ),
+                  scaffoldBackgroundColor: widget.settings.backgroundColor,
                 ),
                 child: TextField(
                   controller: widget.textController,
@@ -122,9 +123,11 @@ class _MdEditorViewState extends State<MdEditorView> {
                     height: widget.settings.lineHeight,
                     letterSpacing: 0.2,
                   ),
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     border: InputBorder.none,
                     isDense: true,
+                    fillColor: widget.settings.backgroundColor,
+                    filled: true,
                   ),
                   onChanged: (val) {
                     widget.onInteraction();
