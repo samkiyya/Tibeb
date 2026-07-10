@@ -62,9 +62,7 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
                       key: widget.filterKey,
                       icon: Icon(
                         _isExpanded ? Icons.expand_less : Icons.tune_rounded,
-                        color: _isExpanded
-                            ? t.primary
-                            : t.textSecondary,
+                        color: _isExpanded ? t.primary : t.textSecondary,
                         size: 20,
                       ),
                       onPressed: () =>
@@ -188,13 +186,17 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
                         ),
                         _FilterChip(
                           t: t,
-                          label: state.sortBy.name.toUpperCase(),
+                          label: _getSortName(
+                            l10n,
+                            state.sortBy.name.toUpperCase(),
+                          ),
                           isSelected: state.sortBy != BookSortBy.recent,
                           icon: Icons.sort_rounded,
                           hasDropdown: true,
                           dropdownOptions: BookSortBy.values
                               .map((v) => v.name.toUpperCase())
                               .toList(),
+                          labelMapper: (val) => _getSortName(l10n, val),
                           onSelected: (val) {
                             notifier.setSortBy(
                               BookSortBy.values.firstWhere(
@@ -215,21 +217,25 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
                     children: [
                       _StatusTab(
                         t: t,
-                        label: 'Reading',
-                        isSelected: state.statusFilter == BookStatusFilter.reading,
+                        label: l10n.statusReading,
+                        isSelected:
+                            state.statusFilter == BookStatusFilter.reading,
                         onTap: () =>
                             notifier.setStatusFilter(BookStatusFilter.reading),
                       ),
                       _StatusTab(
                         t: t,
-                        label: 'To Read',
-                        isSelected: state.statusFilter == BookStatusFilter.unread,
-                        onTap: () => notifier.setStatusFilter(BookStatusFilter.unread),
+                        label: l10n.statusToRead,
+                        isSelected:
+                            state.statusFilter == BookStatusFilter.unread,
+                        onTap: () =>
+                            notifier.setStatusFilter(BookStatusFilter.unread),
                       ),
                       _StatusTab(
                         t: t,
-                        label: 'Finished',
-                        isSelected: state.statusFilter == BookStatusFilter.finished,
+                        label: l10n.statusFinished,
+                        isSelected:
+                            state.statusFilter == BookStatusFilter.finished,
                         onTap: () =>
                             notifier.setStatusFilter(BookStatusFilter.finished),
                       ),
@@ -243,6 +249,21 @@ class _LibraryHeaderState extends ConsumerState<LibraryHeader> {
         ],
       ),
     );
+  }
+
+  String _getSortName(AppLocalizations l10n, String name) {
+    switch (name.toUpperCase()) {
+      case 'RECENT':
+        return l10n.sortRecent;
+      case 'TITLE':
+        return l10n.sortTitle;
+      case 'AUTHOR':
+        return l10n.sortAuthor;
+      case 'PROGRESS':
+        return l10n.sortProgress;
+      default:
+        return name;
+    }
   }
 }
 
@@ -319,6 +340,7 @@ class _FilterChip extends StatelessWidget {
         itemBuilder: (context) => (dropdownOptions ?? []).map((opt) {
           final isItemSelected =
               opt == label ||
+              labelMapper?.call(opt) == label ||
               (label == 'Genre' && opt == 'All') ||
               (label == 'Author' && opt == 'All') ||
               (label == 'File Type' && opt == 'All') ||

@@ -365,5 +365,25 @@
   "allSelectedDuplicates": "ሁሉም የተመረጡ ፋይሎች አስቀድመው በዚህ መጽሐፍ ውስጥ አሉ።",
   "skippedDuplicates": "{count} የተባዙ ፋይሎች ታልፈዋል።",
   "testNotificationTitle": "የሙከራ ማሳወቂያ 📚",
-  "testNotificationBody": "ማሳሰቢያዎች በትክክል እየሰሩ ነው! መልካም ንባብ።"
+  "testNotificationBody": "ማሳሰቢያዎች በትክክል እየሰሩ ነው! መልካም ንባብ።",
+
+  "readingActivity": "የንባብ እንቅስቃሴ",
+  "currentMonth": "የአሁኑ ወር",
+  "streak": "ተከታታይ",
+  "statusReading": "በማንበብ ላይ",
+  "statusToRead": "ለማንበብ",
+  "statusFinished": "ተጠናቋል",
+  "sortRecent": "ቅርብ ጊዜ",
+  "sortTitle": "ርዕስ",
+  "sortAuthor": "ደራሲ",
+  "sortProgress": "ሂደት",
+  "weeklyReadingGoals": "ሳምንታዊ የንባብ ዓላማዎች",
+  "setGoalTargets": "መከታተል የሚፈልጓቸውን ዓላማዎች ያስቀምጡ።",
+  "pagesGoal": "የገጽ ዓላማ",
+  "minutesGoal": "የደቂቃ ዓላማ",
+  "wpGoal": "የWP ዓላማ",
+  "activeGoalLabel": "ንቁ",
+  "showOnGraph": "ግራፍ ላይ አሳይ",
+  "saveGoals": "ዓላማዎችን አስቀምጥ",
+  "earnWPHint": "WP አግኝ፦ PDF (10/ገጽ)፣ EPUB (40/ምዕራፍ) + 5 WP/ደቂቃ። ለ1000 WP = 1 ደረጃ!"
 }

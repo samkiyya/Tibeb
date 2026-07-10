@@ -1179,13 +1179,13 @@ abstract class AppLocalizations {
   /// No description provided for @pagesGoal.
   ///
   /// In en, this message translates to:
-  /// **'Pages goal'**
+  /// **'Pages Goal'**
   String get pagesGoal;
 
   /// No description provided for @minutesGoal.
   ///
   /// In en, this message translates to:
-  /// **'Minutes goal'**
+  /// **'Minutes Goal'**
   String get minutesGoal;
 
   /// No description provided for @setGoal.
@@ -2211,6 +2211,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Read on Enkutatash.'**
   String get achievement_enkutatash_start_description;
+
+  /// No description provided for @currentMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Month'**
+  String get currentMonth;
+
+  /// No description provided for @statusReading.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading'**
+  String get statusReading;
+
+  /// No description provided for @statusToRead.
+  ///
+  /// In en, this message translates to:
+  /// **'To Read'**
+  String get statusToRead;
+
+  /// No description provided for @statusFinished.
+  ///
+  /// In en, this message translates to:
+  /// **'Finished'**
+  String get statusFinished;
+
+  /// No description provided for @sortRecent.
+  ///
+  /// In en, this message translates to:
+  /// **'RECENT'**
+  String get sortRecent;
+
+  /// No description provided for @sortTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'TITLE'**
+  String get sortTitle;
+
+  /// No description provided for @sortAuthor.
+  ///
+  /// In en, this message translates to:
+  /// **'AUTHOR'**
+  String get sortAuthor;
+
+  /// No description provided for @sortProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'PROGRESS'**
+  String get sortProgress;
+
+  /// No description provided for @weeklyReadingGoals.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly Reading Goals'**
+  String get weeklyReadingGoals;
+
+  /// No description provided for @setGoalTargets.
+  ///
+  /// In en, this message translates to:
+  /// **'Set targets for the metrics you want to track.'**
+  String get setGoalTargets;
+
+  /// No description provided for @wpGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'WP Goal'**
+  String get wpGoal;
+
+  /// No description provided for @activeGoalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get activeGoalLabel;
+
+  /// No description provided for @showOnGraph.
+  ///
+  /// In en, this message translates to:
+  /// **'Show on Graph'**
+  String get showOnGraph;
+
+  /// No description provided for @saveGoals.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Goals'**
+  String get saveGoals;
+
+  /// No description provided for @earnWPHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Earn WP: PDF (10/page), EPUB (40/chapter) + 5 WP/min. Every 1000 WP = 1 Level!'**
+  String get earnWPHint;
 }
 
 class _AppLocalizationsDelegate

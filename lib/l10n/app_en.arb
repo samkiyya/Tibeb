@@ -373,5 +373,25 @@
   "achievement_timkat_reader": "Timkat Reader",
   "achievement_timkat_reader_description": "Read on Timkat.",
   "achievement_enkutatash_start": "Enkutatash Scholar",
-  "achievement_enkutatash_start_description": "Read on Enkutatash."
+  "achievement_enkutatash_start_description": "Read on Enkutatash.",
+
+  "readingActivity": "Reading Activity",
+  "currentMonth": "Current Month",
+  "streak": "Streak",
+  "statusReading": "Reading",
+  "statusToRead": "To Read",
+  "statusFinished": "Finished",
+  "sortRecent": "RECENT",
+  "sortTitle": "TITLE",
+  "sortAuthor": "AUTHOR",
+  "sortProgress": "PROGRESS",
+  "weeklyReadingGoals": "Weekly Reading Goals",
+  "setGoalTargets": "Set targets for the metrics you want to track.",
+  "pagesGoal": "Pages Goal",
+  "minutesGoal": "Minutes Goal",
+  "wpGoal": "WP Goal",
+  "activeGoalLabel": "Active",
+  "showOnGraph": "Show on Graph",
+  "saveGoals": "Save Goals",
+  "earnWPHint": "Earn WP: PDF (10/page), EPUB (40/chapter) + 5 WP/min. Every 1000 WP = 1 Level!"
 }

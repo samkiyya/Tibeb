@@ -52,7 +52,7 @@ class AppLocalizationsOm extends AppLocalizations {
   String get totalWP => 'Qabxii Ogummaa Waligala';
 
   @override
-  String get streak => 'Walitti fufinsa dubbisuu';
+  String get streak => 'Itti Fufinsa';
 
   @override
   String get pages => 'Fuulota';
@@ -298,7 +298,7 @@ class AppLocalizationsOm extends AppLocalizations {
   String get readingStats => 'Tuqaalee dubbisuu';
 
   @override
-  String get readingActivity => 'Sochii dubbisuu';
+  String get readingActivity => 'Socho\'iinsa Dubbisaa';
 
   @override
   String get selectMonth => 'Baati fili';
@@ -568,10 +568,10 @@ class AppLocalizationsOm extends AppLocalizations {
   String get minutesPerWeek => 'Daqiiqaa torban';
 
   @override
-  String get pagesGoal => 'Gala bu\'uraa';
+  String get pagesGoal => 'Kaayyoo Fuulaa';
 
   @override
-  String get minutesGoal => 'Gala daqiiqaa';
+  String get minutesGoal => 'Kaayyoo Daqiiqaa';
 
   @override
   String get setGoal => 'Gala';
@@ -1138,4 +1138,50 @@ class AppLocalizationsOm extends AppLocalizations {
   @override
   String get achievement_enkutatash_start_description =>
       'Guyyaa Enkutataash dubbisuu.';
+
+  @override
+  String get currentMonth => 'Ji\'a Ammaa';
+
+  @override
+  String get statusReading => 'Dubbisaa jira';
+
+  @override
+  String get statusToRead => 'Dubbisuu';
+
+  @override
+  String get statusFinished => 'Xumurameera';
+
+  @override
+  String get sortRecent => 'Dhiyeenya';
+
+  @override
+  String get sortTitle => 'Mata-duree';
+
+  @override
+  String get sortAuthor => 'Barreessaa';
+
+  @override
+  String get sortProgress => 'Adeemsa';
+
+  @override
+  String get weeklyReadingGoals => 'Kaayyoo Dubbisaa Torbee';
+
+  @override
+  String get setGoalTargets => 'Kaayyoowwan hordofuu barbaaddu saagi.';
+
+  @override
+  String get wpGoal => 'Kaayyoo WP';
+
+  @override
+  String get activeGoalLabel => 'Hojii irra jira';
+
+  @override
+  String get showOnGraph => 'Graafaa irratti agarsiisi';
+
+  @override
+  String get saveGoals => 'Kaayyoowwan Olkaa\'i';
+
+  @override
+  String get earnWPHint =>
+      'WP argadhu: PDF (10/fuula), EPUB (40/boqonnaa) + 5 WP/daqiiqaa. WP 1000 = Sadarkaa 1!';
 }

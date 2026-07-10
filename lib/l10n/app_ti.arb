@@ -372,5 +372,25 @@
   "allSelectedDuplicates": "ኩሎም ዝተመረጹ ፋይላት ድሮ ኣብዚ መጽሓፍ እዚ ኣለዉ።",
   "skippedDuplicates": "{count} ድርብ ዝዀኑ ፋይላት ተሓሊፎም እዮም።",
   "testNotificationTitle": "ፈተነ ምልክታ 📚",
-  "testNotificationBody": "መዘኻኸሪታት ብግቡእ ይሰርሑ ኣለዉ! ጽቡቕ ንባብ።"
+  "testNotificationBody": "መዘኻኸሪታት ብግቡእ ይሰርሑ ኣለዉ! ጽቡቕ ንባብ።",
+
+  "readingActivity": "ምንቅስቓስ ንባብ",
+  "currentMonth": "ናይ ሕጂ ወርሒ",
+  "streak": "ተኸታታሊ",
+  "statusReading": "ይንበብ ኣሎ",
+  "statusToRead": "ንምንባብ",
+  "statusFinished": "ተወዲኡ",
+  "sortRecent": "ቐረብ",
+  "sortTitle": "ርእሲ",
+  "sortAuthor": "ደራሲ",
+  "sortProgress": "ሂደት",
+  "weeklyReadingGoals": "ሳምንታዊ ዕላማ ንባብ",
+  "setGoalTargets": "ዕላማታት ንምክትታል ኣቐምጥ።",
+  "pagesGoal": "ዕላማ ገጻት",
+  "minutesGoal": "ዕላማ ደቓይቕ",
+  "wpGoal": "ዕላማ WP",
+  "activeGoalLabel": "ንቡር",
+  "showOnGraph": "ኣብ ግራፍ ኣርእ",
+  "saveGoals": "ዕላማታት ኣቐምጥ",
+  "earnWPHint": "WP ኣግኝ: PDF (10/ገጽ), EPUB (40/ምዕራፍ) + 5 WP/ደቓይቕ. ን1000 WP = 1 ደርጃ!"
 }

@@ -52,7 +52,7 @@ class AppLocalizationsAm extends AppLocalizations {
   String get totalWP => 'ጠቅላላ የጥበብ ነጥብ';
 
   @override
-  String get streak => 'ተከታታይ ንባብ';
+  String get streak => 'ተከታታይ';
 
   @override
   String get pages => 'ገጾች';
@@ -561,10 +561,10 @@ class AppLocalizationsAm extends AppLocalizations {
   String get minutesPerWeek => 'ደቂቃዎች በሳምንት';
 
   @override
-  String get pagesGoal => 'የገጾች ግብ';
+  String get pagesGoal => 'የገጽ ዓላማ';
 
   @override
-  String get minutesGoal => 'የደቂቃዎች ግብ';
+  String get minutesGoal => 'የደቂቃ ዓላማ';
 
   @override
   String get setGoal => 'ግብ ያዘጋጡ';
@@ -1105,4 +1105,50 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get achievement_enkutatash_start_description => 'በእንቁጣጣሽ ያንብቡ።';
+
+  @override
+  String get currentMonth => 'የአሁኑ ወር';
+
+  @override
+  String get statusReading => 'በማንበብ ላይ';
+
+  @override
+  String get statusToRead => 'ለማንበብ';
+
+  @override
+  String get statusFinished => 'ተጠናቋል';
+
+  @override
+  String get sortRecent => 'ቅርብ ጊዜ';
+
+  @override
+  String get sortTitle => 'ርዕስ';
+
+  @override
+  String get sortAuthor => 'ደራሲ';
+
+  @override
+  String get sortProgress => 'ሂደት';
+
+  @override
+  String get weeklyReadingGoals => 'ሳምንታዊ የንባብ ዓላማዎች';
+
+  @override
+  String get setGoalTargets => 'መከታተል የሚፈልጓቸውን ዓላማዎች ያስቀምጡ።';
+
+  @override
+  String get wpGoal => 'የWP ዓላማ';
+
+  @override
+  String get activeGoalLabel => 'ንቁ';
+
+  @override
+  String get showOnGraph => 'ግራፍ ላይ አሳይ';
+
+  @override
+  String get saveGoals => 'ዓላማዎችን አስቀምጥ';
+
+  @override
+  String get earnWPHint =>
+      'WP አግኝ፦ PDF (10/ገጽ)፣ EPUB (40/ምዕራፍ) + 5 WP/ደቂቃ። ለ1000 WP = 1 ደረጃ!';
 }

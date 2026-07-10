@@ -373,5 +373,25 @@
   "allSelectedDuplicates": "Fileewwan filataman hundi duraan kitaaba kana keessa jiru.",
   "skippedDuplicates": "Fileewwan dubbii {count} bira darbaniiru.",
   "testNotificationTitle": "Beeksisa Yaalii 📚",
-  "testNotificationBody": "Yaadachiisawwan sirriitti hojjachaa jiru! Dubbisa gaarii."
+  "testNotificationBody": "Yaadachiisawwan sirriitti hojjachaa jiru! Dubbisa gaarii.",
+
+  "readingActivity": "Socho'iinsa Dubbisaa",
+  "currentMonth": "Ji'a Ammaa",
+  "streak": "Itti Fufinsa",
+  "statusReading": "Dubbisaa jira",
+  "statusToRead": "Dubbisuu",
+  "statusFinished": "Xumurameera",
+  "sortRecent": "Dhiyeenya",
+  "sortTitle": "Mata-duree",
+  "sortAuthor": "Barreessaa",
+  "sortProgress": "Adeemsa",
+  "weeklyReadingGoals": "Kaayyoo Dubbisaa Torbee",
+  "setGoalTargets": "Kaayyoowwan hordofuu barbaaddu saagi.",
+  "pagesGoal": "Kaayyoo Fuulaa",
+  "minutesGoal": "Kaayyoo Daqiiqaa",
+  "wpGoal": "Kaayyoo WP",
+  "activeGoalLabel": "Hojii irra jira",
+  "showOnGraph": "Graafaa irratti agarsiisi",
+  "saveGoals": "Kaayyoowwan Olkaa'i",
+  "earnWPHint": "WP argadhu: PDF (10/fuula), EPUB (40/boqonnaa) + 5 WP/daqiiqaa. WP 1000 = Sadarkaa 1!"
 }

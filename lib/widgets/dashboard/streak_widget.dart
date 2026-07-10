@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/theme.dart';
-
 import '../glass_container.dart';
+import '../../l10n/app_localizations.dart';
 
 class StreakWidget extends StatelessWidget {
   final int streak;
@@ -12,10 +12,9 @@ class StreakWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
     final Color fireColor = isActive
-        ? (streak >= 30
-              ? t.wpGold
-              : (streak >= 7 ? t.streakFire : t.error))
+        ? (streak >= 30 ? t.wpGold : (streak >= 7 ? t.streakFire : t.error))
         : t.textTertiary;
 
     return GlassContainer(
@@ -26,10 +25,13 @@ class StreakWidget extends StatelessWidget {
           const SizedBox(height: TibebSpacing.sm),
           Text(
             '$streak',
-            style: context.textTheme.titleLarge?.copyWith(fontSize: 18, color: t.textSecondary),
+            style: context.textTheme.titleLarge?.copyWith(
+              fontSize: 18,
+              color: t.textSecondary,
+            ),
           ),
           Text(
-            'Streak',
+            l10n.streak,
             style: context.textTheme.bodySmall?.copyWith(
               fontSize: 10,
               color: t.textSecondary,

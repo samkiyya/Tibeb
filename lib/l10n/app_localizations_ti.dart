@@ -52,7 +52,7 @@ class AppLocalizationsTi extends AppLocalizations {
   String get totalWP => 'ጠቅላላ ነጥብ ጥበብ';
 
   @override
-  String get streak => 'ተከታታይ ንባብ';
+  String get streak => 'ተኸታታሊ';
 
   @override
   String get pages => 'ገጻት';
@@ -294,7 +294,7 @@ class AppLocalizationsTi extends AppLocalizations {
   String get readingStats => 'ስታቲስቲክስ ንባብ';
 
   @override
-  String get readingActivity => 'ንጥፈታት ንባብ';
+  String get readingActivity => 'ምንቅስቓስ ንባብ';
 
   @override
   String get selectMonth => 'ወርሒ ምረጽ';
@@ -562,10 +562,10 @@ class AppLocalizationsTi extends AppLocalizations {
   String get minutesPerWeek => 'ደቂቃታት ብሳምንት';
 
   @override
-  String get pagesGoal => 'ግብ ገጾት';
+  String get pagesGoal => 'ዕላማ ገጻት';
 
   @override
-  String get minutesGoal => 'ግብ ደቂቃታት';
+  String get minutesGoal => 'ዕላማ ደቓይቕ';
 
   @override
   String get setGoal => 'ግብ ኣዘጋግ';
@@ -1105,4 +1105,50 @@ class AppLocalizationsTi extends AppLocalizations {
 
   @override
   String get achievement_enkutatash_start_description => 'ብእንቁጣጣሽ ኣንብብ';
+
+  @override
+  String get currentMonth => 'ናይ ሕጂ ወርሒ';
+
+  @override
+  String get statusReading => 'ይንበብ ኣሎ';
+
+  @override
+  String get statusToRead => 'ንምንባብ';
+
+  @override
+  String get statusFinished => 'ተወዲኡ';
+
+  @override
+  String get sortRecent => 'ቐረብ';
+
+  @override
+  String get sortTitle => 'ርእሲ';
+
+  @override
+  String get sortAuthor => 'ደራሲ';
+
+  @override
+  String get sortProgress => 'ሂደት';
+
+  @override
+  String get weeklyReadingGoals => 'ሳምንታዊ ዕላማ ንባብ';
+
+  @override
+  String get setGoalTargets => 'ዕላማታት ንምክትታል ኣቐምጥ።';
+
+  @override
+  String get wpGoal => 'ዕላማ WP';
+
+  @override
+  String get activeGoalLabel => 'ንቡር';
+
+  @override
+  String get showOnGraph => 'ኣብ ግራፍ ኣርእ';
+
+  @override
+  String get saveGoals => 'ዕላማታት ኣቐምጥ';
+
+  @override
+  String get earnWPHint =>
+      'WP ኣግኝ: PDF (10/ገጽ), EPUB (40/ምዕራፍ) + 5 WP/ደቓይቕ. ን1000 WP = 1 ደርጃ!';
 }

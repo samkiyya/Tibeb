@@ -5,6 +5,7 @@ import 'package:tibeb/models/book_model.dart';
 import 'package:tibeb/providers/library_provider.dart';
 import 'package:tibeb/screens/edit_book_screen.dart';
 import 'package:tibeb/widgets/book_overlay_menu.dart';
+import 'package:tibeb/l10n/app_localizations.dart';
 
 /// Centralises book context-menu actions for the dashboard.
 ///
@@ -52,6 +53,7 @@ class DashboardActions {
     Book book,
   ) async {
     bool deleteHistory = false;
+    final l10n = AppLocalizations.of(context)!;
     final confirm = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => StatefulBuilder(
@@ -59,19 +61,22 @@ class DashboardActions {
           final t = ctx.tibpiColors;
           return AlertDialog(
             backgroundColor: t.surface,
-            title: Text('Remove Book', style: TextStyle(color: t.textPrimary)),
+            title: Text(
+              l10n.removeBook,
+              style: TextStyle(color: t.textPrimary),
+            ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Are you sure you want to remove "${book.title}"?',
+                  l10n.removeBookConfirm(book.title),
                   style: TextStyle(color: t.textSecondary),
                 ),
                 const SizedBox(height: 16),
                 CheckboxListTile(
                   contentPadding: EdgeInsets.zero,
                   title: Text(
-                    'Remove reading history',
+                    l10n.removeReadingHistoryLabel,
                     style: TextStyle(color: t.textSecondary, fontSize: 14),
                   ),
                   value: deleteHistory,
@@ -84,11 +89,14 @@ class DashboardActions {
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(dialogContext, false),
-                child: Text('Cancel', style: TextStyle(color: t.textSecondary)),
+                child: Text(
+                  l10n.cancel,
+                  style: TextStyle(color: t.textSecondary),
+                ),
               ),
               TextButton(
                 onPressed: () => Navigator.pop(dialogContext, true),
-                child: Text('Remove', style: TextStyle(color: t.error)),
+                child: Text(l10n.remove2, style: TextStyle(color: t.error)),
               ),
             ],
           );

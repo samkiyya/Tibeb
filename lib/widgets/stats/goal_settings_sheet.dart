@@ -4,6 +4,7 @@ import 'package:tibeb/core/theme/theme.dart';
 
 import 'package:tibeb/widgets/glass_container.dart';
 import 'package:tibeb/providers/library_provider.dart';
+import 'package:tibeb/l10n/app_localizations.dart';
 
 class GoalSettingsSheet extends ConsumerStatefulWidget {
   const GoalSettingsSheet({super.key});
@@ -72,6 +73,7 @@ class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
   @override
   Widget build(BuildContext context) {
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.only(
@@ -85,7 +87,7 @@ class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Weekly Reading Goals',
+                l10n.weeklyReadingGoals,
                 style: context.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: t.textPrimary,
@@ -93,15 +95,16 @@ class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
               ),
               const SizedBox(height: 8),
               Text(
-                'Set targets for the metrics you want to track.',
+                l10n.setGoalTargets,
                 style: TextStyle(color: t.textSecondary, fontSize: 13),
               ),
               const SizedBox(height: 24),
 
               _buildGoalInput(
                 t: t,
-                title: 'Pages Goal',
-                unit: 'pages',
+                l10n: l10n,
+                title: l10n.pagesGoal,
+                unit: l10n.pages,
                 controller: _pagesController,
                 value: _pagesValue,
                 isActive: _activeType == 'pages',
@@ -114,8 +117,9 @@ class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
               const SizedBox(height: 20),
               _buildGoalInput(
                 t: t,
-                title: 'Minutes Goal',
-                unit: 'minutes',
+                l10n: l10n,
+                title: l10n.minutesGoal,
+                unit: l10n.minutes,
                 controller: _minutesController,
                 value: _minutesValue,
                 isActive: _activeType == 'minutes',
@@ -128,7 +132,8 @@ class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
               const SizedBox(height: 20),
               _buildGoalInput(
                 t: t,
-                title: 'WP Goal',
+                l10n: l10n,
+                title: l10n.wpGoal,
                 unit: 'WP',
                 controller: _wpController,
                 value: _wpValue,
@@ -162,7 +167,7 @@ class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
                       borderRadius: TibebRadius.borderLg,
                     ),
                   ),
-                  child: const Text('Save Goals'),
+                  child: Text(l10n.saveGoals),
                 ),
               ),
               const SizedBox(height: 20),
@@ -175,6 +180,7 @@ class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
 
   Widget _buildGoalInput({
     required TibebThemeExtension t,
+    required AppLocalizations l10n,
     required String title,
     required String unit,
     required TextEditingController controller,
@@ -215,7 +221,7 @@ class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
                   ),
                 ),
                 child: Text(
-                  isActive ? 'Active' : 'Show on Graph',
+                  isActive ? l10n.activeGoalLabel : l10n.showOnGraph,
                   style: TextStyle(
                     color: isActive ? t.primary : t.textSecondary,
                     fontSize: 10,
@@ -259,10 +265,7 @@ class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
                   const SizedBox(width: 8),
                   Text(
                     unit,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: t.textSecondary,
-                    ),
+                    style: TextStyle(fontSize: 14, color: t.textSecondary),
                   ),
                 ],
               ),
@@ -280,7 +283,11 @@ class _GoalSettingsSheetState extends ConsumerState<GoalSettingsSheet> {
     );
   }
 
-  Widget _buildValueBtn(TibebThemeExtension t, IconData icon, VoidCallback onTap) {
+  Widget _buildValueBtn(
+    TibebThemeExtension t,
+    IconData icon,
+    VoidCallback onTap,
+  ) {
     return GestureDetector(
       onTap: onTap,
       child: Container(

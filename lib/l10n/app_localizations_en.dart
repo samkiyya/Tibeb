@@ -565,10 +565,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get minutesPerWeek => 'Minutes per week';
 
   @override
-  String get pagesGoal => 'Pages goal';
+  String get pagesGoal => 'Pages Goal';
 
   @override
-  String get minutesGoal => 'Minutes goal';
+  String get minutesGoal => 'Minutes Goal';
 
   @override
   String get setGoal => 'Set Goal';
@@ -1126,4 +1126,50 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get achievement_enkutatash_start_description => 'Read on Enkutatash.';
+
+  @override
+  String get currentMonth => 'Current Month';
+
+  @override
+  String get statusReading => 'Reading';
+
+  @override
+  String get statusToRead => 'To Read';
+
+  @override
+  String get statusFinished => 'Finished';
+
+  @override
+  String get sortRecent => 'RECENT';
+
+  @override
+  String get sortTitle => 'TITLE';
+
+  @override
+  String get sortAuthor => 'AUTHOR';
+
+  @override
+  String get sortProgress => 'PROGRESS';
+
+  @override
+  String get weeklyReadingGoals => 'Weekly Reading Goals';
+
+  @override
+  String get setGoalTargets => 'Set targets for the metrics you want to track.';
+
+  @override
+  String get wpGoal => 'WP Goal';
+
+  @override
+  String get activeGoalLabel => 'Active';
+
+  @override
+  String get showOnGraph => 'Show on Graph';
+
+  @override
+  String get saveGoals => 'Save Goals';
+
+  @override
+  String get earnWPHint =>
+      'Earn WP: PDF (10/page), EPUB (40/chapter) + 5 WP/min. Every 1000 WP = 1 Level!';
 }
