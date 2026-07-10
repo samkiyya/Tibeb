@@ -23,8 +23,12 @@ class NotificationSettings extends ConsumerWidget {
           value: state.notificationsEnabled,
           onChanged: (val) {
             // Update both settings provider and library provider
-            ref.read(settingsProvider.notifier).updateNotificationSettings(enabled: val);
-            ref.read(libraryProvider.notifier).updateNotificationSettings(enabled: val);
+            ref
+                .read(settingsProvider.notifier)
+                .updateNotificationSettings(enabled: val);
+            ref
+                .read(libraryProvider.notifier)
+                .updateNotificationSettings(enabled: val);
           },
           title: Text(
             l10n.dailyReminders,
@@ -84,23 +88,24 @@ class NotificationSettings extends ConsumerWidget {
               );
               if (time != null) {
                 // Update both settings provider and library provider
-                ref.read(settingsProvider.notifier).updateNotificationSettings(
-                  hour: time.hour,
-                  minute: time.minute,
-                );
-                ref.read(libraryProvider.notifier).updateNotificationSettings(
-                  hour: time.hour,
-                  minute: time.minute,
-                );
+                ref
+                    .read(settingsProvider.notifier)
+                    .updateNotificationSettings(
+                      hour: time.hour,
+                      minute: time.minute,
+                    );
+                ref
+                    .read(libraryProvider.notifier)
+                    .updateNotificationSettings(
+                      hour: time.hour,
+                      minute: time.minute,
+                    );
               }
             },
           ),
         Divider(color: t.borderSubtle, height: 1),
         ListTile(
-          leading: Icon(
-            Icons.notification_important_rounded,
-            color: t.primary,
-          ),
+          leading: Icon(Icons.notification_important_rounded, color: t.primary),
           title: Text(
             l10n.testNotification,
             style: TextStyle(color: t.textPrimary),
@@ -188,8 +193,8 @@ class NotificationSettings extends ConsumerWidget {
     if (granted) {
       await NotificationService().showNotification(
         id: AppConstants.testNotificationId,
-        title: 'Test Notification 📚',
-        body: "Reminders are working correctly! Happy reading.",
+        title: l10n.testNotificationTitle,
+        body: l10n.testNotificationBody,
       );
     } else if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(

@@ -62,7 +62,7 @@ class AchievementDetailDialog extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            achievement.isUnlocked ? l10n.done : 'Keep reading to unlock!',
+            achievement.isUnlocked ? l10n.done : l10n.keepReadingToUnlock,
             style: TextStyle(
               color: achievement.isUnlocked ? t.primary : t.textSecondary,
               fontSize: 12,

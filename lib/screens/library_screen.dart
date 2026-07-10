@@ -98,8 +98,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
         keyTarget: _filterKey,
         alignSkip: Alignment.bottomRight,
         title: l10n.filterSort,
-        description:
-            "Tap here to filter your library by genre, author, folder, or sorting method.",
+        description: l10n.filterSortTip,
         contentAlign: ContentAlign.bottom,
         crossAxisAlignment: CrossAxisAlignment.end,
         textAlign: TextAlign.right,
@@ -109,7 +108,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
         keyTarget: _fabKey,
         alignSkip: Alignment.topLeft,
         title: l10n.addBooks,
-        description: "Tap the + button to add new books to your library.",
+        description: l10n.addBooksTip,
         contentAlign: ContentAlign.top,
         crossAxisAlignment: CrossAxisAlignment.end,
         textAlign: TextAlign.right,
@@ -148,8 +147,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
         keyTarget: _firstBookMenuKey,
         alignSkip: Alignment.bottomRight,
         title: l10n.editBookInfo,
-        description:
-            "Tap the three dots to edit the book's cover, title, or author.\n\nLong-pressing the card is used to select multiple books!",
+        description: l10n.editBookInfoTip,
         contentAlign: ContentAlign.bottom,
       ),
     ];
@@ -270,9 +268,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
               ],
             ),
       floatingActionButton: Padding(
-        padding: EdgeInsets.only(
-          bottom:  MediaQuery.paddingOf(context).bottom,
-        ),
+        padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
         child: AddBookFab(key: _fabKey, onPressed: _handleSelectiveImport),
       ),
     );
@@ -432,24 +428,25 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
   void _handleBatchDelete() async {
     if (_selectedBookIds.isEmpty) return;
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
 
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: t.surface,
-        title: Text('Remove Books', style: TextStyle(color: t.textPrimary)),
+        title: Text(l10n.removeBooks, style: TextStyle(color: t.textPrimary)),
         content: Text(
-          'Are you sure you want to remove ${_selectedBookIds.length} books? Your reading progress and history will be kept if you re-import them.',
+          l10n.removeBooksConfirm(_selectedBookIds.length),
           style: TextStyle(color: t.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: Text('Cancel', style: TextStyle(color: t.textSecondary)),
+            child: Text(l10n.cancel, style: TextStyle(color: t.textSecondary)),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            child: Text('Remove', style: TextStyle(color: t.error)),
+            child: Text(l10n.remove2, style: TextStyle(color: t.error)),
           ),
         ],
       ),
@@ -496,6 +493,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
 
   void _showDeleteConfirmation(Book book) async {
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
     bool deleteHistory = false;
     final confirm = await showDialog<bool>(
       context: context,
@@ -503,19 +501,22 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
         builder: (context, setDialogState) {
           return AlertDialog(
             backgroundColor: t.surface,
-            title: Text('Remove Book', style: TextStyle(color: t.textPrimary)),
+            title: Text(
+              l10n.removeBook,
+              style: TextStyle(color: t.textPrimary),
+            ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Are you sure you want to remove "${book.title}"?',
+                  l10n.removeBookConfirm(book.title),
                   style: TextStyle(color: t.textSecondary),
                 ),
                 const SizedBox(height: 16),
                 CheckboxListTile(
                   contentPadding: EdgeInsets.zero,
                   title: Text(
-                    'Remove reading history',
+                    l10n.removeReadingHistoryLabel,
                     style: TextStyle(fontSize: 14, color: t.textSecondary),
                   ),
                   value: deleteHistory,
@@ -531,11 +532,14 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
-                child: Text('Cancel', style: TextStyle(color: t.textSecondary)),
+                child: Text(
+                  l10n.cancel,
+                  style: TextStyle(color: t.textSecondary),
+                ),
               ),
               TextButton(
                 onPressed: () => Navigator.pop(context, true),
-                child: Text('Remove', style: TextStyle(color: t.error)),
+                child: Text(l10n.remove2, style: TextStyle(color: t.error)),
               ),
             ],
           );

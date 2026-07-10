@@ -504,12 +504,6 @@ class AppLocalizationsOm extends AppLocalizations {
   String get fontChanged => 'Qubeen jijjiirame';
 
   @override
-  String get backupCreated => 'Kuusaa duwwaa uumame';
-
-  @override
-  String get backupRestored => 'Kuusaa duwwaa deebifame';
-
-  @override
   String get errorOccurred => 'Dogoggori uumame';
 
   @override
@@ -644,6 +638,225 @@ class AppLocalizationsOm extends AppLocalizations {
 
   @override
   String get categoryAdded => 'Gaarii kuusameera kitaabota filameera';
+
+  @override
+  String showNResults(Object count) {
+    return 'Bu\'aalee $count agarsiisi';
+  }
+
+  @override
+  String get annotations => 'Yaadannoolee';
+
+  @override
+  String partN(Object number) {
+    return 'Curaa $number';
+  }
+
+  @override
+  String get jumpToPercent => '% deebi\'i';
+
+  @override
+  String get jumpToPage => 'Fuula deebi\'i';
+
+  @override
+  String get noAnnotationsFound => 'Yaadannoon hin argamne';
+
+  @override
+  String get exportCurrentBook => 'Kitaaba ammaa ergadhu';
+
+  @override
+  String get vocabulary => 'Jechota';
+
+  @override
+  String get highlight => 'Ibsa';
+
+  @override
+  String get goToPosition => 'Bakka deebi\'i';
+
+  @override
+  String get myNote => 'Yaadannoo koo';
+
+  @override
+  String nSelected(Object count) {
+    return '$count filameera';
+  }
+
+  @override
+  String nItems(Object count) {
+    return 'Wantota $count';
+  }
+
+  @override
+  String get shareAsQuote => 'Dubbii godhii qoodi';
+
+  @override
+  String get shareAsMarkdown => 'Markdown godhii qoodi';
+
+  @override
+  String get deleteSelected => 'Filameera haqaa';
+
+  @override
+  String get cancelSelection => 'Filannoo haqaa';
+
+  @override
+  String get export => 'Ergadhu';
+
+  @override
+  String get select => 'Fili';
+
+  @override
+  String get favorite => 'Jaalatamaa';
+
+  @override
+  String get unfavorite => 'Jaalatamaa haqaa';
+
+  @override
+  String get editInfo => 'Odeeffannoo gulaali';
+
+  @override
+  String get remove => 'Haqi';
+
+  @override
+  String get editNote => 'Yaadannoo gulaali';
+
+  @override
+  String get writeSomethingAmazing => 'Waa ajaa\'iba barreessi...';
+
+  @override
+  String get displaySettings => 'Qindaa\'ina agarsiisaa';
+
+  @override
+  String get typeface => 'Gosa qubee';
+
+  @override
+  String get sizeAndLayout => 'Bal\'ina fi Caasaa';
+
+  @override
+  String get textSize => 'Bal\'ina barreeffamaa';
+
+  @override
+  String get autoScrollSpeed => 'Saffisa ofiituu geengoo';
+
+  @override
+  String get lineHeight => 'Dheerina sarara';
+
+  @override
+  String get publisherDefaults => 'Hundeeffama maxxansaa';
+
+  @override
+  String get shareQuote => 'Dubbii qoodi';
+
+  @override
+  String get classic => 'Kanniisa';
+
+  @override
+  String get bold => 'Jabaata';
+
+  @override
+  String get preparing => 'Qopheessaa...';
+
+  @override
+  String get share => 'Qoodi';
+
+  @override
+  String get keepReadingToUnlock => 'Banachuuf dubbisuu itti fufi!';
+
+  @override
+  String get privacyPolicy => 'Imaammata Dhuunfaa';
+
+  @override
+  String get privacyPolicySubtitle => 'Imaammata dhuunfaa keenya dubbisi';
+
+  @override
+  String get termsOfService => 'Waliigaltee Tajaajilaa';
+
+  @override
+  String get termsOfServiceSubtitle => 'Waliigaltee tajaajilaa keenya dubbisi';
+
+  @override
+  String get dataCollection => 'Funaansa Daataa';
+
+  @override
+  String get dataCollectionSubtitle =>
+      'Daataa akkamii akka funaannu fi maaliif';
+
+  @override
+  String get dataCollectionBody =>
+      'tibeb daataa dhuunfaa ykn odeeffannoo hordoffii kamiyyuu hin funaanu.\n\nDaataan naannoo meeshaa keessanii irratti kufame:\n• Adeemsa dubbisuu fi istaatistiksii\n• Qindaa\'ina fi filannoo appii\n• Metadata kitaabaa fi uwwisa\n\nNuti:\n• Odeeffannoo dhuunfaa hin funaannu\n• Daataa qaama sadaffaaf hin qoodnu\n• SDK hordoffii ykn beeksisaa hin fayyadamnu\n• Qabiyyee dubbisamuu gara serverii alaatti hin ol-feenu';
+
+  @override
+  String get fontFamily => 'Gosa Qubee';
+
+  @override
+  String get fontSize => 'Hammayya Qubee';
+
+  @override
+  String get lineHeightLabel => 'Dheerina Sarara';
+
+  @override
+  String get autoScrollSpeedLabel => 'Saffisa Geengoo Ofiituu';
+
+  @override
+  String speedValue(Object value) {
+    return 'Saffisa: ${value}x';
+  }
+
+  @override
+  String get autoScrollHint =>
+      'Yeroo dubbistu saffisa ofiituu geengoo sirreessi. Gatinni ol\'aanaan saffisaan socho\'a.';
+
+  @override
+  String get quickPresets => 'Presets Saffisaa';
+
+  @override
+  String get removeBooks => 'Kitaabota Haqi';
+
+  @override
+  String removeBooksConfirm(Object count) {
+    return 'Kitaabota $count haquu akka barbaaddu mirkaneeffatteettaa? Yoo deebitee galchite adeemsi fi seenaan dubbisa kee ni kaayyamu.';
+  }
+
+  @override
+  String removeBookConfirm(Object title) {
+    return '\"$title\" haquu akka barbaaddu mirkaneeffatteettaa?';
+  }
+
+  @override
+  String get removeReadingHistoryLabel => 'Seenaa dubbisaa haqi';
+
+  @override
+  String get remove2 => 'Haqi';
+
+  @override
+  String get pickFromFile => 'File irraa fili';
+
+  @override
+  String get filterSortTip =>
+      'Koollee kee gosa, barreessaa, galmee ykn karaan calaluuf as tuqi.';
+
+  @override
+  String get addBooksTip =>
+      'Kitaabota haaraa koollee keetti dabaluuf mallattoo + tuqi.';
+
+  @override
+  String get editBookInfoTip =>
+      'Uwwisa, mata-duree, ykn barreessaa kitaabaa gulaaluuf tuqaa sadii tuqi.\n\nKaardii yeroo dheeraaf tuquun kitaabota hedduu filachuuf fayyada!';
+
+  @override
+  String get allSelectedDuplicates =>
+      'Fileewwan filataman hundi duraan kitaaba kana keessa jiru.';
+
+  @override
+  String skippedDuplicates(Object count) {
+    return 'Fileewwan dubbii $count bira darbaniiru.';
+  }
+
+  @override
+  String get testNotificationTitle => 'Beeksisa Yaalii 📚';
+
+  @override
+  String get testNotificationBody =>
+      'Yaadachiisawwan sirriitti hojjachaa jiru! Dubbisa gaarii.';
 
   @override
   String get rank_temari => 'Barataa';

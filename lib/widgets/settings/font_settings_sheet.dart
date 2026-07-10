@@ -27,10 +27,10 @@ class FontSettingsSheet extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 20),
-          
+
           // Font Family
           Text(
-            'Font Family',
+            l10n.fontFamily,
             style: TextStyle(
               color: t.textSecondary,
               fontSize: 14,
@@ -42,29 +42,57 @@ class FontSettingsSheet extends ConsumerWidget {
             spacing: 8,
             runSpacing: 8,
             children: [
-              _buildFontChip('Merriweather', readerSettings.typeface == 'Merriweather', t, () {
-                ref.read(readerSettingsProvider.notifier).setFontFamily('Merriweather');
-              }),
-              _buildFontChip('Georgia', readerSettings.typeface == 'Georgia', t, () {
-                ref.read(readerSettingsProvider.notifier).setFontFamily('Georgia');
-              }),
-              _buildFontChip('Lexend', readerSettings.typeface == 'Lexend', t, () {
-                ref.read(readerSettingsProvider.notifier).setFontFamily('Lexend');
-              }),
-              _buildFontChip('System', readerSettings.typeface == 'System', t, () {
-                ref.read(readerSettingsProvider.notifier).setFontFamily('System');
-              }),
+              _buildFontChip(
+                'Merriweather',
+                readerSettings.typeface == 'Merriweather',
+                t,
+                () {
+                  ref
+                      .read(readerSettingsProvider.notifier)
+                      .setFontFamily('Merriweather');
+                },
+              ),
+              _buildFontChip(
+                'Georgia',
+                readerSettings.typeface == 'Georgia',
+                t,
+                () {
+                  ref
+                      .read(readerSettingsProvider.notifier)
+                      .setFontFamily('Georgia');
+                },
+              ),
+              _buildFontChip(
+                'Lexend',
+                readerSettings.typeface == 'Lexend',
+                t,
+                () {
+                  ref
+                      .read(readerSettingsProvider.notifier)
+                      .setFontFamily('Lexend');
+                },
+              ),
+              _buildFontChip(
+                'System',
+                readerSettings.typeface == 'System',
+                t,
+                () {
+                  ref
+                      .read(readerSettingsProvider.notifier)
+                      .setFontFamily('System');
+                },
+              ),
             ],
           ),
-          
+
           const SizedBox(height: 24),
-          
+
           // Font Size
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Font Size',
+                l10n.fontSize,
                 style: TextStyle(
                   color: t.textSecondary,
                   fontSize: 14,
@@ -92,15 +120,15 @@ class FontSettingsSheet extends ConsumerWidget {
               ref.read(readerSettingsProvider.notifier).setFontSize(value);
             },
           ),
-          
+
           const SizedBox(height: 24),
-          
+
           // Line Height
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Line Height',
+                l10n.lineHeightLabel,
                 style: TextStyle(
                   color: t.textSecondary,
                   fontSize: 14,
@@ -128,20 +156,27 @@ class FontSettingsSheet extends ConsumerWidget {
               ref.read(readerSettingsProvider.notifier).setLineHeight(value);
             },
           ),
-          
+
           const SizedBox(height: 24),
         ],
       ),
     );
   }
 
-  Widget _buildFontChip(String label, bool isSelected, TibebThemeExtension t, VoidCallback onTap) {
+  Widget _buildFontChip(
+    String label,
+    bool isSelected,
+    TibebThemeExtension t,
+    VoidCallback onTap,
+  ) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? t.primary.withValues(alpha: 0.1) : t.surface.withValues(alpha: 0.35),
+          color: isSelected
+              ? t.primary.withValues(alpha: 0.1)
+              : t.surface.withValues(alpha: 0.35),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isSelected ? t.primary : t.borderSubtle,

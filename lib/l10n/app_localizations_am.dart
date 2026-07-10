@@ -369,7 +369,7 @@ class AppLocalizationsAm extends AppLocalizations {
   String get addParts => 'ክፍሎች ጨምር';
 
   @override
-  String get bookCover => 'ሽፋን መጽሐፍ';
+  String get bookCover => 'የመጽሐፍ ሽፋን';
 
   @override
   String get changeCover => 'ሽፋን ቀይር';
@@ -495,12 +495,6 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get fontChanged => 'ፊደል ተቀይሯል';
-
-  @override
-  String get backupCreated => 'ምትእታት ተፈጥሯል';
-
-  @override
-  String get backupRestored => 'ምትእታት ተመልሷል';
 
   @override
   String get errorOccurred => 'ስህተት ተፈጥሯል';
@@ -637,6 +631,221 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get categoryAdded => 'ምድብ ወደ ተመረጡ መጽሐፍት ተጨምረ';
+
+  @override
+  String showNResults(Object count) {
+    return '$count ውጤቶች አሳይ';
+  }
+
+  @override
+  String get annotations => 'ትርጥምሞች';
+
+  @override
+  String partN(Object number) {
+    return 'ክፍል $number';
+  }
+
+  @override
+  String get jumpToPercent => 'ወደ % ዝለ';
+
+  @override
+  String get jumpToPage => 'ወደ ገጽ ዝለ';
+
+  @override
+  String get noAnnotationsFound => 'ምንም ትርጅምሞች አልተገኙም';
+
+  @override
+  String get exportCurrentBook => 'ወቅታዊ መጽሐፍ ላክ';
+
+  @override
+  String get vocabulary => 'ቃላት';
+
+  @override
+  String get highlight => 'ድምቀት';
+
+  @override
+  String get goToPosition => 'ወደ ቦታ ሂድ';
+
+  @override
+  String get myNote => 'ማስታወሻዬ';
+
+  @override
+  String nSelected(Object count) {
+    return '$count ተመርጠዋል';
+  }
+
+  @override
+  String nItems(Object count) {
+    return '$count ንጥሎች';
+  }
+
+  @override
+  String get shareAsQuote => 'እንደ ጥቅስ አካፍል';
+
+  @override
+  String get shareAsMarkdown => 'እንደ Markdown አካፍል';
+
+  @override
+  String get deleteSelected => 'የተመረጡ ሰርዝ';
+
+  @override
+  String get cancelSelection => 'ምርጫ ሰርዝ';
+
+  @override
+  String get export => 'ላክ';
+
+  @override
+  String get select => 'ምረጥ';
+
+  @override
+  String get favorite => 'ይዉደዱ';
+
+  @override
+  String get unfavorite => 'የዎደዱትን ይሰርዙ';
+
+  @override
+  String get editInfo => 'መረጃ አርትዕ';
+
+  @override
+  String get remove => 'አስወግድ';
+
+  @override
+  String get editNote => 'ማስታወሻ አርትዕ';
+
+  @override
+  String get writeSomethingAmazing => 'አስደናቂ ነገር ጻፍ...';
+
+  @override
+  String get displaySettings => 'የማሳያ ቅንብሮች';
+
+  @override
+  String get typeface => 'የፊደል ዓይነት';
+
+  @override
+  String get sizeAndLayout => 'መጠን እና አቀማ';
+
+  @override
+  String get textSize => 'የጽሑፍ መጠን';
+
+  @override
+  String get autoScrollSpeed => 'ፍጥነት ራስ-ሰር ማሸብለል';
+
+  @override
+  String get lineHeight => 'ቁመት መስመር';
+
+  @override
+  String get publisherDefaults => 'ነባሪ ቅንብሮች';
+
+  @override
+  String get shareQuote => 'ጥቅስ አካፍል';
+
+  @override
+  String get classic => 'ክላሲካዊ';
+
+  @override
+  String get bold => 'ግዙፍ';
+
+  @override
+  String get preparing => 'እያዘጋጀ...';
+
+  @override
+  String get share => 'አካፍል';
+
+  @override
+  String get keepReadingToUnlock => 'ለማብቃት ማንበቡን ቀጥሉ!';
+
+  @override
+  String get privacyPolicy => 'የግላዊነት ፖሊሲ';
+
+  @override
+  String get privacyPolicySubtitle => 'የግላዊነት ፖሊሲያችንን ያንብቡ';
+
+  @override
+  String get termsOfService => 'የአገልግሎት ውሎች';
+
+  @override
+  String get termsOfServiceSubtitle => 'የአገልግሎት ውሎቻችንን ያንብቡ';
+
+  @override
+  String get dataCollection => 'የመረጃ አሰባሰብ';
+
+  @override
+  String get dataCollectionSubtitle => 'ምን መረጃ እንደምንሰበስብ እና ለምን';
+
+  @override
+  String get dataCollectionBody =>
+      'ቲቤብ ምንም ዓይነት የግል መረጃ ወይም የመከታተያ መረጃ አይሰበስብም።\n\nበመሣሪያዎ ላይ በአካባቢው የሚቀመጡ መረጃዎች፡\n• የንባብ ሂደት እና ስታቲስቲክስ\n• የመተግበሪያ ቅንብሮች እና ምርጫዎች\n• የመጽሐፍ ሜታዳታ እና ሽፋኖች\n\nእኛ፡\n• የግል መረጃ አንሰበስብም\n• መረጃዎችን ለሶስተኛ ወገኖች አናካፍልም\n• የመከታተያ ወይም የማስታወቂያ SDKዎችን አንጠቀምም\n• የንባብ ይዘትን ወደ ውጭ አገልጋዮች አንሰቅልም';
+
+  @override
+  String get fontFamily => 'የፊደል ዓይነት';
+
+  @override
+  String get fontSize => 'የፊደል መጠን';
+
+  @override
+  String get lineHeightLabel => 'የመስመር ቁመት';
+
+  @override
+  String get autoScrollSpeedLabel => 'የራስ-ሰር ማሸብለል ፍጥነት';
+
+  @override
+  String speedValue(Object value) {
+    return 'ፍጥነት፡ ${value}x';
+  }
+
+  @override
+  String get autoScrollHint =>
+      'በምታነብበት ጊዜ ለራስ-ሰር ማሸብለል ፍጥነቱን አስተካክል። ከፍተኛ እሴቶች በፍጥነት ያሸበልላሉ።';
+
+  @override
+  String get quickPresets => 'ፈጣን ቅንብሮች';
+
+  @override
+  String get removeBooks => 'መጻሕፍትን አስወግድ';
+
+  @override
+  String removeBooksConfirm(Object count) {
+    return 'እርግጠኛ ነዎት $count መጻሕፍትን ማስወገድ ይፈልጋሉ? እንደገና ካስገቧቸው የንባብ ሂደትዎ እና ታሪክዎ ይቀመጣሉ።';
+  }
+
+  @override
+  String removeBookConfirm(Object title) {
+    return 'እርግጠኛ ነዎት \"$title\" ማስወገድ ይፈልጋሉ?';
+  }
+
+  @override
+  String get removeReadingHistoryLabel => 'የንባብ ታሪክን አስወግድ';
+
+  @override
+  String get remove2 => 'አስወግድ';
+
+  @override
+  String get pickFromFile => 'ከፋይል ምረጥ';
+
+  @override
+  String get filterSortTip =>
+      'ላይብረሪዎን በዘውግ፣ በደራሲ፣ በፎልደር ወይም በመለያ ዘዴ ለማጣራት እዚህ ይጫኑ።';
+
+  @override
+  String get addBooksTip => 'አዳዲስ መጻሕፍትን ወደ ላይብረሪዎ ለመጨመር የ + ቁልፍን ይጫኑ።';
+
+  @override
+  String get editBookInfoTip =>
+      'የመጽሐፉን ሽፋን፣ ርዕስ ወይም ደራሲ ለማርትዕ ሶስት ነጥቦቹን ይጫኑ።\n\nካርዱን ጫን አድርገው መያዝ ብዙ መጻሕፍትን ለመምረጥ ያገለግላል!';
+
+  @override
+  String get allSelectedDuplicates => 'ሁሉም የተመረጡ ፋይሎች አስቀድመው በዚህ መጽሐፍ ውስጥ አሉ።';
+
+  @override
+  String skippedDuplicates(Object count) {
+    return '$count የተባዙ ፋይሎች ታልፈዋል።';
+  }
+
+  @override
+  String get testNotificationTitle => 'የሙከራ ማሳወቂያ 📚';
+
+  @override
+  String get testNotificationBody => 'ማሳሰቢያዎች በትክክል እየሰሩ ነው! መልካም ንባብ።';
 
   @override
   String get rank_temari => 'ተማሪ';

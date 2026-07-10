@@ -214,7 +214,9 @@ class ReadingHeader extends StatelessWidget {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            'Show $searchResultsCount results',
+                            AppLocalizations.of(
+                              context,
+                            )!.showNResults(searchResultsCount),
                             style: TextStyle(
                               color: context.tibpiColors.accent,
                               fontSize: 12,

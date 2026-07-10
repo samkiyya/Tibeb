@@ -5,6 +5,7 @@ import '../../../models/highlight_model.dart';
 import '../../../models/vocabulary_model.dart';
 import '../../../models/reader_settings_model.dart';
 import '../../../core/theme/theme.dart';
+import '../../../l10n/app_localizations.dart';
 import '../note_editor.dart';
 import '../note_view.dart';
 import 'annotation_header.dart';
@@ -76,6 +77,7 @@ class _AnnotationsTabState extends State<AnnotationsTab> {
   }
 
   void _showNoteDetailSheet(BuildContext context, Highlight h) {
+    final l10n = AppLocalizations.of(context)!;
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -117,7 +119,7 @@ class _AnnotationsTabState extends State<AnnotationsTab> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
-                            'HIGHLIGHT',
+                            l10n.highlight.toUpperCase(),
                             style: TextStyle(
                               color: context.tibpiColors.accent,
                               fontSize: 10,
@@ -134,7 +136,7 @@ class _AnnotationsTabState extends State<AnnotationsTab> {
                             color: context.tibpiColors.accent,
                           ),
                           label: Text(
-                            'GO TO POSITION',
+                            l10n.goToPosition.toUpperCase(),
                             style: TextStyle(
                               color: context.tibpiColors.accent,
                               fontSize: 10,
@@ -232,9 +234,9 @@ class _AnnotationsTabState extends State<AnnotationsTab> {
                             size: 20,
                           ),
                           const SizedBox(width: 10),
-                          const Text(
-                            'MY NOTE',
-                            style: TextStyle(
+                          Text(
+                            l10n.myNote.toUpperCase(),
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
@@ -273,6 +275,7 @@ class _AnnotationsTabState extends State<AnnotationsTab> {
         final bookmarks = snapshot.data![0] as List<Bookmark>;
         final highlights = snapshot.data![1] as List<Highlight>;
         final vocabulary = snapshot.data![2] as List<VocabularyLookup>;
+        final l10n = AppLocalizations.of(context)!;
 
         if (bookmarks.isEmpty && highlights.isEmpty && vocabulary.isEmpty) {
           return Center(
@@ -285,16 +288,16 @@ class _AnnotationsTabState extends State<AnnotationsTab> {
                   color: Colors.white10,
                 ),
                 const SizedBox(height: 16),
-                const Text(
-                  'No annotations found yet',
-                  style: TextStyle(color: Colors.white54, fontSize: 16),
+                Text(
+                  l10n.noAnnotationsFound,
+                  style: const TextStyle(color: Colors.white54, fontSize: 16),
                 ),
                 if (widget.onExport != null) ...[
                   const SizedBox(height: 24),
                   ElevatedButton.icon(
                     onPressed: widget.onExport,
                     icon: const Icon(Icons.ios_share_rounded, size: 18),
-                    label: const Text('Export Current Book'),
+                    label: Text(l10n.exportCurrentBook),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: context.tibpiColors.accent,
                       foregroundColor: Colors.black,
@@ -320,11 +323,11 @@ class _AnnotationsTabState extends State<AnnotationsTab> {
                   ? bookmarks.length + highlights.length + vocabulary.length
                   : bookmarks.length + filteredHighlights.length,
               isSelectionMode: _isSelectionMode,
-              selectedCount: _selectedHighlightIds.length +
+              selectedCount:
+                  _selectedHighlightIds.length +
                   _selectedBookmarkIds.length +
                   _selectedVocabularyIds.length,
-              onToggleSelection: () =>
-                  setState(() => _isSelectionMode = true),
+              onToggleSelection: () => setState(() => _isSelectionMode = true),
               onCloseSelection: () => setState(() {
                 _isSelectionMode = false;
                 _selectedHighlightIds.clear();
@@ -369,8 +372,9 @@ class _AnnotationsTabState extends State<AnnotationsTab> {
                   formatDate: widget.formatDate,
                   bookmarks: selectedBookmarks,
                   highlights: selectedHighlights,
-                  allVocabulary:
-                      _isSelectionMode ? selectedVocabulary : vocabulary,
+                  allVocabulary: _isSelectionMode
+                      ? selectedVocabulary
+                      : vocabulary,
                 );
               },
               onShareQuote: () {
@@ -401,10 +405,10 @@ class _AnnotationsTabState extends State<AnnotationsTab> {
               child: ListView(
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 children: [
-                  if (bookmarks.isNotEmpty &&
-                      _selectedFilterColor == null) ...[
+                  if (bookmarks.isNotEmpty && _selectedFilterColor == null) ...[
                     ...bookmarks.map((bookmark) {
-                      final isSelected = bookmark.id != null &&
+                      final isSelected =
+                          bookmark.id != null &&
                           _selectedBookmarkIds.contains(bookmark.id!);
                       return AnnotationCard(
                         readerSettings: widget.readerSettings,
@@ -513,11 +517,11 @@ class _AnnotationsTabState extends State<AnnotationsTab> {
                   ],
                   if (vocabulary.isNotEmpty &&
                       _selectedFilterColor == null) ...[
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(16, 24, 16, 12),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 24, 16, 12),
                       child: Text(
-                        'VOCABULARY',
-                        style: TextStyle(
+                        l10n.vocabulary.toUpperCase(),
+                        style: const TextStyle(
                           color: Colors.white24,
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
@@ -531,7 +535,8 @@ class _AnnotationsTabState extends State<AnnotationsTab> {
                         spacing: 8,
                         runSpacing: 8,
                         children: vocabulary.map((v) {
-                          final isSelected = v.id != null &&
+                          final isSelected =
+                              v.id != null &&
                               _selectedVocabularyIds.contains(v.id!);
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 2),
@@ -539,7 +544,9 @@ class _AnnotationsTabState extends State<AnnotationsTab> {
                               label: Text(
                                 v.word,
                                 style: TextStyle(
-                                  color: isSelected ? Colors.black : Colors.white70,
+                                  color: isSelected
+                                      ? Colors.black
+                                      : Colors.white70,
                                   fontSize: 12,
                                   fontWeight: isSelected
                                       ? FontWeight.bold

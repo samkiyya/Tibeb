@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:tibeb/core/theme/theme.dart';
+import '../../l10n/app_localizations.dart';
 
 /// A bottom sheet that shows themed quote card styles for sharing selected text.
 class ShareQuoteSheet extends StatefulWidget {
@@ -130,6 +131,7 @@ class _ShareQuoteSheetState extends State<ShareQuoteSheet> {
   @override
   Widget build(BuildContext context) {
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       decoration: BoxDecoration(
@@ -160,7 +162,7 @@ class _ShareQuoteSheetState extends State<ShareQuoteSheet> {
                   Icon(Icons.format_quote, color: t.primary, size: 20),
                   const SizedBox(width: 8),
                   Text(
-                    'Share Quote',
+                    l10n.shareQuote,
                     style: TextStyle(
                       color: t.textPrimary,
                       fontSize: 18,
@@ -192,9 +194,13 @@ class _ShareQuoteSheetState extends State<ShareQuoteSheet> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Row(
                 children: [
-                  _buildLayoutOption(0, Icons.format_quote_rounded, 'Classic'),
+                  _buildLayoutOption(
+                    0,
+                    Icons.format_quote_rounded,
+                    l10n.classic,
+                  ),
                   const SizedBox(width: 10),
-                  _buildLayoutOption(1, Icons.format_bold_rounded, 'Bold'),
+                  _buildLayoutOption(1, Icons.format_bold_rounded, l10n.bold),
                 ],
               ),
             ),
@@ -270,7 +276,7 @@ class _ShareQuoteSheetState extends State<ShareQuoteSheet> {
                           ),
                         )
                       : const Icon(Icons.share, size: 20),
-                  label: Text(_isSharing ? 'Preparing...' : 'Share'),
+                  label: Text(_isSharing ? l10n.preparing : l10n.share),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: t.primary,
                     foregroundColor: t.textOnPrimary,

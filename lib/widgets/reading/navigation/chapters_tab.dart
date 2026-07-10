@@ -3,6 +3,7 @@ import 'package:epub_view/epub_view.dart' show EpubChapter;
 import 'package:pdfrx/pdfrx.dart' show PdfOutlineNode;
 import '../../../models/book_model.dart';
 import '../../../core/theme/theme.dart';
+import '../../../l10n/app_localizations.dart';
 import 'chapter_tree_item.dart';
 
 class ChaptersTab extends StatefulWidget {
@@ -91,6 +92,7 @@ class _ChaptersTabState extends State<ChaptersTab> {
 
   Widget _buildJumpToSection() {
     final isEpub = widget.book.filePath.toLowerCase().endsWith('.epub');
+    final l10n = AppLocalizations.of(context)!;
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
@@ -104,8 +106,8 @@ class _ChaptersTabState extends State<ChaptersTab> {
               style: const TextStyle(color: Colors.white, fontSize: 16),
               decoration: InputDecoration(
                 hintText: isEpub
-                    ? 'Jump to %'
-                    : 'Jump to page${widget.totalPages > 0 ? " (1 - ${widget.totalPages})" : ""}',
+                    ? l10n.jumpToPercent
+                    : '${l10n.jumpToPage}${widget.totalPages > 0 ? " (1 - ${widget.totalPages})" : ""}',
                 hintStyle: const TextStyle(color: Colors.white38, fontSize: 13),
                 filled: true,
                 fillColor: Colors.white.withValues(alpha: 0.05),

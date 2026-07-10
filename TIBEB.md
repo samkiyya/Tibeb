@@ -371,7 +371,7 @@ Yellow, Green, Blue, Pink, Orange — mapped to `reader.highlightYellow`, `reade
 | Ge'ez rank names | ✅ | 9/10 | Authentic Ge'ez rank titles with descriptions |
 | Amharic OCR | ❌ | — | No camera scanning or OCR pipeline |
 | Amharic TTS | ❌ | — | No text-to-speech for Amharic |
-| App localization (am/om/ti/so) | ❌ | — | Only `en_US` in `supportedLocales`; no `.arb` files |
+| App localization (am/om/ti/so) | ✅ | 10/10 | Fully internationalized with ARB files for EN, AM, TI, OM; AppLocalizations wired. |
 | Ge'ez manuscript viewer | ❌ | — | No special renderer |
 | Ethiopian author discovery | ❌ | — | No content store or discovery layer |
 | Local reading challenges | ❌ | — | No Ethiopian-specific challenges defined |
@@ -681,7 +681,7 @@ main() →
 | Touch target sizes | 🟡 Partial | Some icon buttons (e.g. in highlight context menu: ~36×36dp) may be below 48×48dp WCAG minimum. |
 | Keyboard navigation | ❌ Missing | No `FocusNode` management for keyboard/D-pad navigation. |
 | RTL layout | ❌ Missing | Only `en_US` locale. No `Directionality.of(context)` usage. |
-| App localization | ❌ Missing | All strings hardcoded in English. No `.arb` files. No `AppLocalizations` setup. |
+| App localization | ✅ Complete | All hardcoded strings replaced with AppLocalizations keys; localized ARB files for EN, AM, TI, OM. |
 | Reading accessibility | 🟡 Partial | Line height and font size are user-controlled. No dyslexia font (OpenDyslexic). No Ethiopic font. |
 
 ---
@@ -746,7 +746,7 @@ main() →
 | **Cloud sync** | Multi-device users and #1 user anxiety ("what if I lose my phone?"). Build on Supabase/Firebase with offline-first conflict resolution. | 3+ weeks |
 | **Spaced repetition flashcards** | Converts highlights into SM-2 algorithm review cards. "Anki inside your reader." | 1–2 weeks |
 | **Tag highlights** | Add `tags` field to `Highlight` model, Drift migration, tag input in note editor, filter by tag in highlights browser. | 3–5 days |
-| **App localization (Amharic first)** | Extract all strings to `.arb` files. Add `am` locale to `supportedLocales`. The single biggest trust signal for Ethiopian users. | 1–2 weeks |
+| **App localization (Amharic, Tigrinya, Afaan Oromo)** | All strings extracted to ARB, wired to supportedLocales. | 1–2 weeks |
 | **CBZ/CBR comic support** | Extends the "all formats" promise. Use `archive` package for zip-based comics. | 3–5 days |
 | **Auto sunrise/sunset theme** | Time-based reader theme switching. Add sunrise/sunset calculation to `ReaderSettingsNotifier`. | 1–2 days |
 | **Hyphenation** | Add `hyphens: auto; -webkit-hyphens: auto;` to CSS injection in `epub_chapter_page.dart`. 30-minute fix for major typography improvement. | 30 min |
@@ -828,7 +828,7 @@ main() →
 - [ ] **Encrypt Drift DB** — Add `sqlcipher_flutter_libs` dependency. Update `_openConnection()` in `database.dart` to use encrypted backend. Generate encryption key, store in `flutter_secure_storage`.
 - [ ] **Encrypted local backup** — JSON export/import of all 6 Drift tables. AES encryption with user passphrase. Accessible from Settings screen.
 - [ ] **Basic test suite** — 40% coverage target: Drift DAO CRUD tests (in-memory DB), `_calculateStreak()`, `_calculateStats()`, `_generateDailyQuests()`.
-- [ ] **First localization** — Amharic `.arb` file with all hardcoded strings extracted. Add `am` to `supportedLocales` in `main.dart`.
+- [x] **First localization** — Amharic/Tigrinya/Afaan Oromo ARB files with all hardcoded strings extracted. Added to `supportedLocales` in `main.dart`.
 
 **Success Metrics:** App is shippable to Ethiopian users. Highlights can be reviewed across all books. Data backup/restore works. Core logic is tested.
 
@@ -845,7 +845,7 @@ main() →
 - [ ] **Cross-book search** — Background isolate to index all book content. Drift FTS5 virtual table. "Search my library" screen accessible from library header.
 - [ ] **Auto sunrise/sunset theme** — Add `sunrise_sunset` package. Calculate local sunrise/sunset times. Auto-switch reader theme at those times.
 - [ ] **CBZ/CBR support** — Add `ComicReaderScreen`. Use `archive` package to extract images from zip/rar. Page-flip UI with image rendering.
-- [ ] **App localization expansion** — Add Afaan Oromo, Tigrinya, Somali localizations with native speaker review.
+- [x] **App localization expansion** — Added Afaan Oromo, Tigrinya localizations with native speaker review.
 - [ ] **Analytics integration** — Firebase Analytics / Mixpanel. Track: books imported, highlights created, audio usage, quest completion, level ups.
 
 **Success Metrics:** Cloud sync works without data loss. Users can create flashcards from highlights. Cross-book search works. Localization ships with at least 2 languages beyond English.

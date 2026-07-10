@@ -498,12 +498,6 @@ class AppLocalizationsTi extends AppLocalizations {
   String get fontChanged => 'ፊደል ተቐየረ';
 
   @override
-  String get backupCreated => 'ምትእታት ተፈጠረ';
-
-  @override
-  String get backupRestored => 'ምትእታት ተመልሰ';
-
-  @override
   String get errorOccurred => 'ጌጋ ተፈጠረ';
 
   @override
@@ -637,7 +631,222 @@ class AppLocalizationsTi extends AppLocalizations {
   String get selected => 'ዝተመረጡ';
 
   @override
-  String get categoryAdded => 'ምድብ ናይ መጽሓፍት ዝተመረጡ ተጨምረ';
+  String get categoryAdded => 'ምድብ ናይ መጽሳሕዕቲ ዝተመረጡ ተጨምረ';
+
+  @override
+  String showNResults(Object count) {
+    return '$count ውጭኢታት አርኢ';
+  }
+
+  @override
+  String get annotations => 'ትርጂማት';
+
+  @override
+  String partN(Object number) {
+    return 'ክፋል $number';
+  }
+
+  @override
+  String get jumpToPercent => 'ናብ % ዝለ';
+
+  @override
+  String get jumpToPage => 'ናብ ገጽ ዝለ';
+
+  @override
+  String get noAnnotationsFound => 'ምንም ትርጂማት አይተረዘቡን';
+
+  @override
+  String get exportCurrentBook => 'ሕሉፍ መጽሳሕዕ ወጫኢ አብጫሕ';
+
+  @override
+  String get vocabulary => 'ቅላት';
+
+  @override
+  String get highlight => 'ድምቀት';
+
+  @override
+  String get goToPosition => 'ናብ ብታ ኪድ';
+
+  @override
+  String get myNote => 'ማስታወሻይ';
+
+  @override
+  String nSelected(Object count) {
+    return '$count ዝተመረጡ';
+  }
+
+  @override
+  String nItems(Object count) {
+    return '$count አቄቡ';
+  }
+
+  @override
+  String get shareAsQuote => 'ከም ጥቝሲ አካፍል';
+
+  @override
+  String get shareAsMarkdown => 'ከም Markdown አካፍል';
+
+  @override
+  String get deleteSelected => 'ዝተመረጡ ሰርዝ';
+
+  @override
+  String get cancelSelection => 'ምርጫ ሰርዝ';
+
+  @override
+  String get export => 'ወጫኢ አብጫሕ';
+
+  @override
+  String get select => 'ምረኽ';
+
+  @override
+  String get favorite => 'ወዳጅ';
+
+  @override
+  String get unfavorite => 'ወዳጅ ሰርዝ';
+
+  @override
+  String get editInfo => 'ሓበረታ አርትዕ';
+
+  @override
+  String get remove => 'አስወግድ';
+
+  @override
+  String get editNote => 'ማስታወሻ አርትዕ';
+
+  @override
+  String get writeSomethingAmazing => 'ዘደንዕ ነገር ጻፍ...';
+
+  @override
+  String get displaySettings => 'ቅንባራት ምርኣይ';
+
+  @override
+  String get typeface => 'ዓይነት ፊደል';
+
+  @override
+  String get sizeAndLayout => 'ዓቀን ን አቀማምጣ';
+
+  @override
+  String get textSize => 'ዓቀን ጽሁፍ';
+
+  @override
+  String get autoScrollSpeed => 'ፍጥነት ራስ-ሰር ምልልስ';
+
+  @override
+  String get lineHeight => 'ቁመት ስርዓት';
+
+  @override
+  String get publisherDefaults => 'ንድፍ ቅንባራት';
+
+  @override
+  String get shareQuote => 'ጥቝሲ አካፍል';
+
+  @override
+  String get classic => 'ክላሲካዊ';
+
+  @override
+  String get bold => 'ርቡጭ';
+
+  @override
+  String get preparing => 'እናዳለወ...';
+
+  @override
+  String get share => 'አካፍል';
+
+  @override
+  String get keepReadingToUnlock => 'ንምኽፋን ምንባብ ቀጥዕ!';
+
+  @override
+  String get privacyPolicy => 'ፖሊሲ ውልቀ-መሰል';
+
+  @override
+  String get privacyPolicySubtitle => 'ፖሊሲ ውልቀ-መሰልና ኣንብብ';
+
+  @override
+  String get termsOfService => 'ውል ኣገልግሎት';
+
+  @override
+  String get termsOfServiceSubtitle => 'ውል ኣገልግሎትና ኣንብብ';
+
+  @override
+  String get dataCollection => 'ምእካብ ሓበሬታ';
+
+  @override
+  String get dataCollectionSubtitle => 'እንታይ ሓበሬታ ከም እንእክብን ስለምንታይን';
+
+  @override
+  String get dataCollectionBody =>
+      'ቲቤብ ዝዀነ ዓይነት ውልቃዊ ሓበሬታ ወይ ናይ ምክትታል ሓበሬታ ኣይእክብን እዩ።\n\nኣብ መሳርሒኹም ብኣካባቢ ዝኽዘን ሓበሬታ:\n• ናይ ንባብ መስርሕን ስታቲስቲክስን\n• ቅንብራትን ምርጫታትን መተግበሪያ\n• ሜታዳታን ሽፋንን መጽሓፍ\n\nንሕና:\n• ውልቃዊ ሓበሬታ ኣይንእክብን\n• ሓበሬታ ንሳልሳይ ወገን ኣነካፍልን\n• ናይ ምክትታል ወይ ምልክታ SDKታት ኣይንጥቀምን\n• ናይ ንባብ ትሕዝቶ ናብ ደጋዊ ሰርቨራት ኣይንሰቅልን';
+
+  @override
+  String get fontFamily => 'ዓይነት ፊደል';
+
+  @override
+  String get fontSize => 'ዓቐን ፊደል';
+
+  @override
+  String get lineHeightLabel => 'ቁመት ስርዓት';
+
+  @override
+  String get autoScrollSpeedLabel => 'ፍጥነት ራስ-ሰር ምልልስ';
+
+  @override
+  String speedValue(Object value) {
+    return 'ፍጥነት፡ ${value}x';
+  }
+
+  @override
+  String get autoScrollHint =>
+      'ክተንብብ ከለኻ ንራስ-ሰር ምልልስ ፍጥነት ኣስተኻኽሎ። ዝለዓሉ ዋጋታት ብዝቐልጠፈ ይንቀሳቐሱ።';
+
+  @override
+  String get quickPresets => 'ቅልጡፍ ቅድመ-ቅምጥ';
+
+  @override
+  String get removeBooks => 'መጻሕፍቲ ኣስወግድ';
+
+  @override
+  String removeBooksConfirm(Object count) {
+    return 'እርግጸኛ ዲኻ $count መጻሕፍቲ ክትእልዮም ትደሊ? እንደገና ምስ ትእትዎም ናይ ንባብ መስርሕካን ታሪክካን ክዕቀብ እዩ።';
+  }
+
+  @override
+  String removeBookConfirm(Object title) {
+    return 'እርግጸኛ ዲኻ \"$title\" ክትእልዮ ትደሊ?';
+  }
+
+  @override
+  String get removeReadingHistoryLabel => 'ታሪክ ንባብ ኣስወግድ';
+
+  @override
+  String get remove2 => 'ኣስወግድ';
+
+  @override
+  String get pickFromFile => 'ካብ ፋይል ምረጽ';
+
+  @override
+  String get filterSortTip =>
+      'ቤተ-መጻሕፍትኻ ብዓይነት፣ ብደራሲ፣ ብፎልደር ወይ ብኣገባብ ምፍላይ ንምጽራይ ኣብዚ ጽቐጥ።';
+
+  @override
+  String get addBooksTip => 'ሓደስቲ መጻሕፍቲ ናብ ቤተ-መጻሕፍትኻ ንምውሳኽ የ + ምልክት ጽቐጥ።';
+
+  @override
+  String get editBookInfoTip =>
+      'ሽፋን፣ ርእሲ ወይ ደራሲ መጽሓፍ ንምእራም ነቶም ሰለስተ ነጥብታት ጽቐጥ።\n\nካርዱ ጸቒጥካ ምሓዝ ብዙሓት መጻሕፍቲ ንመምረጽ የገልግል!';
+
+  @override
+  String get allSelectedDuplicates => 'ኩሎም ዝተመረጹ ፋይላት ድሮ ኣብዚ መጽሓፍ እዚ ኣለዉ።';
+
+  @override
+  String skippedDuplicates(Object count) {
+    return '$count ድርብ ዝዀኑ ፋይላት ተሓሊፎም እዮም።';
+  }
+
+  @override
+  String get testNotificationTitle => 'ፈተነ ምልክታ 📚';
+
+  @override
+  String get testNotificationBody => 'መዘኻኸሪታት ብግቡእ ይሰርሑ ኣለዉ! ጽቡቕ ንባብ።';
 
   @override
   String get rank_temari => 'ተማሃራይ';

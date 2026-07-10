@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tibeb/core/theme/theme.dart';
+import 'package:tibeb/l10n/app_localizations.dart';
 import '../../models/reader_settings_model.dart';
 import '../../providers/library_provider.dart';
 import '../../screens/reading/audio_controller.dart';
@@ -13,6 +14,7 @@ void showTrackListSheet({
   required AudioController audio,
   required WidgetRef ref,
 }) {
+  final l10n = AppLocalizations.of(context)!;
   showModalBottomSheet(
     context: context,
     backgroundColor: settings.backgroundColor,
@@ -38,7 +40,7 @@ void showTrackListSheet({
                   vertical: 8,
                 ),
                 child: Text(
-                  'Audiobook Parts',
+                  l10n.audiobookParts,
                   style: TextStyle(
                     color: settings.textColor,
                     fontSize: 18,
@@ -86,7 +88,7 @@ void showTrackListSheet({
                             ),
                           ),
                           subtitle: Text(
-                            'Part ${index + 1}',
+                            l10n.partN(index + 1),
                             style: TextStyle(
                               color: settings.secondaryTextColor,
                               fontSize: 12,

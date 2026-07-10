@@ -125,6 +125,7 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
 
       if (duplicatesCount > 0 && mounted) {
         final t = context.tibpiColors;
+        final l10n = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context)
           ..clearSnackBars()
           ..showSnackBar(
@@ -132,8 +133,8 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
               backgroundColor: t.surface,
               content: Text(
                 duplicatesCount == result.paths.length
-                    ? 'All selected files are already in this book.'
-                    : 'Skipped $duplicatesCount duplicate files.',
+                    ? l10n.allSelectedDuplicates
+                    : l10n.skippedDuplicates(duplicatesCount),
                 style: TextStyle(color: t.textPrimary),
               ),
             ),
@@ -195,10 +196,7 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
                 if (_audioTracks.isNotEmpty)
                   Text(
                     '${_audioTracks.length} ${l10n.items}',
-                    style: TextStyle(
-                      color: t.textSecondary,
-                      fontSize: 12,
-                    ),
+                    style: TextStyle(color: t.textSecondary, fontSize: 12),
                   ),
               ],
             ),
@@ -227,11 +225,11 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
                 ),
               ),
               icon: const Icon(Icons.add),
-              label: const Text('Add Parts'),
+              label: Text(l10n.addParts),
             ),
             const SizedBox(height: 40),
             Text(
-              'Book Cover',
+              l10n.bookCover,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -286,7 +284,7 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
                       ),
                     ),
                     icon: const Icon(Icons.file_upload_outlined),
-                    label: const Text('Pick from file'),
+                    label: Text(l10n.pickFromFile),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -321,7 +319,7 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
                       ),
                     ),
                     icon: const Icon(Icons.image_search),
-                    label: const Text('Search online'),
+                    label: Text(l10n.searchOnline),
                   ),
                 ),
               ],
@@ -372,7 +370,11 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
     );
   }
 
-  Widget _buildTextField(TibebThemeExtension t, String label, TextEditingController controller) {
+  Widget _buildTextField(
+    TibebThemeExtension t,
+    String label,
+    TextEditingController controller,
+  ) {
     return TextField(
       controller: controller,
       style: TextStyle(color: t.textPrimary),

@@ -27,31 +27,31 @@ class PrivacySettingsSheet extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 20),
-          
+
           _buildPrivacyTile(
             icon: Icons.privacy_tip_rounded,
-            title: 'Privacy Policy',
-            subtitle: 'Read our privacy policy',
+            title: l10n.privacyPolicy,
+            subtitle: l10n.privacyPolicySubtitle,
             onTap: () => _launchUrl(AppConstants.privacyPolicyUrl),
             t: t,
           ),
           const SizedBox(height: 8),
           _buildPrivacyTile(
             icon: Icons.gavel_rounded,
-            title: 'Terms of Service',
-            subtitle: 'Read our terms of service',
+            title: l10n.termsOfService,
+            subtitle: l10n.termsOfServiceSubtitle,
             onTap: () => _launchUrl(AppConstants.termsOfServiceUrl),
             t: t,
           ),
           const SizedBox(height: 8),
           _buildPrivacyTile(
             icon: Icons.security_rounded,
-            title: 'Data Collection',
-            subtitle: 'What data we collect and why',
+            title: l10n.dataCollection,
+            subtitle: l10n.dataCollectionSubtitle,
             onTap: () => _showDataCollectionDialog(context, t, l10n),
             t: t,
           ),
-          
+
           const SizedBox(height: 24),
         ],
       ),
@@ -85,10 +85,7 @@ class PrivacySettingsSheet extends ConsumerWidget {
       ),
       subtitle: Text(
         subtitle,
-        style: TextStyle(
-          color: t.textSecondary,
-          fontSize: 12,
-        ),
+        style: TextStyle(color: t.textSecondary, fontSize: 12),
       ),
       trailing: Icon(
         Icons.chevron_right_rounded,
@@ -102,47 +99,37 @@ class PrivacySettingsSheet extends ConsumerWidget {
   Future<void> _launchUrl(String url) async {
     final uri = Uri.parse(url);
     if (await launcher.canLaunchUrl(uri)) {
-      await launcher.launchUrl(uri, mode: launcher.LaunchMode.externalApplication);
+      await launcher.launchUrl(
+        uri,
+        mode: launcher.LaunchMode.externalApplication,
+      );
     }
   }
 
-  void _showDataCollectionDialog(BuildContext context, TibebThemeExtension t, AppLocalizations l10n) {
+  void _showDataCollectionDialog(
+    BuildContext context,
+    TibebThemeExtension t,
+    AppLocalizations l10n,
+  ) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: t.surface,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(
-          'Data Collection',
-          style: TextStyle(
-            color: t.textPrimary,
-            fontWeight: FontWeight.bold,
-          ),
+          l10n.dataCollection,
+          style: TextStyle(color: t.textPrimary, fontWeight: FontWeight.bold),
         ),
         content: SingleChildScrollView(
           child: Text(
-            'tibeb does not collect any personal data or tracking information.\n\n'
-            'Data stored locally on your device:\n'
-            '• Reading progress and statistics\n'
-            '• App settings and preferences\n'
-            '• Book metadata and covers\n\n'
-            'We do not:\n'
-            '• Collect personal information\n'
-            '• Share data with third parties\n'
-            '• Use tracking or advertising SDKs\n'
-            '• Upload reading content to external servers',
+            l10n.dataCollectionBody,
             style: TextStyle(color: t.textSecondary),
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text(
-              l10n.gotIt,
-              style: TextStyle(color: t.primary),
-            ),
+            child: Text(l10n.gotIt, style: TextStyle(color: t.primary)),
           ),
         ],
       ),

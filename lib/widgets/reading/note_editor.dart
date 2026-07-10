@@ -5,19 +5,20 @@ import 'package:markdown_quill/markdown_quill.dart';
 import 'package:markdown/markdown.dart' as md;
 import '../../../core/theme/theme.dart';
 import '../../../models/reader_settings_model.dart';
+import '../../../l10n/app_localizations.dart';
 
 class NoteEditor extends StatefulWidget {
   final String initialMarkdown;
   final Function(String) onSave;
   final ReaderSettings? settings;
-  final String title;
+  final String? title;
 
   const NoteEditor({
     super.key,
     required this.initialMarkdown,
     required this.onSave,
     this.settings,
-    this.title = 'Edit Note',
+    this.title,
     this.initialColor,
     this.onSaveWithColor,
   });
@@ -64,7 +65,6 @@ class _NoteEditorState extends State<NoteEditor> {
           selection: const TextSelection.collapsed(offset: 0),
         );
       } catch (e) {
-        debugPrint('Error loading document: $e');
         _controller = QuillController.basic();
       }
     }
@@ -103,6 +103,8 @@ class _NoteEditorState extends State<NoteEditor> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       height: MediaQuery.of(context).size.height * 0.85,
       decoration: BoxDecoration(
@@ -132,7 +134,7 @@ class _NoteEditorState extends State<NoteEditor> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    widget.title,
+                    widget.title ?? l10n.editNote,
                     style: TextStyle(
                       color: context.tibpiColors.accent,
                       fontSize: 18,
@@ -145,7 +147,7 @@ class _NoteEditorState extends State<NoteEditor> {
                       Navigator.pop(context);
                     },
                     child: Text(
-                      'SAVE',
+                      l10n.save.toUpperCase(),
                       style: TextStyle(
                         color: context.tibpiColors.accent,
                         fontWeight: FontWeight.bold,
@@ -276,7 +278,7 @@ class _NoteEditorState extends State<NoteEditor> {
                     padding: EdgeInsets.zero,
                     autoFocus: true,
                     expands: false,
-                    placeholder: 'Write something amazing...',
+                    placeholder: l10n.writeSomethingAmazing,
                     customStyles: DefaultStyles(
                       paragraph: DefaultTextBlockStyle(
                         const TextStyle(

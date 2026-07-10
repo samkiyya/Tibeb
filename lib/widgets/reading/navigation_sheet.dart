@@ -8,6 +8,7 @@ import '../../../models/highlight_model.dart';
 import '../../../models/vocabulary_model.dart';
 import '../../../models/reader_settings_model.dart';
 import '../../../core/theme/theme.dart';
+import '../../../l10n/app_localizations.dart';
 
 // Extracted modules
 import 'navigation/navigation.dart';
@@ -101,9 +102,11 @@ class NavigationSheet extends StatelessWidget {
               indicatorColor: context.tibpiColors.accent,
               labelColor: context.tibpiColors.accent,
               unselectedLabelColor: Colors.white54,
-              tabs: const [
-                Tab(text: 'CHAPTERS'),
-                Tab(text: 'ANNOTATIONS'),
+              tabs: [
+                Tab(text: AppLocalizations.of(context)!.chapters.toUpperCase()),
+                Tab(
+                  text: AppLocalizations.of(context)!.annotations.toUpperCase(),
+                ),
               ],
             ),
             Expanded(

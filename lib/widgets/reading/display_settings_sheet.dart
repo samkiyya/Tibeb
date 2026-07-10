@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/reader_settings_model.dart';
 import '../../providers/reader_settings_provider.dart';
 import '../../core/theme/theme.dart';
-
+import '../../l10n/app_localizations.dart';
 
 class DisplaySettingsSheet extends ConsumerStatefulWidget {
   const DisplaySettingsSheet({super.key});
@@ -45,6 +45,7 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
     final settings = ref.watch(readerSettingsProvider);
     final notifier = ref.read(readerSettingsProvider.notifier);
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       decoration: BoxDecoration(
@@ -75,7 +76,7 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Display Settings',
+                  l10n.displaySettings,
                   style: TextStyle(
                     color: t.textPrimary,
                     fontSize: 20,
@@ -91,25 +92,25 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
             const SizedBox(height: 24),
 
             // Theme Section
-            _buildSectionLabel(t, 'THEME'),
+            _buildSectionLabel(t, l10n.theme.toUpperCase()),
             const SizedBox(height: 12),
             _buildThemeSelector(t, settings, notifier),
             const SizedBox(height: 28),
 
             // Typeface Section
-            _buildSectionLabel(t, 'TYPEFACE'),
+            _buildSectionLabel(t, l10n.typeface.toUpperCase()),
             const SizedBox(height: 12),
             _buildTypefaceDropdown(t, settings, notifier),
             const SizedBox(height: 28),
 
             // Size & Layout Section
-            _buildSectionLabel(t, 'SIZE & LAYOUT'),
+            _buildSectionLabel(t, l10n.sizeAndLayout.toUpperCase()),
             const SizedBox(height: 16),
 
             // Text Size Slider
             _buildSliderRow(
               t,
-              label: 'Text Size',
+              label: l10n.textSize,
               value: _localTextSize,
               min: 12,
               max: 32,
@@ -123,7 +124,7 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
             // Auto Scroll Speed Slider
             _buildSliderRow(
               t,
-              label: 'Auto Scroll Speed',
+              label: l10n.autoScrollSpeed,
               value: _localAutoScrollSpeed,
               min: 0.5,
               max: 10.0,
@@ -139,7 +140,7 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
             // Line Height Slider
             _buildSliderRow(
               t,
-              label: 'Line Height',
+              label: l10n.lineHeight,
               value: _localLineHeight,
               min: 1.0,
               max: 2.5,
@@ -363,6 +364,7 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
     ReaderSettings settings,
     ReaderSettingsNotifier notifier,
   ) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
@@ -374,7 +376,7 @@ class _DisplaySettingsSheetState extends ConsumerState<DisplaySettingsSheet> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Defaults',
+            l10n.publisherDefaults,
             style: TextStyle(color: t.textPrimary, fontSize: 16),
           ),
           Switch(

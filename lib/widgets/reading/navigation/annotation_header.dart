@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/theme.dart';
+import '../../../l10n/app_localizations.dart';
 
 class AnnotationHeader extends StatelessWidget {
   final int count;
@@ -27,6 +28,8 @@ class AnnotationHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
       decoration: BoxDecoration(
@@ -41,7 +44,9 @@ class AnnotationHeader extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  isSelectionMode ? "$selectedCount SELECTED" : "ANNOTATIONS",
+                  isSelectionMode
+                      ? l10n.nSelected(selectedCount).toUpperCase()
+                      : l10n.annotations.toUpperCase(),
                   style: TextStyle(
                     color: context.tibpiColors.accent,
                     fontSize: 12,
@@ -51,7 +56,7 @@ class AnnotationHeader extends StatelessWidget {
                 ),
                 if (!isSelectionMode)
                   Text(
-                    "$count items",
+                    l10n.nItems(count),
                     style: const TextStyle(color: Colors.white38, fontSize: 10),
                   ),
               ],
@@ -65,7 +70,7 @@ class AnnotationHeader extends StatelessWidget {
                 size: 20,
               ),
               onPressed: selectedCount > 0 ? onShareQuote : null,
-              tooltip: 'Share as Quote',
+              tooltip: l10n.shareAsQuote,
             ),
             IconButton(
               icon: Icon(
@@ -74,7 +79,7 @@ class AnnotationHeader extends StatelessWidget {
                 size: 20,
               ),
               onPressed: selectedCount > 0 ? onShareSelected : null,
-              tooltip: 'Share Markdown',
+              tooltip: l10n.shareAsMarkdown,
             ),
             IconButton(
               icon: const Icon(
@@ -83,7 +88,7 @@ class AnnotationHeader extends StatelessWidget {
                 size: 20,
               ),
               onPressed: selectedCount > 0 ? onDeleteSelected : null,
-              tooltip: 'Delete selected',
+              tooltip: l10n.deleteSelected,
             ),
             IconButton(
               icon: const Icon(
@@ -92,7 +97,7 @@ class AnnotationHeader extends StatelessWidget {
                 size: 20,
               ),
               onPressed: onCloseSelection,
-              tooltip: 'Cancel selection',
+              tooltip: l10n.cancelSelection,
             ),
           ] else ...[
             if (onExport != null)
@@ -103,12 +108,12 @@ class AnnotationHeader extends StatelessWidget {
                   size: 18,
                 ),
                 onPressed: onExport,
-                tooltip: 'Export',
+                tooltip: l10n.export,
               ),
             TextButton(
               onPressed: onToggleSelection,
               child: Text(
-                'SELECT',
+                l10n.select.toUpperCase(),
                 style: TextStyle(
                   color: context.tibpiColors.accent,
                   fontSize: 12,
@@ -134,6 +139,7 @@ class ColorFilterBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       height: 48,
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -147,9 +153,12 @@ class ColorFilterBar extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: FilterChip(
-              label: const Text(
-                'ALL',
-                style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+              label: Text(
+                l10n.all.toUpperCase(),
+                style: const TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               selected: selectedColor == null,
               onSelected: (_) => onColorTap(null),

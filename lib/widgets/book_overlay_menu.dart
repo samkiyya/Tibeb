@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/book_model.dart';
 import '../core/theme/theme.dart';
+import '../l10n/app_localizations.dart';
 import 'glass_container.dart';
 
 class BookOverlayMenu extends ConsumerStatefulWidget {
@@ -74,6 +75,7 @@ class _BookOverlayMenuState extends ConsumerState<BookOverlayMenu>
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final t = context.tibpiColors;
+    final l10n = AppLocalizations.of(context)!;
 
     // Adjust position to avoid going off screen
     double left = widget.position.dx;
@@ -116,14 +118,16 @@ class _BookOverlayMenuState extends ConsumerState<BookOverlayMenu>
                           icon: widget.book.isFavorite
                               ? Icons.favorite
                               : Icons.favorite_border,
-                          label: widget.book.isFavorite ? 'Unfavorite' : 'Favorite',
+                          label: widget.book.isFavorite
+                              ? l10n.unfavorite
+                              : l10n.favorite,
                           color: widget.book.isFavorite ? t.error : null,
                           onTap: () => widget.onAction('favorite'),
                         ),
                         _buildMenuItem(
                           t: t,
                           icon: Icons.edit_outlined,
-                          label: 'Edit Info',
+                          label: l10n.editInfo,
                           onTap: () => widget.onAction('edit'),
                         ),
                         Divider(
@@ -135,7 +139,7 @@ class _BookOverlayMenuState extends ConsumerState<BookOverlayMenu>
                         _buildMenuItem(
                           t: t,
                           icon: Icons.delete_outline,
-                          label: 'Remove',
+                          label: l10n.remove,
                           color: t.error,
                           onTap: () => widget.onAction('delete'),
                         ),

@@ -501,12 +501,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fontChanged => 'Font changed';
 
   @override
-  String get backupCreated => 'Backup created';
-
-  @override
-  String get backupRestored => 'Backup restored';
-
-  @override
   String get errorOccurred => 'An error occurred';
 
   @override
@@ -641,6 +635,224 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get categoryAdded => 'Category added to selected books';
+
+  @override
+  String showNResults(Object count) {
+    return 'Show $count results';
+  }
+
+  @override
+  String get annotations => 'Annotations';
+
+  @override
+  String partN(Object number) {
+    return 'Part $number';
+  }
+
+  @override
+  String get jumpToPercent => 'Jump to %';
+
+  @override
+  String get jumpToPage => 'Jump to page';
+
+  @override
+  String get noAnnotationsFound => 'No annotations found yet';
+
+  @override
+  String get exportCurrentBook => 'Export Current Book';
+
+  @override
+  String get vocabulary => 'Vocabulary';
+
+  @override
+  String get highlight => 'Highlight';
+
+  @override
+  String get goToPosition => 'Go to position';
+
+  @override
+  String get myNote => 'My Note';
+
+  @override
+  String nSelected(Object count) {
+    return '$count selected';
+  }
+
+  @override
+  String nItems(Object count) {
+    return '$count items';
+  }
+
+  @override
+  String get shareAsQuote => 'Share as quote';
+
+  @override
+  String get shareAsMarkdown => 'Share as Markdown';
+
+  @override
+  String get deleteSelected => 'Delete selected';
+
+  @override
+  String get cancelSelection => 'Cancel selection';
+
+  @override
+  String get export => 'Export';
+
+  @override
+  String get select => 'Select';
+
+  @override
+  String get favorite => 'Favorite';
+
+  @override
+  String get unfavorite => 'Unfavorite';
+
+  @override
+  String get editInfo => 'Edit Info';
+
+  @override
+  String get remove => 'Remove';
+
+  @override
+  String get editNote => 'Edit Note';
+
+  @override
+  String get writeSomethingAmazing => 'Write something amazing...';
+
+  @override
+  String get displaySettings => 'Display Settings';
+
+  @override
+  String get typeface => 'Typeface';
+
+  @override
+  String get sizeAndLayout => 'Size & Layout';
+
+  @override
+  String get textSize => 'Text Size';
+
+  @override
+  String get autoScrollSpeed => 'Auto Scroll Speed';
+
+  @override
+  String get lineHeight => 'Line Height';
+
+  @override
+  String get publisherDefaults => 'Publisher Defaults';
+
+  @override
+  String get shareQuote => 'Share Quote';
+
+  @override
+  String get classic => 'Classic';
+
+  @override
+  String get bold => 'Bold';
+
+  @override
+  String get preparing => 'Preparing...';
+
+  @override
+  String get share => 'Share';
+
+  @override
+  String get keepReadingToUnlock => 'Keep reading to unlock!';
+
+  @override
+  String get privacyPolicy => 'Privacy Policy';
+
+  @override
+  String get privacyPolicySubtitle => 'Read our privacy policy';
+
+  @override
+  String get termsOfService => 'Terms of Service';
+
+  @override
+  String get termsOfServiceSubtitle => 'Read our terms of service';
+
+  @override
+  String get dataCollection => 'Data Collection';
+
+  @override
+  String get dataCollectionSubtitle => 'What data we collect and why';
+
+  @override
+  String get dataCollectionBody =>
+      'tibeb does not collect any personal data or tracking information.\n\nData stored locally on your device:\n• Reading progress and statistics\n• App settings and preferences\n• Book metadata and covers\n\nWe do not:\n• Collect personal information\n• Share data with third parties\n• Use tracking or advertising SDKs\n• Upload reading content to external servers';
+
+  @override
+  String get fontFamily => 'Font Family';
+
+  @override
+  String get fontSize => 'Font Size';
+
+  @override
+  String get lineHeightLabel => 'Line Height';
+
+  @override
+  String get autoScrollSpeedLabel => 'Auto Scroll Speed';
+
+  @override
+  String speedValue(Object value) {
+    return 'Speed: ${value}x';
+  }
+
+  @override
+  String get autoScrollHint =>
+      'Adjust the speed for auto-scrolling while reading. Higher values scroll faster.';
+
+  @override
+  String get quickPresets => 'Quick Presets';
+
+  @override
+  String get removeBooks => 'Remove Books';
+
+  @override
+  String removeBooksConfirm(Object count) {
+    return 'Are you sure you want to remove $count books? Your reading progress and history will be kept if you re-import them.';
+  }
+
+  @override
+  String removeBookConfirm(Object title) {
+    return 'Are you sure you want to remove \"$title\"?';
+  }
+
+  @override
+  String get removeReadingHistoryLabel => 'Remove reading history';
+
+  @override
+  String get remove2 => 'Remove';
+
+  @override
+  String get pickFromFile => 'Pick from file';
+
+  @override
+  String get filterSortTip =>
+      'Tap here to filter your library by genre, author, folder, or sorting method.';
+
+  @override
+  String get addBooksTip =>
+      'Tap the + button to add new books to your library.';
+
+  @override
+  String get editBookInfoTip =>
+      'Tap the three dots to edit the book\'s cover, title, or author.\n\nLong-pressing the card is used to select multiple books!';
+
+  @override
+  String get allSelectedDuplicates =>
+      'All selected files are already in this book.';
+
+  @override
+  String skippedDuplicates(Object count) {
+    return 'Skipped $count duplicate files.';
+  }
+
+  @override
+  String get testNotificationTitle => 'Test Notification 📚';
+
+  @override
+  String get testNotificationBody =>
+      'Reminders are working correctly! Happy reading.';
 
   @override
   String get rank_temari => 'Student';

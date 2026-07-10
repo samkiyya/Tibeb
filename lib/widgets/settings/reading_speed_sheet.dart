@@ -27,10 +27,10 @@ class ReadingSpeedSheet extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 20),
-          
+
           // Auto Scroll Speed
           Text(
-            'Auto Scroll Speed',
+            l10n.autoScrollSpeedLabel,
             style: TextStyle(
               color: t.textSecondary,
               fontSize: 14,
@@ -42,7 +42,9 @@ class ReadingSpeedSheet extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Speed: ${readerSettings.autoScrollSpeed.toStringAsFixed(1)}x',
+                l10n.speedValue(
+                  readerSettings.autoScrollSpeed.toStringAsFixed(1),
+                ),
                 style: TextStyle(
                   color: t.primary,
                   fontSize: 16,
@@ -59,24 +61,23 @@ class ReadingSpeedSheet extends ConsumerWidget {
             divisions: 19,
             activeColor: t.primary,
             onChanged: (value) {
-              ref.read(readerSettingsProvider.notifier).setAutoScrollSpeed(value);
+              ref
+                  .read(readerSettingsProvider.notifier)
+                  .setAutoScrollSpeed(value);
             },
           ),
-          
+
           const SizedBox(height: 8),
           Text(
-            'Adjust the speed for auto-scrolling while reading. Higher values scroll faster.',
-            style: TextStyle(
-              color: t.textTertiary,
-              fontSize: 12,
-            ),
+            l10n.autoScrollHint,
+            style: TextStyle(color: t.textTertiary, fontSize: 12),
           ),
-          
+
           const SizedBox(height: 24),
-          
+
           // Quick Speed Presets
           Text(
-            'Quick Presets',
+            l10n.quickPresets,
             style: TextStyle(
               color: t.textSecondary,
               fontSize: 14,
@@ -88,15 +89,51 @@ class ReadingSpeedSheet extends ConsumerWidget {
             spacing: 8,
             runSpacing: 8,
             children: [
-              _buildSpeedPreset('0.5x', 0.5, readerSettings.autoScrollSpeed, t, ref),
-              _buildSpeedPreset('1.0x', 1.0, readerSettings.autoScrollSpeed, t, ref),
-              _buildSpeedPreset('1.5x', 1.5, readerSettings.autoScrollSpeed, t, ref),
-              _buildSpeedPreset('2.0x', 2.0, readerSettings.autoScrollSpeed, t, ref),
-              _buildSpeedPreset('3.0x', 3.0, readerSettings.autoScrollSpeed, t, ref),
-              _buildSpeedPreset('5.0x', 5.0, readerSettings.autoScrollSpeed, t, ref),
+              _buildSpeedPreset(
+                '0.5x',
+                0.5,
+                readerSettings.autoScrollSpeed,
+                t,
+                ref,
+              ),
+              _buildSpeedPreset(
+                '1.0x',
+                1.0,
+                readerSettings.autoScrollSpeed,
+                t,
+                ref,
+              ),
+              _buildSpeedPreset(
+                '1.5x',
+                1.5,
+                readerSettings.autoScrollSpeed,
+                t,
+                ref,
+              ),
+              _buildSpeedPreset(
+                '2.0x',
+                2.0,
+                readerSettings.autoScrollSpeed,
+                t,
+                ref,
+              ),
+              _buildSpeedPreset(
+                '3.0x',
+                3.0,
+                readerSettings.autoScrollSpeed,
+                t,
+                ref,
+              ),
+              _buildSpeedPreset(
+                '5.0x',
+                5.0,
+                readerSettings.autoScrollSpeed,
+                t,
+                ref,
+              ),
             ],
           ),
-          
+
           const SizedBox(height: 24),
         ],
       ),
@@ -111,7 +148,7 @@ class ReadingSpeedSheet extends ConsumerWidget {
     WidgetRef ref,
   ) {
     final isSelected = currentSpeed == speed;
-    
+
     return GestureDetector(
       onTap: () {
         ref.read(readerSettingsProvider.notifier).setAutoScrollSpeed(speed);
@@ -119,7 +156,7 @@ class ReadingSpeedSheet extends ConsumerWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected 
+          color: isSelected
               ? t.primary.withValues(alpha: 0.1)
               : t.surface.withValues(alpha: 0.35),
           borderRadius: BorderRadius.circular(20),

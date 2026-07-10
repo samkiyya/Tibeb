@@ -1056,18 +1056,6 @@ abstract class AppLocalizations {
   /// **'Font changed'**
   String get fontChanged;
 
-  /// No description provided for @backupCreated.
-  ///
-  /// In en, this message translates to:
-  /// **'Backup created'**
-  String get backupCreated;
-
-  /// No description provided for @backupRestored.
-  ///
-  /// In en, this message translates to:
-  /// **'Backup restored'**
-  String get backupRestored;
-
   /// No description provided for @errorOccurred.
   ///
   /// In en, this message translates to:
@@ -1331,6 +1319,396 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Category added to selected books'**
   String get categoryAdded;
+
+  /// No description provided for @showNResults.
+  ///
+  /// In en, this message translates to:
+  /// **'Show {count} results'**
+  String showNResults(Object count);
+
+  /// No description provided for @annotations.
+  ///
+  /// In en, this message translates to:
+  /// **'Annotations'**
+  String get annotations;
+
+  /// No description provided for @partN.
+  ///
+  /// In en, this message translates to:
+  /// **'Part {number}'**
+  String partN(Object number);
+
+  /// No description provided for @jumpToPercent.
+  ///
+  /// In en, this message translates to:
+  /// **'Jump to %'**
+  String get jumpToPercent;
+
+  /// No description provided for @jumpToPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Jump to page'**
+  String get jumpToPage;
+
+  /// No description provided for @noAnnotationsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No annotations found yet'**
+  String get noAnnotationsFound;
+
+  /// No description provided for @exportCurrentBook.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Current Book'**
+  String get exportCurrentBook;
+
+  /// No description provided for @vocabulary.
+  ///
+  /// In en, this message translates to:
+  /// **'Vocabulary'**
+  String get vocabulary;
+
+  /// No description provided for @highlight.
+  ///
+  /// In en, this message translates to:
+  /// **'Highlight'**
+  String get highlight;
+
+  /// No description provided for @goToPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to position'**
+  String get goToPosition;
+
+  /// No description provided for @myNote.
+  ///
+  /// In en, this message translates to:
+  /// **'My Note'**
+  String get myNote;
+
+  /// No description provided for @nSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} selected'**
+  String nSelected(Object count);
+
+  /// No description provided for @nItems.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} items'**
+  String nItems(Object count);
+
+  /// No description provided for @shareAsQuote.
+  ///
+  /// In en, this message translates to:
+  /// **'Share as quote'**
+  String get shareAsQuote;
+
+  /// No description provided for @shareAsMarkdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Share as Markdown'**
+  String get shareAsMarkdown;
+
+  /// No description provided for @deleteSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete selected'**
+  String get deleteSelected;
+
+  /// No description provided for @cancelSelection.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel selection'**
+  String get cancelSelection;
+
+  /// No description provided for @export.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get export;
+
+  /// No description provided for @select.
+  ///
+  /// In en, this message translates to:
+  /// **'Select'**
+  String get select;
+
+  /// No description provided for @favorite.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorite'**
+  String get favorite;
+
+  /// No description provided for @unfavorite.
+  ///
+  /// In en, this message translates to:
+  /// **'Unfavorite'**
+  String get unfavorite;
+
+  /// No description provided for @editInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Info'**
+  String get editInfo;
+
+  /// No description provided for @remove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get remove;
+
+  /// No description provided for @editNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Note'**
+  String get editNote;
+
+  /// No description provided for @writeSomethingAmazing.
+  ///
+  /// In en, this message translates to:
+  /// **'Write something amazing...'**
+  String get writeSomethingAmazing;
+
+  /// No description provided for @displaySettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Display Settings'**
+  String get displaySettings;
+
+  /// No description provided for @typeface.
+  ///
+  /// In en, this message translates to:
+  /// **'Typeface'**
+  String get typeface;
+
+  /// No description provided for @sizeAndLayout.
+  ///
+  /// In en, this message translates to:
+  /// **'Size & Layout'**
+  String get sizeAndLayout;
+
+  /// No description provided for @textSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Text Size'**
+  String get textSize;
+
+  /// No description provided for @autoScrollSpeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto Scroll Speed'**
+  String get autoScrollSpeed;
+
+  /// No description provided for @lineHeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Line Height'**
+  String get lineHeight;
+
+  /// No description provided for @publisherDefaults.
+  ///
+  /// In en, this message translates to:
+  /// **'Publisher Defaults'**
+  String get publisherDefaults;
+
+  /// No description provided for @shareQuote.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Quote'**
+  String get shareQuote;
+
+  /// No description provided for @classic.
+  ///
+  /// In en, this message translates to:
+  /// **'Classic'**
+  String get classic;
+
+  /// No description provided for @bold.
+  ///
+  /// In en, this message translates to:
+  /// **'Bold'**
+  String get bold;
+
+  /// No description provided for @preparing.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing...'**
+  String get preparing;
+
+  /// No description provided for @share.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get share;
+
+  /// No description provided for @keepReadingToUnlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep reading to unlock!'**
+  String get keepReadingToUnlock;
+
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicy;
+
+  /// No description provided for @privacyPolicySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Read our privacy policy'**
+  String get privacyPolicySubtitle;
+
+  /// No description provided for @termsOfService.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Service'**
+  String get termsOfService;
+
+  /// No description provided for @termsOfServiceSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Read our terms of service'**
+  String get termsOfServiceSubtitle;
+
+  /// No description provided for @dataCollection.
+  ///
+  /// In en, this message translates to:
+  /// **'Data Collection'**
+  String get dataCollection;
+
+  /// No description provided for @dataCollectionSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What data we collect and why'**
+  String get dataCollectionSubtitle;
+
+  /// No description provided for @dataCollectionBody.
+  ///
+  /// In en, this message translates to:
+  /// **'tibeb does not collect any personal data or tracking information.\n\nData stored locally on your device:\n• Reading progress and statistics\n• App settings and preferences\n• Book metadata and covers\n\nWe do not:\n• Collect personal information\n• Share data with third parties\n• Use tracking or advertising SDKs\n• Upload reading content to external servers'**
+  String get dataCollectionBody;
+
+  /// No description provided for @fontFamily.
+  ///
+  /// In en, this message translates to:
+  /// **'Font Family'**
+  String get fontFamily;
+
+  /// No description provided for @fontSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Font Size'**
+  String get fontSize;
+
+  /// No description provided for @lineHeightLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Line Height'**
+  String get lineHeightLabel;
+
+  /// No description provided for @autoScrollSpeedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto Scroll Speed'**
+  String get autoScrollSpeedLabel;
+
+  /// No description provided for @speedValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Speed: {value}x'**
+  String speedValue(Object value);
+
+  /// No description provided for @autoScrollHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust the speed for auto-scrolling while reading. Higher values scroll faster.'**
+  String get autoScrollHint;
+
+  /// No description provided for @quickPresets.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Presets'**
+  String get quickPresets;
+
+  /// No description provided for @removeBooks.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove Books'**
+  String get removeBooks;
+
+  /// No description provided for @removeBooksConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to remove {count} books? Your reading progress and history will be kept if you re-import them.'**
+  String removeBooksConfirm(Object count);
+
+  /// No description provided for @removeBookConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to remove \"{title}\"?'**
+  String removeBookConfirm(Object title);
+
+  /// No description provided for @removeReadingHistoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove reading history'**
+  String get removeReadingHistoryLabel;
+
+  /// No description provided for @remove2.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get remove2;
+
+  /// No description provided for @pickFromFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick from file'**
+  String get pickFromFile;
+
+  /// No description provided for @filterSortTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap here to filter your library by genre, author, folder, or sorting method.'**
+  String get filterSortTip;
+
+  /// No description provided for @addBooksTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the + button to add new books to your library.'**
+  String get addBooksTip;
+
+  /// No description provided for @editBookInfoTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the three dots to edit the book\'s cover, title, or author.\n\nLong-pressing the card is used to select multiple books!'**
+  String get editBookInfoTip;
+
+  /// No description provided for @allSelectedDuplicates.
+  ///
+  /// In en, this message translates to:
+  /// **'All selected files are already in this book.'**
+  String get allSelectedDuplicates;
+
+  /// No description provided for @skippedDuplicates.
+  ///
+  /// In en, this message translates to:
+  /// **'Skipped {count} duplicate files.'**
+  String skippedDuplicates(Object count);
+
+  /// No description provided for @testNotificationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Test Notification 📚'**
+  String get testNotificationTitle;
+
+  /// No description provided for @testNotificationBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders are working correctly! Happy reading.'**
+  String get testNotificationBody;
 
   /// No description provided for @rank_temari.
   ///
