@@ -260,6 +260,14 @@ class MdReaderLayerState extends State<MdReaderLayer>
       // Load JS assets (cached by Flutter asset bundle)
       if (_hlJs.isEmpty) {
         _hlJs = await rootBundle.loadString('assets/highlight.min.js');
+        try {
+          final dartJs = await rootBundle.loadString(
+            'assets/highlight-dart.min.js',
+          );
+          _hlJs = '$_hlJs\n$dartJs';
+        } catch (e) {
+          debugPrint('Failed to load highlight-dart.min.js: $e');
+        }
         _hlDarkCss = await rootBundle.loadString(
           'assets/highlight-dark.min.css',
         );

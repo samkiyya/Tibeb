@@ -104,12 +104,15 @@ class _NoteEditorState extends State<NoteEditor> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final cs = Theme.of(context).colorScheme;
+    final textColor = cs.onSurface;
+    final subtleColor = cs.onSurface.withValues(alpha: 0.5);
+    final dividerColor = cs.outlineVariant;
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.85,
       decoration: BoxDecoration(
-        color:
-            widget.settings?.menuBackgroundColor ?? context.tibpiColors.surface,
+        color: widget.settings?.menuBackgroundColor ?? cs.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
       ),
       child: Scaffold(
@@ -123,7 +126,7 @@ class _NoteEditorState extends State<NoteEditor> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: Colors.white24,
+                  color: dividerColor,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -214,7 +217,7 @@ class _NoteEditorState extends State<NoteEditor> {
               ),
               const SizedBox(height: 16),
             ],
-            const Divider(height: 1, color: Colors.white10),
+            const Divider(height: 1),
             QuillSimpleToolbar(
               controller: _controller,
               config: QuillSimpleToolbarConfig(
@@ -246,7 +249,7 @@ class _NoteEditorState extends State<NoteEditor> {
                   base: QuillToolbarBaseButtonOptions(
                     iconTheme: QuillIconTheme(
                       iconButtonUnselectedData: IconButtonData(
-                        color: Colors.white70,
+                        color: subtleColor,
                       ),
                       iconButtonSelectedData: IconButtonData(
                         color: context.tibpiColors.accent,
@@ -263,7 +266,7 @@ class _NoteEditorState extends State<NoteEditor> {
                 ),
               ),
             ),
-            const Divider(height: 1, color: Colors.white10),
+            const Divider(height: 1),
             Expanded(
               child: Container(
                 padding: const EdgeInsets.symmetric(
@@ -281,18 +284,14 @@ class _NoteEditorState extends State<NoteEditor> {
                     placeholder: l10n.writeSomethingAmazing,
                     customStyles: DefaultStyles(
                       paragraph: DefaultTextBlockStyle(
-                        const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          height: 1.6,
-                        ),
+                        TextStyle(color: textColor, fontSize: 18, height: 1.6),
                         const HorizontalSpacing(0, 0),
                         const VerticalSpacing(0, 0),
                         const VerticalSpacing(0, 0),
                         null,
                       ),
                       placeHolder: DefaultTextBlockStyle(
-                        const TextStyle(color: Colors.white24, fontSize: 18),
+                        TextStyle(color: subtleColor, fontSize: 18),
                         const HorizontalSpacing(0, 0),
                         const VerticalSpacing(0, 0),
                         const VerticalSpacing(0, 0),

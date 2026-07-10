@@ -439,7 +439,7 @@ class MarkdownRenderer {
       return '<h${match.group(1)} id="${h.id}" data-slug="${h.slug}">${match.group(2)}</h${match.group(1)}>';
     });
 
-    // Post-process: code blocks — add copy button + language badge
+    // Post-process: code blocks — add copy button + language badge, also parse Mermaid blocks
     html = html.replaceAllMapped(
       RegExp(
         r'<pre><code(?: class="language-([^"]*)")?>(.*?)</code></pre>',
@@ -448,6 +448,18 @@ class MarkdownRenderer {
       (match) {
         final lang = match.group(1) ?? '';
         final code = match.group(2) ?? '';
+
+        // If it's a Mermaid-formatted block, output a wrapper without copy button and syntax highlighting
+        if (lang.trim().toLowerCase() == 'mermaid') {
+          final rawCode = code
+              .replaceAll('&amp;', '&')
+              .replaceAll('&lt;', '<')
+              .replaceAll('&gt;', '>')
+              .replaceAll('&quot;', '"')
+              .replaceAll('&#39;', "'");
+          return '<div class="mermaid">$rawCode</div>';
+        }
+
         final langBadge = lang.isNotEmpty
             ? '<span class="code-lang-badge">$lang</span>'
             : '';

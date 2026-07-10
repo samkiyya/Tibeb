@@ -65,6 +65,9 @@ class _BookCardState extends State<BookCard> with BookCardGestureMixin {
                         fit: BoxFit.contain,
                         title: widget.book.title,
                         author: widget.book.author,
+                        fileExtension: widget.book.filePath.isNotEmpty
+                            ? widget.book.filePath.split('.').last.toLowerCase()
+                            : null,
                       ),
 
                       BookBadges(book: widget.book),

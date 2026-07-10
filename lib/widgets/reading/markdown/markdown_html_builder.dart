@@ -498,7 +498,7 @@ class MarkdownHtmlBuilder {
     details > *:not(summary) { margin-top: 10px; }
   </style>
 
-  ${hasKatex ? '<style>$katexCss</style>' : ''}
+  ${hasKatex ? '<style>/* KaTeX MathML mode — no font files required */\n$katexCss</style>' : ''}
 
   <script>$hlJs</script>
   <script>$mermaidJs</script>
@@ -531,51 +531,64 @@ class MarkdownHtmlBuilder {
       }
     }
 
-    // ── Mermaid ─────────────────────────────────────────────────────
+    // ── Mermaid (deferred into rAF so DOM is painted) ───────────────
     try {
       mermaid.initialize({
         startOnLoad: false,
         theme: '$mermaidTheme',
         securityLevel: 'loose',
-        flowchart: { useMaxWidth: true, htmlLabels: true }
+        flowchart: { useMaxWidth: true, htmlLabels: true },
+        er:        { useMaxWidth: true },
+        sequence:  { useMaxWidth: true }
       });
-      mermaid.run({ nodes: document.querySelectorAll('.mermaid') });
-    } catch(e) { console.warn('Mermaid:', e); }
+      requestAnimationFrame(function() {
+        mermaid.run({ nodes: document.querySelectorAll('.mermaid') })
+          .catch(function(e) { console.warn('Mermaid run:', e); });
+      });
+    } catch(e) { console.warn('Mermaid init:', e); }
 
-    // ── Highlight.js ─────────────────────────────────────────────────
+    // ── Highlight.js (skip mermaid and math blocks) ──────────────────
     document.querySelectorAll('pre code').forEach(function(el) {
+      const parent = el.closest('.mermaid, .math-block');
+      if (parent) return;
       try { hljs.highlightElement(el); } catch(e) {}
     });
 
-    // ── KaTeX Math Rendering ─────────────────────────────────────────
+    // ── KaTeX Math Rendering (MathML — no font files needed) ───────────
     ${hasKatex ? '''
     function renderMath() {
-      // Block math
+      // Block math: \$\$...\$\$
       document.querySelectorAll('.math-block').forEach(function(el) {
         const src = el.getAttribute('data-math');
         if (!src) return;
         try {
-          const rendered = katex.renderToString(src, {
-            displayMode: true, throwOnError: false, output: 'html'
+          el.innerHTML = katex.renderToString(src, {
+            displayMode: true,
+            throwOnError: false,
+            output: 'mathml'
           });
-          el.innerHTML = rendered;
+          el.querySelector('.math-src') && el.querySelector('.math-src').remove();
         } catch(e) {
           const pre = el.querySelector('.math-src');
           if (pre) pre.style.display = 'block';
+          console.warn('KaTeX block:', e);
         }
       });
-      // Inline math
+      // Inline math: \$...\$
       document.querySelectorAll('.math-inline').forEach(function(el) {
         const src = el.getAttribute('data-math');
         if (!src) return;
         try {
-          const rendered = katex.renderToString(src, {
-            displayMode: false, throwOnError: false, output: 'html'
+          el.innerHTML = katex.renderToString(src, {
+            displayMode: false,
+            throwOnError: false,
+            output: 'mathml'
           });
-          el.innerHTML = rendered;
+          el.querySelector('.math-src') && el.querySelector('.math-src').remove();
         } catch(e) {
           const code = el.querySelector('.math-src');
           if (code) code.style.display = 'inline';
+          console.warn('KaTeX inline:', e);
         }
       });
     }
