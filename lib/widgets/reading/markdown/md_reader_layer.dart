@@ -279,6 +279,11 @@ class MdReaderLayerState extends State<MdReaderLayer>
         try {
           _katexJs = await rootBundle.loadString('assets/katex.min.js');
           _katexCss = await rootBundle.loadString('assets/katex.min.css');
+          // Patch relative font paths to use jsDelivr CDN
+          // _katexCss = _katexCss.replaceAll(
+          //   'url(fonts/',
+          //   'url(https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/fonts/',
+          // );
         } catch (_) {
           _katexJs = '';
           _katexCss = '';
@@ -595,6 +600,8 @@ class MdReaderLayerState extends State<MdReaderLayer>
                     textController: _editCtrl,
                     onInteraction: widget.onInteraction,
                     onChanged: (val) => setState(() => _source = val),
+                    katexJs: _katexJs,
+                    katexCss: _katexCss,
                   ),
                 ],
               ),
