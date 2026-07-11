@@ -16,7 +16,6 @@
   
   "level": "ደረጃ",
   "totalWP": "ጠቅላላ ነጥብ ጥበብ",
-  "streak": "ተከታታይ ንባብ",
   "pages": "ገጻት",
   "minutes": "ደቂቃታት",
   
@@ -106,7 +105,6 @@
   "delete": "መሰርዚ",
   "edit": "ኣርትዕ",
   "readingStats": "ስታቲስቲክስ ንባብ",
-  "readingActivity": "ንጥፈታት ንባብ",
   "selectMonth": "ወርሒ ምረጽ",
   "achievements": "ስክነታት",
   "dailyQuests": "ዕለታዊ ግብርታት",
@@ -193,7 +191,6 @@
   "goalDescription": "ግብ ሳምንታዊ ንባብ ኣዘጋግ",
   "pagesPerWeek": "ገጾት ብሳምንት",
   "minutesPerWeek": "ደቂቃታት ብሳምንት",
-  "pagesGoal": "ግብ ገጾት",
   "minutesGoal": "ግብ ደቂቃታት",
   "setGoal": "ግብ ኣዘጋግ",
   "noGoalSet": "ምንም ግብ ኣልተደረገም",
@@ -387,7 +384,6 @@
   "weeklyReadingGoals": "ሳምንታዊ ዕላማ ንባብ",
   "setGoalTargets": "ዕላማታት ንምክትታል ኣቐምጥ።",
   "pagesGoal": "ዕላማ ገጻት",
-  "minutesGoal": "ዕላማ ደቓይቕ",
   "wpGoal": "ዕላማ WP",
   "activeGoalLabel": "ንቡር",
   "showOnGraph": "ኣብ ግራፍ ኣርእ",
@@ -441,7 +437,6 @@
 
   "selectFilesTitle": "ፋይላት ምምራጽ",
   "importCount": "ምምጻእ ({count})",
-  "selectAll": "ኩሎም ምምራጽ",
 
   "webSearch": "ናይ ወብ ድለያ: {query}",
   "useThisImage": "ነዚ ስዕሊ ተጠቐም?",

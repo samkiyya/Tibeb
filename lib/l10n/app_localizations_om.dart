@@ -52,9 +52,6 @@ class AppLocalizationsOm extends AppLocalizations {
   String get totalWP => 'Qabxii Ogummaa Waligala';
 
   @override
-  String get streak => 'Itti Fufinsa';
-
-  @override
   String get pages => 'Fuulota';
 
   @override
@@ -283,9 +280,6 @@ class AppLocalizationsOm extends AppLocalizations {
   String get category => 'Ramaddii';
 
   @override
-  String get selectAll => 'Hunda Fili';
-
-  @override
   String get cancel => 'Haqi';
 
   @override
@@ -296,9 +290,6 @@ class AppLocalizationsOm extends AppLocalizations {
 
   @override
   String get readingStats => 'Tuqaalee dubbisuu';
-
-  @override
-  String get readingActivity => 'Socho\'iinsa Dubbisaa';
 
   @override
   String get selectMonth => 'Baati fili';
@@ -566,12 +557,6 @@ class AppLocalizationsOm extends AppLocalizations {
 
   @override
   String get minutesPerWeek => 'Daqiiqaa torban';
-
-  @override
-  String get pagesGoal => 'Kaayyoo Fuulaa';
-
-  @override
-  String get minutesGoal => 'Kaayyoo Daqiiqaa';
 
   @override
   String get setGoal => 'Gala';
@@ -1140,7 +1125,13 @@ class AppLocalizationsOm extends AppLocalizations {
       'Guyyaa Enkutataash dubbisuu.';
 
   @override
+  String get readingActivity => 'Socho\'iinsa Dubbisaa';
+
+  @override
   String get currentMonth => 'Ji\'a Ammaa';
+
+  @override
+  String get streak => 'Itti Fufinsa';
 
   @override
   String get statusReading => 'Dubbisaa jira';
@@ -1168,6 +1159,12 @@ class AppLocalizationsOm extends AppLocalizations {
 
   @override
   String get setGoalTargets => 'Kaayyoowwan hordofuu barbaaddu saagi.';
+
+  @override
+  String get pagesGoal => 'Kaayyoo Fuulaa';
+
+  @override
+  String get minutesGoal => 'Kaayyoo Daqiiqaa';
 
   @override
   String get wpGoal => 'Kaayyoo WP';
@@ -1340,6 +1337,9 @@ class AppLocalizationsOm extends AppLocalizations {
   String importCount(num count) {
     return 'Galchi ($count)';
   }
+
+  @override
+  String get selectAll => 'Hunda Fili';
 
   @override
   String webSearch(String query) {

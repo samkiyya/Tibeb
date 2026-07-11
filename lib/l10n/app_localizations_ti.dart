@@ -52,9 +52,6 @@ class AppLocalizationsTi extends AppLocalizations {
   String get totalWP => 'ጠቅላላ ነጥብ ጥበብ';
 
   @override
-  String get streak => 'ተኸታታሊ';
-
-  @override
   String get pages => 'ገጻት';
 
   @override
@@ -279,9 +276,6 @@ class AppLocalizationsTi extends AppLocalizations {
   String get category => 'ምድብ';
 
   @override
-  String get selectAll => 'ኩሎም ምምራጽ';
-
-  @override
   String get cancel => 'ሰርዝ';
 
   @override
@@ -292,9 +286,6 @@ class AppLocalizationsTi extends AppLocalizations {
 
   @override
   String get readingStats => 'ስታቲስቲክስ ንባብ';
-
-  @override
-  String get readingActivity => 'ምንቅስቓስ ንባብ';
 
   @override
   String get selectMonth => 'ወርሒ ምረጽ';
@@ -560,12 +551,6 @@ class AppLocalizationsTi extends AppLocalizations {
 
   @override
   String get minutesPerWeek => 'ደቂቃታት ብሳምንት';
-
-  @override
-  String get pagesGoal => 'ዕላማ ገጻት';
-
-  @override
-  String get minutesGoal => 'ዕላማ ደቓይቕ';
 
   @override
   String get setGoal => 'ግብ ኣዘጋግ';
@@ -1107,7 +1092,13 @@ class AppLocalizationsTi extends AppLocalizations {
   String get achievement_enkutatash_start_description => 'ብእንቁጣጣሽ ኣንብብ';
 
   @override
+  String get readingActivity => 'ምንቅስቓስ ንባብ';
+
+  @override
   String get currentMonth => 'ናይ ሕጂ ወርሒ';
+
+  @override
+  String get streak => 'ተኸታታሊ';
 
   @override
   String get statusReading => 'ይንበብ ኣሎ';
@@ -1135,6 +1126,12 @@ class AppLocalizationsTi extends AppLocalizations {
 
   @override
   String get setGoalTargets => 'ዕላማታት ንምክትታል ኣቐምጥ።';
+
+  @override
+  String get pagesGoal => 'ዕላማ ገጻት';
+
+  @override
+  String get minutesGoal => 'ግብ ደቂቃታት';
 
   @override
   String get wpGoal => 'ዕላማ WP';
@@ -1304,6 +1301,9 @@ class AppLocalizationsTi extends AppLocalizations {
   String importCount(num count) {
     return 'ምምጻእ ($count)';
   }
+
+  @override
+  String get selectAll => 'ኩሉ ምረጽ';
 
   @override
   String webSearch(String query) {

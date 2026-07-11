@@ -186,12 +186,6 @@ abstract class AppLocalizations {
   /// **'Total WP'**
   String get totalWP;
 
-  /// No description provided for @streak.
-  ///
-  /// In en, this message translates to:
-  /// **'Streak'**
-  String get streak;
-
   /// No description provided for @pages.
   ///
   /// In en, this message translates to:
@@ -630,12 +624,6 @@ abstract class AppLocalizations {
   /// **'Category'**
   String get category;
 
-  /// No description provided for @selectAll.
-  ///
-  /// In en, this message translates to:
-  /// **'Select All'**
-  String get selectAll;
-
   /// No description provided for @cancel.
   ///
   /// In en, this message translates to:
@@ -659,12 +647,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reading Stats'**
   String get readingStats;
-
-  /// No description provided for @readingActivity.
-  ///
-  /// In en, this message translates to:
-  /// **'Reading Activity'**
-  String get readingActivity;
 
   /// No description provided for @selectMonth.
   ///
@@ -1175,18 +1157,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Minutes per week'**
   String get minutesPerWeek;
-
-  /// No description provided for @pagesGoal.
-  ///
-  /// In en, this message translates to:
-  /// **'Pages Goal'**
-  String get pagesGoal;
-
-  /// No description provided for @minutesGoal.
-  ///
-  /// In en, this message translates to:
-  /// **'Minutes Goal'**
-  String get minutesGoal;
 
   /// No description provided for @setGoal.
   ///
@@ -2212,11 +2182,23 @@ abstract class AppLocalizations {
   /// **'Read on Enkutatash.'**
   String get achievement_enkutatash_start_description;
 
+  /// No description provided for @readingActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading Activity'**
+  String get readingActivity;
+
   /// No description provided for @currentMonth.
   ///
   /// In en, this message translates to:
   /// **'Current Month'**
   String get currentMonth;
+
+  /// No description provided for @streak.
+  ///
+  /// In en, this message translates to:
+  /// **'Streak'**
+  String get streak;
 
   /// No description provided for @statusReading.
   ///
@@ -2271,6 +2253,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Set targets for the metrics you want to track.'**
   String get setGoalTargets;
+
+  /// No description provided for @pagesGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Pages Goal'**
+  String get pagesGoal;
+
+  /// No description provided for @minutesGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Minutes Goal'**
+  String get minutesGoal;
 
   /// No description provided for @wpGoal.
   ///
@@ -2571,6 +2565,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Import ({count})'**
   String importCount(num count);
+
+  /// No description provided for @selectAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Select All'**
+  String get selectAll;
 
   /// No description provided for @webSearch.
   ///

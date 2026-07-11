@@ -52,9 +52,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get totalWP => 'Total WP';
 
   @override
-  String get streak => 'Streak';
-
-  @override
   String get pages => 'Pages';
 
   @override
@@ -281,9 +278,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get category => 'Category';
 
   @override
-  String get selectAll => 'Select All';
-
-  @override
   String get cancel => 'Cancel';
 
   @override
@@ -294,9 +288,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get readingStats => 'Reading Stats';
-
-  @override
-  String get readingActivity => 'Reading Activity';
 
   @override
   String get selectMonth => 'Select Month';
@@ -563,12 +554,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get minutesPerWeek => 'Minutes per week';
-
-  @override
-  String get pagesGoal => 'Pages Goal';
-
-  @override
-  String get minutesGoal => 'Minutes Goal';
 
   @override
   String get setGoal => 'Set Goal';
@@ -1128,7 +1113,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get achievement_enkutatash_start_description => 'Read on Enkutatash.';
 
   @override
+  String get readingActivity => 'Reading Activity';
+
+  @override
   String get currentMonth => 'Current Month';
+
+  @override
+  String get streak => 'Streak';
 
   @override
   String get statusReading => 'Reading';
@@ -1156,6 +1147,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get setGoalTargets => 'Set targets for the metrics you want to track.';
+
+  @override
+  String get pagesGoal => 'Pages Goal';
+
+  @override
+  String get minutesGoal => 'Minutes Goal';
 
   @override
   String get wpGoal => 'WP Goal';
@@ -1328,6 +1325,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String importCount(num count) {
     return 'Import ($count)';
   }
+
+  @override
+  String get selectAll => 'Select All';
 
   @override
   String webSearch(String query) {

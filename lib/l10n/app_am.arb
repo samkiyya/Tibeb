@@ -366,10 +366,7 @@
   "skippedDuplicates": "{count} የተባዙ ፋይሎች ታልፈዋል።",
   "testNotificationTitle": "የሙከራ ማሳወቂያ 📚",
   "testNotificationBody": "ማሳሰቢያዎች በትክክል እየሰሩ ነው! መልካም ንባብ።",
-
-  "readingActivity": "የንባብ እንቅስቃሴ",
   "currentMonth": "የአሁኑ ወር",
-  "streak": "ተከታታይ",
   "statusReading": "በማንበብ ላይ",
   "statusToRead": "ለማንበብ",
   "statusFinished": "ተጠናቋል",
@@ -379,8 +376,6 @@
   "sortProgress": "ሂደት",
   "weeklyReadingGoals": "ሳምንታዊ የንባብ ዓላማዎች",
   "setGoalTargets": "መከታተል የሚፈልጓቸውን ዓላማዎች ያስቀምጡ።",
-  "pagesGoal": "የገጽ ዓላማ",
-  "minutesGoal": "የደቂቃ ዓላማ",
   "wpGoal": "የWP ዓላማ",
   "activeGoalLabel": "ንቁ",
   "showOnGraph": "ግራፍ ላይ አሳይ",
@@ -434,7 +429,6 @@
 
   "selectFilesTitle": "ፋይሎችን ምረጥ",
   "importCount": "አምጣ ({count})",
-  "selectAll": "ሁሉንም ምረጥ",
 
   "webSearch": "የድር ፍለጋ፦ {query}",
   "useThisImage": "ይህን ምስል ይጠቀሙ?",
