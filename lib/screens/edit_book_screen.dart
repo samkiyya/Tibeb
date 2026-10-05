@@ -86,13 +86,9 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
   }
 
   Future<void> _pickCoverFromFile() async {
-    final result = await FilePicker.pickFiles(
-      type: FileType.image,
-      allowMultiple: false,
-    );
-
-    if (result != null && result.files.single.path != null) {
-      final file = File(result.files.single.path!);
+    final result = await FilePicker.pickFile(type: FileType.image);
+    if (result?.path != null) {
+      final file = File(result!.path!);
       final newPath = await BookService().saveLocalCover(file);
       if (newPath.isNotEmpty) {
         setState(() {
@@ -103,43 +99,40 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
   }
 
   Future<void> _pickAudioTracks() async {
-    final result = await FilePicker.pickFiles(
-      type: FileType.audio,
-      allowMultiple: true,
-    );
-
-    if (result != null && result.paths.isNotEmpty) {
-      int duplicatesCount = 0;
-      setState(() {
-        for (final path in result.paths) {
-          if (path != null) {
-            // Avoid duplicates
-            if (!_audioTracks.any((t) => t.path == path)) {
-              _audioTracks.add(AudioTrack(path: path, title: p.basename(path)));
-            } else {
-              duplicatesCount++;
-            }
+    final files = await FilePicker.pickFiles(type: FileType.audio);
+    if (files.isEmpty) {
+      return;
+    }
+    int duplicatesCount = 0;
+    setState(() {
+      for (final file in files) {
+        final path = file.path;
+        if (path != null) {
+          // Avoid duplicates
+          if (!_audioTracks.any((t) => t.path == path)) {
+            _audioTracks.add(AudioTrack(path: path, title: p.basename(path)));
+          } else {
+            duplicatesCount++;
           }
         }
-      });
-
-      if (duplicatesCount > 0 && mounted) {
-        final t = context.tibpiColors;
-        final l10n = AppLocalizations.of(context)!;
-        ScaffoldMessenger.of(context)
-          ..clearSnackBars()
-          ..showSnackBar(
-            SnackBar(
-              backgroundColor: t.surface,
-              content: Text(
-                duplicatesCount == result.paths.length
-                    ? l10n.allSelectedDuplicates
-                    : l10n.skippedDuplicates(duplicatesCount),
-                style: TextStyle(color: t.textPrimary),
-              ),
-            ),
-          );
       }
+    });
+    if (duplicatesCount > 0 && mounted) {
+      final t = context.tibpiColors;
+      final l10n = AppLocalizations.of(context)!;
+      ScaffoldMessenger.of(context)
+        ..clearSnackBars()
+        ..showSnackBar(
+          SnackBar(
+            backgroundColor: t.surface,
+            content: Text(
+              duplicatesCount == files.length
+                  ? l10n.allSelectedDuplicates
+                  : l10n.skippedDuplicates(duplicatesCount),
+              style: TextStyle(color: t.textPrimary),
+            ),
+          ),
+        );
     }
   }
 

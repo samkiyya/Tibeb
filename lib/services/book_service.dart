@@ -26,22 +26,17 @@ class BookService {
 
   /// Opens the system file picker filtered to EPUB, PDF, TXT, and Markdown files.
   /// Returns an empty list if the user cancels or picks nothing.
-  Future<List<File>> pickBookFiles() async {
-    final result = await FilePicker.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['epub', 'pdf', 'txt', 'md'],
-      allowMultiple: true,
-    );
+ Future<List<File>> pickBookFiles() async {
+  final files = await FilePicker.pickFiles(
+    type: FileType.custom,
+    allowedExtensions: ['epub', 'pdf', 'txt', 'md'],
+  );
 
-    if (result == null || result.files.isEmpty) {
-      return [];
-    }
-
-    return result.files
-        .where((f) => f.path != null)
-        .map((f) => File(f.path!))
-        .toList();
-  }
+  return files
+      .where((f) => f.path != null)
+      .map((f) => File(f.path!))
+      .toList();
+}
 
   // ── Entry point ───────────────────────────────────────────────────────────
 

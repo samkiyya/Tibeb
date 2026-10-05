@@ -42,49 +42,54 @@ class AudiobookImportService {
 
   /// Pick one or more audio files and return them as an [AudiobookMeta].
   /// Returns null if the user cancels.
-  static Future<AudiobookMeta?> pickAndImport() async {
-    final result = await FilePicker.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: _supported,
-      allowMultiple: true,
-    );
+static Future<AudiobookMeta?> pickAndImport() async {
+  final files = await FilePicker.pickFiles(
+    type: FileType.custom,
+    allowedExtensions: _supported,
+  );
 
-    if (result == null || result.files.isEmpty) return null;
+  if (files.isEmpty) return null;
 
-    final files = result.files.where((f) => f.path != null).toList();
-    if (files.isEmpty) return null;
+  final validFiles = files.where((f) => f.path != null).toList();
+  if (validFiles.isEmpty) return null;
 
-    // Sort by filename so that Part01, Part02 … are in natural order.
-    files.sort((a, b) => a.name.compareTo(b.name));
+  // Sort by filename so that Part01, Part02 … are in natural order.
+  validFiles.sort((a, b) => a.name.compareTo(b.name));
 
-    final tracks = files
-        .map((f) => AudioTrack(path: f.path!, title: _cleanTitle(f.name)))
-        .toList();
+  final tracks = validFiles
+      .map(
+        (f) => AudioTrack(
+          path: f.path!,
+          title: _cleanTitle(f.name),
+        ),
+      )
+      .toList();
 
-    // Determine a sensible default title:
-    // 1. Parent folder name — but only if it looks like a real name (not a
-    //    timestamp, not a system cache segment, not purely numeric).
-    // 2. Otherwise use the cleaned filename of the first track.
-    final folderRaw = p.basenameWithoutExtension(p.dirname(files.first.path!));
-    final folderIsUsable =
-        folderRaw.isNotEmpty &&
-        !RegExp(r'^\d+$').hasMatch(folderRaw) && // pure numbers = timestamp
-        !RegExp(r'^file_picker$', caseSensitive: false).hasMatch(folderRaw) &&
-        !RegExp(r'^cache$', caseSensitive: false).hasMatch(folderRaw) &&
-        folderRaw.length > 3;
+  // Determine a sensible default title:
+  // 1. Parent folder name — but only if it looks like a real name (not a
+  //    timestamp, not a system cache segment, not purely numeric).
+  // 2. Otherwise use the cleaned filename of the first track.
+  final folderRaw =
+      p.basenameWithoutExtension(p.dirname(validFiles.first.path!));
 
-    final title = folderIsUsable
-        ? folderRaw.replaceAll('_', ' ').trim()
-        : _cleanTitle(files.first.name);
+  final folderIsUsable =
+      folderRaw.isNotEmpty &&
+      !RegExp(r'^\d+$').hasMatch(folderRaw) &&
+      !RegExp(r'^file_picker$', caseSensitive: false).hasMatch(folderRaw) &&
+      !RegExp(r'^cache$', caseSensitive: false).hasMatch(folderRaw) &&
+      folderRaw.length > 3;
 
-    return AudiobookMeta(
-      title: title,
-      author: 'Unknown',
-      coverPath: '',
-      tracks: tracks,
-    );
-  }
+  final title = folderIsUsable
+      ? folderRaw.replaceAll('_', ' ').trim()
+      : _cleanTitle(validFiles.first.name);
 
+  return AudiobookMeta(
+    title: title,
+    author: 'Unknown',
+    coverPath: '',
+    tracks: tracks,
+  );
+}
   /// Copy an audio file to the app documents directory so it remains
   /// accessible after the original is moved or the cache clears.
   static Future<String> copyToAppStorage(String sourcePath) async {

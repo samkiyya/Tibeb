@@ -145,54 +145,66 @@ class AudioController {
   // ── Track management ──────────────────────────────────────────────────────
 
   Future<void> pickAndAdd(
-    BuildContext context,
-    Book book,
-    WidgetRef ref,
-  ) async {
-    final result = await FilePicker.pickFiles(
-      type: FileType.audio,
-      allowMultiple: true,
-    );
-    if (result == null || result.paths.isEmpty) return;
+  BuildContext context,
+  Book book,
+  WidgetRef ref,
+) async {
+  final files = await FilePicker.pickFiles(
+    type: FileType.audio,
+  );
 
-    final List<AudioTrack> newTracks = List.from(book.audioTracks);
-    int duplicatesCount = 0;
-    for (final path in result.paths) {
-      if (path != null) {
-        if (!newTracks.any((t) => t.path == path)) {
-          newTracks.add(AudioTrack(path: path, title: p.basename(path)));
-        } else {
-          duplicatesCount++;
-        }
+  if (files.isEmpty) return;
+
+  final List<AudioTrack> newTracks = List.from(book.audioTracks);
+  int duplicatesCount = 0;
+
+  for (final file in files) {
+    final path = file.path;
+
+    if (path != null) {
+      if (!newTracks.any((t) => t.path == path)) {
+        newTracks.add(
+          AudioTrack(
+            path: path,
+            title: p.basename(path),
+          ),
+        );
+      } else {
+        duplicatesCount++;
       }
     }
-
-    if (duplicatesCount > 0 && context.mounted) {
-      ScaffoldMessenger.of(context)
-        ..clearSnackBars()
-        ..showSnackBar(
-          SnackBar(
-            content: Text(
-              duplicatesCount == result.paths.length
-                  ? 'All selected files are already in this book.'
-                  : 'Skipped $duplicatesCount duplicate files.',
-            ),
-          ),
-        );
-    }
-
-    if (newTracks.length == book.audioTracks.length) return;
-
-    await ref
-        .read(libraryProvider.notifier)
-        .updateBook(
-          book.copyWith(
-            audioTracks: newTracks,
-            audioPath: newTracks.first.path,
-          ),
-        );
-    await load(newTracks, bookId: book.id.toString());
   }
+
+  if (duplicatesCount > 0 && context.mounted) {
+    ScaffoldMessenger.of(context)
+      ..clearSnackBars()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(
+            duplicatesCount == files.length
+                ? 'All selected files are already in this book.'
+                : 'Skipped $duplicatesCount duplicate files.',
+          ),
+        ),
+      );
+  }
+
+  if (newTracks.length == book.audioTracks.length) return;
+
+  await ref
+      .read(libraryProvider.notifier)
+      .updateBook(
+        book.copyWith(
+          audioTracks: newTracks,
+          audioPath: newTracks.first.path,
+        ),
+      );
+
+  await load(
+    newTracks,
+    bookId: book.id.toString(),
+  );
+}
 
   Future<void> removeTrack(Book book, int index, WidgetRef ref) async {
     final tracks = List<AudioTrack>.from(book.audioTracks);
