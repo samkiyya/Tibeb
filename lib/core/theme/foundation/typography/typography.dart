@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as flutter show TextTheme;
 import 'package:google_fonts/google_fonts.dart';
 
 /// Tibeb Design System — Typography Scale
@@ -6,8 +7,25 @@ import 'package:google_fonts/google_fonts.dart';
 /// Uses Inter as the primary UI font (clean, geometric, excellent readability).
 /// Merriweather is used only in the reader engine for book content.
 abstract final class TibebTypography {
-  static TextTheme get textTheme {
-    final base = GoogleFonts.interTextTheme();
+  static flutter.TextTheme get textTheme {
+    final interTheme = GoogleFonts.interTextTheme();
+    final base = flutter.TextTheme(
+      displayLarge: interTheme.displayLarge,
+      displayMedium: interTheme.displayMedium,
+      displaySmall: interTheme.displaySmall,
+      headlineLarge: interTheme.headlineLarge,
+      headlineMedium: interTheme.headlineMedium,
+      headlineSmall: interTheme.headlineSmall,
+      titleLarge: interTheme.titleLarge,
+      titleMedium: interTheme.titleMedium,
+      titleSmall: interTheme.titleSmall,
+      bodyLarge: interTheme.bodyLarge,
+      bodyMedium: interTheme.bodyMedium,
+      bodySmall: interTheme.bodySmall,
+      labelLarge: interTheme.labelLarge,
+      labelMedium: interTheme.labelMedium,
+      labelSmall: interTheme.labelSmall,
+    );
     return base.copyWith(
       // Display — hero numbers, splash screens
       displayLarge: base.displayLarge?.copyWith(
